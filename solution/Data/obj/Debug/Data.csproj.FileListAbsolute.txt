@@ -1,0 +1,6 @@
+c:\Users\Lazar\documents\visual studio 2015\Projects\UpamtiMe\Data\bin\Debug\Data.dll.config
+c:\Users\Lazar\documents\visual studio 2015\Projects\UpamtiMe\Data\bin\Debug\Data.dll
+c:\Users\Lazar\documents\visual studio 2015\Projects\UpamtiMe\Data\bin\Debug\Data.pdb
+c:\Users\Lazar\documents\visual studio 2015\Projects\UpamtiMe\Data\obj\Debug\Data.dll
+c:\Users\Lazar\documents\visual studio 2015\Projects\UpamtiMe\Data\obj\Debug\Data.pdb
+c:\Users\Lazar\documents\visual studio 2015\Projects\UpamtiMe\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache

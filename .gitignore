@@ -6,7 +6,11 @@
 *.user
 *.userosscache
 *.sln.docstates
+
+# mi smo stavljali:
 *.config
+*.settings
+database/*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

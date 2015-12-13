@@ -14,12 +14,6 @@ namespace UpamtiMe.Controllers
             return View();
         }
 
-        //ja sad ovde pravim neku f-ju
-        //masina fail funkcija
-
-         // dosta smo se igrali
-         //da li ovo radi?
-
         [HttpPost]
         public ActionResult Index(Models.UserIndexModel model)
         {

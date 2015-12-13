@@ -16,6 +16,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Error()
         {
+            var a = 10;
             return View();
         }
     }

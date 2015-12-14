@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Data;
 
 namespace UpamtiMe.Models
 {
@@ -22,7 +21,7 @@ namespace UpamtiMe.Models
 
         public static ProfilePageModel Load(int userID)
         {
-            User u = Users.GetUser(userID);
+            Data.User u = Data.Users.GetUser(userID);
             return new ProfilePageModel
             {
                 UserID = u.userID,

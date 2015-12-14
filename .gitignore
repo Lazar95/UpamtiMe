@@ -11,8 +11,11 @@
 *.config
 *.settings
 database/*
+database/
 .vs/*
+.vs/
 Data/*
+solution/Data/
 *.dll
 
 # User-specific files (MonoDevelop/Xamarin Studio)

@@ -24,6 +24,7 @@ solution/UpamtiMe/obj/Debug
 !solution/UpamtiMe/packages.config
 !solution/UpamtiMe/Web.config
 !solution/UpamtiMe/Views/web.config
+!solution/UpamtiMe.sln
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -9,12 +9,24 @@
       <Association Name="Achievement_UsersAchievement" Member="UsersAchievements" ThisKey="achievementID" OtherKey="achievementID" Type="UsersAchievement" />
     </Type>
   </Table>
+  <Table Name="dbo.UsersCourses" Member="UsersCourses">
+    <Type Name="UsersCourse">
+      <Column Name="usersCoursesID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="courseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="startDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="score" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="lastPlayed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Course_UsersCourse" Member="Course" ThisKey="courseID" OtherKey="courseID" Type="Course" IsForeignKey="true" />
+      <Association Name="User_UsersCourse" Member="User" ThisKey="userID" OtherKey="userID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Cards" Member="Cards">
     <Type Name="Card">
       <Column Name="cardID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="question" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
-      <Column Name="answer" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="description" Type="System.String" DbType="VarChar(400)" CanBeNull="true" />
+      <Column Name="question" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="answer" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
       <Column Name="image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Card_LevelsCard" Member="LevelsCards" ThisKey="cardID" OtherKey="cardID" Type="LevelsCard" />
       <Association Name="Card_UsersCard" Member="UsersCards" ThisKey="cardID" OtherKey="cardID" Type="UsersCard" />
@@ -36,8 +48,9 @@
       <Column Name="subcategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="participantCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="numberOfCards" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Course_CoursesLevel" Member="CoursesLevels" ThisKey="courseID" OtherKey="courseID" Type="CoursesLevel" />
+      <Column Name="creatorID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Course_UsersCourse" Member="UsersCourses" ThisKey="courseID" OtherKey="courseID" Type="UsersCourse" />
+      <Association Name="Course_CoursesLevel" Member="CoursesLevels" ThisKey="courseID" OtherKey="courseID" Type="CoursesLevel" />
       <Association Name="Category_Course" Member="Category" ThisKey="categoryID" OtherKey="categoryID" Type="Category" IsForeignKey="true" />
       <Association Name="Subcategory_Course" Member="Subcategory" ThisKey="subcategoryID" OtherKey="subcategoryID" Type="Subcategory" IsForeignKey="true" />
     </Type>
@@ -105,11 +118,11 @@
       <Column Name="bio" Type="System.String" DbType="VarChar(400)" CanBeNull="true" />
       <Column Name="streak" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="User_UsersCourse" Member="UsersCourses" ThisKey="userID" OtherKey="userID" Type="UsersCourse" />
       <Association Name="User_Friendship" Member="Friendships" ThisKey="userID" OtherKey="user1ID" Type="Friendship" />
       <Association Name="User_Friendship1" Member="Friendships1" ThisKey="userID" OtherKey="user2ID" Type="Friendship" />
       <Association Name="User_UsersAchievement" Member="UsersAchievements" ThisKey="userID" OtherKey="userID" Type="UsersAchievement" />
       <Association Name="User_UsersCard" Member="UsersCards" ThisKey="userID" OtherKey="userID" Type="UsersCard" />
-      <Association Name="User_UsersCourse" Member="UsersCourses" ThisKey="userID" OtherKey="userID" Type="UsersCourse" />
     </Type>
   </Table>
   <Table Name="dbo.UsersAchievements" Member="UsersAchievements">
@@ -132,18 +145,6 @@
       <Column Name="nextSee" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Card_UsersCard" Member="Card" ThisKey="cardID" OtherKey="cardID" Type="Card" IsForeignKey="true" />
       <Association Name="User_UsersCard" Member="User" ThisKey="userID" OtherKey="userID" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.UsersCourses" Member="UsersCourses">
-    <Type Name="UsersCourse">
-      <Column Name="usersCoursesID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="courseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="startDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="score" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="lastPlayed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="Course_UsersCourse" Member="Course" ThisKey="courseID" OtherKey="courseID" Type="Course" IsForeignKey="true" />
-      <Association Name="User_UsersCourse" Member="User" ThisKey="userID" OtherKey="userID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

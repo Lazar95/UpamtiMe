@@ -14,10 +14,12 @@ database/*
 database/
 .vs/*
 .vs/
+solution/.vs/
 Data/*
 solution/Data/
 !solution/Data/*.cs
 !solution/Data/DataClasses1.dbml
+
 *.dll
 
 # User-specific files (MonoDevelop/Xamarin Studio)

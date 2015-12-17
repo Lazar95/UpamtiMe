@@ -16,6 +16,7 @@ database/
 .vs/
 solution/Data/app.config
 solution/Data/DataClasses1.dmbl
+solution/Data/Properties
 !solution/Data/*.cs
 *.dll
 

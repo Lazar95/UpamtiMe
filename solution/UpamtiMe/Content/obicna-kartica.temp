@@ -1,0 +1,219 @@
+@charset 'utf-8';
+
+@import 'ljubenovic-toolkit';
+@import 'palette';
+
+$font-stack: 'Roboto', sans-serif;
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+// za glupi chrome
+input:focus {
+    outline:none;
+}
+
+
+
+
+
+// nadalje krece dizajn za sesiju sa karticama
+
+* {
+	transition: flex-grow .66s ease;
+}
+
+// button reset
+button, input[type="submit"] {
+	background: white;
+	border: 0;
+	color: inherit;
+	font: inherit;
+}
+
+/**
+ * Za ceo sajt:
+ */
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: $font-stack;
+	  background-color: palette($blue-grey, 700); // skloni voo kad proradi flexbox
+}
+
+
+header {
+  background-color: palette($blue-grey, 200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+	height: 48px;
+  z-index: 10;
+  @include z-depth(2);
+  .buttons {
+
+  }
+}
+
+main {
+	background-color: palette($blue-grey, 700);
+	flex-grow: 1; //da se main rasiri onoliko koliko mu ostane mesta od header i footer
+	display: flex;
+	flex-direction: column;
+}
+
+/**
+ * Novi kurs
+ */
+
+main#create-new {
+		align-items: center;
+
+		aside {
+			margin-top: 50px;
+			background-color: palette($blue-grey, 100);
+			width: 80%;
+			padding: 16px;
+			height: 400px;
+			display: flex;
+			flex-flow: column;
+
+			& > * {
+				flex-grow: 1;
+			}
+
+			h2 {
+				text-align: left;
+				font-size: 32px;
+				flex-grow: 0;
+				height: 32px;
+				text-align: center;
+				padding: 32px;
+				//background-color: palette($green, 500);
+			}
+
+			.inputs-and-buttons {
+				//background-color: blue;
+
+				display: flex;
+				flex-flow: column;
+				align-items: center;
+				justify-content: center;
+
+				form {
+					display: flex;
+					flex-flow: column;
+					align-items: center;
+					width: 80%;
+
+					.inputs { // inputi, bez dugmeta
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+
+							div {
+								display: flex;
+								align-items: center;
+								flex-flow: column;
+								width: 30%;
+
+								input, select {
+									width: 100%;
+									height: 30px;
+									padding: 0 6px;
+									margin: 0;
+								}
+							}
+
+					}
+
+					input[type="submit"] {
+						margin-top: 50px;
+						background-color: palette($blue-grey, 400);
+						font-weight: bold;
+						font-size: 24px;
+						padding: 10px 16px;
+					}
+				}
+			}
+
+		}
+}
+
+
+/*footer {
+  background-color: palette($blue-grey, 200);
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+div {}

@@ -31,15 +31,22 @@ namespace Data
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
+
+
             Course course = new Course
             {
                 name = name,
                 categoryID = categoryID,
-                subcategoryID = subcategoryID,
                 participantCount = 1, // creator is the only participant
                 numberOfCards = numberOfCards,
                 creatorID = creatorID,
             };
+
+            if (subcategoryID != 0)
+            {
+                course.subcategoryID = subcategoryID;
+            }
+
 
             dc.Courses.InsertOnSubmit(course);
             dc.SubmitChanges();

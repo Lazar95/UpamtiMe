@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Data;
 using UpamtiMe.Extensions;
 using UpamtiMe.Models;
 
@@ -27,8 +28,8 @@ namespace UpamtiMe.Controllers
         {
             if (ModelState.IsValid)
             {
-                Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, model.CreatorID);
-                RedirectToAction("EditCourse");
+                Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, model.CreatorID);
+                RedirectToAction("EditCourse", new {courseID = c.courseID });
             }
             else
             {

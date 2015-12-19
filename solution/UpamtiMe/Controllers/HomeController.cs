@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Data;
+using Data.Entities;
 
 namespace UpamtiMe.Controllers
 {
@@ -14,8 +16,52 @@ namespace UpamtiMe.Controllers
             return View();
         }
 
-        //masin komentar test 
-        //jajac komentar
+        [HttpPost]
+        public ActionResult Login(Models.UserIndexModel model)
+        {
+            Data.DTOs.LoginDTO ld = Data.Entities.Login.CreateLoginDTO(model.Login);
+            if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.IncorrectPassword)
+            {
+                return Json(new {success = false, message = "incorrect password"});
+            }
+            if(ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.Failed)
+            {
+                return Json(new { success = false, message = "failed" });
+            }
+
+            if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.Successful)
+            {
+                Session["user"] = ld;
+                return RedirectToAction("Profile", "Users", new { id = ld.UserID });
+            }
+
+            return RedirectToAction("Error");
+        }
+
+        [HttpPost]
+        public ActionResult Register(Models.UserIndexModel model)
+        {
+            Data.DTOs.LoginDTO ld = Data.Entities.Login.CreateRegisterLoginDTO(model.Register);
+            if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.UsernameExists)
+            {
+                return Json(new { success = false, message = "username exists" });
+            }
+            if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.EmailExists)
+            {
+                return Json(new { success = false, message = "email exists" });
+            }
+
+            Session.Timeout = ld.RememberMe ? 525600 : 20;
+            if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.Successful)
+            {
+                Session["user"] = ld;
+                
+
+                return RedirectToAction("Profile", "Users", new {id = ld.UserID});
+            }
+
+            return RedirectToAction("Error");
+        }
 
         public ActionResult Error()
         {

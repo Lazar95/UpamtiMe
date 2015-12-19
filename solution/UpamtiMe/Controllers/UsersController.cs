@@ -19,7 +19,7 @@ namespace UpamtiMe.Controllers
         {
             if (ModelState.IsValid)
             {
-                Data.Users.addUser(model.Name, model.Username, model.Password, model.Email);
+                //Data.Users.addUser(model.Name, model.Username, model.Password, model.Email);
                 return View(model);
             }
             else

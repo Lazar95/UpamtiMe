@@ -26,26 +26,38 @@
         });
     }
 }
-<h2>CreateNew</h2>
 
-@using (Html.BeginForm())
-{
+<main id="create-new">
+    <aside>
+        <h2>Napravi novi kurs</h2>
 
-    <div>
-        @Html.EditorFor(m => m.Name)
-    </div>
+        <div class="inputs-and-buttons">
+            @using (Html.BeginForm())
+            {
+                <div class="inputs">
 
-    <div>
-        @Html.DropDownListFor(m => m.CategoryID, categories, "Choose a category")
-    </div>
+                    <div>
+                        <span class="ime">Ime kursa</span>
+                        @Html.EditorFor(m => m.Name)
+                    </div>
 
-    <div>
-        @Html.DropDownListFor(m => m.SubcategoryID, subcategories, "Choose a subcategory")
-    </div>
+                    <div>
+                        <span class="ime">Izaberi kategoriju</span>
+                        @Html.DropDownListFor(m => m.CategoryID, categories, "Choose a category")
+                    </div>
 
-    <input type="submit" value="Kreiraj" />
-}
+                    <div>
+                        <span class="ime">Izaberi podkategoriju</span>
+                        @Html.DropDownListFor(m => m.SubcategoryID, subcategories, "Choose a subcategory")
+                    </div>
 
+                </div>
+
+                <input type="submit" value="Kreiraj" />
+            }
+        </div>
+    </aside>
+</main>
 
 
 

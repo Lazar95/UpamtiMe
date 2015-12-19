@@ -14,17 +14,20 @@ namespace UpamtiMe.Extensions
             if (!modelState.IsValid)
             {
                 var errorsList = (from m in modelState
-                                  where m.Value.Errors.Any()
-                                  select new
-                                  {
-                                      fieldName = m.Key,
-                                      errorList = (from msg in m.Value.Errors
-                                                   select msg.ErrorMessage).ToArray()
-                                  })
-                         .AsEnumerable()
-                         .ToDictionary(v => v.fieldName, v => v);
+                    where m.Value.Errors.Any()
+                    select new
+                    {
+                        fieldName = m.Key,
+                        errorList = (from msg in m.Value.Errors
+                            select msg.ErrorMessage).ToArray()
+                    })
+                    .AsEnumerable()
+                    .ToDictionary(v => v.fieldName, v => v);
                 return errorsList;
             }
             return null;
         }
+
+    
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace UpamtiMe.Models
         public int SubcategoryID { get; set; }
         public int NumberOfCards { get; set; }
         public List<Data.LevelsDTO> Levels { get; set; }
+        public List<Subcategory> AllSubcategories { get; set; }
 
         public static EditCourseModel Load(int courseID)
         {
@@ -24,7 +26,8 @@ namespace UpamtiMe.Models
                 Name = course.name,
                 NumberOfCards = course.numberOfCards,
                 SubcategoryID = course.subcategoryID ?? 0,
-                Levels = Data.Levels.getLevelsFor(courseID),
+                Levels = Data.Levels.getLevelsAndCardsFor(courseID),
+                AllSubcategories = Data.Courses.GetAllSubcategories()
             };
         }
     }

@@ -1,9 +1,32 @@
-﻿@model UpamtiMe.Models.EditCourseModel
+﻿@using Data
+@model UpamtiMe.Models.EditCourseModel
 
 @{
     ViewBag.Title = "EditCourse";
 }
+@{
+    List<SelectListItem> categories = new List<SelectListItem>();
+    foreach (var val in Enum.GetValues(typeof(Data.Enumerations.Categories)))
+    {
+        categories.Add(new SelectListItem
+        {
+            Text = Enum.GetName(typeof(Data.Enumerations.Categories), val),
+            Value = ((int)val).ToString()
+        });
+    }
+}
 
+@{
+    List<SelectListItem> subcategories = new List<SelectListItem>();
+    foreach (var sub in Model.AllSubcategories)
+    {
+        subcategories.Add(new SelectListItem
+        {
+            Text = sub.name,
+            Value = ((int)sub.subcategoryID).ToString()
+        });
+    }
+}
 <h2>EditCourse</h2>
 
 @using (Html.BeginForm())
@@ -11,27 +34,34 @@
     @Html.AntiForgeryToken()
 
     <span>Treba ovako: i poslednji element da bude textbox za dodavanje tj kartice ce moratid a budu tabela nebitno sad</span>
-    <ul>
-        <li>Level 1</li>
-        <ul>
-            <li>kartica 1</li>
-            <li>kartica 2</li>
-            <li>kartica 3</li>
-        </ul>
-        <li>Level 2</li>
-        <ul>
-            <li>kartica 1</li>
-            <li>kartica 2</li>
-            <li>kartica 3</li>
-        </ul>
-        <li>Level 3</li>
-        <ul>
-            <li>kartica 1</li>
-            <li>kartica 2</li>
-            <li>kartica 3</li>
-        </ul>
-    </ul>
     
+    <ul>
+        @foreach (LevelsDTO level in Model.Levels)
+        {
+            <li>@level.Name</li>
+            <ul>
+                @foreach (CardsDTO card in level.Cards)
+                {
+                    <li>
+                        @if (card.Question != null)
+                        {
+                            @Html.EditorFor(m=>card.Question, card.Question)
+                        }
+                        else
+                        {
+                            if (card.Image != null)
+                            {
+                                <span>@card.Image</span>
+                                <span>upload dugme</span>
+                            }
+                       }
+                        @Html.EditorFor(m => card.Answer, card.Answer)
+                    </li>
+                }
+            </ul>
+        }
+
+    </ul>
     <div class="form-horizontal">
         <h4>EditCourseModel</h4>
         <hr />

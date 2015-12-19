@@ -67,7 +67,7 @@ namespace Data
 
             // Za svaki preuzeti kurs preuzmi sve nivoe za taj kurs
             foreach (Data.CoursesDTO course in returnValue)
-                course.Levels = Levels.getLevelsFor(course.CourseID);
+                course.Levels = Levels.getLevelsAndCardsFor(course.CourseID);
 
             return returnValue;
         }

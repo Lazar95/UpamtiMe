@@ -26,7 +26,7 @@ namespace Data
                     select a).Count();
         }
 
-        public static List<Data.LevelsDTO> getLevelsFor(int courseID)
+        public static List<Data.LevelsDTO> getLevelsAndCardsFor(int courseID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             List<Data.LevelsDTO> returnValue = (from a in dc.CoursesLevels

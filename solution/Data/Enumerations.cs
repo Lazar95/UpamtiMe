@@ -16,6 +16,15 @@ namespace Data
             general,
         }
 
+        public enum LoginRegisterStatus
+        {
+            Successful,
+            Failed,
+            IncorrectPassword,
+            EmailExists,
+            UsernameExists
+        }
+
         public static void addCategories()
         {
             DataClasses1DataContext dc =  new DataClasses1DataContext();

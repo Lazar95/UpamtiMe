@@ -11,10 +11,12 @@ namespace Data
         public int a { get; set; }
         public int lazar { get; set; }
     }
+
     public class Users
     {
         //TODO pazi ne setujemo avatar
-        public static User addUser(string name, string username, string password, string email, string bio = null, string location = null, string surname = null)
+        public static User addUser(string name, string username, string password, string email, string bio = null,
+            string location = null, string surname = null)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
@@ -46,5 +48,30 @@ namespace Data
             dc = dc ?? new DataClasses1DataContext();
             return (from a in dc.Users where a.userID == userID select a).First();
         }
+
+        public static User checkUsernameAndPassword(string username, string pass)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            var find = from a in dc.Users where a.username == username && a.password == pass select a;
+            if (find.Any())
+            {
+                return find.First();
+            }
+            else
+                return null;
+        }
+
+        public static bool checkUsername(string username)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Users where a.username == username select a).Any();
+        }
+
+        public static bool checkEmail(string email)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Users where a.email == email select a).Any();
+        }
+
     }
 }

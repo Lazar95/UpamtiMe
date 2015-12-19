@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Data.DTOs
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -11,9 +12,17 @@
     <link href="~/Content/main.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-    <header>
-        <span>Upamti.Me</span>
-    </header>
+<header>
+    @{ LoginDTO user = UserSession.GetUser();}
+    <span>Upamti.Me</span>
+    @if (user != null)
+    {
+        <span>@user.Username</span>
+        @Html.ActionLink("Log out", "Index", "Home", new { logOut = true }, new { @class = "logout" })
+    }
+
+   
+</header>
 
     @RenderBody()
 

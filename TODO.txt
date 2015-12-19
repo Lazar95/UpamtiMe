@@ -19,3 +19,5 @@ Mikica:
 facebook login
 avatar
 achievment
+forgot password
+enter na index page

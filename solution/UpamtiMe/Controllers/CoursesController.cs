@@ -29,7 +29,7 @@ namespace UpamtiMe.Controllers
             if (ModelState.IsValid)
             {
                 Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, model.CreatorID);
-                RedirectToAction("EditCourse", new {courseID = c.courseID });
+                RedirectToAction("EditCourse", new {id = c.courseID });
             }
             else
             {
@@ -39,11 +39,11 @@ namespace UpamtiMe.Controllers
             return View(model);
         }
 
-        public ActionResult EditCourse(int courseID)
+        public ActionResult EditCourse(int id)
         {
             try
             {
-                Models.EditCourseModel model = Models.EditCourseModel.Load(courseID);
+                Models.EditCourseModel model = Models.EditCourseModel.Load(id);
                 return View(model);
             }
             catch(Exception e)

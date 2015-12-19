@@ -1,0 +1,21 @@
+Jajac: 
+index: npravi kurs, lista kurseva, rang lista prijatelja
+edit profile
+
+Masa: 
+search
+logout
+
+role ili permisije tj onaj koji je ulogovan samo
+pokazi lazi kako da sakrije ili ne (ko je ulogovan)
+
+
+Mukica:
+stranica kursa (kada si prijavljen na kurs i kad nisi)
+nekako da trazis druge ljude
+
+
+Mikica:
+facebook login
+avatar
+achievment

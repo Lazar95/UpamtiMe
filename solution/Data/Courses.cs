@@ -17,6 +17,13 @@ namespace Data
                     select a).First();
         }
 
+        public static List<Subcategory> GetAllSubcategories()
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return ( from a in dc.Subcategories select a).ToList();
+        } 
+        
+
         public static Course addCourse(
             string name, int categoryID,
             int subcategoryID, int numberOfCards,

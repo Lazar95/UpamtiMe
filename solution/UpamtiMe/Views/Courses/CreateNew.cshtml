@@ -1,0 +1,52 @@
+﻿@model UpamtiMe.Models.CreateNewCourseModel
+@{
+    ViewBag.Title = "CreateNew";
+}
+
+@{
+    List<SelectListItem> categories = new List<SelectListItem>();
+    foreach (var val in Enum.GetValues(typeof (Data.Enumerations.Categories)))
+    {
+        categories.Add(new SelectListItem
+        {
+            Text = Enum.GetName(typeof (Data.Enumerations.Categories), val),
+            Value = ((int) val).ToString()
+        });
+    }
+}
+
+@{
+    List<SelectListItem> subcategories = new List<SelectListItem>();
+    foreach (var sub in Model.AllSubcategories )
+    {
+        subcategories.Add(new SelectListItem
+        {
+            Text = sub.name,
+            Value = ((int)sub.subcategoryID).ToString()
+        });
+    }
+}
+<h2>CreateNew</h2>
+
+@using (Html.BeginForm())
+{
+
+    <div>
+        @Html.EditorFor(m => m.Name)
+    </div>
+
+    <div>
+        @Html.DropDownListFor(m => m.CategoryID, categories, "Choose a category")
+    </div>
+
+    <div>
+        @Html.DropDownListFor(m => m.SubcategoryID, subcategories, "Choose a subcategory")
+    </div>
+
+    <input type="submit" value="Kreiraj" />
+}
+
+
+
+
+

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Data;
 
 namespace UpamtiMe.Models
 {
@@ -15,5 +16,11 @@ namespace UpamtiMe.Models
         public int SubcategoryID { get; set; }
         public int NumberOfCards { get; set; }
         public int CreatorID { get; set; }
+        public List<Subcategory> AllSubcategories { get; set; } 
+
+        public CreateNewCourseModel()
+        {
+            AllSubcategories = Courses.GetAllSubcategories();
+        }
     }
 }

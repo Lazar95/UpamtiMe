@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UpamtiMe.Extensions;
+using UpamtiMe.Models;
 
 namespace UpamtiMe.Controllers
 {
@@ -14,16 +16,23 @@ namespace UpamtiMe.Controllers
             return View();
         }
 
+        public ActionResult CreateNew()
+        {
+            Models.CreateNewCourseModel model = new CreateNewCourseModel();
+            return View(model);
+        }
+
         [HttpPost]
         public ActionResult CreateNew(Models.CreateNewCourseModel model)
         {
             if (ModelState.IsValid)
             {
                 Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, model.CreatorID);
+                RedirectToAction("EditCourse");
             }
             else
             {
-                // ??
+                return Json(new { success = false, result = ModelState.Errors() });
             }
 
             return View(model);

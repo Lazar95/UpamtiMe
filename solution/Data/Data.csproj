@@ -50,6 +50,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses1.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Enumerations.cs" />
     <Compile Include="Levels.cs" />
     <Compile Include="LevelsDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

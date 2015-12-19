@@ -4,87 +4,73 @@
     ViewBag.Title = "Profile";
 }
 
-<h2>Profile</h2>
+<main id="user-profile">
+    <h2>Profile</h2>
 
-<div>
-    <h4>ProfilePageModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <!-- prva kartica -->
+            <div class="primary-info">
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <div class="avatar"></div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Surname)
-        </dt>
+                <div class="info">
 
-        <dd>
-            @Html.DisplayFor(model => model.Surname)
-        </dd>
+                    <div class="name">
+                        <div class="display-name">
+                            <span>@Html.DisplayFor(model => model.Name)</span>&nbsp;<span>@Html.DisplayFor(model => model.Surname)</span>
+                        </div>
+                        <div class="username">@Html.DisplayFor(model => model.Username)</div>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Score)
-        </dt>
+                    <dl class="progress-info">
+                        <div class="item">
+                            <dt>Kursevi</dt>
+                            <dd>??</dd>
+                        </div>
+                        <div class="item">
+                            <dt>Kartice</dt>
+                            <dd>@Html.DisplayFor(model => model.totalCardsLearned)</dd>
+                        </div>
+                        <div class="item">
+                            <dt>Poeni</dt>
+                            <dd>@Html.DisplayFor(model => model.Score)</dd>
+                        </div>
+                        <div class="item">
+                            <dt>Bedževi</dt>
+                            <dd>@Html.DisplayFor(model => model.Achievements).ToString()??</dd>
+                        </div>
+                    </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.Score)
-        </dd>
+                </div>
+            
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastLogin)
-        </dt>
+            <!-- Druga kartica -->
+            <div class="secondary-info">
 
-        <dd>
-            @Html.DisplayFor(model => model.LastLogin)
-        </dd>
+                <div class="bio">
+                    @Html.DisplayFor(model => model.Bio)
+                    Lorem ipsum
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateRegistered)
-        </dt>
+                <dl>
+                    <div>
+                        <dd>haha</dd>
+                        <dt>12</dt>
+                    </div>
+                    <div>
+                        <dd>hehe</dd>
+                        <dt>15</dt>
+                    </div>
+                    <div>
+                        <dd>hihi</dd>
+                        <dt>2342</dt>
+                    </div>
+                    <div>
+                        <dd>hoho</dd>
+                        <dt>0.5</dt>
+                    </div>
+                </dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateRegistered)
-        </dd>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.totalCardsLearned)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.totalCardsLearned)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Bio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Bio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Streak)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Streak)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</main>

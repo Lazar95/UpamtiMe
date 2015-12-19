@@ -1,0 +1,95 @@
+main#user-profile {
+
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  margin-left: 20%;
+  width: 80%;
+  margin-top: 64px;
+
+  .card-info { // fiktivna klasa
+    background-color: palette($blue-grey, 100);
+    padding: 16px;
+    margin: 20px 60px;
+    @include z-depth(1);
+    border-radius: 2px;
+    display: flex;
+  }
+
+  .primary-info {
+    @extend .card-info;
+
+    .avatar {
+      background-color: palette($pink, 400);
+      width: 208px;
+      height: 208px;
+      margin: -32px 0;
+      margin-right: 16px;
+      border-radius: 5px;
+      @include z-depth(1.5);
+    }
+
+    .info {
+      flex-grow: 1;
+
+      display: flex;
+      flex-flow: column-reverse;
+      justify-content: space-between;
+
+      .name {
+        .display-name {
+          font-size: 36px;
+          font-weight: bold;
+          color: palette($blue-grey, 800);
+        }
+
+        .username {
+          font-size: 18px;
+          color: palette($blue-grey, 400);
+        }
+      }
+
+      .progress-info {
+        display: flex;
+        justify-content: space-around;
+
+        .item {
+          display: flex;
+          flex-flow: column-reverse;
+          align-items: center;
+
+          dt {
+            font-size: 14px;
+            color: palette($blue-grey, 300);
+          }
+
+          dd {
+            color: palette($pink, 600);
+            font-size: 48px;
+            font-weight: bold;
+          }
+        }
+      }
+
+    }
+
+
+  }
+
+  .secondary-info {
+    @extend .card-info;
+    flex-flow: column;
+
+    dl {
+      display: flex;
+      flex-flow: row;
+
+      div {
+        display: flex;
+        flex-flow: column;
+        flex-grow: 1;
+      }
+    }
+  }
+
+}

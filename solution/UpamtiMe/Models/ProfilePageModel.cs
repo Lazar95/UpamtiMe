@@ -8,6 +8,7 @@ namespace UpamtiMe.Models
     public class ProfilePageModel
     {
         public int UserID { get; set; }
+        public string Username { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public float Score { get; set; }
@@ -25,6 +26,7 @@ namespace UpamtiMe.Models
             return new ProfilePageModel
             {
                 UserID = u.userID,
+                Username = u.username,
                 Name = u.name,
                 Surname = u.surname,
                 Location = u.location,

@@ -43,11 +43,21 @@
 
                     <div>
                         <span class="ime">Izaberi kategoriju</span>
+                        @Html.DropDownListFor(m => m.CategoryID, categories, "Choose a category")
                     </div>
 
                     <div>
                         <span class="ime">Izaberi podkategoriju</span>
-                        @Html.DropDownListFor(m => m.SubcategoryID, subcategories, "Choose a subcategory")
+                        <select id="@Html.NameFor(m => m.SubcategoryID)">
+                            <option value>nista</option>
+                            @foreach (var subcat in Model.AllSubcategories)
+                            {
+                                <option value="@subcat.subcategoryID"
+                                        data-catID="@subcat.categoryID">
+                                    @subcat.name
+                                </option>
+                            }
+                        </select>
                     </div>
 
                 </div>

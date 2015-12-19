@@ -1,0 +1,76 @@
+/**
+ * Stranica za kreiranje novog kursa
+ */
+
+main#create-new {
+		align-items: center;
+
+		aside {
+			margin-top: 50px;
+			background-color: palette($blue-grey, 100);
+			width: 80%;
+			padding: 16px;
+			height: 400px;
+			display: flex;
+			flex-flow: column;
+
+			& > * {
+				flex-grow: 1;
+			}
+
+			h2 {
+				text-align: left;
+				font-size: 32px;
+				flex-grow: 0;
+				height: 32px;
+				text-align: center;
+				padding: 32px;
+				//background-color: palette($green, 500);
+			}
+
+			.inputs-and-buttons {
+				//background-color: blue;
+
+				display: flex;
+				flex-flow: column;
+				align-items: center;
+				justify-content: center;
+
+				form {
+					display: flex;
+					flex-flow: column;
+					align-items: center;
+					width: 80%;
+
+					.inputs { // inputi, bez dugmeta
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+
+							div {
+								display: flex;
+								align-items: center;
+								flex-flow: column;
+								width: 30%;
+
+								input, select {
+									width: 100%;
+									height: 30px;
+									padding: 0 6px;
+									margin: 0;
+								}
+							}
+
+					}
+
+					input[type="submit"] {
+						margin-top: 50px;
+						background-color: palette($blue-grey, 400);
+						font-weight: bold;
+						font-size: 24px;
+						padding: 10px 16px;
+					}
+				}
+			}
+		}
+}

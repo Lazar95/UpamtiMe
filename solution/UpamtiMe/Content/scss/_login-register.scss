@@ -1,0 +1,102 @@
+/**
+ * Zasad je ovo samo pocetna stranica kada korisnik nije logovan.
+ */
+
+main#home-index {
+  margin: 72px 10%;
+
+  form {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+  }
+}
+
+// Fiktivna klasa za forme
+// Obe forme imaju .title, .inputs sa .inout-group i .button
+.form {
+  background-color: palette($blue-grey, 100);
+  @include z-depth(2);
+  flex-grow: 0;
+  width: 35%;
+  padding: 5%;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+
+  .title {
+    h4 {
+      color: palette($blue-grey, 400);
+      font-size: 18px;
+    }
+
+    h2 {
+      color: palette($pink, 400);
+      font-weight: bold;
+      font-size: 36px;
+    }
+  }
+
+  .inputs {
+    margin: 30px 0;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    .input-group {
+      margin: 10px 0;
+      width: 70%;
+
+      label {
+        font-size: 14px;
+        color: palette($blue-grey, 600);
+        display: block;
+        position: relative;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        height: 26px;
+        font-size: 20px;
+        font: inherit;
+        font-weight: bold;
+        color: palette($blue-grey, 700);
+        background-color: transparent;
+        box-shadow: 0px -2px 0px 0px palette($blue-grey, 300) inset;
+        transition: all .33s ease;
+      }
+
+      input[type="text"]:focus {
+        box-shadow: 0px -3px 0px 0px palette($pink, a400) inset;
+      }
+    }
+  }
+
+  .button {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 3%;
+    background-color: palette($blue-grey, 600);
+    color: palette($blue-grey, 50);
+    font-weight: bold;
+    font-size: 18px;
+    @include z-depth(1);
+    transition: all .33s ease;
+  }
+
+  .button:hover {
+    background-color: palette($blue-grey, 700);
+    @include z-depth(1.5);
+  }
+}
+
+#login-form {
+  @extend .form;
+}
+
+#register-form{
+  @extend .form;
+  order: -1; // Prvo (levo, gore, sta vec) da se vidi forma za registraciju
+}

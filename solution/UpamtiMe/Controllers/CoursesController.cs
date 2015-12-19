@@ -29,7 +29,7 @@ namespace UpamtiMe.Controllers
             if (ModelState.IsValid)
             {
                 Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, model.CreatorID);
-                RedirectToAction("EditCourse", new {courseID = c.courseID });
+                return RedirectToAction("EditCourse", new {courseID = c.courseID });
             }
             else
             {

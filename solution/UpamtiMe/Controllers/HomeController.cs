@@ -11,8 +11,16 @@ namespace UpamtiMe.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(Boolean logOut = false)
         {
+            if (logOut)
+            {
+                Session["user"] = null;
+            }
+            if (Session["user"] != null)
+            {
+                return RedirectToAction("Profile", "Users", new { id = UserSession.GetUser().UserID });
+            }
             return View();
         }
 

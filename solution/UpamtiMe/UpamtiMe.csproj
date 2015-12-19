@@ -128,6 +128,7 @@
     <Compile Include="Models\ProfilePageModel.cs" />
     <Compile Include="Models\UserIndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserSession.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

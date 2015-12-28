@@ -1,0 +1,175 @@
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="obicna-kartica.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+  <header>
+    <span>Upamti.Me</span>
+    <div class="buttons">
+      <button>Exit</button>
+    </div>
+  </header>
+
+  <main id="learn-session">
+
+    <div class="workspace">
+      <aside class="info">
+        <div class="session-info">
+          <!--<h3>Trenutna sesija</h3>-->
+          <dl class="general">
+            <div><dt>Broj odgovora</dt>     <dd id="cards-current-total">11/20</dd></div>
+            <div><dt>Tačnost</dt>           <dd id="accuracy">42%</dd></div>
+            <div><dt>Proteklo vreme</dt>    <dd id="time">2'04"</dd></div>
+            <div><dt>Trenutni kombo</dt>      <dd id="session-combo">4</dd></div>
+          </dl>
+          <dl class="total-score">
+            <div><dt>Osvojeni poeni</dt>               <dd id="score">674</dd></div>
+          </dl>
+          <dl class="last-score">
+            <div><dt></dt><dd id="last-score"></dd></div>
+          </dl>
+          <dl class="last-score-breakdown">
+            <div><dt>Base score</dt> <dd id="base-score" class="level-1">&nbsp;</dd></div>
+            <!--<div><dt>Card combo</dt> <dd id="card-combo" class="level-1">&nbsp;</dd></div>-->
+            <div><dt>Session combo</dt> <dd id="session-combo" class="level-1">&nbsp;</dd></div>
+            <!--<div><dt>Time bonus</dt> <dd id="time-bonus" class="level-1">&nbsp;</dd></div>-->
+          </dl>
+        </div>
+      </aside>
+      <div class="cards">
+        <div class="card current-card">
+          <div class="card-content simple">
+            <!-- Ne postoji card info za sesiju ucenja -->
+            <div class="question">
+              <span>ođe je reč na srpski</span>
+            </div>
+            <div class="prompt">
+              <input type="text" spellcheck="false" id="type-answer">
+            </div>
+            <ul class="multiple-choice">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <input id="virtual-typing" type="text" spellcheck="false">
+            </ul>
+            <div class="hangman">
+              <ul>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                <li><input type="text" maxlength="1" spellcheck="false"></li>
+              </ul>
+            </div>
+            <div id="scrabble">
+              <input id="scrabble-typing" type="text" spellcheck="false">
+              <span id="scrabble-typed" data-plain-text=""></span>
+              <ul id="scrabble-letters">
+                <!-- dynamic with JS -->
+              </ul>
+              <ul id="scrabble-control">
+                <li id="scrabble-backspace">←</li>
+                <li id="scrabble-space"></li>
+                <li id="scrabble-enter">↲</li>
+              </ul>
+            </div>
+             <div class="given-answer">
+              <span></span>
+            </div>
+            <div class="correct-answer">
+              <span></span>
+            </div>
+            <div id="initial-choice">
+              <div id="yes">
+                <button>✔</button>
+              </div>
+              <div id="no">
+                <button>Ovu reč znam od ranije.</button>
+              </div>
+            </div>
+            <button class="next"><span>➤</span></button>
+          </div>
+          <!-- Ne postoji tajmer za sesiju ucenja -->
+        </div>
+        <!-- Ne postoji sledeca kartica za sesiju ucenja -->
+      </div>
+      <aside class="options">
+        <button id="ignore">X</button>
+        <button id="help">?</button>
+        <button id="bookmark">!</button>
+      </aside>
+    </div>
+
+    <aside class="progress-bar">
+      <ul>
+        <div>
+          <li class="current"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+        </div>
+        <div>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+        </div>
+        <div>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+        </div>
+        <div>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+        </div>
+        <div>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+        </div>
+        <div>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+          <li class="unopened"></li>
+        </div>
+      </ul>
+    </aside>
+
+  </main>
+
+  <!--<footer><ul id="log"></ul></footer>-->
+
+  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <script src="ucenje-novih.js"></script>
+
+</body>

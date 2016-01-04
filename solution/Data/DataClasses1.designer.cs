@@ -302,7 +302,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image", DbType="Image", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary image
 		{
 			get
@@ -382,9 +382,13 @@ namespace Data
 		
 		private System.DateTime _startDate;
 		
-		private int _score;
+		private float _score;
 		
 		private System.Nullable<System.DateTime> _lastPlayed;
+		
+		private float _thisWeekScore;
+		
+		private float _thisMothScore;
 		
 		private EntityRef<Course> _Course;
 		
@@ -402,10 +406,14 @@ namespace Data
     partial void OncourseIDChanged();
     partial void OnstartDateChanging(System.DateTime value);
     partial void OnstartDateChanged();
-    partial void OnscoreChanging(int value);
+    partial void OnscoreChanging(float value);
     partial void OnscoreChanged();
     partial void OnlastPlayedChanging(System.Nullable<System.DateTime> value);
     partial void OnlastPlayedChanged();
+    partial void OnthisWeekScoreChanging(float value);
+    partial void OnthisWeekScoreChanged();
+    partial void OnthisMothScoreChanging(float value);
+    partial void OnthisMothScoreChanged();
     #endregion
 		
 		public UsersCourse()
@@ -503,8 +511,8 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_score", DbType="Int NOT NULL")]
-		public int score
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_score", DbType="Real NOT NULL")]
+		public float score
 		{
 			get
 			{
@@ -539,6 +547,46 @@ namespace Data
 					this._lastPlayed = value;
 					this.SendPropertyChanged("lastPlayed");
 					this.OnlastPlayedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_thisWeekScore", DbType="Real NOT NULL")]
+		public float thisWeekScore
+		{
+			get
+			{
+				return this._thisWeekScore;
+			}
+			set
+			{
+				if ((this._thisWeekScore != value))
+				{
+					this.OnthisWeekScoreChanging(value);
+					this.SendPropertyChanging();
+					this._thisWeekScore = value;
+					this.SendPropertyChanged("thisWeekScore");
+					this.OnthisWeekScoreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_thisMothScore", DbType="Real NOT NULL")]
+		public float thisMothScore
+		{
+			get
+			{
+				return this._thisMothScore;
+			}
+			set
+			{
+				if ((this._thisMothScore != value))
+				{
+					this.OnthisMothScoreChanging(value);
+					this.SendPropertyChanging();
+					this._thisMothScore = value;
+					this.SendPropertyChanged("thisMothScore");
+					this.OnthisMothScoreChanged();
 				}
 			}
 		}
@@ -755,7 +803,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image", DbType="Image", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary image
 		{
 			get
@@ -2335,6 +2383,10 @@ namespace Data
 		
 		private string _location;
 		
+		private float _thisWeekScore;
+		
+		private float _thisMonthScore;
+		
 		private EntitySet<UsersCourse> _UsersCourses;
 		
 		private EntitySet<Friendship> _Friendships;
@@ -2377,6 +2429,10 @@ namespace Data
     partial void OnstreakChanged();
     partial void OnlocationChanging(string value);
     partial void OnlocationChanged();
+    partial void OnthisWeekScoreChanging(float value);
+    partial void OnthisWeekScoreChanged();
+    partial void OnthisMonthScoreChanging(float value);
+    partial void OnthisMonthScoreChanged();
     #endregion
 		
 		public User()
@@ -2469,7 +2525,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="Image", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary avatar
 		{
 			get
@@ -2665,6 +2721,46 @@ namespace Data
 					this._location = value;
 					this.SendPropertyChanged("location");
 					this.OnlocationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_thisWeekScore", DbType="Real NOT NULL")]
+		public float thisWeekScore
+		{
+			get
+			{
+				return this._thisWeekScore;
+			}
+			set
+			{
+				if ((this._thisWeekScore != value))
+				{
+					this.OnthisWeekScoreChanging(value);
+					this.SendPropertyChanging();
+					this._thisWeekScore = value;
+					this.SendPropertyChanged("thisWeekScore");
+					this.OnthisWeekScoreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_thisMonthScore", DbType="Real NOT NULL")]
+		public float thisMonthScore
+		{
+			get
+			{
+				return this._thisMonthScore;
+			}
+			set
+			{
+				if ((this._thisMonthScore != value))
+				{
+					this.OnthisMonthScoreChanging(value);
+					this.SendPropertyChanging();
+					this._thisMonthScore = value;
+					this.SendPropertyChanged("thisMonthScore");
+					this.OnthisMonthScoreChanged();
 				}
 			}
 		}

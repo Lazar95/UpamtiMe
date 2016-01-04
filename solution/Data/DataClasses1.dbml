@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UpamtiMe" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-RFKNG80\SQLEXPRESS;Initial Catalog=UpamtiMe;Integrated Security=True" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="UpamtiMeConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=MASA-PC\SQLEXPRESS;Initial Catalog=UpamtiMe;Integrated Security=True" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="UpamtiMeConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Achievements" Member="Achievements">
     <Type Name="Achievement">
       <Column Name="achievementID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -15,8 +15,10 @@
       <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="courseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="startDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="score" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="score" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="lastPlayed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="thisWeekScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="thisMothScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Association Name="Course_UsersCourse" Member="Course" ThisKey="courseID" OtherKey="courseID" Type="Course" IsForeignKey="true" />
       <Association Name="User_UsersCourse" Member="User" ThisKey="userID" OtherKey="userID" Type="User" IsForeignKey="true" />
     </Type>
@@ -118,6 +120,8 @@
       <Column Name="bio" Type="System.String" DbType="VarChar(400)" CanBeNull="true" />
       <Column Name="streak" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="thisWeekScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="thisMonthScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Association Name="User_UsersCourse" Member="UsersCourses" ThisKey="userID" OtherKey="userID" Type="UsersCourse" />
       <Association Name="User_Friendship" Member="Friendships" ThisKey="userID" OtherKey="user1ID" Type="Friendship" />
       <Association Name="User_Friendship1" Member="Friendships1" ThisKey="userID" OtherKey="user2ID" Type="Friendship" />

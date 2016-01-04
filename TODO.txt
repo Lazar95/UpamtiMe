@@ -4,7 +4,7 @@ edit profile
 
 Masa: 
 search
-logout
+
 
 role ili permisije tj onaj koji je ulogovan samo
 pokazi lazi kako da sakrije ili ne (ko je ulogovan)

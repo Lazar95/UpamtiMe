@@ -23,9 +23,7 @@
         subcategories.Add(new SelectListItem
         {
             Text = sub.name,
-            Value = ((int)sub.subcategoryID).ToString() + ,
-            
-
+            Value = ((int)sub.subcategoryID).ToString()
         });
     }
 }
@@ -60,6 +58,9 @@
                         @Html.EditorFor(m => card.Answer, card.Answer)
                     </li>
                 }
+                <li>
+                    
+                </li>
             </ul>
         }
 

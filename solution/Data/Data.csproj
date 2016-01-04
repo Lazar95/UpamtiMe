@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\LeaderboardEntryDTO.cs" />
+    <Compile Include="DTOs\LeaderboardsDTO.cs" />
     <Compile Include="DTOs\LoginDTO.cs" />
     <Compile Include="DTOs\LoginTransporterDTO.cs" />
     <Compile Include="DTOs\RegisterTransporterDTO.cs" />

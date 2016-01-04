@@ -78,8 +78,7 @@ namespace Data
         public static List<LeaderboardEntryDTO> getLeaderboard(int userID, int? courseID = null)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            
-            List<LeaderboardEntryDTO> returnValue;
+
             List<int> friendIDs;
             if (courseID == null)
             {
@@ -97,7 +96,7 @@ namespace Data
                              select a.userID == b.user1ID ? b.user2ID : b.user1ID).ToList();
             }
 
-            returnValue = (from a in friendIDs
+            return (from a in friendIDs
                            join b in dc.Users
                                on a equals b.userID
                            select new LeaderboardEntryDTO()

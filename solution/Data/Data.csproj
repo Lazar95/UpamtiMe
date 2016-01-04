@@ -42,10 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\LeaderboardEntryDTO.cs" />
-    <Compile Include="DTOs\LeaderboardsDTO.cs" />
     <Compile Include="DTOs\LoginDTO.cs" />
     <Compile Include="DTOs\LoginTransporterDTO.cs" />
     <Compile Include="DTOs\RegisterTransporterDTO.cs" />
+    <Compile Include="DTOs\UserCourseDTO.cs" />
     <Compile Include="Entities\Cards.cs" />
     <Compile Include="DTOs\CardsDTO.cs" />
     <Compile Include="Entities\Courses.cs" />

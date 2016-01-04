@@ -7,10 +7,13 @@ namespace UpamtiMe.Models
 {
     public class UserIndexModel
     {
-        public List<Data.DTOs.LeaderboardEntryDTO> WeekLeaderboard { get; set; }
-        public List<Data.DTOs.LeaderboardEntryDTO> MonthLeaderboard { get; set; }
-        public List<Data.DTOs.LeaderboardEntryDTO> AllTimeLeaderboard { get; set; }
+        public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
+        public List<Data.DTOs.UserCourseDTO> Courses { get; set; } 
 
+
+
+
+        
         
     }
 

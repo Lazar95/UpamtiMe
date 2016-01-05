@@ -81,17 +81,32 @@ namespace UpamtiMe.Controllers
         {
             try
             {
-                Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards);
+                int numAdded = 0;
+                int numDeleted = 0;
 
                 if (model.DeletedCards != null)
+                {
                     Courses.deleteCards(model.DeletedCards);
+                    numDeleted += model.DeletedCards.Count;
+                }
+                    
                 if (model.DeletedLevels != null)
                     Courses.deleteLevels(model.DeletedLevels);
 
                 if (model.EditedCards != null)
+                {
                     Courses.editCards(model.EditedCards);
+                    numAdded += (from a in model.EditedCards where a.cardID == -1 select a).Count();
+                }
+                    
                 if (model.EditedLevels != null)
                     Courses.editLevels(model.EditedLevels);
+
+                int oldnum = Courses.getCardNuber(model.CourseID);
+                int newnum = oldnum + numAdded - numDeleted;
+                
+
+                Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, newnum);
 
                 return RedirectToAction("EditCourse", new { id = model.CourseID });
             }

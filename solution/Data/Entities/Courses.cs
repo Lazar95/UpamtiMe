@@ -263,7 +263,7 @@ namespace Data
             }
         }
 
-        public static void editLevels(List<Level> levels)
+        public static void editLevels(int courseID, List<Level> levels)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
@@ -278,6 +278,14 @@ namespace Data
                         type = level.type
                     };
                     dc.Levels.InsertOnSubmit(newLevel);
+                    dc.SubmitChanges();
+
+                    CoursesLevel cl = new CoursesLevel
+                    {
+                        courseID = courseID,
+                        levelID = newLevel.levelID
+                    };
+                    dc.CoursesLevels.InsertOnSubmit(cl);
                     dc.SubmitChanges();
                 }
                 else //izmeni nivo

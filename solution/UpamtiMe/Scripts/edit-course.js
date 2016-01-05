@@ -23,7 +23,7 @@ var _dataToSend = {
 
 var addLevel = function() {
   var newLevel = {
-    "id": -1,
+    "levelID": -1,
     "type": 0,
     "name": "",
   }

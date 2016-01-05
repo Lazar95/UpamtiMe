@@ -27,44 +27,52 @@
         });
     }
 }
+
+<script src="~/Scripts/edit-course.js"></script>
+
 <h2>EditCourse</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <span>Treba ovako: i poslednji element da bude textbox za dodavanje tj kartice ce moratid a budu tabela nebitno sad</span>
-
-    <ul>
+    <ul class="course">
         @foreach (LevelsDTO level in Model.Levels)
         {
             <li>@level.Name</li>
-            <ul>
+            <ul class=="level" data-level-id=@level.LevelID>
                 @foreach (CardsDTO card in level.Cards)
                 {
-                    <li>
+                    <li data-card-id=@card.cardID>
                         @if (card.Question != null)
                         {
-                            @Html.EditorFor(m=>card.Question, card.Question)
+                           <span class="question">@Html.EditorFor(m=>card.Question, card.Question)</span>
                         }
                         else
                         {
                             if (card.Image != null)
                             {
-                                <span>@card.Image</span>
-                                <span>upload dugme</span>
+                                <span class="image">@card.Image</span>
+                                <div>upload dugme</div>
                             }
-                       }
+                        }
                         @Html.EditorFor(m => card.Answer, card.Answer)
+                        <button class="add-button">Promeni</button>
                     </li>
                 }
                 <li>
-                    @* ovde polje za dodavanje reci u nivou *@
+                    Pitanje: <input type="text" /> Odgovor: <input type="text" /> <button>Dodaj!</button>
                 </li>
             </ul>
         }
-        <li>
-            @* ovde polje za dodavanje nivoa *@
+        <li id="new-level">
+            Tip nivoa:
+            <select>
+                <option value="simple">simple</option>
+                <option value="complex">complex</option>
+                <option value="image">image</option>
+            </select>
+            Ime nivoa: <input type="text" /> <div class="add-button">Dodaj</div>
         </li>
 
     </ul>
@@ -123,3 +131,11 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
+<style>
+    #new-level .add-button {
+        background-color: green;
+        cursor: pointer;
+    }
+</style>

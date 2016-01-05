@@ -145,5 +145,14 @@ namespace Data
 
             return retrunValue;
         }
+
+
+        public static String getSubcategoryName(int subID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Subcategories where a.subcategoryID == subID select a.name).First();
+        }
     }
+
+    
 }

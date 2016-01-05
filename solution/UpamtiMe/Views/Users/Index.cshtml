@@ -1,0 +1,58 @@
+﻿@model UpamtiMe.Models.UserIndexModel
+@using Data
+@using Data.DTOs
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <h4>UserIndexModel</h4>
+    <hr/>
+
+    <div id="leaderbord">
+        <p>All Time</p>
+        
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a=>a.AllTimeScore))
+        {
+            <span>@lde.Username</span>
+            <span>@lde.AllTimeScore</span>
+        }
+
+        <p>This Week</p>
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a=>a.WeekScore))
+        {
+            <span>@lde.Username</span>
+            <span>@lde.WeekScore</span>
+        }
+
+        <p>This Month</p>
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a=>a.MonthScore))
+        {
+            <span>@lde.Username</span>
+            <span>@lde.MonthScore</span>
+        }
+    </div>
+    <div id="courses">
+        @foreach (UserCourseDTO ucd in Model.Courses)
+        {
+            <span>@ucd.Name</span>
+            <span>@Enum.GetName(typeof (Enumerations.Categories), ucd.CategoryID)</span>
+            if (ucd.SubcategoryID != null)
+            {
+                //ovo treba da se izmeni, da bude string direktno u modelu
+                <span>@Courses.getSubcategoryName((int) ucd.SubcategoryID)</span>
+            }
+
+            <span>@ucd.CardsLearned</span>
+            <span>@ucd.ReviewCount</span>
+            <span>@ucd.TotalCards</span>
+        }
+    </div>
+
+    @* dugmici: view profile, edit profile, napravi kurs nzm sta jos *@
+
+</div>
+
+  

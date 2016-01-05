@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Data.DTOs;
@@ -185,6 +186,111 @@ namespace Data
                     }).ToList();
 
         }
+
+        public static Course updateCourseInfo(int courseID, string name, int catID, int subID, int numCards)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            Course course = (from a in dc.Courses where a.courseID == courseID select a).First();
+            course.name = name;
+            course.categoryID = catID;
+            course.subcategoryID = subID;
+            course.numberOfCards = numCards;
+
+            dc.SubmitChanges();
+            return course;
+        }
+
+        public static void deleteCards(List<int> cardIDs )
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            foreach (int card in cardIDs)
+            {
+                Card c = (from a in dc.Cards where a.cardID == card select a).First();
+                LevelsCard lc = (from a in dc.LevelsCards where a.cardID == card select a).First();
+                var usrs = (from a in dc.UsersCards where a.cardID == card select a);
+                foreach (UsersCard uc in usrs)
+                {
+                    dc.UsersCards.DeleteOnSubmit(uc);
+                }
+                dc.LevelsCards.DeleteOnSubmit(lc);
+                dc.Cards.DeleteOnSubmit(c);
+                dc.SubmitChanges();
+            }
+        }
+
+        public static void deleteLevels(List<int> levelIDs)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            foreach (int level in levelIDs)
+            {
+                List<int> cards = (from a in dc.LevelsCards where a.levelID == level select a.cardID).ToList();
+                deleteCards(cards);
+                Level l = (from a in dc.Levels where a.levelID == level select a).First();
+                dc.Levels.DeleteOnSubmit(l);
+                dc.SubmitChanges();
+            }
+        }
+
+        public static void editCards(List<Card> cards)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            foreach (Card card in cards)
+            {
+                //dodaj karticu
+                if (card.cardID == -1)
+                {
+                    Card newCard = new Card
+                    {
+                        question = card.question,
+                        answer = card.answer,
+                        description = card.description,
+                        image = card.image
+                    };
+                    dc.Cards.InsertOnSubmit(newCard);
+                    dc.SubmitChanges();
+                }
+                else //izmeni karticu
+                {
+                    //ovo deluje besmislneno ali mislim da bez ovog nece da radi
+                    Card c = (from a in dc.Cards where a.cardID == card.cardID select a).First();
+                    c.question = card.question;
+                    c.answer = card.answer;
+                    c.description = card.description;
+                    c.image = card.image;
+                    dc.SubmitChanges();
+                }
+            }
+        }
+
+        public static void editLevel(List<Level> levels)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            foreach (Level level in levels)
+            {
+                //dodaj nivo
+                if (level.levelID == -1)
+                {
+                    Level newLevel = new Level
+                    {
+                        name = level.name,
+                        type = level.type
+                    };
+                    dc.Levels.InsertOnSubmit(newLevel);
+                    dc.SubmitChanges();
+                }
+                else //izmeni nivo
+                {
+                    //opet ovo besmisleno
+                    Level l = (from a in dc.Levels where a.levelID == level.levelID select a).First();
+                    l.name = level.name;
+                    l.type = level.type;
+                    dc.SubmitChanges();
+                }
+            }
+        }
+        
     }
 
     

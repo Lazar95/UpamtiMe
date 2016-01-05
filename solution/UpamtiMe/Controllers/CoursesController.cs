@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Data;
+using Data.DTOs;
 using UpamtiMe.Extensions;
 using UpamtiMe.Models;
 
@@ -73,6 +74,26 @@ namespace UpamtiMe.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+        }
+
+        [HttpPost]
+        public ActionResult EditCourse(EditCourseLevelsCards model)
+        {
+            Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards);
+
+            if(model.DeletedCards != null)
+                Courses.deleteCards(model.DeletedCards);
+            if(model.DeletedLevels != null)
+                Courses.deleteLevels(model.DeletedLevels);
+
+            if(model.EditedCards != null)
+                Courses.editCards(model.EditedCards);
+            if(model.EditedLevels != null)
+                Courses.editLevels(model.EditedLevels);
+
+
+
+            return RedirectToAction("EditCourse", new {id = model.CourseID});
         }
 
 

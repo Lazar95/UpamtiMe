@@ -38,6 +38,8 @@ var addLevel = function() {
       success: function (res) {
           if (res.success) {
               $('#new-level').append('Waai uspesno!');
+          } else {
+            $('#new-level').append('Nije uspelo!');
           }
       }
   });

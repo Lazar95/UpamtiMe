@@ -290,6 +290,12 @@ namespace Data
                 }
             }
         }
+
+        public static int getCardNuber(int courseID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Courses where a.courseID == courseID select a).First().numberOfCards;
+        }
         
     }
 

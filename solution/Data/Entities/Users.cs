@@ -118,5 +118,28 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).Any();
         }
+
+        public static UsersCourse enroll(int userID, int courseID)
+        {
+            if (enrolled(userID, courseID))
+                return null;
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            UsersCourse uc = new UsersCourse
+            {
+                userID = userID,
+                courseID = courseID,
+                startDate = DateTime.Now,
+                score = 0,
+                lastPlayed = null,
+                thisWeekScore = 0,
+                thisMothScore = 0
+            };
+
+            dc.UsersCourses.InsertOnSubmit(uc);
+            dc.SubmitChanges();
+
+            return uc;
+        }
+
     }
 }

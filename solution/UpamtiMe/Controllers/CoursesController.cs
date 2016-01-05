@@ -33,6 +33,13 @@ namespace UpamtiMe.Controllers
             return View(model);
         }
 
+        public ActionResult Enroll(int id)
+        {
+            int usrID = UserSession.GetUser().UserID;
+            Users.enroll(usrID, id);
+            return RedirectToAction("Profile", new {id = id});
+        }
+
         public ActionResult CreateNew()
         {
             Models.CreateNewCourseModel model = new CreateNewCourseModel();

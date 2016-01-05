@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\CourseUsersStatisticsDTO.cs" />
+    <Compile Include="DTOs\EditCourseLevelsCards.cs" />
     <Compile Include="DTOs\LeaderboardEntryDTO.cs" />
     <Compile Include="DTOs\LoginDTO.cs" />
     <Compile Include="DTOs\LoginTransporterDTO.cs" />

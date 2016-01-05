@@ -263,7 +263,7 @@ namespace Data
             }
         }
 
-        public static void editLevel(List<Level> levels)
+        public static void editLevels(List<Level> levels)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 

@@ -11,10 +11,14 @@ var viewToData = function() {
 */
 
 var _dataToSend = {
-  "deletedCards":  [], // lista ID-jeva kartica
-  "deletedLevels": [], // lista Id-jeva nivoa
-  "editedCards":   [], // niz objekata kartica
-  "editedLevels":  [], // niz objekata nivoa
+    "courseID": 0,
+    "name": "",
+    "categoryID": 0,
+    "subcategoryID": 0,
+    "deletedCards":  [], // lista ID-jeva kartica
+    "deletedLevels": [], // lista Id-jeva nivoa
+    "editedCards":   [], // niz objekata kartica
+    "editedLevels":  [], // niz objekata nivoa
 }
 
 var addLevel = function() {

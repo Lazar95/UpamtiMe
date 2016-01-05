@@ -79,23 +79,26 @@ namespace UpamtiMe.Controllers
         [HttpPost]
         public ActionResult EditCourse(EditCourseLevelsCards model)
         {
-            Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards);
+            try
+            {
+                Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards);
 
-            if(model.DeletedCards != null)
-                Courses.deleteCards(model.DeletedCards);
-            if(model.DeletedLevels != null)
-                Courses.deleteLevels(model.DeletedLevels);
+                if (model.DeletedCards != null)
+                    Courses.deleteCards(model.DeletedCards);
+                if (model.DeletedLevels != null)
+                    Courses.deleteLevels(model.DeletedLevels);
 
-            if(model.EditedCards != null)
-                Courses.editCards(model.EditedCards);
-            if(model.EditedLevels != null)
-                Courses.editLevels(model.EditedLevels);
+                if (model.EditedCards != null)
+                    Courses.editCards(model.EditedCards);
+                if (model.EditedLevels != null)
+                    Courses.editLevels(model.EditedLevels);
 
-
-
-            return RedirectToAction("EditCourse", new {id = model.CourseID});
+                return RedirectToAction("EditCourse", new { id = model.CourseID });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false});
+            }
         }
-
-
     }
 }

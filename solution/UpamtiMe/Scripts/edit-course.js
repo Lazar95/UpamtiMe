@@ -30,6 +30,18 @@ var addLevel = function() {
   _dataToSend.editedLevels.push(newLevel);
 
   dump();
+
+  $.ajax({
+      url: "/Courses/EditCourse", // /kontroler/akcija (klasa/funkcija u klasi)
+      method: "POST",
+      data: _dataToSend,
+      success: function (res) {
+          if (res.success) {
+              $('#new-level').append('Waai uspesno!');
+          }
+      }
+  });
+
 }
 
 /**

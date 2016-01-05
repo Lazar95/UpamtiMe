@@ -41,9 +41,9 @@
         {
             <li>@level.Name</li>
             <ul class=="level" data-level-id=@level.LevelID>
-                @foreach (CardsDTO card in level.Cards)
+                @foreach (CardDTO card in level.Cards)
                 {
-                    <li data-card-id=@card.cardID>
+                    <li data-card-id=@card.CardID>
                         @if (card.Question != null)
                         {
                            <span class="question">@Html.EditorFor(m=>card.Question, card.Question)</span>

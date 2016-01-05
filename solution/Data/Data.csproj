@@ -43,13 +43,14 @@
   <ItemGroup>
     <Compile Include="DTOs\CourseUsersStatisticsDTO.cs" />
     <Compile Include="DTOs\EditCourseLevelsCards.cs" />
+    <Compile Include="DTOs\EditLevelDTO.cs" />
     <Compile Include="DTOs\LeaderboardEntryDTO.cs" />
     <Compile Include="DTOs\LoginDTO.cs" />
     <Compile Include="DTOs\LoginTransporterDTO.cs" />
     <Compile Include="DTOs\RegisterTransporterDTO.cs" />
     <Compile Include="DTOs\UserCourseDTO.cs" />
     <Compile Include="Entities\Cards.cs" />
-    <Compile Include="DTOs\CardsDTO.cs" />
+    <Compile Include="DTOs\CardDTO.cs" />
     <Compile Include="Entities\Courses.cs" />
     <Compile Include="DTOs\CoursesDTO.cs" />
     <Compile Include="DataClasses1.designer.cs">

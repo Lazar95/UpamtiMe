@@ -8,34 +8,36 @@ namespace Data
 {
     public class Levels
     {
-        public static Data.Level GetLevel(int levelID)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a
-                    in dc.Levels
-                    where a.levelID == levelID
-                    select a).First();
-        }
+        //// Lazino staro
+        ////////////////////////
+        //public static Data.Level GetLevel(int levelID)
+        //{
+        //    DataClasses1DataContext dc = new DataClasses1DataContext();
+        //    return (from a
+        //            in dc.Levels
+        //            where a.levelID == levelID
+        //            select a).First();
+        //}
 
-        public static int countLevels(int courseID)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a
-                    in dc.CoursesLevels
-                    where a.courseID == courseID
-                    select a).Count();
-        }
+        //public static int countLevels(int courseID)
+        //{
+        //    DataClasses1DataContext dc = new DataClasses1DataContext();
+        //    return (from a
+        //            in dc.CoursesLevels
+        //            where a.courseID == courseID
+        //            select a).Count();
+        //}
 
         public static List<Data.LevelsDTO> getLevelsAndCardsFor(int courseID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             List<Data.LevelsDTO> returnValue = (from a in dc.CoursesLevels
                                                 join b in dc.Levels
-                                                on a.levelID equals b.levelID
+                                                on a.LevelID equals b.LevelID
                                                 where a.courseID == courseID
                                                 select new LevelsDTO()
                                                 {
-                                                    LevelID = b.levelID,
+                                                    LevelID = b.LevelID,
                                                     Type = b.type,
                                                     Name = b.name,
                                                 }).ToList();
@@ -49,27 +51,27 @@ namespace Data
             return returnValue;
         }
 
-        public static Level addLevel(int courseID, string name, int type)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
+        //public static Level addLevel(int courseID, string name, int type)
+        //{
+        //    DataClasses1DataContext dc = new DataClasses1DataContext();
 
-            Level level = new Level
-            {
-                type = type,
-                name = name,
-            };
+        //    Level level = new Level
+        //    {
+        //        type = type,
+        //        name = name,
+        //    };
 
-            dc.Levels.InsertOnSubmit(level);
-            dc.SubmitChanges();
-            
-            CoursesLevel courseLevel = new CoursesLevel
-            {
-                courseID = courseID,
-                levelID = level.levelID,
-                number = countLevels(courseID) + 1,
-            };
+        //    dc.Levels.InsertOnSubmit(level);
+        //    dc.SubmitChanges();
 
-            return level;
-        }
+        //    CoursesLevel courseLevel = new CoursesLevel
+        //    {
+        //        courseID = courseID,
+        //        levelID = level.levelID,
+        //        number = countLevels(courseID) + 1,
+        //    };
+
+        //    return level;
+        //}
     }
 }

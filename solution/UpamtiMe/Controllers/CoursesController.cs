@@ -96,7 +96,7 @@ namespace UpamtiMe.Controllers
                 if (model.EditedCards != null)
                 {
                     Courses.editCards(model.EditedCards);
-                    numAdded += (from a in model.EditedCards where a.cardID == -1 select a).Count();
+                    numAdded += (from a in model.EditedCards where a.CardID == -1 select a).Count();
                 }
                     
                 if (model.EditedLevels != null)

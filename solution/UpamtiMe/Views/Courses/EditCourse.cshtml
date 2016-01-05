@@ -35,8 +35,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <ul class="course">
+    
+    <ul id="course" data-course-id=@Model.CategoryID>
         @foreach (LevelsDTO level in Model.Levels)
         {
             <li>@level.Name</li>
@@ -80,18 +80,12 @@
         <h4>EditCourseModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.CourseID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CourseID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control course-name" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -99,7 +93,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "form-control course-cat" } })
                 @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -107,7 +101,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SubcategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SubcategoryID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.SubcategoryID, new { htmlAttributes = new { @class = "form-control course-subcat" } })
                 @Html.ValidationMessageFor(model => model.SubcategoryID, "", new { @class = "text-danger" })
             </div>
         </div>

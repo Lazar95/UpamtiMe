@@ -11,14 +11,14 @@ var viewToData = function() {
 */
 
 var _dataToSend = {
-    "courseID": 0,
-    "name": "",
-    "categoryID": 0,
-    "subcategoryID": 0,
-    "deletedCards":  [], // lista ID-jeva kartica
-    "deletedLevels": [], // lista Id-jeva nivoa
-    "editedCards":   [], // niz objekata kartica
-    "editedLevels":  [], // niz objekata nivoa
+  "courseID": 0,
+  "name": "",
+  "categoryID": 0,
+  "subcategoryID": 0,
+  "deletedCards":  [], // lista ID-jeva kartica
+  "deletedLevels": [], // lista Id-jeva nivoa
+  "editedCards":   [], // niz objekata kartica
+  "editedLevels":  [], // niz objekata nivoa
 }
 
 var addLevel = function() {
@@ -32,6 +32,10 @@ var addLevel = function() {
   newLevel.name = $('#new-level input').val();
 
   _dataToSend.editedLevels.push(newLevel);
+  _dataToSend.courseID = $('#course').attr('data-course-id');
+  _dataToSend.name = $('.course-name').val();
+  _dataToSend.categoryID = $('.course-cat').val();
+  _dataToSend.subcategoryID = $('.course-subcat').val();
 
   dump();
 

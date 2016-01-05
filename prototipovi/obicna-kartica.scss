@@ -94,7 +94,7 @@ main {
 	flex-grow: 1; //da se main rasiri onoliko koliko mu ostane mesta od header i footer
 	display: flex;
 	flex-direction: column;
-	@include force-width(1280px);
+	max-width: 1280px;
 	max-height: 720px;
 	margin: auto;
 }

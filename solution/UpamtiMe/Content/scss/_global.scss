@@ -74,7 +74,7 @@ button, input[type="submit"] {
  body {
    display: flex;
    flex-direction: column;
-   justify-content: space-between;
+   justify-content: flex-start;
    font-family: $font-stack;
  	 background-color: palette($blue-grey, 700);
  }
@@ -88,7 +88,30 @@ button, input[type="submit"] {
  	height: 48px;
    z-index: 10;
    @include z-depth(2);
-   .buttons {
-
-   }
  }
+
+ main {
+	 @include force-width(1280px);
+	 margin: 20px auto 0;
+ }
+
+/**
+ * FAB
+ */
+.fab {
+	width: 64px;
+	height: 64px;
+	display: block;
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	background-color: palette($pink, a400);
+	line-height: 64px;
+	font-size: 36px;
+	text-align: center;
+	color: white;
+	@include z-depth(2);
+	border-radius: 50%;
+	cursor: pointer;
+	font-weight: bold;
+}

@@ -74,3 +74,185 @@ main#create-new {
 			}
 		}
 }
+
+/**
+ * Editovanje kursa
+ */
+
+main#edit-course {
+
+	.basic-info {
+		width: 50%;
+		margin: 24px auto;
+		padding: 24px;
+		background-color: palette($blue-grey, 200);
+		@include z-depth(1);
+		height: 240px;
+
+		display: flex;
+		flex-flow: column;
+		justify-content: space-between;
+
+		h1 {
+			font-weight: bold;
+			color: palette($blue-grey, 700);
+			font-size: 36px;
+
+			span:hover {
+				box-shadow: 0px -2px palette($blue-grey, 400) inset;
+				cursor: pointer;
+			}
+		}
+
+		.cat-subcat {
+			display: flex;
+			justify-content: space-between;
+			width: 60%;
+			margin: 0px auto;
+
+			select {
+				height: 28px;
+				font-size: 16px;
+				line-height: 28px;
+				border-radius: 5px;
+				background-color: transparent;
+				text-align: center; // kmeee
+				border: none;
+				-webkit-appearance: none;
+			  -moz-appearance: none;
+			  appearance: none;
+				cursor: pointer;
+				transition: all .2s ease;
+
+				&:hover, &:active, &:focus {
+					background-color: palette($blue-grey, 100);
+					@include z-depth(1);
+				}
+			}
+		}
+
+		.description {
+			height: 128px;
+			background-color: palette($blue-grey, 50);
+			@include z-depth(1);
+		}
+
+	}
+
+	ul#course {
+		width: 100%;
+
+		& > li {
+			background-color: palette($blue-grey, 100);
+			@include z-depth(1);
+			margin: 24px;
+			padding: 16px;
+			color: palette($blue-grey, 900);
+
+			&#new-level {
+				@include z-depth(2);
+				margin-top: 64px;
+
+				.new-level-info {
+					display: flex;
+					justify-content: center;
+
+					& > div {
+						width: 30%;
+						display: flex;
+						flex-flow: column;
+						position: relative;
+
+						& > * {
+							width: 80%;
+							margin: 0 auto;
+							text-align: center;
+						}
+
+						span {
+							color: palette($blue-grey, 400);
+							padding: 12px;
+						}
+
+						select, input {
+							height: 32px;
+							padding: 0;
+							font-size: 20px;
+							border: none;
+							background-color: transparent;
+							box-shadow: 0 -2px palette($blue-grey, 600) inset;
+							color: palette($blue-grey, 700);
+						}
+
+						select:focus, input:focus {
+							box-shadow: 0 -2px palette($pink, 600) inset;
+							outline: none;
+						}
+					}
+				}
+			}
+		}
+
+		.add-button {
+			background-color: palette($blue-grey, 100);
+			color: palette($blue-grey, 600);
+			//width: 160px;
+			height: 48px;
+			font-size: 24px;
+			line-height: 48px;
+			text-align: center;
+			margin: 16px auto 0;
+			cursor: pointer;
+			font-weight: bold;
+			transition: all .2s ease;
+
+			&:focus, &:hover {
+				@include z-depth(1);
+				color: palette($pink, a400);
+			}
+		}
+
+	//ul#course
+
+		& > li > span {
+			// Naslov nivoa
+			font-size: 24px;
+			height: 24px;
+			line-height: 24px;
+
+			&::before {
+				content: '+';
+				font: Arial;
+				display: inline-block;
+				width: 24px;
+				height: 24px;
+				text-align: center;
+				transform: rotateZ(45deg);
+			}
+		}
+
+		& > li > ul {
+			margin: 32px;
+
+			& > li {
+				margin: 8px;
+
+				&.new-card {
+					margin-top: 36px;
+
+					& > .add-button {
+						flex-grow: 0;
+					}
+				}
+			}
+		}
+
+	} // ul course
+
+
+
+	& > .button {
+		@extend .fab;
+	}
+
+}

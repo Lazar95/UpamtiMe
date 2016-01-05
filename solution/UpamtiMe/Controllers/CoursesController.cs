@@ -96,11 +96,11 @@ namespace UpamtiMe.Controllers
                 if (model.EditedCards != null)
                 {
                     Courses.editCards(model.EditedCards);
-                    numAdded += (from a in model.EditedCards where a.cardID == -1 select a).Count();
+                    numAdded += (from a in model.EditedCards where a.CardID == -1 select a).Count();
                 }
                     
                 if (model.EditedLevels != null)
-                    Courses.editLevels(model.EditedLevels);
+                    Courses.editLevels(model.CourseID,model.EditedLevels);
 
                 int oldnum = Courses.getCardNuber(model.CourseID);
                 int newnum = oldnum + numAdded - numDeleted;
@@ -108,9 +108,10 @@ namespace UpamtiMe.Controllers
 
                 Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, newnum);
 
+                return Json(new {success = true});
                 return RedirectToAction("EditCourse", new { id = model.CourseID });
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return Json(new { success = false});
             }

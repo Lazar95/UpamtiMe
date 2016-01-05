@@ -55,7 +55,7 @@ intellisense.annotate(jQuery, {
     /// <returns type="PlainObject" />
   },
   'browser.version': function() {
-    /// <summary>The version number of the rendering engine for the user's browser.</summary>
+    /// <summary>The version Number of the rendering engine for the user's browser.</summary>
     /// <returns type="String" />
   },
   'Callbacks': function() {
@@ -222,7 +222,7 @@ intellisense.annotate(jQuery, {
   },
   'isNumeric': function() {
     /// <signature>
-    ///   <summary>Determines whether its argument is a number.</summary>
+    ///   <summary>Determines whether its argument is a Number.</summary>
     ///   <param name="value" type="PlainObject">The value to be tested.</param>
     ///   <returns type="Boolean" />
     /// </signature>
@@ -288,7 +288,7 @@ intellisense.annotate(jQuery, {
     /// <summary>An empty function.</summary>
   },
   'now': function() {
-    /// <summary>Return a number representing the current time.</summary>
+    /// <summary>Return a Number representing the current time.</summary>
     /// <returns type="Number" />
   },
   'param': function() {
@@ -354,14 +354,14 @@ intellisense.annotate(jQuery, {
     ///   <summary>Takes a function and returns a new one that will always have a particular context.</summary>
     ///   <param name="function" type="Function">The function whose context will be changed.</param>
     ///   <param name="context" type="PlainObject">The object to which the context (this) of the function should be set.</param>
-    ///   <param name="additionalArguments" type="Anything">Any number of arguments to be passed to the function referenced in the function argument.</param>
+    ///   <param name="additionalArguments" type="Anything">Any Number of arguments to be passed to the function referenced in the function argument.</param>
     ///   <returns type="Function" />
     /// </signature>
     /// <signature>
     ///   <summary>Takes a function and returns a new one that will always have a particular context.</summary>
     ///   <param name="context" type="PlainObject">The object to which the context of the function should be set.</param>
     ///   <param name="name" type="String">The name of the function whose context will be changed (should be a property of the context object).</param>
-    ///   <param name="additionalArguments" type="Anything">Any number of arguments to be passed to the function named in the name argument.</param>
+    ///   <param name="additionalArguments" type="Anything">Any Number of arguments to be passed to the function named in the name argument.</param>
     ///   <returns type="Function" />
     /// </signature>
   },
@@ -829,7 +829,7 @@ intellisense.annotate(jQuery.fn, {
     /// <signature>
     ///   <summary>Perform a custom animation of a set of CSS properties.</summary>
     ///   <param name="properties" type="PlainObject">An object of CSS properties and values that the animation will move toward.</param>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -1153,7 +1153,7 @@ intellisense.annotate(jQuery.fn, {
   'delay': function() {
     /// <signature>
     ///   <summary>Set a timer to delay execution of subsequent items in the queue.</summary>
-    ///   <param name="duration" type="Number">An integer indicating the number of milliseconds to delay execution of the next item in the queue.</param>
+    ///   <param name="duration" type="Number">An integer indicating the Number of milliseconds to delay execution of the next item in the queue.</param>
     ///   <param name="queueName" type="String">A string containing the name of the queue. Defaults to fx, the standard effects queue.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1270,7 +1270,7 @@ intellisense.annotate(jQuery.fn, {
   'fadeIn': function() {
     /// <signature>
     ///   <summary>Display the matched elements by fading them to opaque.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1281,7 +1281,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Display the matched elements by fading them to opaque.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -1290,7 +1290,7 @@ intellisense.annotate(jQuery.fn, {
   'fadeOut': function() {
     /// <signature>
     ///   <summary>Hide the matched elements by fading them to transparent.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1301,7 +1301,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Hide the matched elements by fading them to transparent.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -1310,15 +1310,15 @@ intellisense.annotate(jQuery.fn, {
   'fadeTo': function() {
     /// <signature>
     ///   <summary>Adjust the opacity of the matched elements.</summary>
-    ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
-    ///   <param name="opacity" type="Number">A number between 0 and 1 denoting the target opacity.</param>
+    ///   <param name="duration" type="Number">A string or Number determining how long the animation will run.</param>
+    ///   <param name="opacity" type="Number">A Number between 0 and 1 denoting the target opacity.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
     ///   <summary>Adjust the opacity of the matched elements.</summary>
-    ///   <param name="duration" type="Number">A string or number determining how long the animation will run.</param>
-    ///   <param name="opacity" type="Number">A number between 0 and 1 denoting the target opacity.</param>
+    ///   <param name="duration" type="Number">A string or Number determining how long the animation will run.</param>
+    ///   <param name="opacity" type="Number">A Number between 0 and 1 denoting the target opacity.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -1327,7 +1327,7 @@ intellisense.annotate(jQuery.fn, {
   'fadeToggle': function() {
     /// <signature>
     ///   <summary>Display or hide the matched elements by animating their opacity.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -1473,7 +1473,7 @@ intellisense.annotate(jQuery.fn, {
   'height': function() {
     /// <signature>
     ///   <summary>Set the CSS height of every matched element.</summary>
-    ///   <param name="value" type="Number">An integer representing the number of pixels, or an integer with an optional unit of measure appended (as a string).</param>
+    ///   <param name="value" type="Number">An integer representing the Number of pixels, or an integer with an optional unit of measure appended (as a string).</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
@@ -1488,7 +1488,7 @@ intellisense.annotate(jQuery.fn, {
   'hide': function() {
     /// <signature>
     ///   <summary>Hide the matched elements.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1499,7 +1499,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Hide the matched elements.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -1622,7 +1622,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
   },
   'jquery': function() {
-    /// <summary>A string containing the jQuery version number.</summary>
+    /// <summary>A string containing the jQuery version Number.</summary>
     /// <returns type="String" />
   },
   'keydown': function() {
@@ -1680,7 +1680,7 @@ intellisense.annotate(jQuery.fn, {
     /// <summary>Selects all elements that are the last among siblings of the same element name.</summary>
   },
   'length': function() {
-    /// <summary>The number of elements in the jQuery object.</summary>
+    /// <summary>The Number of elements in the jQuery object.</summary>
     /// <returns type="Number" />
   },
   'live': function() {
@@ -2303,7 +2303,7 @@ intellisense.annotate(jQuery.fn, {
   'show': function() {
     /// <signature>
     ///   <summary>Display the matched elements.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -2314,7 +2314,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Display the matched elements.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -2328,7 +2328,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
   },
   'size': function() {
-    /// <summary>Return the number of elements in the jQuery object.</summary>
+    /// <summary>Return the Number of elements in the jQuery object.</summary>
     /// <returns type="Number" />
   },
   'slice': function() {
@@ -2342,7 +2342,7 @@ intellisense.annotate(jQuery.fn, {
   'slideDown': function() {
     /// <signature>
     ///   <summary>Display the matched elements with a sliding motion.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -2353,7 +2353,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Display the matched elements with a sliding motion.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -2362,7 +2362,7 @@ intellisense.annotate(jQuery.fn, {
   'slideToggle': function() {
     /// <signature>
     ///   <summary>Display or hide the matched elements with a sliding motion.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -2373,7 +2373,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Display or hide the matched elements with a sliding motion.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -2382,7 +2382,7 @@ intellisense.annotate(jQuery.fn, {
   'slideUp': function() {
     /// <signature>
     ///   <summary>Hide the matched elements with a sliding motion.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -2393,7 +2393,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Hide the matched elements with a sliding motion.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -2449,7 +2449,7 @@ intellisense.annotate(jQuery.fn, {
   'toggle': function() {
     /// <signature>
     ///   <summary>Display or hide the matched elements.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -2460,7 +2460,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
     /// <signature>
     ///   <summary>Display or hide the matched elements.</summary>
-    ///   <param name="duration" type="">A string or number determining how long the animation will run.</param>
+    ///   <param name="duration" type="">A string or Number determining how long the animation will run.</param>
     ///   <param name="easing" type="String">A string indicating which easing function to use for the transition.</param>
     ///   <param name="complete" type="Function">A function to call once the animation is complete.</param>
     ///   <returns type="jQuery" />
@@ -2596,7 +2596,7 @@ intellisense.annotate(jQuery.fn, {
   'width': function() {
     /// <signature>
     ///   <summary>Set the CSS width of each element in the set of matched elements.</summary>
-    ///   <param name="value" type="Number">An integer representing the number of pixels, or an integer along with an optional unit of measure appended (as a string).</param>
+    ///   <param name="value" type="Number">An integer representing the Number of pixels, or an integer along with an optional unit of measure appended (as a string).</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>

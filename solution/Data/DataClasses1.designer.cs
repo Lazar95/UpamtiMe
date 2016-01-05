@@ -686,7 +686,7 @@ namespace Data
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _cardID;
+		private int _CardID;
 		
 		private string _question;
 		
@@ -704,8 +704,8 @@ namespace Data
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OncardIDChanging(int value);
-    partial void OncardIDChanged();
+    partial void OnCardIDChanging(int value);
+    partial void OnCardIDChanged();
     partial void OnquestionChanging(string value);
     partial void OnquestionChanged();
     partial void OnanswerChanging(string value);
@@ -723,22 +723,22 @@ namespace Data
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cardID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int cardID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CardID
 		{
 			get
 			{
-				return this._cardID;
+				return this._CardID;
 			}
 			set
 			{
-				if ((this._cardID != value))
+				if ((this._CardID != value))
 				{
-					this.OncardIDChanging(value);
+					this.OnCardIDChanging(value);
 					this.SendPropertyChanging();
-					this._cardID = value;
-					this.SendPropertyChanged("cardID");
-					this.OncardIDChanged();
+					this._CardID = value;
+					this.SendPropertyChanged("CardID");
+					this.OnCardIDChanged();
 				}
 			}
 		}
@@ -823,7 +823,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_LevelsCard", Storage="_LevelsCards", ThisKey="cardID", OtherKey="cardID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_LevelsCard", Storage="_LevelsCards", ThisKey="CardID", OtherKey="CardID")]
 		public EntitySet<LevelsCard> LevelsCards
 		{
 			get
@@ -836,7 +836,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_UsersCard", Storage="_UsersCards", ThisKey="cardID", OtherKey="cardID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_UsersCard", Storage="_UsersCards", ThisKey="CardID", OtherKey="CardID")]
 		public EntitySet<UsersCard> UsersCards
 		{
 			get
@@ -1052,7 +1052,7 @@ namespace Data
 		
 		private int _participantCount;
 		
-		private int _numberOfCards;
+		private int _NumberOfCards;
 		
 		private int _creatorID;
 		
@@ -1078,8 +1078,8 @@ namespace Data
     partial void OnsubcategoryIDChanged();
     partial void OnparticipantCountChanging(int value);
     partial void OnparticipantCountChanged();
-    partial void OnnumberOfCardsChanging(int value);
-    partial void OnnumberOfCardsChanged();
+    partial void OnNumberOfCardsChanging(int value);
+    partial void OnNumberOfCardsChanged();
     partial void OncreatorIDChanging(int value);
     partial void OncreatorIDChanged();
     #endregion
@@ -1201,22 +1201,22 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_numberOfCards", DbType="Int NOT NULL")]
-		public int numberOfCards
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumberOfCards", DbType="Int NOT NULL")]
+		public int NumberOfCards
 		{
 			get
 			{
-				return this._numberOfCards;
+				return this._NumberOfCards;
 			}
 			set
 			{
-				if ((this._numberOfCards != value))
+				if ((this._NumberOfCards != value))
 				{
-					this.OnnumberOfCardsChanging(value);
+					this.OnNumberOfCardsChanging(value);
 					this.SendPropertyChanging();
-					this._numberOfCards = value;
-					this.SendPropertyChanged("numberOfCards");
-					this.OnnumberOfCardsChanged();
+					this._NumberOfCards = value;
+					this.SendPropertyChanged("NumberOfCards");
+					this.OnNumberOfCardsChanged();
 				}
 			}
 		}
@@ -1390,9 +1390,9 @@ namespace Data
 		
 		private int _courseID;
 		
-		private int _levelID;
+		private int _LevelID;
 		
-		private int _number;
+		private int _Number;
 		
 		private EntityRef<Course> _Course;
 		
@@ -1406,10 +1406,10 @@ namespace Data
     partial void OncoursesLevelsIDChanged();
     partial void OncourseIDChanging(int value);
     partial void OncourseIDChanged();
-    partial void OnlevelIDChanging(int value);
-    partial void OnlevelIDChanged();
-    partial void OnnumberChanging(int value);
-    partial void OnnumberChanged();
+    partial void OnLevelIDChanging(int value);
+    partial void OnLevelIDChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
     #endregion
 		
 		public CoursesLevel()
@@ -1463,46 +1463,46 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_levelID", DbType="Int NOT NULL")]
-		public int levelID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL")]
+		public int LevelID
 		{
 			get
 			{
-				return this._levelID;
+				return this._LevelID;
 			}
 			set
 			{
-				if ((this._levelID != value))
+				if ((this._LevelID != value))
 				{
 					if (this._Level.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnlevelIDChanging(value);
+					this.OnLevelIDChanging(value);
 					this.SendPropertyChanging();
-					this._levelID = value;
-					this.SendPropertyChanged("levelID");
-					this.OnlevelIDChanged();
+					this._LevelID = value;
+					this.SendPropertyChanged("LevelID");
+					this.OnLevelIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="Int NOT NULL")]
-		public int number
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
 		{
 			get
 			{
-				return this._number;
+				return this._Number;
 			}
 			set
 			{
-				if ((this._number != value))
+				if ((this._Number != value))
 				{
-					this.OnnumberChanging(value);
+					this.OnNumberChanging(value);
 					this.SendPropertyChanging();
-					this._number = value;
-					this.SendPropertyChanged("number");
-					this.OnnumberChanged();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
 				}
 			}
 		}
@@ -1541,7 +1541,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_CoursesLevel", Storage="_Level", ThisKey="levelID", OtherKey="levelID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_CoursesLevel", Storage="_Level", ThisKey="LevelID", OtherKey="LevelID", IsForeignKey=true)]
 		public Level Level
 		{
 			get
@@ -1564,11 +1564,11 @@ namespace Data
 					if ((value != null))
 					{
 						value.CoursesLevels.Add(this);
-						this._levelID = value.levelID;
+						this._LevelID = value.LevelID;
 					}
 					else
 					{
-						this._levelID = default(int);
+						this._LevelID = default(int);
 					}
 					this.SendPropertyChanged("Level");
 				}
@@ -1794,7 +1794,7 @@ namespace Data
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _levelID;
+		private int _LevelID;
 		
 		private int _type;
 		
@@ -1808,8 +1808,8 @@ namespace Data
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnlevelIDChanging(int value);
-    partial void OnlevelIDChanged();
+    partial void OnLevelIDChanging(int value);
+    partial void OnLevelIDChanged();
     partial void OntypeChanging(int value);
     partial void OntypeChanged();
     partial void OnnameChanging(string value);
@@ -1823,22 +1823,22 @@ namespace Data
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_levelID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int levelID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int LevelID
 		{
 			get
 			{
-				return this._levelID;
+				return this._LevelID;
 			}
 			set
 			{
-				if ((this._levelID != value))
+				if ((this._LevelID != value))
 				{
-					this.OnlevelIDChanging(value);
+					this.OnLevelIDChanging(value);
 					this.SendPropertyChanging();
-					this._levelID = value;
-					this.SendPropertyChanged("levelID");
-					this.OnlevelIDChanged();
+					this._LevelID = value;
+					this.SendPropertyChanged("LevelID");
+					this.OnLevelIDChanged();
 				}
 			}
 		}
@@ -1883,7 +1883,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_CoursesLevel", Storage="_CoursesLevels", ThisKey="levelID", OtherKey="levelID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_CoursesLevel", Storage="_CoursesLevels", ThisKey="LevelID", OtherKey="LevelID")]
 		public EntitySet<CoursesLevel> CoursesLevels
 		{
 			get
@@ -1896,7 +1896,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_LevelsCard", Storage="_LevelsCards", ThisKey="levelID", OtherKey="levelID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_LevelsCard", Storage="_LevelsCards", ThisKey="LevelID", OtherKey="LevelID")]
 		public EntitySet<LevelsCard> LevelsCards
 		{
 			get
@@ -1962,11 +1962,11 @@ namespace Data
 		
 		private int _levelsCardsID;
 		
-		private int _levelID;
+		private int _LevelID;
 		
-		private int _cardID;
+		private int _CardID;
 		
-		private int _number;
+		private int _Number;
 		
 		private EntityRef<Card> _Card;
 		
@@ -1978,12 +1978,12 @@ namespace Data
     partial void OnCreated();
     partial void OnlevelsCardsIDChanging(int value);
     partial void OnlevelsCardsIDChanged();
-    partial void OnlevelIDChanging(int value);
-    partial void OnlevelIDChanged();
-    partial void OncardIDChanging(int value);
-    partial void OncardIDChanged();
-    partial void OnnumberChanging(int value);
-    partial void OnnumberChanged();
+    partial void OnLevelIDChanging(int value);
+    partial void OnLevelIDChanged();
+    partial void OnCardIDChanging(int value);
+    partial void OnCardIDChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
     #endregion
 		
 		public LevelsCard()
@@ -2013,75 +2013,75 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_levelID", DbType="Int NOT NULL")]
-		public int levelID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL")]
+		public int LevelID
 		{
 			get
 			{
-				return this._levelID;
+				return this._LevelID;
 			}
 			set
 			{
-				if ((this._levelID != value))
+				if ((this._LevelID != value))
 				{
 					if (this._Level.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnlevelIDChanging(value);
+					this.OnLevelIDChanging(value);
 					this.SendPropertyChanging();
-					this._levelID = value;
-					this.SendPropertyChanged("levelID");
-					this.OnlevelIDChanged();
+					this._LevelID = value;
+					this.SendPropertyChanged("LevelID");
+					this.OnLevelIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cardID", DbType="Int NOT NULL")]
-		public int cardID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardID", DbType="Int NOT NULL")]
+		public int CardID
 		{
 			get
 			{
-				return this._cardID;
+				return this._CardID;
 			}
 			set
 			{
-				if ((this._cardID != value))
+				if ((this._CardID != value))
 				{
 					if (this._Card.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OncardIDChanging(value);
+					this.OnCardIDChanging(value);
 					this.SendPropertyChanging();
-					this._cardID = value;
-					this.SendPropertyChanged("cardID");
-					this.OncardIDChanged();
+					this._CardID = value;
+					this.SendPropertyChanged("CardID");
+					this.OnCardIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="Int NOT NULL")]
-		public int number
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
 		{
 			get
 			{
-				return this._number;
+				return this._Number;
 			}
 			set
 			{
-				if ((this._number != value))
+				if ((this._Number != value))
 				{
-					this.OnnumberChanging(value);
+					this.OnNumberChanging(value);
 					this.SendPropertyChanging();
-					this._number = value;
-					this.SendPropertyChanged("number");
-					this.OnnumberChanged();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_LevelsCard", Storage="_Card", ThisKey="cardID", OtherKey="cardID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_LevelsCard", Storage="_Card", ThisKey="CardID", OtherKey="CardID", IsForeignKey=true)]
 		public Card Card
 		{
 			get
@@ -2104,18 +2104,18 @@ namespace Data
 					if ((value != null))
 					{
 						value.LevelsCards.Add(this);
-						this._cardID = value.cardID;
+						this._CardID = value.CardID;
 					}
 					else
 					{
-						this._cardID = default(int);
+						this._CardID = default(int);
 					}
 					this.SendPropertyChanged("Card");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_LevelsCard", Storage="_Level", ThisKey="levelID", OtherKey="levelID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_LevelsCard", Storage="_Level", ThisKey="LevelID", OtherKey="LevelID", IsForeignKey=true)]
 		public Level Level
 		{
 			get
@@ -2138,11 +2138,11 @@ namespace Data
 					if ((value != null))
 					{
 						value.LevelsCards.Add(this);
-						this._levelID = value.levelID;
+						this._LevelID = value.LevelID;
 					}
 					else
 					{
-						this._levelID = default(int);
+						this._LevelID = default(int);
 					}
 					this.SendPropertyChanged("Level");
 				}
@@ -3113,7 +3113,7 @@ namespace Data
 		
 		private int _userID;
 		
-		private int _cardID;
+		private int _CardID;
 		
 		private bool _ignore;
 		
@@ -3135,8 +3135,8 @@ namespace Data
     partial void OnusersCardsIDChanged();
     partial void OnuserIDChanging(int value);
     partial void OnuserIDChanged();
-    partial void OncardIDChanging(int value);
-    partial void OncardIDChanged();
+    partial void OnCardIDChanging(int value);
+    partial void OnCardIDChanged();
     partial void OnignoreChanging(bool value);
     partial void OnignoreChanged();
     partial void OnlastSeenChanging(System.Nullable<System.DateTime> value);
@@ -3198,26 +3198,26 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cardID", DbType="Int NOT NULL")]
-		public int cardID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardID", DbType="Int NOT NULL")]
+		public int CardID
 		{
 			get
 			{
-				return this._cardID;
+				return this._CardID;
 			}
 			set
 			{
-				if ((this._cardID != value))
+				if ((this._CardID != value))
 				{
 					if (this._Card.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OncardIDChanging(value);
+					this.OnCardIDChanging(value);
 					this.SendPropertyChanging();
-					this._cardID = value;
-					this.SendPropertyChanged("cardID");
-					this.OncardIDChanged();
+					this._CardID = value;
+					this.SendPropertyChanged("CardID");
+					this.OnCardIDChanged();
 				}
 			}
 		}
@@ -3302,7 +3302,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_UsersCard", Storage="_Card", ThisKey="cardID", OtherKey="cardID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_UsersCard", Storage="_Card", ThisKey="CardID", OtherKey="CardID", IsForeignKey=true)]
 		public Card Card
 		{
 			get
@@ -3325,11 +3325,11 @@ namespace Data
 					if ((value != null))
 					{
 						value.UsersCards.Add(this);
-						this._cardID = value.cardID;
+						this._CardID = value.CardID;
 					}
 					else
 					{
-						this._cardID = default(int);
+						this._CardID = default(int);
 					}
 					this.SendPropertyChanged("Card");
 				}

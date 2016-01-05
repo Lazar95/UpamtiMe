@@ -8,25 +8,27 @@ namespace Data
 {
     public class Cards
     {
-        public static int countCards(int levelID)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a in dc.LevelsCards
-                    where a.levelID == levelID
-                    select a).Count();
-        }
+        //lazino staro nesto
+        /////////////////////////
+        //public static int countCards(int levelID)
+        //{
+        //    DataClasses1DataContext dc = new DataClasses1DataContext();
+        //    return (from a in dc.LevelsCards
+        //            where a.levelID == levelID
+        //            select a).Count();
+        //}
 
-        public static List<Data.CardsDTO> getCardsFor(int levelID)
+        public static List<Data.CardDTO> getCardsFor(int levelID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.LevelsCards
                     join b in dc.Cards
-                    on a.cardID equals b.cardID
-                    where a.levelID == levelID
-                    select new CardsDTO()
+                    on a.CardID equals b.CardID
+                    where a.LevelID == levelID
+                    select new CardDTO()
                     {
-                        // Zar ovo ne treba da bude u konstruktoru klase CardsDTO?
-                        cardID = b.cardID,
+                        // Zar ovo ne treba da bude u konstruktoru klase CardDTO?
+                        CardID = b.CardID,
                         Question = b.question,
                         Answer = b.answer,
                         Descrption = b.description,

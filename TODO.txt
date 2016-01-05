@@ -1,5 +1,4 @@
 Jajac: 
-index: npravi kurs, lista kurseva, rang lista prijatelja
 edit profile
 
 Masa: 

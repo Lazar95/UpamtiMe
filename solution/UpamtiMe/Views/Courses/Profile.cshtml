@@ -129,8 +129,6 @@
 
     @if (Model.Statistics == null)
     {
-        <input type="submit" class="button" value="Enroll me (nece da radi, vrv si ga ti disablovao, radi link)" formaction='@Url.Action("Enroll", "Courses", new {id = Model.CourseID}, null)' />
-
         @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
     }
    

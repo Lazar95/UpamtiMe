@@ -34,7 +34,7 @@
     @Html.AntiForgeryToken()
 
     <span>Treba ovako: i poslednji element da bude textbox za dodavanje tj kartice ce moratid a budu tabela nebitno sad</span>
-    
+
     <ul>
         @foreach (LevelsDTO level in Model.Levels)
         {
@@ -59,10 +59,13 @@
                     </li>
                 }
                 <li>
-                    
+                    @* ovde polje za dodavanje reci u nivou *@
                 </li>
             </ul>
         }
+        <li>
+            @* ovde polje za dodavanje nivoa *@
+        </li>
 
     </ul>
     <div class="form-horizontal">

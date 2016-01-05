@@ -3,6 +3,7 @@
 @import 'ljubenovic-toolkit';
 @import 'palette';
 
+$font-stack: sans-serif;
 $font-stack: 'Roboto', sans-serif;
 
 /* http://meyerweb.com/eric/tools/css/reset/
@@ -115,6 +116,8 @@ header {
 
 
 main {
+
+	position: relative;
 
 	.workspace {
     flex-grow: 1; // da se workspace rasiri kolko moze i tako prilepo progress skroz dole
@@ -679,7 +682,7 @@ main {
 
 						#no {
 							// Vec znam ocu rec, ne zelim da provedem vreme uceci je.
-							
+
 							button {
 								background-color: transparent;
 								font-size: 14px;
@@ -850,6 +853,134 @@ main {
 		}
 	}
 
+	#cover {
+		display: none;
+	}
+
+	#cover.show {
+		background-color: palette($blue-grey, 700);
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		opacity: 1;
+		animation: cover 1s ease;
+		overflow: hidden;
+
+		@keyframes cover {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+
+		aside {
+			width: 80%;
+			height: 80%;
+			background-color: palette($blue-grey, 100);
+			@include z-depth(2);
+			animation: cover-aside 1s ease;
+			display: flex;
+			flex-flow: column;
+			justify-content: space-around;
+			align-items: center;
+			position: relative;
+
+			@keyframes cover-aside {
+				from { transform: scale(1.4) }
+				to { transform: scale(1) }
+			}
+
+			&>* {
+				width: 100%;
+			}
+
+			.message {
+				text-align: center;
+
+				.title {
+					font-size: 64px;
+					font-weight: bold;
+					color: palette($pink);
+				}
+
+				.subtitle {
+					font-size: 24px;
+					color: palette($blue-grey, 600);
+				}
+			}
+
+			.info {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.total-score {
+					font-size: 108px;
+					font-weight: bold;
+					color: palette($pink);
+					padding: 16px;
+					width: 230px; // da mogu da stanu 4 cifre unutra
+					margin: 16px;
+					text-align: center;
+				}
+
+				.additional {
+					$h: 36px;
+
+					height: $h;
+					width: 280px;
+					border: 1px black solid;
+					position: relative;
+
+					ul {
+						position: absolute;
+						height: 100%;
+						width: 100%;
+						line-height: $h;
+
+						&.show-1 { margin-top: 0; }
+						&.show-2 { margin-top: -$h; }
+						&.show-3 { margin-top: -2*$h; }
+
+						li {
+							height: 100%;
+							width: 100%;
+							font-size: 0.4 * $h;
+							position: relative;
+
+							span {
+								font-size: 0.9 * $h;
+								color: palette($pink);
+								display: block;
+								font-weight: bold;
+								position: absolute;
+								right: 0;
+								top: 0;
+							}
+						}
+					}
+				}
+			}
+
+			.actions {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				button {
+					width:  72px;
+					height: 72px;
+					@include z-depth(1);
+					margin: 8px;
+				}
+			}
+
+		}
+	}
+
 }
 
 
@@ -953,10 +1084,6 @@ main#review-session {
 
 }
 
-/**
- * Learn Session
- */
-
 main#learn-session {
 
 	.workspace {
@@ -975,6 +1102,166 @@ main#learn-session {
 	}
 
 }
+
+main#spajalica {
+
+	.cards {
+		position: relative;
+
+		ul {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-content: space-between;
+
+			li {
+				position: relative;
+				width: 32%;
+				height: 32%;
+				display: flex;
+				justify-content: center;
+				align-content: center;
+				align-items: center;
+				text-align: center;
+				word-break: break-word;
+
+				.chip {
+					@include z-depth(1);
+					position: relative;
+					width: 100%;
+					height: 100%;
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					background-color: palette($blue-grey, 100);
+					overflow: hidden;
+					transform: scale(1);
+					transition: all .2s ease;
+
+					& > div {
+						display: block;
+						margin-left: 5%;
+						@include force-width(90%);
+						@include force-height(90%);
+						display: flex;
+						justify-content: center;
+						align-items: center;
+
+						& > span {
+							display: block;
+							font-size: 32px;
+						}
+
+						&.old {
+							@include force-width(0);
+							opacity: 0;
+							margin-left: 0;
+							animation: show-chip .33s ease;
+						}
+
+						&.new {
+							//background-color: palette($yellow);
+						}
+					}
+
+					&.selected {
+						@include z-depth(2);
+						background-color: palette($blue-grey, 50);
+						transform: scale(1.02);
+					}
+
+					&.incorrect {
+						background-color: palette($red, 200);
+						transform: scale(1) rotate(0deg);
+						animation: chip-incorrect .5s ease 0s infinite alternate;
+					}
+
+					@keyframes chip-incorrect {
+						0%   { transform: scale(1)    translate(0px, 0px); }
+						12.5%  { transform: scale(0.96) translate(2px, 0px); }
+						25%  { transform: scale(0.96) translate(-2px, 0px); }
+						37.5%  { transform: scale(0.96) translate(2px, 0px); }
+						50%  { transform: scale(0.96) translate(-2px, 0px); }
+						62.5%  { transform: scale(0.96) translate(2px, 0px); }
+						75%  { transform: scale(0.96) translate(-2px, 0px); }
+						87.5%  { transform: scale(0.96) translate(2px, 0px); }
+						100% { transform: scale(1)    translate(0px, 0px); }
+					}
+
+					&.correct {
+						background-color: palette($green, 200);
+						transform: scale(1.04);
+					}
+
+					@keyframes show-chip {
+						0% {
+							@include  force-width(90%);
+							opacity: 1;
+							margin-left: 5%;
+						}
+						50% {
+							opacity: 0;
+						}
+						100% {
+							@include  force-width(0);
+							margin-left: 0;
+						}
+					}
+
+					&[data-qa="q"] {
+						font-weight: bold;
+						color: palette($pink, 600);
+					}
+
+
+				}
+
+				.chip:hover {
+					transform: scale(0.98);
+				}
+			}
+		}
+	}
+
+	.timer {
+		flex-grow: 0;
+		margin-left: 20px;
+		@include force-width(12px);
+		@include z-depth(1);
+		background-color: palette($blue-grey, 400);
+		border-radius: 6px;
+		position: relative;
+
+		div {
+			background-color: palette($blue-grey, 100);
+			position: absolute;
+			border-radius: 6px;
+			bottom: 0;
+			width: 100%;
+			height: 60%;
+			transition: background-color .33s ease;
+
+			span {
+				display: block;
+				position: absolute;
+				left: 20px;
+				font-weight: bold;
+				opacity: 0.4;
+			}
+
+			&.danger {
+				background-color: palette($pink, 600);
+			}
+		}
+	}
+
+
+
+}
+
 
 
 

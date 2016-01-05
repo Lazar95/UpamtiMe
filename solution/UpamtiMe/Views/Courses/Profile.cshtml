@@ -1,0 +1,138 @@
+﻿@using Data
+@using Data.DTOs
+@model UpamtiMe.Models.CourseProfileModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <h4>CourseProfileModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoryID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubcategoryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubcategoryID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfCards)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfCards)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParticipantCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParticipantCount)
+        </dd>
+
+    </dl>
+
+    @* statistika korisnika ako je prijavljen na kurs *@
+
+    @if (Model.Statistics != null)
+    {
+        <span>@Model.Statistics.Learned</span>
+        <span>@Model.Statistics.Total</span>
+        <span>@Model.Statistics.Review</span>
+    }
+
+    @* Nivoe kopiram iz editCourse *@
+    <ul>
+        @foreach (LevelsDTO level in Model.Levels)
+        {
+            <li>@level.Name</li>
+            <ul>
+                @foreach (CardsDTO card in level.Cards)
+                {
+                    <li>
+                        @if (card.Question != null)
+                        {
+                            @Html.EditorFor(m => card.Question, card.Question)
+                        }
+                        else
+                        {
+                            if (card.Image != null)
+                            {
+                                <span>@card.Image</span>
+                                <span>upload dugme</span>
+                            }
+                        }
+                        @Html.EditorFor(m => card.Answer, card.Answer)
+                    </li>
+                }
+                <li>
+
+                </li>
+            </ul>
+        }
+    </ul>
+
+    @* Leaderbord kopiram iz userIndex *@
+    <div id="leaderbord">
+        <p>All Time</p>
+
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
+        {
+            <span>@lde.Username</span>
+            <span>@lde.AllTimeScore</span>
+        }
+
+        <p>This Week</p>
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
+        {
+            <span>@lde.Username</span>
+            <span>@lde.WeekScore</span>
+        }
+
+        <p>This Month</p>
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
+        {
+            <span>@lde.Username</span>
+            <span>@lde.MonthScore</span>
+        }
+    </div>
+
+    @if (Model.Statistics == null)
+    {
+        @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
+    }
+   
+
+
+</div>
+

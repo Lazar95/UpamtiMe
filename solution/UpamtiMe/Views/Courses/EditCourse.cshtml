@@ -23,9 +23,7 @@
         subcategories.Add(new SelectListItem
         {
             Text = sub.name,
-            Value = ((int)sub.subcategoryID).ToString() + ,
-            
-
+            Value = ((int)sub.subcategoryID).ToString()
         });
     }
 }
@@ -36,7 +34,7 @@
     @Html.AntiForgeryToken()
 
     <span>Treba ovako: i poslednji element da bude textbox za dodavanje tj kartice ce moratid a budu tabela nebitno sad</span>
-    
+
     <ul>
         @foreach (LevelsDTO level in Model.Levels)
         {
@@ -60,8 +58,14 @@
                         @Html.EditorFor(m => card.Answer, card.Answer)
                     </li>
                 }
+                <li>
+                    @* ovde polje za dodavanje reci u nivou *@
+                </li>
             </ul>
         }
+        <li>
+            @* ovde polje za dodavanje nivoa *@
+        </li>
 
     </ul>
     <div class="form-horizontal">

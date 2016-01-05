@@ -25,7 +25,7 @@ namespace UpamtiMe.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(Models.UserIndexModel model)
+        public ActionResult Login(Models.HomeIndexModel model)
         {
             Data.DTOs.LoginDTO ld = Data.Entities.Login.CreateLoginDTO(model.Login);
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.IncorrectPassword)
@@ -47,7 +47,7 @@ namespace UpamtiMe.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(Models.UserIndexModel model)
+        public ActionResult Register(Models.HomeIndexModel model)
         {
             Data.DTOs.LoginDTO ld = Data.Entities.Login.CreateRegisterLoginDTO(model.Register);
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.UsernameExists)

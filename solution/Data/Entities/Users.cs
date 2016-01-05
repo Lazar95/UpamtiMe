@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data.DTOs;
 
 namespace Data
 {
@@ -71,6 +72,73 @@ namespace Data
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Users where a.email == email select a).Any();
+        }
+
+        
+
+        public static List<LeaderboardEntryDTO> getLeaderboard(int userID, int? courseID = null)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            List<int> friendIDs;
+            if (courseID == null)
+            {
+                friendIDs = (from a in dc.Users
+                    from b in dc.Friendships
+                    where a.userID == b.user1ID || a.userID == b.user2ID
+                    select a.userID == b.user1ID ? b.user2ID : b.user1ID).ToList();
+            }
+            else
+            {
+                friendIDs = (from a in dc.Users
+                             from b in dc.Friendships
+                             from c in dc.UsersCourses
+                             where (a.userID == b.user1ID || a.userID == b.user2ID) && ( c.courseID == courseID && c.userID == b.user1ID && c.userID == b.user2ID)
+                             select a.userID == b.user1ID ? b.user2ID : b.user1ID).ToList();
+            }
+
+            return (from a in friendIDs
+                           join b in dc.Users
+                               on a equals b.userID
+                           select new LeaderboardEntryDTO()
+                           {
+                               UserID = b.userID,
+                               Username = b.username,
+                               FristName = b.name,
+                               LastName = b.surname,
+                               WeekScore = b.thisWeekScore,
+                               MonthScore = b.thisMonthScore,
+                               AllTimeScore = b.score
+                           }).ToList();
+
+        }
+
+        public static Boolean enrolled(int userID, int courseID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).Any();
+        }
+
+        public static UsersCourse enroll(int userID, int courseID)
+        {
+            if (enrolled(userID, courseID))
+                return null;
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            UsersCourse uc = new UsersCourse
+            {
+                userID = userID,
+                courseID = courseID,
+                startDate = DateTime.Now,
+                score = 0,
+                lastPlayed = null,
+                thisWeekScore = 0,
+                thisMothScore = 0
+            };
+
+            dc.UsersCourses.InsertOnSubmit(uc);
+            dc.SubmitChanges();
+
+            return uc;
         }
 
     }

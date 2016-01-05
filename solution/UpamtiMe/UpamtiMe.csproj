@@ -122,10 +122,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CourseIndexModel.cs" />
+    <Compile Include="Models\CourseProfileModel.cs" />
     <Compile Include="Models\CreateNewCourseModel.cs" />
     <Compile Include="Models\EditCourseModel.cs" />
     <Compile Include="Models\ProfilePageModel.cs" />
+    <Compile Include="Models\HomeIndexModel.cs" />
     <Compile Include="Models\UserIndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserSession.cs" />
@@ -135,11 +136,12 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Courses\EditCourse.cshtml" />
     <Content Include="Views\Courses\CreateNew.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Courses\Profile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

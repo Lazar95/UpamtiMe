@@ -58,12 +58,7 @@ var addLevel = function() {
  * Bindovanje funkcija za dugmad
  */
 $('#new-level .add-button').click(function() {
-  alert('dafgsd');
-  //addLevel();
-});
-
-$( "#new-level .add-button" ).click(function() {
-  alert( "Handler for .click() called." );
+  addLevel();
 });
 
 var dump = function() {

@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UpamtiMe.Models;
 
 namespace UpamtiMe.Controllers
 {
     public class UsersController : Controller
     {
         // GET: Users
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            UserIndexModel uim = UserIndexModel.Load(id);
+            return View(uim);
         }
 
         [HttpPost]

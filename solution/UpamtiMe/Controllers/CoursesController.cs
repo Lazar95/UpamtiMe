@@ -17,6 +17,22 @@ namespace UpamtiMe.Controllers
             return View();
         }
 
+        public ActionResult Profile(int id)
+        {
+            int usrID = UserSession.GetUser().UserID;
+            CourseProfileModel model;
+            if (Users.enrolled(usrID, id))
+            {
+                model = CourseProfileModel.Load(id, usrID);
+            }
+            else
+            {
+                model = CourseProfileModel.Load(id);
+            }
+            
+            return View(model);
+        }
+
         public ActionResult CreateNew()
         {
             Models.CreateNewCourseModel model = new CreateNewCourseModel();

@@ -82,6 +82,49 @@ namespace Data
             return returnValue;
         }
 
+        public static CourseUsersStatisticsDTO getUserCourseStatistics(Course course, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+
+            var lastNext = (from cl in dc.CoursesLevels
+                            from lc in dc.LevelsCards
+                            from cu in dc.UsersCards
+                            where
+                                cl.courseID == course.courseID && cl.levelID == lc.levelID && lc.cardID == cu.userID &&
+                                cu.ignore == false
+                            select new
+                            {
+                                last = cu.lastSeen,
+                                next = cu.nextSee,
+
+                            }).ToList();
+
+            CourseUsersStatisticsDTO returnValue = new CourseUsersStatisticsDTO();
+
+            returnValue.Total = 0;
+            returnValue.Learned = 0;
+            returnValue.Review = 0;
+
+            foreach (var a in lastNext)
+            {
+                returnValue.Total++;
+
+                if (a.last != null)
+                {
+                    if (a.next > DateTime.Now)
+                    {
+                        returnValue.Learned++;
+                    }
+                    else
+                    {
+                        returnValue.Review++;
+                    }
+                }
+            }
+
+            return returnValue;
+        }
+
         public static List<UserCourseDTO> getCoursesOf(int userID, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
@@ -95,39 +138,7 @@ namespace Data
 
             foreach (Course course in courses)
             {
-                var lastNext = (from cl in dc.CoursesLevels
-                    from lc in dc.LevelsCards
-                    from cu in dc.UsersCards
-                    where
-                        cl.courseID == course.courseID && cl.levelID == lc.levelID && lc.cardID == cu.userID &&
-                        cu.ignore == false
-                    select new
-                    {
-                        last = cu.lastSeen,
-                        next = cu.nextSee,
-
-                    }).ToList();
-
-                int total = 0;
-                int review = 0;
-                int learned = 0;
-
-                foreach (var a in lastNext)
-                {
-                    total++;
-
-                    if (a.last != null)
-                    {
-                        if (a.next > DateTime.Now)
-                        {
-                            learned++;
-                        }
-                        else
-                        {
-                            review++;
-                        }
-                    }
-                }
+                CourseUsersStatisticsDTO cus = getUserCourseStatistics(course, dc);
 
                 UserCourseDTO ucd = new UserCourseDTO
                 {
@@ -135,9 +146,9 @@ namespace Data
                     CategoryID = course.categoryID,
                     SubcategoryID = course.subcategoryID,
                     Name = course.name,
-                    CardsLearned = learned,
-                    TotalCards = total,
-                    ReviewCount = review
+                    CardsLearned = cus.Learned,
+                    TotalCards = cus.Total,
+                    ReviewCount = cus.Review
                 };
 
                 retrunValue.Add(ucd);
@@ -151,6 +162,28 @@ namespace Data
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Subcategories where a.subcategoryID == subID select a.name).First();
+        }
+
+        public static List<LeaderboardEntryDTO> getLeaderboard(int courseID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            List<int> usersList = (from a in dc.UsersCourses where a.courseID == courseID select a.userID).ToList();
+
+            return (from a in usersList
+                    join b in dc.Users
+                        on a equals b.userID
+                    select new LeaderboardEntryDTO()
+                    {
+                        UserID = b.userID,
+                        Username = b.username,
+                        FristName = b.name,
+                        LastName = b.surname,
+                        WeekScore = b.thisWeekScore,
+                        MonthScore = b.thisMonthScore,
+                        AllTimeScore = b.score
+                    }).ToList();
+
         }
     }
 

@@ -74,6 +74,7 @@ namespace Data
             return (from a in dc.Users where a.email == email select a).Any();
         }
 
+        
 
         public static List<LeaderboardEntryDTO> getLeaderboard(int userID, int? courseID = null)
         {
@@ -110,6 +111,12 @@ namespace Data
                                AllTimeScore = b.score
                            }).ToList();
 
-        } 
+        }
+
+        public static Boolean enrolled(int userID, int courseID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).Any();
+        }
     }
 }

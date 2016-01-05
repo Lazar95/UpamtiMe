@@ -122,7 +122,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CourseIndexModel.cs" />
+    <Compile Include="Models\CourseProfileModel.cs" />
     <Compile Include="Models\CreateNewCourseModel.cs" />
     <Compile Include="Models\EditCourseModel.cs" />
     <Compile Include="Models\ProfilePageModel.cs" />
@@ -141,6 +141,7 @@
     <Content Include="Views\Courses\CreateNew.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Courses\Profile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

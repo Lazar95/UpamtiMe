@@ -18,7 +18,7 @@ var viewToData = function() {
           "question": $(this).children('.question').text(),
           "answer": $(this).children('.answer').text(),
           "description": $(this).children('.description').text(),
-          "level": $(this).parent().attr('data-level-id'),
+          "levelID": $(this).parent().attr('data-level-id'),
           "status": UNTOUCHED,
         }
       );
@@ -102,7 +102,7 @@ var addCard = function(level) {
     "question": $('#course > li:nth-child(' + level + ') .new-card input.question').val(),
     "answer": $('#course > li:nth-child(' + level + ') .new-card input.answer').val(),
     "description": $('#course > li:nth-child(' + level + ') .new-card input.description').val(),
-    "level": _course[level - 1].levelID.toString(),
+    "levelID": _course[level - 1].levelID.toString(),
     "status": NEW,
   }
 
@@ -148,7 +148,7 @@ var save = function() {
 
   console.log(_dataToSend)
 
-  /*
+  
   $.ajax({
       url: "/Courses/EditCourse", // /kontroler/akcija (klasa/funkcija u klasi)
       method: "POST",
@@ -161,7 +161,7 @@ var save = function() {
           }
       }
   });
-  */
+  
 }
 
 /**

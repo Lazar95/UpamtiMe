@@ -28,131 +28,38 @@
     }
 }
 
-@* @using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <ul id="course" data-course-id=@Model.CategoryID>
-        @foreach (LevelsDTO level in Model.Levels)
-        {
-            <li><span>@level.Name</span>
-                <ul class="level" data-level-id=@level.LevelID>
-                    @foreach (CardDTO card in level.Cards)
-                    {
-                        <li data-card-id=@card.CardID data-card-number=@card.Number>
-                            @if (card.Question != null)
-                            {
-                               <span class="question">@card.Question</span>
-                            }
-                            else
-                            {
-                                if (card.Image != null)
-                                {
-                                    <span class="image">@card.Image</span>
-                                    <div>upload dugme</div>
-                                }
-                            }
-                            <span class="answer">@card.Answer</span>
-                            <div class="add-button">Promeni</div>
-                        </li>
-                    }
-                    <li>
-                        Pitanje: <input type="text" />
-                        Odgovor: <input type="text" />
-                        <div class="add-button">Dodaj!</div>
-                    </li>
-                </ul>
-            </li>
-        }
-        <li id="new-level">
-            Tip nivoa:
-            <select>
-                <option value="simple">simple</option>
-                <option value="complex">complex</option>
-                <option value="image">image</option>
-            </select>
-            Ime nivoa: <input type="text" /> <div class="add-button">Dodaj</div>
-        </li>
-
-    </ul>
-
-
-    <div class="basic-info">
-        <h1><span class="editable">@Model.Name</span></h1>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control course-name" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "form-control course-cat" } })
-                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SubcategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SubcategoryID, new { htmlAttributes = new { @class = "form-control course-subcat" } })
-                @Html.ValidationMessageFor(model => model.SubcategoryID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfCards, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberOfCards, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumberOfCards, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <!--<div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>-->
-        <div class="button" id="save">Sacuvaj</div>
-    </div>
-} *@
 
 <main id="edit-course">
 
     <div class="basic-info">
         <h1 id="course-name"><span class="editable">@Model.Name</span></h1>
 
-        <div class="description">
-            <!-- TODO MASKE Moja verzija baze/cegavec nema to. -->
-        </div>
+    <div class="description">
+        <span>@Model.Description</span>
+    </div>
 
-        <!-- TODO MASO HELP Kako da pustim petlju i idem u krug po svim kategorijama i kad naidjem na kategoriju kojoj pripada kurs da stavim ovo "selected" -->
         <div class="cat-subcat">
             <select id="category">
-                <option value="cat1">Kategorija 1</option>
-                <option value="cat2">Kategorija 2</option>
-                <option value="cat3" selected>Kategorija 3</option>
-                <option value="cat4">Kategorija 4</option>
+                @foreach (var cat in categories)
+                {
+                    <option value="@cat.Value" @( cat.Value == Model.CategoryID.ToString() ? "selected" : "" )>@cat.Text</option>
+                }
             </select>
 
-            <select id="subcategory">
-                <option value="subcat1">Podkategorija 1</option>
-                <option value="subcat2">Podkategorija 2</option>
-                <option value="subcat3" selected>Podkategorija 3</option>
-                <option value="subcat4">Podkategorija 4</option>
-            </select>
-        </div>
 
-        <!--<div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>-->
-    </div>
+            
+            <select id="subcategory" data-subcat ="@Model.SubcategoryID">
+                @foreach (var subcat in Model.AllSubcategories)
+                {
+                    <option value="@subcat.subcategoryID" data-catID="@subcat.categoryID"> @subcat.name </option>
+                }
+            </select>
+        
+       </div>
+
+
+
+     </div>
 
     <ul id="course" data-course-id=@Model.CategoryID>
         @foreach (LevelsDTO level in Model.Levels)

@@ -121,7 +121,7 @@ namespace UpamtiMe.Controllers
                 int newnum = oldnum + numAdded - numDeleted;
                 
 
-                Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, newnum);
+                Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, newnum, model.Description);
 
                 return Json(new {success = true});
                 return RedirectToAction("EditCourse", new { id = model.CourseID });

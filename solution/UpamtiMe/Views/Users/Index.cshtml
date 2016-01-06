@@ -13,27 +13,28 @@
 
     <div id="leaderbord">
         <p>All Time</p>
-        
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a=>a.AllTimeScore))
+
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
         {
-            <span>@lde.Username</span>
-            <span>@lde.AllTimeScore</span>
+            <span>Username: @lde.Username</span>
+            <span>AllTimeScore: @lde.AllTimeScore</span>
         }
 
         <p>This Week</p>
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a=>a.WeekScore))
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
         {
-            <span>@lde.Username</span>
-            <span>@lde.WeekScore</span>
+            <span>Username: @lde.Username</span>
+            <span>WeekScore: @lde.WeekScore</span>
         }
 
         <p>This Month</p>
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a=>a.MonthScore))
+        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
         {
-            <span>@lde.Username</span>
-            <span>@lde.MonthScore</span>
+            <span>Username: @lde.Username</span>
+            <span>MonthScore: @lde.MonthScore</span>
         }
     </div>
+
     <div id="courses">
         @foreach (UserCourseDTO ucd in Model.Courses)
         {
@@ -44,7 +45,8 @@
                 //ovo treba da se izmeni, da bude string direktno u modelu
                 <span>@Courses.getSubcategoryName((int) ucd.SubcategoryID)</span>
             }
-
+            <br/>
+            <span>Statistics: Learned/Total/Review</span>
             <span>@ucd.CardsLearned</span>
             <span>@ucd.ReviewCount</span>
             <span>@ucd.TotalCards</span>

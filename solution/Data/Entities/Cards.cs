@@ -18,20 +18,20 @@ namespace Data
         //            select a).Count();
         //}
 
-        public static List<Data.CardDTO> getCardsFor(int levelID)
+        public static List<Data.CardDTO> getCardsFor(int levelID, DataClasses1DataContext dc = null)
         {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
+            dc = dc ?? new DataClasses1DataContext();
             return (from a in dc.LevelsCards
                     join b in dc.Cards
-                    on a.CardID equals b.CardID
-                    where a.LevelID == levelID
+                    on a.cardID equals b.cardID
+                    where a.levelID == levelID
                     select new CardDTO()
                     {
-                        // Zar ovo ne treba da bude u konstruktoru klase CardDTO?
-                        CardID = b.CardID,
+                        CardID = b.cardID,
                         Question = b.question,
                         Answer = b.answer,
                         Descrption = b.description,
+                        Number = a.number
                         // Image = b.image,
                         // Ovo nece zbog tipa, nebitno sad
                     }).ToList();

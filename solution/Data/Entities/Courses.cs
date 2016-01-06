@@ -40,7 +40,7 @@ namespace Data
                 name = name,
                 categoryID = categoryID,
                 participantCount = 1, // creator is the only participant
-                NumberOfCards = numberOfCards,
+                numberOfCards = numberOfCards,
                 creatorID = creatorID,
             };
 
@@ -91,7 +91,7 @@ namespace Data
                             from lc in dc.LevelsCards
                             from cu in dc.UsersCards
                             where
-                                cl.courseID == course.courseID && cl.LevelID == lc.LevelID && lc.CardID == cu.userID &&
+                                cl.courseID == course.courseID && cl.levelID == lc.levelsCardsID && lc.cardID == cu.userID &&
                                 cu.ignore == false
                             select new
                             {
@@ -187,14 +187,15 @@ namespace Data
 
         }
 
-        public static Course updateCourseInfo(int courseID, string name, int catID, int subID, int numCards)
+        public static Course updateCourseInfo(int courseID, string name, int catID, int subID, int numCards, string description)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             Course course = (from a in dc.Courses where a.courseID == courseID select a).First();
             course.name = name;
-            course.categoryID = catID;
-            course.subcategoryID = subID;
-            course.NumberOfCards = numCards;
+            course.description = description;
+            //course.categoryID = catID;
+            //course.subcategoryID = subID;
+            course.numberOfCards = numCards;
             dc.SubmitChanges();
             return course;
         }
@@ -204,9 +205,9 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             foreach (int card in cardIDs)
             {
-                Card c = (from a in dc.Cards where a.CardID == card select a).First();
-                LevelsCard lc = (from a in dc.LevelsCards where a.CardID == card select a).First();
-                var usrs = (from a in dc.UsersCards where a.CardID == card select a);
+                Card c = (from a in dc.Cards where a.cardID == card select a).First();
+                LevelsCard lc = (from a in dc.LevelsCards where a.cardID == card select a).First();
+                var usrs = (from a in dc.UsersCards where a.cardID == card select a);
                 foreach (UsersCard uc in usrs)
                 {
                     dc.UsersCards.DeleteOnSubmit(uc);
@@ -222,9 +223,9 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             foreach (int level in levelIDs)
             {
-                List<int> cards = (from a in dc.LevelsCards where a.LevelID == level select a.CardID).ToList();
+                List<int> cards = (from a in dc.LevelsCards where a.levelID == level select a.cardID ).ToList();
                 deleteCards(cards);
-                Level l = (from a in dc.Levels where a.LevelID == level select a).First();
+                Level l = (from a in dc.Levels where a.levelID == level select a).First();
                 dc.Levels.DeleteOnSubmit(l);
                 dc.SubmitChanges();
             }
@@ -237,7 +238,7 @@ namespace Data
             foreach (CardDTO card in cards)
             {
                 //ovo deluje besmislneno ali mislim da bez ovog nece da radi
-                Card c = (from a in dc.Cards where a.CardID == card.CardID select a).First();
+                Card c = (from a in dc.Cards where a.cardID == card.CardID select a).First();
                 c.question = card.Question;
                 c.answer = card.Answer;
                 c.description = card.Descrption;
@@ -264,10 +265,12 @@ namespace Data
 
                 LevelsCard lc = new LevelsCard
                 {
-                    LevelID = card.LevelID,
-                    CardID = card.CardID,
-                    Number = card.Number
+                    levelID = card.LevelID,
+                    cardID = newCard.cardID,
+                    number = card.Number
                 };
+                dc.LevelsCards.InsertOnSubmit(lc);
+                dc.SubmitChanges();
             }
         }
 
@@ -289,14 +292,14 @@ namespace Data
                 CoursesLevel cl = new CoursesLevel
                 {
                     courseID = courseID,
-                    LevelID = newLevel.LevelID,
-                    Number = level.Number
+                    levelID = newLevel.levelID,
+                    number = level.Number
                 };
                 dc.CoursesLevels.InsertOnSubmit(cl);
                 dc.SubmitChanges();
 
                 foreach (CardDTO card in level.Cards)
-                    card.LevelID = newLevel.LevelID;
+                    card.LevelID = newLevel.levelID;
 
                 addCards(level.Cards);
               
@@ -311,13 +314,13 @@ namespace Data
             {
                
                 //opet ovo besmisleno
-                Level l = (from a in dc.Levels where a.LevelID == level.LevelID select a).First();
+                Level l = (from a in dc.Levels where a.levelID == level.LevelID select a).First();
                 l.name = level.Name;
                 l.type = level.Type;
                 dc.SubmitChanges();
 
-                CoursesLevel cl = (from a in dc.CoursesLevels where a.LevelID == level.LevelID select a).First();
-                cl.Number = level.Number;
+                CoursesLevel cl = (from a in dc.CoursesLevels where a.levelID == level.LevelID select a).First();
+                cl.number = level.Number;
                 dc.SubmitChanges();
                 
             }
@@ -326,7 +329,7 @@ namespace Data
         public static int getCardNuber(int courseID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a in dc.Courses where a.courseID == courseID select a).First().NumberOfCards;
+            return (from a in dc.Courses where a.courseID == courseID select a).First().numberOfCards;
         }
         
     }

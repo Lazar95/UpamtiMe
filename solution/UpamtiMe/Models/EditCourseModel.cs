@@ -13,6 +13,7 @@ namespace UpamtiMe.Models
         public int CategoryID { get; set; }
         public int SubcategoryID { get; set; }
         public int NumberOfCards { get; set; }
+        public string Description { get; set; }
         public List<Data.LevelsDTO> Levels { get; set; }
         public List<Subcategory> AllSubcategories { get; set; }
 
@@ -24,7 +25,8 @@ namespace UpamtiMe.Models
                 CategoryID = course.categoryID,
                 CourseID = course.courseID,
                 Name = course.name,
-                NumberOfCards = course.NumberOfCards,
+                NumberOfCards = course.numberOfCards,
+                Description = course.description,
                 SubcategoryID = course.subcategoryID ?? 0,
                 Levels = Data.Levels.getLevelsAndCardsFor(courseID),
                 AllSubcategories = Data.Courses.GetAllSubcategories()

@@ -33,19 +33,20 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             List<Data.LevelsDTO> returnValue = (from a in dc.CoursesLevels
                                                 join b in dc.Levels
-                                                on a.LevelID equals b.LevelID
+                                                on a.levelID equals b.levelID
                                                 where a.courseID == courseID
                                                 select new LevelsDTO()
                                                 {
-                                                    LevelID = b.LevelID,
+                                                    LevelID = b.levelID,
                                                     Type = b.type,
                                                     Name = b.name,
+                                                    Number = a.number
                                                 }).ToList();
 
             // Za svaki preuzeti nivo preuzmi sve kartice za taj nivo
             foreach (Data.LevelsDTO level in returnValue)
             {
-                level.Cards = Data.Cards.getCardsFor(level.LevelID);
+                level.Cards = Data.Cards.getCardsFor(level.LevelID, dc);
             }
 
             return returnValue;

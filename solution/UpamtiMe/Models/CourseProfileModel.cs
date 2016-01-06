@@ -25,7 +25,7 @@ namespace UpamtiMe.Models
                 CategoryID = course.categoryID,
                 CourseID = course.courseID,
                 Name = course.name,
-                NumberOfCards = course.NumberOfCards,
+                NumberOfCards = course.numberOfCards,
                 ParticipantCount = course.participantCount,
                 SubcategoryID = course.subcategoryID,
                 Levels = Data.Levels.getLevelsAndCardsFor(courseID),

@@ -13,7 +13,7 @@ namespace Data.DTOs
         public int CategoryID { get; set; }
         public int SubcategoryID { get; set; }
         public int NumberOfCards { get; set; }
-
+        public string Description { get; set; }
         public List<int> DeletedCards { get; set; }  
         public List<int> DeletedLevels { get; set; }
 

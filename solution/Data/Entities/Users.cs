@@ -132,7 +132,7 @@ namespace Data
                 score = 0,
                 lastPlayed = null,
                 thisWeekScore = 0,
-                thisMothScore = 0
+                thisMonthScore = 0
             };
 
             dc.UsersCourses.InsertOnSubmit(uc);

@@ -51,12 +51,14 @@ namespace Data
             return (from a in dc.Users where a.userID == userID select a.username).First();
         }
 
-        public static User checkUsernameAndPassword(string username, string pass)
+        public static User Login(string username, string pass)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             var find = from a in dc.Users where a.username == username && a.password == pass select a;
             if (find.Any())
             {
+                find.First().lastLogin = DateTime.Now;
+                dc.SubmitChanges();
                 return find.First();
             }
             else

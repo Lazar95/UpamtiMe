@@ -11,7 +11,7 @@ namespace Data.Entities
     {
         public static LoginDTO CreateLoginDTO(LoginTransporterDTO ltd)
         {
-            User usr = Users.checkUsernameAndPassword(ltd.Username, ltd.Password);
+            User usr = Users.Login(ltd.Username, ltd.Password);
             LoginDTO ld = new LoginDTO();
             if (usr == null)
             {
@@ -27,6 +27,7 @@ namespace Data.Entities
                 return ld;
             }
 
+            
             ld.LoginRegisterStatus = Enumerations.LoginRegisterStatus.Successful;
             ld.Username = usr.username;
             ld.FirstName = usr.name;

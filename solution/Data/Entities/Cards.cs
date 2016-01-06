@@ -44,7 +44,7 @@ namespace Data
             }
         }
 
-        public static bool checkQustion(string question, int courseID)
+        public static bool checkJustQustion(string question, int courseID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Cards
@@ -54,14 +54,24 @@ namespace Data
                     select a).Any();
         }
 
-        public static bool checkQustion(Card card)
+        public static bool checkJustQustion(Card card)
         {
-            return checkQustion(card.question, getCourseOfCard(card.cardID));
+            return checkJustQustion(card.question, getCourseOfCard(card.cardID));
+        }
+
+        public static bool checkJustQustion(CardDTO card)
+        {
+            return checkJustQustion(card.Question, getCourseOfCard(card.CardID));
         }
 
         public static bool checkQustion(CardDTO card)
         {
-            return checkQustion(card.Question, getCourseOfCard(card.CardID));
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Cards
+                    from b in dc.Levels
+                    from c in dc.Courses
+                    where a.levelID == b.levelID && b.courseID == c.courseID && a.question == card.Question && a.cardID != card.CardID
+                    select a).Any();
         }
 
         public static bool checkEmptyFields(Card card)
@@ -102,7 +112,7 @@ namespace Data
 
             foreach (CardDTO card in cards)
             {
-                if (checkQustion(card.Question, Levels.getCourse(card.LevelID)))
+                if (checkJustQustion(card.Question, Levels.getCourse(card.LevelID)))
                     continue;
                 if (checkEmptyFields(card))
                     continue;

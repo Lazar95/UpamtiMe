@@ -19,6 +19,9 @@ namespace Data.DTOs
 
         //kada je ID kartice/nivoa 0 to znci da je to nova kartica
         public List<CardDTO> EditedCards { get; set; }   
-        public List<EditLevelDTO> EditedLevels { get; set; }  
+        public List<EditLevelDTO> EditedLevels { get; set; }
+
+        public List<CardDTO> AddedCards { get; set; }
+        public List<LevelsDTO> AddedLevels { get; set; }
     }
 }

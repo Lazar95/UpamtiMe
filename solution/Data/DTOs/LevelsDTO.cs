@@ -12,6 +12,7 @@ namespace Data
         public int LevelID { get; set; }
         public int Type { get; set; }
         public string Name { get; set; }
+        public int Number { get; set; }
         public List<Data.CardDTO> Cards { get; set; }
     }
 }

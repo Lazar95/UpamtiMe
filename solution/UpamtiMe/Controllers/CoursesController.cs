@@ -94,13 +94,28 @@ namespace UpamtiMe.Controllers
                     Courses.deleteLevels(model.DeletedLevels);
 
                 if (model.EditedCards != null)
-                {
                     Courses.editCards(model.EditedCards);
-                    numAdded += (from a in model.EditedCards where a.CardID == -1 select a).Count();
-                }
+                   
                     
                 if (model.EditedLevels != null)
                     Courses.editLevels(model.CourseID,model.EditedLevels);
+
+                if (model.AddedCards != null)
+                {
+                    Courses.addCards(model.AddedCards);
+                    numAdded += model.AddedCards.Count;
+                }
+
+                if (model.AddedLevels != null)
+                {
+                    Courses.addLevels(model.CourseID, model.AddedLevels);
+                    foreach (LevelsDTO level in model.AddedLevels)
+                    {
+                        numAdded += level.Cards.Count;
+                    }
+                }
+
+
 
                 int oldnum = Courses.getCardNuber(model.CourseID);
                 int newnum = oldnum + numAdded - numDeleted;

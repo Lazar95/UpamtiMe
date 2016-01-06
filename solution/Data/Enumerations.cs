@@ -25,6 +25,12 @@ namespace Data
             UsernameExists
         }
 
+        public enum InvalidCard
+        {
+            Duplicate, 
+            EmptyField
+        }
+
         public static void addCategories()
         {
             DataClasses1DataContext dc =  new DataClasses1DataContext();
@@ -35,6 +41,7 @@ namespace Data
             }
             dc.SubmitChanges();
         }
+
        
     }
 }

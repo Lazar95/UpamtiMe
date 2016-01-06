@@ -31,6 +31,14 @@ namespace Data
             EmptyField
         }
 
+        public enum FollowStatus
+        {
+            Following,
+            NotFollowing,
+            Myself,
+            NotLoggedIn
+        }
+
         public static void addCategories()
         {
             DataClasses1DataContext dc =  new DataClasses1DataContext();

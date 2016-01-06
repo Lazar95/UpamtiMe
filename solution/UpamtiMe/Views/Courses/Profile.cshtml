@@ -60,6 +60,14 @@
             @Html.DisplayFor(model => model.ParticipantCount)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorUsername)
+        </dt>
+
+        <dd>
+            @Html.ActionLink(@Model.CreatorUsername, "Profile", "Users", new {id = @Model.CreatorID}, null)
+        </dd>
+
     </dl>
 
     @* statistika korisnika ako je prijavljen na kurs *@

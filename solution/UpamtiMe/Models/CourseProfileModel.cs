@@ -17,6 +17,9 @@ namespace UpamtiMe.Models
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public Data.DTOs.CourseUsersStatisticsDTO Statistics { get; set; }
 
+        public string CreatorUsername { get; set; }
+        public int CreatorID { get; set; }
+
         public static CourseProfileModel Load(int courseID, int? userID = null)
         {
             Data.Course course = Data.Courses.getCourse(courseID);
@@ -30,7 +33,9 @@ namespace UpamtiMe.Models
                 SubcategoryID = course.subcategoryID,
                 Levels = Data.Levels.getLevelsAndCardsFor(courseID),
                 Leaderboard = Data.Courses.getLeaderboard(courseID),
-                Statistics = null
+                Statistics = null,
+                CreatorID = course.creatorID,
+                CreatorUsername = Data.Users.getUsername(course.creatorID)
             };
 
             if (userID != null)

@@ -89,7 +89,7 @@ namespace Data
                 Card c = (from a in dc.Cards where a.cardID == card.CardID select a).First();
                 c.question = card.Question;
                 c.answer = card.Answer;
-                c.description = card.Descrption;
+                c.description = card.Description;
                 c.image = card.Image;
                 dc.SubmitChanges();
                 
@@ -113,7 +113,7 @@ namespace Data
                     answer = card.Answer,
                     levelID = card.LevelID,
                     number = card.Number,
-                    description = card.Descrption,
+                    description = card.Description,
                     image = card.Image
                 };
                 dc.Cards.InsertOnSubmit(newCard);
@@ -131,7 +131,7 @@ namespace Data
                         CardID = a.cardID,
                         Question = a.question,
                         Answer = a.answer,
-                        Descrption = a.description,
+                        Description = a.description,
                         Number = a.number,
                         //Image = a.image,
                         // Ovo nece zbog tipa, nebitno sad

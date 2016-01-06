@@ -37,6 +37,26 @@ namespace UpamtiMe.Controllers
             try
             {
                 Models.ProfilePageModel model = Models.ProfilePageModel.Load(id);
+                if (UserSession.GetUser() == null)
+                {
+                    ViewBag.friends = Data.Enumerations.FollowStatus.NotLoggedIn;
+                }
+                else
+                {
+                    if (UserSession.GetUser().UserID == id)
+                    {
+                        ViewBag.friends = Data.Enumerations.FollowStatus.Myself;
+                    }
+                    else if (Data.Users.follows(UserSession.GetUser().UserID, id))
+                    {
+                        ViewBag.friends = Data.Enumerations.FollowStatus.Following;
+                    }
+                    else
+                    {
+                        ViewBag.friends = Data.Enumerations.FollowStatus.NotFollowing;
+                    }
+
+                }
                 return View(model);
             }
             catch(Exception e)
@@ -45,13 +65,19 @@ namespace UpamtiMe.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult TestPage(Data.Test model)
+        
+        public ActionResult Follow(int firstID, int secondID)
         {
-            int a = model.a;
-            int b = model.lazar;
-            //return RedirectToAction("Profile", "1");
-            return Json(new { success = true });
+            Data.Users.follow(firstID, secondID);
+            return RedirectToAction("Profile", new {id = secondID});
         }
+
+        public ActionResult Unfollow(int firstID, int secondID)
+        {
+            Data.Users.unfollow(firstID, secondID);
+            return RedirectToAction("Profile", new { id = secondID });
+        }
+
+
     }
 }

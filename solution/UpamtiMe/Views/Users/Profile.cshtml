@@ -1,4 +1,5 @@
-﻿@model UpamtiMe.Models.ProfilePageModel
+﻿@using Data.DTOs
+@model UpamtiMe.Models.ProfilePageModel
 
 @{
     ViewBag.Title = "Profile";
@@ -45,32 +46,43 @@
             </div>
 
             <!-- Druga kartica -->
-            <div class="secondary-info">
+    <div class="secondary-info">
 
-                <div class="bio">
-                    @Html.DisplayFor(model => model.Bio)
-                    Lorem ipsum
-                </div>
+        <div class="bio">
+            @Html.DisplayFor(model => model.Bio)
+            Lorem ipsum
+        </div>
 
-                <dl>
-                    <div>
-                        <dd>haha</dd>
-                        <dt>12</dt>
-                    </div>
-                    <div>
-                        <dd>hehe</dd>
-                        <dt>15</dt>
-                    </div>
-                    <div>
-                        <dd>hihi</dd>
-                        <dt>2342</dt>
-                    </div>
-                    <div>
-                        <dd>hoho</dd>
-                        <dt>0.5</dt>
-                    </div>
-                </dl>
-
+        <dl>
+            <div>
+                <dd>haha</dd>
+                <dt>12</dt>
             </div>
+            <div>
+                <dd>hehe</dd>
+                <dt>15</dt>
+            </div>
+            <div>
+                <dd>hihi</dd>
+                <dt>2342</dt>
+            </div>
+            <div>
+                <dd>hoho</dd>
+                <dt>0.5</dt>
+            </div>
+        </dl>
+
+    </div>
+
+    @{ LoginDTO user = UserSession.GetUser();}
+      @if (@ViewBag.friends == Data.Enumerations.FollowStatus.NotFollowing)
+      {
+        @Html.ActionLink("Follow", "Follow", "Users", new { firstID = user.UserID, secondID = Model.UserID }, null)
+      }
+      else if(@ViewBag.friends == Data.Enumerations.FollowStatus.Following)
+      {
+        @Html.ActionLink("Unfollow", "Unfollow", "Users", new { firstID = user.UserID, secondID = Model.UserID }, null)
+      }
+   
 
 </main>

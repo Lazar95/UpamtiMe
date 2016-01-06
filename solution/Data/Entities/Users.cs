@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,12 +8,6 @@ using Data.DTOs;
 
 namespace Data
 {
-    public class Test
-    {
-        public int a { get; set; }
-        public int lazar { get; set; }
-    }
-
     public class Users
     {
         //TODO pazi ne setujemo avatar
@@ -48,6 +43,12 @@ namespace Data
         {
             dc = dc ?? new DataClasses1DataContext();
             return (from a in dc.Users where a.userID == userID select a).First();
+        }
+
+        public static string getUsername(int userID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Users where a.userID == userID select a.username).First();
         }
 
         public static User checkUsernameAndPassword(string username, string pass)
@@ -139,6 +140,32 @@ namespace Data
             dc.SubmitChanges();
 
             return uc;
+        }
+
+        public static void follow(int aID, int bID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            Friendship f = new Friendship
+            {
+                user1ID = aID,
+                user2ID = bID
+            };
+            dc.Friendships.InsertOnSubmit(f);
+            dc.SubmitChanges();
+        }
+
+        public static void unfollow(int aID, int bID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            Friendship f = (from a in dc.Friendships where a.user1ID == aID && a.user2ID == bID select a).First();
+            dc.Friendships.DeleteOnSubmit(f);
+            dc.SubmitChanges();
+        }
+
+        public static bool follows(int aID, int bID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Friendships where a.user1ID == aID && a.user2ID == bID select a).Any();
         }
 
     }

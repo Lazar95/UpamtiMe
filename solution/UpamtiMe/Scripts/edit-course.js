@@ -17,6 +17,8 @@ var viewToData = function() {
           "number": $(this).attr('data-card-number'),
           "question": $(this).children('.question').text(),
           "answer": $(this).children('.answer').text(),
+          "description": $(this).children('.description').text(),
+          "level": $(this).parent().
           "status": UNTOUCHED,
         }
       );
@@ -79,6 +81,7 @@ var addLevel = function() {
     string += '<ul class="level" data-level-id="' + newLevel.levelID + '" data-level-number="' + newLevel.number + '" data-level-type="' + newLevel.type + '">';
       string += '<li class="new-card">';
         string += 'Pitanje: <input class="question" type="text" />';
+				string += 'Odgovor: <input class="answer" type="text" />';
 				string += 'Odgovor: <input class="answer" type="text" />';
 				string += '<div class="add-button">Dodaj!</div>';
       string += '</li>';

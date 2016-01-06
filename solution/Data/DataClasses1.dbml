@@ -30,8 +30,10 @@
       <Column Name="answer" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="description" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
       <Column Name="image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Card_LevelsCard" Member="LevelsCards" ThisKey="cardID" OtherKey="cardID" Type="LevelsCard" />
+      <Column Name="levelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Card_UsersCard" Member="UsersCards" ThisKey="cardID" OtherKey="cardID" Type="UsersCard" />
+      <Association Name="Level_Card" Member="Level" ThisKey="levelID" OtherKey="levelID" Type="Level" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Categories" Member="Categories">
@@ -52,21 +54,11 @@
       <Column Name="numberOfCards" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="creatorID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="rating" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="description" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Association Name="Course_UsersCourse" Member="UsersCourses" ThisKey="courseID" OtherKey="courseID" Type="UsersCourse" />
-      <Association Name="Course_CoursesLevel" Member="CoursesLevels" ThisKey="courseID" OtherKey="courseID" Type="CoursesLevel" />
+      <Association Name="Course_Level" Member="Levels" ThisKey="courseID" OtherKey="courseID" Type="Level" />
       <Association Name="Category_Course" Member="Category" ThisKey="categoryID" OtherKey="categoryID" Type="Category" IsForeignKey="true" />
       <Association Name="Subcategory_Course" Member="Subcategory" ThisKey="subcategoryID" OtherKey="subcategoryID" Type="Subcategory" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.CoursesLevels" Member="CoursesLevels">
-    <Type Name="CoursesLevel">
-      <Column Name="coursesLevelsID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="courseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="levelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Course_CoursesLevel" Member="Course" ThisKey="courseID" OtherKey="courseID" Type="Course" IsForeignKey="true" />
-      <Association Name="Level_CoursesLevel" Member="Level" ThisKey="levelID" OtherKey="levelID" Type="Level" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Friendships" Member="Friendships">
@@ -83,18 +75,10 @@
       <Column Name="levelID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Level_CoursesLevel" Member="CoursesLevels" ThisKey="levelID" OtherKey="levelID" Type="CoursesLevel" />
-      <Association Name="Level_LevelsCard" Member="LevelsCards" ThisKey="levelID" OtherKey="levelID" Type="LevelsCard" />
-    </Type>
-  </Table>
-  <Table Name="dbo.LevelsCards" Member="LevelsCards">
-    <Type Name="LevelsCard">
-      <Column Name="levelsCardsID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="levelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="cardID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="courseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Card_LevelsCard" Member="Card" ThisKey="cardID" OtherKey="cardID" Type="Card" IsForeignKey="true" />
-      <Association Name="Level_LevelsCard" Member="Level" ThisKey="levelID" OtherKey="levelID" Type="Level" IsForeignKey="true" />
+      <Association Name="Level_Card" Member="Cards" ThisKey="levelID" OtherKey="levelID" Type="Card" />
+      <Association Name="Course_Level" Member="Course" ThisKey="courseID" OtherKey="courseID" Type="Course" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Subcategories" Member="Subcategories">

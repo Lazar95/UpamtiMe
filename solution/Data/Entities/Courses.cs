@@ -10,45 +10,38 @@ namespace Data
 {
     public class Courses
     {
-        public static Course getCourse(int courseID)
+        public static Course getCourse(int courseID, DataClasses1DataContext dc = null)
         {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a
-                in dc.Courses
-                where a.courseID == courseID
-                select a).First();
+            dc = dc ?? new DataClasses1DataContext();
+            return (from a in dc.Courses where a.courseID == courseID select a).First();
         }
 
-        public static List<Subcategory> GetAllSubcategories()
+        public static int countLevels(int courseID, DataClasses1DataContext dc = null)
         {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
+            dc = dc ?? new DataClasses1DataContext();
+            return (from a in dc.Levels where a.courseID == courseID select a).Count();
+        }
+
+        public static List<Subcategory> GetAllSubcategories(DataClasses1DataContext dc = null)
+        {
+            dc = new DataClasses1DataContext();
             return (from a in dc.Subcategories select a).ToList();
         }
 
 
-        public static Course addCourse(
-            string name, int categoryID,
-            int subcategoryID, int numberOfCards,
-            int creatorID)
+        public static Course addCourse( string name, int categoryID, int? subcategoryID, int numberOfCards, int creatorID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-
-
 
             Course course = new Course
             {
                 name = name,
                 categoryID = categoryID,
+                subcategoryID = subcategoryID,
                 participantCount = 1, // creator is the only participant
                 numberOfCards = numberOfCards,
                 creatorID = creatorID,
             };
-
-            if (subcategoryID != 0)
-            {
-                course.subcategoryID = subcategoryID;
-            }
-
 
             dc.Courses.InsertOnSubmit(course);
             dc.SubmitChanges();
@@ -56,49 +49,21 @@ namespace Data
             return course;
         }
 
-
-        //TODO lazo nzm sta ce ti ovo, podaci u CoursesDTO su nepotrebni za kurseve konkretnog coveka
-        //public static List<Data.CoursesDTO> getCoursesFor(int userID)
-        //{
-        //    DataClasses1DataContext dc = new DataClasses1DataContext();
-        //    List<Data.CoursesDTO>
-        //        returnValue = (from a in dc.UsersCourses
-        //            join b in dc.Courses
-        //                on a.courseID equals b.courseID
-        //            where a.userID == userID
-        //            select new CoursesDTO()
-        //            {
-        //                CategoryID = b.categoryID,
-        //                CourseID = b.courseID,
-        //                CreatorID = b.creatorID,
-        //                Name = b.name,
-        //                ParticipantCount = b.participantCount,
-        //                SubcategoryID = b.subcategoryID ?? 0, // ako je null da upise nulu
-        //            }).ToList();
-
-        //    // Za svaki preuzeti kurs preuzmi sve nivoe za taj kurs
-        //    foreach (Data.CoursesDTO course in returnValue)
-        //        course.Levels = Levels.getLevelsAndCardsFor(course.CourseID);
-
-        //    return returnValue;
-        //}
-
         public static CourseUsersStatisticsDTO getUserCourseStatistics(Course course, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
 
-            var lastNext = (from cl in dc.CoursesLevels
-                            from lc in dc.LevelsCards
-                            from cu in dc.UsersCards
-                            where
-                                cl.courseID == course.courseID && cl.levelID == lc.levelsCardsID && lc.cardID == cu.userID &&
-                                cu.ignore == false
-                            select new
-                            {
-                                last = cu.lastSeen,
-                                next = cu.nextSee,
+            var lastNext = (from c in dc.Cards
+                             from l in dc.Levels
+                             from co in dc.Courses
+                             from u in dc.UsersCards
+                             where c.levelID == l.levelID && l.courseID == co.courseID && co.courseID == course.courseID && u.cardID == c.cardID && u.ignore ==  false
+                             select new
+                             {
+                                 last = u.lastSeen,
+                                 next = u.nextSee,
 
-                            }).ToList();
+                             }).ToList();
 
             CourseUsersStatisticsDTO returnValue = new CourseUsersStatisticsDTO();
 
@@ -132,10 +97,10 @@ namespace Data
 
             List<UserCourseDTO> retrunValue = new List<UserCourseDTO>();
 
-            List<Course> courses = (from a in dc.UsersCourses
-                from b in dc.Courses
-                where a.userID == userID && a.courseID == b.courseID
-                select b).ToList();
+            List<Course> courses = (from a in dc.UsersCourses 
+                                    from b in dc.Courses
+                                    where a.userID == userID && a.courseID == b.courseID
+                                    select b).ToList();
 
             foreach (Course course in courses)
             {
@@ -165,9 +130,9 @@ namespace Data
             return (from a in dc.Subcategories where a.subcategoryID == subID select a.name).First();
         }
 
-        public static List<LeaderboardEntryDTO> getLeaderboard(int courseID)
+        public static List<LeaderboardEntryDTO> getLeaderboard(int courseID, DataClasses1DataContext dc = null)
         {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
+             dc = dc ?? new DataClasses1DataContext();
 
             List<int> usersList = (from a in dc.UsersCourses where a.courseID == courseID select a.userID).ToList();
 
@@ -193,138 +158,13 @@ namespace Data
             Course course = (from a in dc.Courses where a.courseID == courseID select a).First();
             course.name = name;
             course.description = description;
-            //course.categoryID = catID;
-            //course.subcategoryID = subID;
+            course.categoryID = catID;
+            course.subcategoryID = subID;
             course.numberOfCards = numCards;
             dc.SubmitChanges();
             return course;
         }
-
-        public static void deleteCards(List<int> cardIDs )
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-            foreach (int card in cardIDs)
-            {
-                Card c = (from a in dc.Cards where a.cardID == card select a).First();
-                LevelsCard lc = (from a in dc.LevelsCards where a.cardID == card select a).First();
-                var usrs = (from a in dc.UsersCards where a.cardID == card select a);
-                foreach (UsersCard uc in usrs)
-                {
-                    dc.UsersCards.DeleteOnSubmit(uc);
-                }
-                dc.LevelsCards.DeleteOnSubmit(lc);
-                dc.Cards.DeleteOnSubmit(c);
-                dc.SubmitChanges();
-            }
-        }
-
-        public static void deleteLevels(List<int> levelIDs)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-            foreach (int level in levelIDs)
-            {
-                List<int> cards = (from a in dc.LevelsCards where a.levelID == level select a.cardID ).ToList();
-                deleteCards(cards);
-                Level l = (from a in dc.Levels where a.levelID == level select a).First();
-                dc.Levels.DeleteOnSubmit(l);
-                dc.SubmitChanges();
-            }
-        }
-
-        public static void editCards(List<CardDTO> cards)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-
-            foreach (CardDTO card in cards)
-            {
-                //ovo deluje besmislneno ali mislim da bez ovog nece da radi
-                Card c = (from a in dc.Cards where a.cardID == card.CardID select a).First();
-                c.question = card.Question;
-                c.answer = card.Answer;
-                c.description = card.Descrption;
-                c.image = card.Image;
-                dc.SubmitChanges();
-            }
-        }
-
-        public static void addCards(List<CardDTO> cards)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-
-            foreach (CardDTO card in cards)
-            {
-                Card newCard = new Card
-                {
-                    question = card.Question,
-                    answer = card.Answer,
-                    description = card.Descrption,
-                    image = card.Image
-                };
-                dc.Cards.InsertOnSubmit(newCard);
-                dc.SubmitChanges();
-
-                LevelsCard lc = new LevelsCard
-                {
-                    levelID = card.LevelID,
-                    cardID = newCard.cardID,
-                    number = card.Number
-                };
-                dc.LevelsCards.InsertOnSubmit(lc);
-                dc.SubmitChanges();
-            }
-        }
-
-        public static void addLevels(int courseID, List<LevelsDTO> levels)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-
-            foreach (LevelsDTO level in levels)
-            {
-               
-                Level newLevel = new Level
-                {
-                    name = level.Name,
-                    type = level.Type,
-                };
-                dc.Levels.InsertOnSubmit(newLevel);
-                dc.SubmitChanges();
-
-                CoursesLevel cl = new CoursesLevel
-                {
-                    courseID = courseID,
-                    levelID = newLevel.levelID,
-                    number = level.Number
-                };
-                dc.CoursesLevels.InsertOnSubmit(cl);
-                dc.SubmitChanges();
-
-                foreach (CardDTO card in level.Cards)
-                    card.LevelID = newLevel.levelID;
-
-                addCards(level.Cards);
-              
-            }
-        }
-
-        public static void editLevels(int courseID, List<EditLevelDTO> levels)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-
-            foreach (EditLevelDTO level in levels)
-            {
-               
-                //opet ovo besmisleno
-                Level l = (from a in dc.Levels where a.levelID == level.LevelID select a).First();
-                l.name = level.Name;
-                l.type = level.Type;
-                dc.SubmitChanges();
-
-                CoursesLevel cl = (from a in dc.CoursesLevels where a.levelID == level.LevelID select a).First();
-                cl.number = level.Number;
-                dc.SubmitChanges();
-                
-            }
-        }
+       
 
         public static int getCardNuber(int courseID)
         {

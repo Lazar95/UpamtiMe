@@ -86,29 +86,29 @@ namespace UpamtiMe.Controllers
 
                 if (model.DeletedCards != null)
                 {
-                    Courses.deleteCards(model.DeletedCards);
+                    Cards.deleteCards(model.DeletedCards);
                     numDeleted += model.DeletedCards.Count;
                 }
                     
                 if (model.DeletedLevels != null)
-                    Courses.deleteLevels(model.DeletedLevels);
+                    Levels.deleteLevels(model.DeletedLevels);
 
                 if (model.EditedCards != null)
-                    Courses.editCards(model.EditedCards);
+                    Cards.editCards(model.EditedCards);
                    
                     
                 if (model.EditedLevels != null)
-                    Courses.editLevels(model.CourseID,model.EditedLevels);
+                    Levels.editLevels(model.CourseID,model.EditedLevels);
 
                 if (model.AddedCards != null)
                 {
-                    Courses.addCards(model.AddedCards);
+                    Cards.addCards(model.AddedCards);
                     numAdded += model.AddedCards.Count;
                 }
 
                 if (model.AddedLevels != null)
                 {
-                    Courses.addLevels(model.CourseID, model.AddedLevels);
+                    Levels.addLevels(model.CourseID, model.AddedLevels);
                     foreach (LevelsDTO level in model.AddedLevels)
                     {
                         numAdded += level.Cards.Count;

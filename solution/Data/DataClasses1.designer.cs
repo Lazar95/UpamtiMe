@@ -45,18 +45,12 @@ namespace Data
     partial void InsertCourse(Course instance);
     partial void UpdateCourse(Course instance);
     partial void DeleteCourse(Course instance);
-    partial void InsertCoursesLevel(CoursesLevel instance);
-    partial void UpdateCoursesLevel(CoursesLevel instance);
-    partial void DeleteCoursesLevel(CoursesLevel instance);
     partial void InsertFriendship(Friendship instance);
     partial void UpdateFriendship(Friendship instance);
     partial void DeleteFriendship(Friendship instance);
     partial void InsertLevel(Level instance);
     partial void UpdateLevel(Level instance);
     partial void DeleteLevel(Level instance);
-    partial void InsertLevelsCard(LevelsCard instance);
-    partial void UpdateLevelsCard(LevelsCard instance);
-    partial void DeleteLevelsCard(LevelsCard instance);
     partial void InsertSubcategory(Subcategory instance);
     partial void UpdateSubcategory(Subcategory instance);
     partial void DeleteSubcategory(Subcategory instance);
@@ -141,14 +135,6 @@ namespace Data
 			}
 		}
 		
-		public System.Data.Linq.Table<CoursesLevel> CoursesLevels
-		{
-			get
-			{
-				return this.GetTable<CoursesLevel>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Friendship> Friendships
 		{
 			get
@@ -162,14 +148,6 @@ namespace Data
 			get
 			{
 				return this.GetTable<Level>();
-			}
-		}
-		
-		public System.Data.Linq.Table<LevelsCard> LevelsCards
-		{
-			get
-			{
-				return this.GetTable<LevelsCard>();
 			}
 		}
 		
@@ -696,9 +674,13 @@ namespace Data
 		
 		private System.Data.Linq.Binary _image;
 		
-		private EntitySet<LevelsCard> _LevelsCards;
+		private int _levelID;
+		
+		private int _number;
 		
 		private EntitySet<UsersCard> _UsersCards;
+		
+		private EntityRef<Level> _Level;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -714,12 +696,16 @@ namespace Data
     partial void OndescriptionChanged();
     partial void OnimageChanging(System.Data.Linq.Binary value);
     partial void OnimageChanged();
+    partial void OnlevelIDChanging(int value);
+    partial void OnlevelIDChanged();
+    partial void OnnumberChanging(int value);
+    partial void OnnumberChanged();
     #endregion
 		
 		public Card()
 		{
-			this._LevelsCards = new EntitySet<LevelsCard>(new Action<LevelsCard>(this.attach_LevelsCards), new Action<LevelsCard>(this.detach_LevelsCards));
 			this._UsersCards = new EntitySet<UsersCard>(new Action<UsersCard>(this.attach_UsersCards), new Action<UsersCard>(this.detach_UsersCards));
+			this._Level = default(EntityRef<Level>);
 			OnCreated();
 		}
 		
@@ -823,16 +809,47 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_LevelsCard", Storage="_LevelsCards", ThisKey="cardID", OtherKey="cardID")]
-		public EntitySet<LevelsCard> LevelsCards
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_levelID", DbType="Int NOT NULL")]
+		public int levelID
 		{
 			get
 			{
-				return this._LevelsCards;
+				return this._levelID;
 			}
 			set
 			{
-				this._LevelsCards.Assign(value);
+				if ((this._levelID != value))
+				{
+					if (this._Level.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnlevelIDChanging(value);
+					this.SendPropertyChanging();
+					this._levelID = value;
+					this.SendPropertyChanged("levelID");
+					this.OnlevelIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="Int NOT NULL")]
+		public int number
+		{
+			get
+			{
+				return this._number;
+			}
+			set
+			{
+				if ((this._number != value))
+				{
+					this.OnnumberChanging(value);
+					this.SendPropertyChanging();
+					this._number = value;
+					this.SendPropertyChanged("number");
+					this.OnnumberChanged();
+				}
 			}
 		}
 		
@@ -846,6 +863,40 @@ namespace Data
 			set
 			{
 				this._UsersCards.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_Card", Storage="_Level", ThisKey="levelID", OtherKey="levelID", IsForeignKey=true)]
+		public Level Level
+		{
+			get
+			{
+				return this._Level.Entity;
+			}
+			set
+			{
+				Level previousValue = this._Level.Entity;
+				if (((previousValue != value) 
+							|| (this._Level.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Level.Entity = null;
+						previousValue.Cards.Remove(this);
+					}
+					this._Level.Entity = value;
+					if ((value != null))
+					{
+						value.Cards.Add(this);
+						this._levelID = value.levelID;
+					}
+					else
+					{
+						this._levelID = default(int);
+					}
+					this.SendPropertyChanged("Level");
+				}
 			}
 		}
 		
@@ -867,18 +918,6 @@ namespace Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_LevelsCards(LevelsCard entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = this;
-		}
-		
-		private void detach_LevelsCards(LevelsCard entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = null;
 		}
 		
 		private void attach_UsersCards(UsersCard entity)
@@ -1062,7 +1101,7 @@ namespace Data
 		
 		private EntitySet<UsersCourse> _UsersCourses;
 		
-		private EntitySet<CoursesLevel> _CoursesLevels;
+		private EntitySet<Level> _Levels;
 		
 		private EntityRef<Category> _Category;
 		
@@ -1095,7 +1134,7 @@ namespace Data
 		public Course()
 		{
 			this._UsersCourses = new EntitySet<UsersCourse>(new Action<UsersCourse>(this.attach_UsersCourses), new Action<UsersCourse>(this.detach_UsersCourses));
-			this._CoursesLevels = new EntitySet<CoursesLevel>(new Action<CoursesLevel>(this.attach_CoursesLevels), new Action<CoursesLevel>(this.detach_CoursesLevels));
+			this._Levels = new EntitySet<Level>(new Action<Level>(this.attach_Levels), new Action<Level>(this.detach_Levels));
 			this._Category = default(EntityRef<Category>);
 			this._Subcategory = default(EntityRef<Subcategory>);
 			OnCreated();
@@ -1269,7 +1308,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="VarChar(500)")]
 		public string description
 		{
 			get
@@ -1302,16 +1341,16 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_CoursesLevel", Storage="_CoursesLevels", ThisKey="courseID", OtherKey="courseID")]
-		public EntitySet<CoursesLevel> CoursesLevels
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Level", Storage="_Levels", ThisKey="courseID", OtherKey="courseID")]
+		public EntitySet<Level> Levels
 		{
 			get
 			{
-				return this._CoursesLevels;
+				return this._Levels;
 			}
 			set
 			{
-				this._CoursesLevels.Assign(value);
+				this._Levels.Assign(value);
 			}
 		}
 		
@@ -1415,232 +1454,16 @@ namespace Data
 			entity.Course = null;
 		}
 		
-		private void attach_CoursesLevels(CoursesLevel entity)
+		private void attach_Levels(Level entity)
 		{
 			this.SendPropertyChanging();
 			entity.Course = this;
 		}
 		
-		private void detach_CoursesLevels(CoursesLevel entity)
+		private void detach_Levels(Level entity)
 		{
 			this.SendPropertyChanging();
 			entity.Course = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CoursesLevels")]
-	public partial class CoursesLevel : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _coursesLevelsID;
-		
-		private int _courseID;
-		
-		private int _levelID;
-		
-		private int _number;
-		
-		private EntityRef<Course> _Course;
-		
-		private EntityRef<Level> _Level;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OncoursesLevelsIDChanging(int value);
-    partial void OncoursesLevelsIDChanged();
-    partial void OncourseIDChanging(int value);
-    partial void OncourseIDChanged();
-    partial void OnlevelIDChanging(int value);
-    partial void OnlevelIDChanged();
-    partial void OnnumberChanging(int value);
-    partial void OnnumberChanged();
-    #endregion
-		
-		public CoursesLevel()
-		{
-			this._Course = default(EntityRef<Course>);
-			this._Level = default(EntityRef<Level>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_coursesLevelsID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int coursesLevelsID
-		{
-			get
-			{
-				return this._coursesLevelsID;
-			}
-			set
-			{
-				if ((this._coursesLevelsID != value))
-				{
-					this.OncoursesLevelsIDChanging(value);
-					this.SendPropertyChanging();
-					this._coursesLevelsID = value;
-					this.SendPropertyChanged("coursesLevelsID");
-					this.OncoursesLevelsIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_courseID", DbType="Int NOT NULL")]
-		public int courseID
-		{
-			get
-			{
-				return this._courseID;
-			}
-			set
-			{
-				if ((this._courseID != value))
-				{
-					if (this._Course.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OncourseIDChanging(value);
-					this.SendPropertyChanging();
-					this._courseID = value;
-					this.SendPropertyChanged("courseID");
-					this.OncourseIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_levelID", DbType="Int NOT NULL")]
-		public int levelID
-		{
-			get
-			{
-				return this._levelID;
-			}
-			set
-			{
-				if ((this._levelID != value))
-				{
-					if (this._Level.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnlevelIDChanging(value);
-					this.SendPropertyChanging();
-					this._levelID = value;
-					this.SendPropertyChanged("levelID");
-					this.OnlevelIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="Int NOT NULL")]
-		public int number
-		{
-			get
-			{
-				return this._number;
-			}
-			set
-			{
-				if ((this._number != value))
-				{
-					this.OnnumberChanging(value);
-					this.SendPropertyChanging();
-					this._number = value;
-					this.SendPropertyChanged("number");
-					this.OnnumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_CoursesLevel", Storage="_Course", ThisKey="courseID", OtherKey="courseID", IsForeignKey=true)]
-		public Course Course
-		{
-			get
-			{
-				return this._Course.Entity;
-			}
-			set
-			{
-				Course previousValue = this._Course.Entity;
-				if (((previousValue != value) 
-							|| (this._Course.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Course.Entity = null;
-						previousValue.CoursesLevels.Remove(this);
-					}
-					this._Course.Entity = value;
-					if ((value != null))
-					{
-						value.CoursesLevels.Add(this);
-						this._courseID = value.courseID;
-					}
-					else
-					{
-						this._courseID = default(int);
-					}
-					this.SendPropertyChanged("Course");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_CoursesLevel", Storage="_Level", ThisKey="levelID", OtherKey="levelID", IsForeignKey=true)]
-		public Level Level
-		{
-			get
-			{
-				return this._Level.Entity;
-			}
-			set
-			{
-				Level previousValue = this._Level.Entity;
-				if (((previousValue != value) 
-							|| (this._Level.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Level.Entity = null;
-						previousValue.CoursesLevels.Remove(this);
-					}
-					this._Level.Entity = value;
-					if ((value != null))
-					{
-						value.CoursesLevels.Add(this);
-						this._levelID = value.levelID;
-					}
-					else
-					{
-						this._levelID = default(int);
-					}
-					this.SendPropertyChanged("Level");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -1848,9 +1671,13 @@ namespace Data
 		
 		private string _name;
 		
-		private EntitySet<CoursesLevel> _CoursesLevels;
+		private int _courseID;
 		
-		private EntitySet<LevelsCard> _LevelsCards;
+		private int _number;
+		
+		private EntitySet<Card> _Cards;
+		
+		private EntityRef<Course> _Course;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1862,12 +1689,16 @@ namespace Data
     partial void OntypeChanged();
     partial void OnnameChanging(string value);
     partial void OnnameChanged();
+    partial void OncourseIDChanging(int value);
+    partial void OncourseIDChanged();
+    partial void OnnumberChanging(int value);
+    partial void OnnumberChanged();
     #endregion
 		
 		public Level()
 		{
-			this._CoursesLevels = new EntitySet<CoursesLevel>(new Action<CoursesLevel>(this.attach_CoursesLevels), new Action<CoursesLevel>(this.detach_CoursesLevels));
-			this._LevelsCards = new EntitySet<LevelsCard>(new Action<LevelsCard>(this.attach_LevelsCards), new Action<LevelsCard>(this.detach_LevelsCards));
+			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
+			this._Course = default(EntityRef<Course>);
 			OnCreated();
 		}
 		
@@ -1931,180 +1762,26 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_CoursesLevel", Storage="_CoursesLevels", ThisKey="levelID", OtherKey="levelID")]
-		public EntitySet<CoursesLevel> CoursesLevels
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_courseID", DbType="Int NOT NULL")]
+		public int courseID
 		{
 			get
 			{
-				return this._CoursesLevels;
+				return this._courseID;
 			}
 			set
 			{
-				this._CoursesLevels.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_LevelsCard", Storage="_LevelsCards", ThisKey="levelID", OtherKey="levelID")]
-		public EntitySet<LevelsCard> LevelsCards
-		{
-			get
-			{
-				return this._LevelsCards;
-			}
-			set
-			{
-				this._LevelsCards.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_CoursesLevels(CoursesLevel entity)
-		{
-			this.SendPropertyChanging();
-			entity.Level = this;
-		}
-		
-		private void detach_CoursesLevels(CoursesLevel entity)
-		{
-			this.SendPropertyChanging();
-			entity.Level = null;
-		}
-		
-		private void attach_LevelsCards(LevelsCard entity)
-		{
-			this.SendPropertyChanging();
-			entity.Level = this;
-		}
-		
-		private void detach_LevelsCards(LevelsCard entity)
-		{
-			this.SendPropertyChanging();
-			entity.Level = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LevelsCards")]
-	public partial class LevelsCard : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _levelsCardsID;
-		
-		private int _levelID;
-		
-		private int _cardID;
-		
-		private int _number;
-		
-		private EntityRef<Card> _Card;
-		
-		private EntityRef<Level> _Level;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnlevelsCardsIDChanging(int value);
-    partial void OnlevelsCardsIDChanged();
-    partial void OnlevelIDChanging(int value);
-    partial void OnlevelIDChanged();
-    partial void OncardIDChanging(int value);
-    partial void OncardIDChanged();
-    partial void OnnumberChanging(int value);
-    partial void OnnumberChanged();
-    #endregion
-		
-		public LevelsCard()
-		{
-			this._Card = default(EntityRef<Card>);
-			this._Level = default(EntityRef<Level>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_levelsCardsID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int levelsCardsID
-		{
-			get
-			{
-				return this._levelsCardsID;
-			}
-			set
-			{
-				if ((this._levelsCardsID != value))
+				if ((this._courseID != value))
 				{
-					this.OnlevelsCardsIDChanging(value);
-					this.SendPropertyChanging();
-					this._levelsCardsID = value;
-					this.SendPropertyChanged("levelsCardsID");
-					this.OnlevelsCardsIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_levelID", DbType="Int NOT NULL")]
-		public int levelID
-		{
-			get
-			{
-				return this._levelID;
-			}
-			set
-			{
-				if ((this._levelID != value))
-				{
-					if (this._Level.HasLoadedOrAssignedValue)
+					if (this._Course.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnlevelIDChanging(value);
+					this.OncourseIDChanging(value);
 					this.SendPropertyChanging();
-					this._levelID = value;
-					this.SendPropertyChanged("levelID");
-					this.OnlevelIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cardID", DbType="Int NOT NULL")]
-		public int cardID
-		{
-			get
-			{
-				return this._cardID;
-			}
-			set
-			{
-				if ((this._cardID != value))
-				{
-					if (this._Card.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OncardIDChanging(value);
-					this.SendPropertyChanging();
-					this._cardID = value;
-					this.SendPropertyChanged("cardID");
-					this.OncardIDChanged();
+					this._courseID = value;
+					this.SendPropertyChanged("courseID");
+					this.OncourseIDChanged();
 				}
 			}
 		}
@@ -2129,70 +1806,49 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_LevelsCard", Storage="_Card", ThisKey="cardID", OtherKey="cardID", IsForeignKey=true)]
-		public Card Card
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_Card", Storage="_Cards", ThisKey="levelID", OtherKey="levelID")]
+		public EntitySet<Card> Cards
 		{
 			get
 			{
-				return this._Card.Entity;
+				return this._Cards;
 			}
 			set
 			{
-				Card previousValue = this._Card.Entity;
-				if (((previousValue != value) 
-							|| (this._Card.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card.Entity = null;
-						previousValue.LevelsCards.Remove(this);
-					}
-					this._Card.Entity = value;
-					if ((value != null))
-					{
-						value.LevelsCards.Add(this);
-						this._cardID = value.cardID;
-					}
-					else
-					{
-						this._cardID = default(int);
-					}
-					this.SendPropertyChanged("Card");
-				}
+				this._Cards.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Level_LevelsCard", Storage="_Level", ThisKey="levelID", OtherKey="levelID", IsForeignKey=true)]
-		public Level Level
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Course_Level", Storage="_Course", ThisKey="courseID", OtherKey="courseID", IsForeignKey=true)]
+		public Course Course
 		{
 			get
 			{
-				return this._Level.Entity;
+				return this._Course.Entity;
 			}
 			set
 			{
-				Level previousValue = this._Level.Entity;
+				Course previousValue = this._Course.Entity;
 				if (((previousValue != value) 
-							|| (this._Level.HasLoadedOrAssignedValue == false)))
+							|| (this._Course.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Level.Entity = null;
-						previousValue.LevelsCards.Remove(this);
+						this._Course.Entity = null;
+						previousValue.Levels.Remove(this);
 					}
-					this._Level.Entity = value;
+					this._Course.Entity = value;
 					if ((value != null))
 					{
-						value.LevelsCards.Add(this);
-						this._levelID = value.levelID;
+						value.Levels.Add(this);
+						this._courseID = value.courseID;
 					}
 					else
 					{
-						this._levelID = default(int);
+						this._courseID = default(int);
 					}
-					this.SendPropertyChanged("Level");
+					this.SendPropertyChanged("Course");
 				}
 			}
 		}
@@ -2215,6 +1871,18 @@ namespace Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Cards(Card entity)
+		{
+			this.SendPropertyChanging();
+			entity.Level = this;
+		}
+		
+		private void detach_Cards(Card entity)
+		{
+			this.SendPropertyChanging();
+			entity.Level = null;
 		}
 	}
 	

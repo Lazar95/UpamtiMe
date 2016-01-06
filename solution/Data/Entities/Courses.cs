@@ -236,36 +236,70 @@ namespace Data
 
             foreach (CardDTO card in cards)
             {
-                //dodaj karticu
-                if (card.CardID == -1)
-                {
-                    Card newCard = new Card
-                    {
-                        question = card.Question,
-                        answer = card.Answer,
-                        description = card.Descrption,
-                        image = card.Image
-                    };
-                    dc.Cards.InsertOnSubmit(newCard);
-                    dc.SubmitChanges();
+                //ovo deluje besmislneno ali mislim da bez ovog nece da radi
+                Card c = (from a in dc.Cards where a.CardID == card.CardID select a).First();
+                c.question = card.Question;
+                c.answer = card.Answer;
+                c.description = card.Descrption;
+                c.image = card.Image;
+                dc.SubmitChanges();
+            }
+        }
 
-                    LevelsCard lc = new LevelsCard
-                    {
-                        LevelID = card.LevelID,
-                        CardID = card.CardID,
-                        Number = card.Number
-                    };
-                }
-                else //izmeni karticu
+        public static void addCards(List<CardDTO> cards)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            foreach (CardDTO card in cards)
+            {
+                Card newCard = new Card
                 {
-                    //ovo deluje besmislneno ali mislim da bez ovog nece da radi
-                    Card c = (from a in dc.Cards where a.CardID == card.CardID select a).First();
-                    c.question = card.Question;
-                    c.answer = card.Answer;
-                    c.description = card.Descrption;
-                    c.image = card.Image;
-                    dc.SubmitChanges();
-                }
+                    question = card.Question,
+                    answer = card.Answer,
+                    description = card.Descrption,
+                    image = card.Image
+                };
+                dc.Cards.InsertOnSubmit(newCard);
+                dc.SubmitChanges();
+
+                LevelsCard lc = new LevelsCard
+                {
+                    LevelID = card.LevelID,
+                    CardID = card.CardID,
+                    Number = card.Number
+                };
+            }
+        }
+
+        public static void addLevels(int courseID, List<LevelsDTO> levels)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            foreach (LevelsDTO level in levels)
+            {
+               
+                Level newLevel = new Level
+                {
+                    name = level.Name,
+                    type = level.Type,
+                };
+                dc.Levels.InsertOnSubmit(newLevel);
+                dc.SubmitChanges();
+
+                CoursesLevel cl = new CoursesLevel
+                {
+                    courseID = courseID,
+                    LevelID = newLevel.LevelID,
+                    Number = level.Number
+                };
+                dc.CoursesLevels.InsertOnSubmit(cl);
+                dc.SubmitChanges();
+
+                foreach (CardDTO card in level.Cards)
+                    card.LevelID = newLevel.LevelID;
+
+                addCards(level.Cards);
+              
             }
         }
 
@@ -275,38 +309,17 @@ namespace Data
 
             foreach (EditLevelDTO level in levels)
             {
-                //dodaj nivo
-                if (level.LevelID == -1)
-                {
-                    Level newLevel = new Level
-                    {
-                        name = level.Name,
-                        type = level.Type,
-                    };
-                    dc.Levels.InsertOnSubmit(newLevel);
-                    dc.SubmitChanges();
+               
+                //opet ovo besmisleno
+                Level l = (from a in dc.Levels where a.LevelID == level.LevelID select a).First();
+                l.name = level.Name;
+                l.type = level.Type;
+                dc.SubmitChanges();
 
-                    CoursesLevel cl = new CoursesLevel
-                    {
-                        courseID = courseID,
-                        LevelID = newLevel.LevelID,
-                        Number = level.Number
-                    };
-                    dc.CoursesLevels.InsertOnSubmit(cl);
-                    dc.SubmitChanges();
-                }
-                else //izmeni nivo
-                {
-                    //opet ovo besmisleno
-                    Level l = (from a in dc.Levels where a.LevelID == level.LevelID select a).First();
-                    l.name = level.Name;
-                    l.type = level.Type;
-                    dc.SubmitChanges();
-
-                    CoursesLevel cl = (from a in dc.CoursesLevels where a.LevelID == level.LevelID select a).First();
-                    cl.Number = level.Number;
-                    dc.SubmitChanges();
-                }
+                CoursesLevel cl = (from a in dc.CoursesLevels where a.LevelID == level.LevelID select a).First();
+                cl.Number = level.Number;
+                dc.SubmitChanges();
+                
             }
         }
 

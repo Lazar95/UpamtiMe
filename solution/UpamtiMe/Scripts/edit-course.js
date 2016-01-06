@@ -126,7 +126,8 @@ var addCard = function(level) {
     string += '</div>';
     string += '<div class="buttons">';
       string += '<div class="change-button">E</div>';
-      string += '<div class="remove-button">X</div>';
+      string += '<div class="remove-button">R</div>';
+      string += '<div class="accept-button">A</div>';
     string += '</div>';
   string += '</li>';
 

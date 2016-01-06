@@ -20,11 +20,10 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Profile(int id)
         {
-            int usrID = UserSession.GetUser().UserID;
             CourseProfileModel model;
-            if (Users.enrolled(usrID, id))
+            if ( UserSession.GetUser() != null && Users.enrolled(UserSession.GetUser().UserID, id))
             {
-                model = CourseProfileModel.Load(id, usrID);
+                model = CourseProfileModel.Load(id, UserSession.GetUser().UserID);
             }
             else
             {

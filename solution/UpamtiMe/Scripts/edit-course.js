@@ -153,37 +153,62 @@ var editLevel = function(levelID) {
 //   - Zameni spanove inputima ali im sacuvaj trenutno stanje u data-old (za cancel)
 $('#course').on('click', '.level .buttons .change-button', function() {
   var cardInfo = $(this).parent().parent().find('.card-info');
+  var oldQ = cardInfo.children('span.question').html().trim();
+  var oldA = cardInfo.children('span.answer').html().trim();
+  var oldD = cardInfo.children('span.description').html().trim();
+  cardInfo.children('span.question').remove();
+  cardInfo.children('span.answer').remove();
+  cardInfo.children('span.description').remove();
+  cardInfo.append('<input type="text" class="question" data-old-value="' + oldQ + '" value="' + oldQ + '">');
+  cardInfo.append('<input type="text" class="answer" data-old-value="' + oldA + '" value="' + oldA + '">');
+  cardInfo.append('<input type="text" class="description" data-old-value="' + oldD + '" value="' + oldD + '">');
 });
 
 // Kad se klikne na Accept dugme prilikom editovanja kartice:
-//   - Pozovi funkcija koja obradi edit
+//   - Obradi edit (upisi u _course)
 //   - Vrati spanove od inputa
 $('#course').on('click', '.level .buttons .accept-button', function() {
-  editCard($(this).parent().parent().attr('data-card-id'));
+
+  // Prikupljanje podataka
+  var cardID = $(this).parent().parent().attr('data-card-id');
   var cardInfo = $(this).parent().parent().find('.card-info');
   var newQ = cardInfo.children('input.question').val().trim();
   var newA = cardInfo.children('input.answer').val().trim();
   var newD = cardInfo.children('input.description').val().trim();
-  cardInfo.children('input.question').delete();
-  cardInfo.children('input.answer').delete();
-  cardInfo.children('input.description').delete();
+
+  // Sustina:
+  for (var level = 0; level < _course.length; level++) {
+    for (var card = 0; card < _course[level].cards.length; card++) {
+      if (_course[level].cards[card].cardID == cardID) {
+        var currCard = _course[level].cards[card];
+        // Nasili smo na karticu koja se edituje
+        currCard.question = newQ;
+        currCard.answer = newA;
+        currCard.description = newD;
+        if (currCard.status == NEW || currCard.status == CHANGED) {
+          // Nemoj da radis nista...
+          // Kartica koja je dodata a onda editovana je, sto se baze tice,
+          // i dalje nova.
+          // Kartica koje je editovana a onda je opet editovana je, sto se
+          // baze tice, i dalje samo editovana.
+        } else { // UNTOUCHED
+          // Ako kartica nije dirana, onda je oznaci kao changed jer treba
+          // da se prosledi bazi kao takva.
+          currCard.status = CHANGED;
+        }
+      }
+    }
+  }
+
+  // Vizuelno:
+  cardInfo.children('input.question').remove();
+  cardInfo.children('input.answer').remove();
+  cardInfo.children('input.description').remove();
   cardInfo.append('<span class="question">'+     newQ + '</span>');
   cardInfo.append('<span class="answer">' +      newA + '</span>');
   cardInfo.append('<span class="description">' + newD + '</span>');
 });
 
-var editCard = function(cardID) {
-
-  for (var level = 0; level < _course.length; level++) {
-    for (var card = 0; card < _course[level].cards.length; card++) {
-      if (_course[level].cards[card].cardID == cardID) {
-        // Nasili smo na karticu koja se edituje
-        //_course[level].cards[card].
-      }
-    }
-  }
-
-}
 
 /****************************/
 /****************************/
@@ -229,17 +254,22 @@ var save = function() {
     }
   }
 
-  // Dodate pojedinacne kartice:
+  // Pojedinacne kartice:
   for (var i = 0; i < _course.length; i++) {
     if (_course[i].status != NEW) {
-      // Sve nove kartice iz nivoa koji nisu novi (nedirani ili im je promenjeno ime)
       for (var j = 0; j < _course[i].cards.length; j++) {
+        // Sve nove kartice iz nivoa koji nisu novi (nedirani ili im je promenjeno ime)
         if (_course[i].cards[j].status == NEW) {
           _dataToSend.addedCards.push(_course[i].cards[j]);
+        }
+        // Sve kartice koje su vec u bazi a promenjene su:
+        if (_course[i].cards[j].status == CHANGED) {
+          _dataToSend.editedCards.push(_course[i].cards[j]);
         }
       }
     }
   }
+
 
   console.log(_dataToSend)
 

@@ -69,36 +69,42 @@
                     @foreach (CardDTO card in level.Cards)
                     {
                         <li data-card-id=@card.CardID data-card-number=@card.Number>
-                            @if (card.Question != null)
-                            {
-                                <span class="question">@card.Question</span>
-                            }
-                            else
-                            {
-                                if (card.Image != null)
+                            <div class="card-info">
+                                @if (card.Question != null)
                                 {
-                                    <span class="image">@card.Image</span>
-                                    <div>upload dugme</div>
+                                    <span class="question">@card.Question</span>
                                 }
-                            }
-                            <span class="answer">@card.Answer</span>
-                            <span class="description">@card.Descrption</span>
-                            <div class="add-button">Promeni</div>
+                                else
+                                {
+                                    if (card.Image != null)
+                                    {
+                                        <span class="image">@card.Image</span>
+                                        <div>upload dugme</div>
+                                    }
+                                }
+                                <span class="answer">@card.Answer</span>
+                                <span class="description">@card.Descrption</span>
+                            </div>
+                            <div class="buttons">
+                                <div class="change-button">E</div>
+                                <div class="remove-button">R</div>
+                                <div class="accept-button">A</div>
+                            </div>
                         </li>
                     }
-                    <li class="new-card">
-                        <div class="new-card-info">
-                            Pitanje: <input class="question" type="text" />                        
-                            Odgovor: <input class="answer" type="text" />
-                            Opis: <input class="description" type="text" />
+                    <li class="new-card collapsed">
+                        <div class="inner-wrapper">
+                            <div><span>Pitanje:</span> <input class="question" type="text" /></div>
+                            <div><span>Odgovor</span> <input class="answer" type="text" /></div>
+                            <div><span>Opis:</span> <input class="description" type="text" /></div>
                         </div>
-                        <div class="add-button">Dodaj!</div>
+                        <div class="add-button" data-function="expand">+</div>
                     </li>
                 </ul>
             </li>
         }
-        <li id="new-level">
-            <div class="new-level-info">
+        <li id="new-level" class="collapsed">
+            <div class="inner-wrapper">
                 <div>
                     <span>Tip nivoa:</span>
                     <select>
@@ -112,7 +118,7 @@
                     <input type="text" />
                 </div>
             </div>
-            <div class="add-button">Dodaj</div>
+            <div class="add-button" data-function="expand">+</div>
         </li>
 
     </ul>

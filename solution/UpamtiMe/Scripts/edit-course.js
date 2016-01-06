@@ -15,9 +15,9 @@ var viewToData = function() {
         {
           "cardID": $(this).attr('data-card-id'),
           "number": $(this).attr('data-card-number'),
-          "question": $(this).children('.question').text(),
-          "answer": $(this).children('.answer').text(),
-          "description": $(this).children('.description').text(),
+          "question": $(this).find('.question').text(),
+          "answer": $(this).find('.answer').text(),
+          "description": $(this).find('.description').text(),
           "levelID": $(this).parent().attr('data-level-id'),
           "status": UNTOUCHED,
         }
@@ -48,6 +48,7 @@ var _dataToSend = {
   "name": "",
   "categoryID": 0,
   "subcategoryID": 0,
+  "description": "",
   "deletedCards":  [], // lista ID-jeva kartica
   "deletedLevels": [], // lista Id-jeva nivoa
   "editedCards":   [], // niz objekata kartica (promenjene a postojale)
@@ -56,9 +57,15 @@ var _dataToSend = {
   "addedLevels":   [], // nivo nivoi -- lazni ID (negativan)
 }
 
-/*****************************
- * Dodavanje nivoa i kartica *
- *****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+/* Dodavanje nivoa i kartica */
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
 
 var addLevel = function() {
 
@@ -80,10 +87,12 @@ var addLevel = function() {
     string += '<span>' + newLevel.name + '</span>';
     string += '<ul class="level" data-level-id="' + newLevel.levelID + '" data-level-number="' + newLevel.number + '" data-level-type="' + newLevel.type + '">';
       string += '<li class="new-card">';
-        string += 'Pitanje: <input class="question" type="text" />';
-				string += 'Odgovor: <input class="answer" type="text" />';
-				string += 'Odgovor: <input class="answer" type="text" />';
-				string += '<div class="add-button">Dodaj!</div>';
+        string += '<div class="inner-wrapper">';
+          string += '<span>Pitanje:</span> <input class="question" type="text" />';
+		      string += '<span>Odgovor:</span> <input class="answer" type="text" />';
+			    string += '<span>Opis:</span> <input class="description" type="text" />';
+        string += '</div>';
+				string += '<div class="add-button">+</div>';
       string += '</li>';
     string += '</ul>';
   string += '</li>';
@@ -110,14 +119,99 @@ var addCard = function(level) {
 
   var string = '';
   string += '<li data-card-id="' + newCard.cardID + '" data-card-number="' + newCard.number + '">';
-    string += '<span class="question">' + newCard.question + '</span>';
-    string += '<span class="answer">' + newCard.answer + '</span>';
-    string += '<div class="change-button">Promeni</div>';
+    string += '<div class="card-info">';
+      string += '<span class="question">' + newCard.question + '</span>';
+      string += '<span class="answer">' + newCard.answer + '</span>';
+      string += '<span class="description">' + newCard.description + '</span>';
+    string += '</div>';
+    string += '<div class="buttons">';
+      string += '<div class="change-button">E</div>';
+      string += '<div class="remove-button">X</div>';
+    string += '</div>';
   string += '</li>';
 
   $('#course > li:nth-of-type(' + level + ') ul > li:last-of-type').before(string);
 
 }
+
+/******************************/
+/******************************/
+/******************************/
+/******************************/
+/* Editovanje nivoa i kartica */
+/******************************/
+/******************************/
+/******************************/
+/******************************/
+
+var editLevel = function(levelID) {
+
+}
+
+
+// Kad se klikne na Edit dugme prilikom editovanja kartice
+//   - Zameni spanove inputima ali im sacuvaj trenutno stanje u data-old (za cancel)
+$('#course').on('click', '.level .buttons .change-button', function() {
+  var cardInfo = $(this).parent().parent().find('.card-info');
+});
+
+// Kad se klikne na Accept dugme prilikom editovanja kartice:
+//   - Pozovi funkcija koja obradi edit
+//   - Vrati spanove od inputa
+$('#course').on('click', '.level .buttons .accept-button', function() {
+  editCard($(this).parent().parent().attr('data-card-id'));
+  var cardInfo = $(this).parent().parent().find('.card-info');
+  var newQ = cardInfo.children('input.question').val().trim();
+  var newA = cardInfo.children('input.answer').val().trim();
+  var newD = cardInfo.children('input.description').val().trim();
+  cardInfo.children('input.question').delete();
+  cardInfo.children('input.answer').delete();
+  cardInfo.children('input.description').delete();
+  cardInfo.append('<span class="question">'+     newQ + '</span>');
+  cardInfo.append('<span class="answer">' +      newA + '</span>');
+  cardInfo.append('<span class="description">' + newD + '</span>');
+});
+
+var editCard = function(cardID) {
+
+  for (var level = 0; level < _course.length; level++) {
+    for (var card = 0; card < _course[level].cards.length; card++) {
+      if (_course[level].cards[card].cardID == cardID) {
+        // Nasili smo na karticu koja se edituje
+        //_course[level].cards[card].
+      }
+    }
+  }
+
+}
+
+/****************************/
+/****************************/
+/****************************/
+/****************************/
+/* Brisanje nivoa i kartica */
+/****************************/
+/****************************/
+/****************************/
+/****************************/
+
+var deleteLevel = function(levelID) {
+
+}
+
+var deleteCard = function(cardID) {
+
+}
+
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+/* SAVE SAVE SAVE SAVE SAVE  */
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
 
 var save = function() {
 
@@ -126,6 +220,7 @@ var save = function() {
   _dataToSend.name = $('#course-name > span').html();
   _dataToSend.categoryID = $('.cat-subcat #category option:selected').val();
   _dataToSend.subcategoryID = $('.cat-subcat #subcategory option:selected').val();
+  _dataToSend.description = $('.basic-info > .description > span').html().trim();
 
   // Dodati celi nivoi:
   for (var i = 0; i < _course.length; i++) {
@@ -148,7 +243,6 @@ var save = function() {
 
   console.log(_dataToSend)
 
-  
   $.ajax({
       url: "/Courses/EditCourse", // /kontroler/akcija (klasa/funkcija u klasi)
       method: "POST",
@@ -161,17 +255,35 @@ var save = function() {
           }
       }
   });
-  
+
 }
 
 /**
  * Bindovanje funkcija za dugmad
  */
-$('#course').on('click', '#new-level .add-button', addLevel);
-$('#course').on('click', '.new-card .add-button', function() {
-  var index = $(this).parent().parent().parent().index();
-  addCard(index+1);
+$('#course').on('click', '#new-level .add-button', function() {
+  if ($(this).attr('data-function') == 'expand') {
+    $(this)
+      .parent().removeClass('collapsed')
+    .end().attr('data-function', 'add');
+  } else {
+    // data-function = "add"
+    addLevel();
+  }
 });
+
+$('#course').on('click', '.new-card .add-button', function() {
+  if ($(this).attr('data-function') == 'expand') {
+    $(this)
+      .parent().removeClass('collapsed')
+    .end().attr('data-function', 'add');
+  } else {
+    // data-function = "add"
+    var index = $(this).parent().parent().parent().index();
+    addCard(index+1);
+  }
+});
+
 $('#save').click(save);
 
 
@@ -182,3 +294,7 @@ var dump = function() {
 $(document).ready(function() {
   viewToData();
 });
+
+/**
+ * Dizajn
+ */

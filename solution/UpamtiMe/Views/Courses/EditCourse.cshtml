@@ -158,7 +158,7 @@
         @foreach (LevelsDTO level in Model.Levels)
         {
             <li><span>@level.Name</span>
-                <ul class="level" data-level-id=@level.LevelID data-level-number="TODO" data-level-type=@level.Type>
+                <ul class="level" data-level-id=@level.LevelID data-level-number=@level.Number data-level-type=@level.Type>
                     @foreach (CardDTO card in level.Cards)
                     {
                         <li data-card-id=@card.CardID data-card-number=@card.Number>

@@ -52,14 +52,12 @@ namespace UpamtiMe.Controllers
             if (ModelState.IsValid)
             {
                 Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, model.CreatorID);
-                RedirectToAction("EditCourse", new {id = c.courseID });
+                return RedirectToAction("EditCourse", new {id = c.courseID });
             }
             else
             {
                 return Json(new { success = false, result = ModelState.Errors() });
             }
-
-            return View(model);
         }
 
         public ActionResult EditCourse(int id)
@@ -127,6 +125,7 @@ namespace UpamtiMe.Controllers
             }
             catch (Exception e)
             {
+                return RedirectToAction("Error", "Home");
                 return Json(new { success = false});
             }
         }

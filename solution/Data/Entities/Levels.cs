@@ -62,7 +62,8 @@ namespace Data
             {
                 name = level.Name,
                 type = level.Type,
-                number = level.Number
+                number = level.Number,
+                courseID = courseID
             };
             dc.Levels.InsertOnSubmit(newLevel);
             dc.SubmitChanges();

@@ -318,9 +318,10 @@ var save = function() {
   for (var i = 0; i < _course.length; i++) {
     var currLevel = _course[i];
     switch (currLevel.status) {
-      case NEW:     _dataToSend.addedLevels.push(currLevel);
+      case NEW:     _dataToSend.addedLevels.push(currLevel); break;
       case CHANGED: _dataToSend.editedLevels.push(currLevel);
-      case DELETED: _dataToSend.deletedLevels.push(currLevel.levelID);
+          break;
+      case DELETED: _dataToSend.deletedLevels.push(currLevel); break;
     }
   }
 

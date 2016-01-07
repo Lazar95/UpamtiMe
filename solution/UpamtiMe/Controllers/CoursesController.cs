@@ -108,6 +108,8 @@ namespace UpamtiMe.Controllers
                     Levels.addLevels(model.CourseID, model.AddedLevels);
                     foreach (LevelsDTO level in model.AddedLevels)
                     {
+                        if (level.Cards == null)
+                            continue;
                         numAdded += level.Cards.Count;
                     }
                 }

@@ -273,25 +273,91 @@ main#edit-course {
 
 	//ul#course
 
-		& > li > span {
-			// Naslov nivoa
-			font-size: 24px;
-			height: 24px;
+		& > li .level-info {
+
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
 			line-height: 24px;
 
 			&::before {
 				// Dugme kojim se ca se kolapsuje/ekspanduje nivo
 				content: '+';
 				font: Arial;
-				display: inline-block;
+				display: block;
 				width: 24px;
 				height: 24px;
 				text-align: center;
-				transform: rotateZ(45deg);
+				position: absolute;
+			}
+
+			span {
+				// Naslov nivoa
+				font-size: 24px;
+				height: 24px;
+				display: block;
+				position: relative;
+				padding-left: 36px; // za dugme za expand/collapse
+				font-variant: small-caps;
+				font-weight: bold;
+			}
+
+			.buttons {
+				.options-button {
+					cursor: pointer;
+				}
 			}
 		}
 
-		& > li > ul {
+		& > li > ul.options {
+			// Opcije koje se pojavljuju kada korisnik klikne na gear gore-desno u
+			// nivou. HTML za ovo se dinamicki injektuje.
+			background-color: palette($blue-grey, 900);
+			color: palette($blue-grey, 100);
+			padding: 12px 16px;
+			position: absolute;
+			right: 0;
+			margin-right: 36px; // padding nivoa
+			animation: options-expand .5s ease;
+			z-index: 100;
+			text-align: right;
+
+			@keyframes options-expand {
+				from {
+					padding: 0 16px;
+					max-height: 0;
+					opacity: 0;
+				}
+				to {
+					padding: 12px 16px;
+					max-height: 100px;
+					opacity: 1;
+				}
+			}
+
+			&.remove-me {
+				animation: options-collapse .5s ease;
+
+				@keyframes options-collapse {
+					from {
+						padding: 12px 16px;
+						max-height: 100px;
+						opacity: 1;
+					}
+					to {
+						padding: 0 16px;
+						max-height: 0;
+						opacity: 0;
+					}
+				}
+			}
+
+			& > li {
+				margin: 4px;
+			}
+		}
+
+		& > li > ul:not(.options) {
 			margin: 32px;
 
 			.new-card {
@@ -299,24 +365,46 @@ main#edit-course {
 			}
 
 			& > li:not(.new-card) {
+				// Kartica u nivou
 				$h: 18px;
 				padding: 8px;
 				display: flex;
 				justify-content: space-between;
 				height: $h;
 				font-size: 0.9*$h;
+				line-height: 0.9*$h;
 				background-color: transparent;
 				transition: all .1s ease;
+
+				&.dimmed {
+					// Kad se klikne na Remove pa se kartica obelezi kao obrisana.
+					opacity: .4;
+				}
 
 				.card-info {
 					flex-grow: 1;
 					display: flex;
 					justify-content: space-between;
 
-					& > span {
+					& > span, & > input {
 						width: 32%;
 
 						&.question { font-weight: bold; }
+						&.description { color: palette($blue-grey, 600); font-size: .75*$h; }
+					}
+
+					& > input {
+						// Tokom editovanja
+						font-family: inherit;
+						height: $h;
+						font-size: 0.9*$h;
+						background-color: transparent;
+						box-shadow: 0px 2px palette($blue-grey, 600);
+						transition: box-shadow .33s ease;
+
+						&:focus {
+							box-shadow: 0px 2px palette($pink, 600);
+						}
 					}
 				}
 
@@ -326,6 +414,11 @@ main#edit-course {
 					flex-grow: 0;
 					display: flex;
 					margin-left: 12px;
+					height: $h;
+					width: 50px;
+					display: flex;
+					justify-content: center;
+					align-content: center;
 
 					div {
 						// change, remove

@@ -3,6 +3,7 @@ var _course = []; // niz nivoa
 var UNTOUCHED = 0;
 var CHANGED = 1;
 var NEW = 2;
+var DELETED = 3;
 
 var viewToData = function() {
 
@@ -20,6 +21,7 @@ var viewToData = function() {
           "description": $(this).find('.description').text(),
           "levelID": $(this).parent().attr('data-level-id'),
           "status": UNTOUCHED,
+          "prevStatus": -1,
         }
       );
     }); // unutrasnji each
@@ -32,6 +34,7 @@ var viewToData = function() {
         "type": $(this).attr('data-level-type'),
         "cards": cardsInCurrLevel,
         "status": UNTOUCHED,
+        "prevStatus": -1,
       }
     )
 
@@ -128,6 +131,8 @@ var addCard = function(level) {
       string += '<div class="change-button">E</div>';
       string += '<div class="remove-button">R</div>';
       string += '<div class="accept-button">A</div>';
+      string += '<div class="discard-button">D</div>';
+      string += '<div class="undo-button">U</div>';
     string += '</div>';
   string += '</li>';
 
@@ -210,6 +215,22 @@ $('#course').on('click', '.level .buttons .accept-button', function() {
   cardInfo.append('<span class="description">' + newD + '</span>');
 });
 
+// Kad klikne na iscard dugme prilikom editovanja kartice, vrati sve nazad.
+// Skroz je nebitno sta je upisao.
+// Samo vizuelno treba da vrati sve nazad.
+// To "sve nazad" se cuva u data-old-value u inputima.
+$('#course').on('click', '.level .buttons .discard-button', function() {
+  var cardInfo = $(this).parent().parent().find('.card-info');
+  var oldQ = cardInfo.children('input.question').attr('data-old-value').trim();
+  var oldA = cardInfo.children('input.answer').attr('data-old-value').trim();
+  var oldD = cardInfo.children('input.description').attr('data-old-value').trim();
+  cardInfo.children('input.question').remove();
+  cardInfo.children('input.answer').remove();
+  cardInfo.children('input.description').remove();
+  cardInfo.append('<span class="question">'+     oldQ + '</span>');
+  cardInfo.append('<span class="answer">' +      oldA + '</span>');
+  cardInfo.append('<span class="description">' + oldD + '</span>');
+});
 
 /****************************/
 /****************************/
@@ -221,13 +242,58 @@ $('#course').on('click', '.level .buttons .accept-button', function() {
 /****************************/
 /****************************/
 
-var deleteLevel = function(levelID) {
+// Kad se klikne na Remove dugme s namerom da obrise karticu
+//   - Kartica ce da izgubi opacity, tj. videce se bledo.
+//   - Ovo znaci da ce klikom na SAVE da obrise ovu karticu.
+//   - Dok je kartica u ovom stanju, postoji undo dugme kojim se kartica vraca,
+//     tj. nece da se je obrise kada pritisne na save.
+$('#course').on('click', '.level .buttons .remove-button', function() {
 
-}
+  // Prikupljanje podataka
+  var cardID = $(this).parent().parent().attr('data-card-id');
 
-var deleteCard = function(cardID) {
+  // Sustina:
+  for (var level = 0; level < _course.length; level++) {
+    for (var card = 0; card < _course[level].cards.length; card++) {
+      if (_course[level].cards[card].cardID == cardID) {
+        // Nasili smo na karticu koja se brise
+        var currCard = _course[level].cards[card];
+        // Obelezi je kao karticu koja treba da se obrise, sta god da je ranije
+        // bilo sa njom.
+        // Ali sacuvaj kakva je ranije bila za slucaj da se uradi undo.
+        currCard.prevStatus = currCard.status;
+        currCard.status = DELETED;
+      }
+    }
+  }
 
-}
+  // Vizuelno:
+  $(this).parent().parent().addClass('dimmed');
+});
+
+// Kad se klikne na Undo dugme
+//   - Kartici se vraca stari status.
+$('#course').on('click', '.level .buttons .undo-button', function() {
+
+  // Prikupljanje podataka
+  var cardID = $(this).parent().parent().attr('data-card-id');
+
+  // Sustina:
+  for (var level = 0; level < _course.length; level++) {
+    for (var card = 0; card < _course[level].cards.length; card++) {
+      if (_course[level].cards[card].cardID == cardID) {
+        // Nasili smo na karticu koja nam treba
+        var currCard = _course[level].cards[card];
+        // Vrati stanje kartice koje je bilo pre nego sto je obrisana.
+        currCard.status = currCard.prevStatus;
+        currCard.prevStatus = -1;
+      }
+    }
+  }
+
+  // Vizuelno:
+  $(this).parent().parent().removeClass('dimmed');
+});
 
 /*****************************/
 /*****************************/
@@ -248,10 +314,13 @@ var save = function() {
   _dataToSend.subcategoryID = $('.cat-subcat #subcategory option:selected').val();
   _dataToSend.description = $('.basic-info > .description > span').html().trim();
 
-  // Dodati celi nivoi:
+  // Celi nivoi:
   for (var i = 0; i < _course.length; i++) {
-    if (_course[i].status == NEW) {
-      _dataToSend.addedLevels.push(_course[i]);
+    var currLevel = _course[i];
+    switch (currLevel.status) {
+      case NEW:     _dataToSend.addedLevels.push(currLevel);
+      case CHANGED: _dataToSend.editedLevels.push(currLevel);
+      case DELETED: _dataToSend.deletedLevels.push(currLevel);
     }
   }
 
@@ -259,13 +328,11 @@ var save = function() {
   for (var i = 0; i < _course.length; i++) {
     if (_course[i].status != NEW) {
       for (var j = 0; j < _course[i].cards.length; j++) {
-        // Sve nove kartice iz nivoa koji nisu novi (nedirani ili im je promenjeno ime)
-        if (_course[i].cards[j].status == NEW) {
-          _dataToSend.addedCards.push(_course[i].cards[j]);
-        }
-        // Sve kartice koje su vec u bazi a promenjene su:
-        if (_course[i].cards[j].status == CHANGED) {
-          _dataToSend.editedCards.push(_course[i].cards[j]);
+        var currCard = _course[i].cards[j];
+        switch (currCard.status) {
+          case NEW:     _dataToSend.addedCards.push(currCard); break;
+          case CHANGED: _dataToSend.editedCards.push(currCard); break;
+          case DELETED: _dataToSend.deletedCards.push(currCard); break;
         }
       }
     }
@@ -280,7 +347,7 @@ var save = function() {
       data: _dataToSend,
       success: function (res) {
           if (res.success) {
-              $('#new-level').append('Waai uspesno!');
+            $('#new-level').append('Waai uspesno!');
           } else {
             $('#new-level').append('Nije uspelo!');
           }
@@ -312,6 +379,7 @@ $('#course').on('click', '.new-card .add-button', function() {
     // data-function = "add"
     var index = $(this).parent().parent().parent().index();
     addCard(index+1);
+    showInitialButtons();
   }
 });
 
@@ -324,8 +392,78 @@ var dump = function() {
 
 $(document).ready(function() {
   viewToData();
+  // Inicijalno sklanjane nepotrebnih dugmadi za editovanje kartice.
+  showInitialButtons();
 });
 
 /**
  * Dizajn
  */
+
+var showInitialButtons = function(here) {
+  if (here == null) {
+    // sve
+    $('.buttons > .accept-button').hide();
+    $('.buttons > .discard-button').hide();
+    $('.buttons > .undo-button').hide();
+  } else {
+    // samo one u prosledjenom .buttons parentu
+    hideAllButtons(here);
+    here.children('.change-button').show();
+    here.children('.remove-button').show();
+  }
+}
+
+var hideAllButtons = function(here) {
+  here.children('.change-button').hide();
+  here.children('.remove-button').hide();
+  here.children('.accept-button').hide();
+  here.children('.discard-button').hide();
+  here.children('.undo-button').hide();
+}
+
+$('#course').on('click', '.change-button', function() {
+  hideAllButtons($(this).parent());
+  $(this).parent().children('.accept-button').show();
+  $(this).parent().children('.discard-button').show();
+});
+
+$('#course').on('click', '.remove-button', function() {
+  hideAllButtons($(this).parent());
+  $(this).parent().children('.undo-button').show();
+});
+
+$('#course').on('click', '.accept-button', function() {
+  showInitialButtons($(this).parent());
+});
+
+$('#course').on('click', '.discard-button', function() {
+  showInitialButtons($(this).parent());
+});
+
+$('#course').on('click', '.undo-button', function() {
+  showInitialButtons($(this).parent());
+});
+
+var toggleAdvancedLevelOptions = function(levelElement) {
+  var levelInfo = levelElement.children('.level-info');
+  if (levelInfo.parent().children('.options').length) {
+    // Ako je vec otvoreno, obrisi ga (sacekaj da se izvrsi animacija)
+    levelInfo.parent().children('.options').addClass('remove-me');
+    setTimeout(function() {
+      levelInfo.parent().children('.options').remove();
+    }, 500);
+    return;
+  }
+  var string = '';
+  string += '<ul class="options">';
+    string += '<li data-function="name-change">Promeni ime</li>';
+    string += '<li data-function="level-delete">Obrisi nivo</li>';
+    string += '<li data-function="mass-edit">Grupno menjanje</li>';
+    string += '<li data-function="change-description">Promeni opis svima</li>';
+  string += '</ul>';
+  levelInfo.after(string);
+}
+$('#course').on('click', '.options-button', function() {
+  toggleAdvancedLevelOptions($(this).parent().parent().parent());
+})

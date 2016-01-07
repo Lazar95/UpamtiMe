@@ -320,7 +320,7 @@ var save = function() {
     switch (currLevel.status) {
       case NEW:     _dataToSend.addedLevels.push(currLevel);
       case CHANGED: _dataToSend.editedLevels.push(currLevel);
-      case DELETED: _dataToSend.deletedLevels.push(currLevel);
+      case DELETED: _dataToSend.deletedLevels.push(currLevel.levelID);
     }
   }
 
@@ -328,11 +328,15 @@ var save = function() {
   for (var i = 0; i < _course.length; i++) {
     if (_course[i].status != NEW) {
       for (var j = 0; j < _course[i].cards.length; j++) {
-        var currCard = _course[i].cards[j];
+          var currCard = _course[i].cards[j];
         switch (currCard.status) {
           case NEW:     _dataToSend.addedCards.push(currCard); break;
           case CHANGED: _dataToSend.editedCards.push(currCard); break;
-          case DELETED: _dataToSend.deletedCards.push(currCard); break;
+          case DELETED:
+              if (currCard.cardID > 0) {
+                  _dataToSend.deletedCards.push(currCard.cardID);
+              }
+              break;
         }
       }
     }

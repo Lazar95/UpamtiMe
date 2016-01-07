@@ -112,8 +112,6 @@ namespace UpamtiMe.Controllers
                     }
                 }
 
-
-
                 int oldnum = Courses.getCardNuber(model.CourseID);
                 int newnum = oldnum + numAdded - numDeleted;
                 
@@ -121,11 +119,9 @@ namespace UpamtiMe.Controllers
                 Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, newnum, model.Description);
 
                 return Json(new {success = true});
-                return RedirectToAction("EditCourse", new { id = model.CourseID });
             }
             catch (Exception e)
-            {
-                return RedirectToAction("Error", "Home");
+            { 
                 return Json(new { success = false});
             }
         }

@@ -311,9 +311,8 @@ main#edit-course {
 
 		& > li > ul.options {
 			// Opcije koje se pojavljuju kada korisnik klikne na gear gore-desno u
-			// nivou. HTML za ovo se dinamicki injektuje.
+			// nivou. HTML za ovo se dinamicki injektuje JS-om kad se klikne na gear.
 			background-color: palette($blue-grey, 900);
-			color: palette($blue-grey, 100);
 			padding: 12px 16px;
 			position: absolute;
 			right: 0;
@@ -321,6 +320,7 @@ main#edit-course {
 			animation: options-expand .5s ease;
 			z-index: 100;
 			text-align: right;
+			overflow: hidden;
 
 			@keyframes options-expand {
 				from {
@@ -353,7 +353,21 @@ main#edit-course {
 			}
 
 			& > li {
-				margin: 4px;
+				padding: 6px;
+				color: palette($blue-grey, 200);
+				cursor: pointer;
+				transition: all .2s ease;
+
+				i {
+					// Ikonice
+					margin-left: 8px;
+				}
+
+				&:hover {
+					color: palette($blue-grey, 50);
+					background-color: palette($blue-grey, 800);
+					box-shadow: 16px 0 palette($blue-grey, 800), -16px 0 palette($blue-grey, 800);
+				}
 			}
 		}
 

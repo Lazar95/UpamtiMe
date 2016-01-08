@@ -68,7 +68,7 @@
                 <div class="level-info">
                     <span>@level.Name</span>
                     <div class="buttons">
-                        <div class="options-button">O</div>
+                        <div class="options-button"><i class="fa fa-cog"></i></div>
                     </div>
                 </div>
                 <ul class="level" data-level-id=@level.LevelID data-level-number=@level.Number data-level-type=@level.Type>
@@ -92,11 +92,11 @@
                                 <span class="description">@card.Description</span>
                             </div>
                             <div class="buttons">
-                                <div class="change-button">E</div>
-                                <div class="remove-button">R</div>
-                                <div class="accept-button">A</div>
-                                <div class="discard-button">D</div>
-                                <div class="undo-button">U</div>
+                                <div class="change-button"><i class="fa fa-pencil"></i></div>
+                                <div class="remove-button"><i class="fa fa-trash"></i></div>
+                                <div class="accept-button"><i class="fa fa-check"></i></div>
+                                <div class="discard-button"><i class="fa fa-times"></i></div>
+                                <div class="undo-button"><i class="fa fa-undo"></i></div>
                             </div>
                         </li>
                     }
@@ -106,7 +106,7 @@
                             <div><span>Odgovor</span> <input class="answer" type="text" /></div>
                             <div><span>Opis:</span> <input class="description" type="text" /></div>
                         </div>
-                        <div class="add-button" data-function="expand">+</div>
+                        <div class="add-button" data-function="expand"><i class="fa fa-plus"></i></div>
                     </li>
                 </ul>
             </li>
@@ -131,7 +131,7 @@
 
     </ul>
 
-    <div class="button" id="save">S</div>
+    <div class="button" id="save"><i class="fa fa-floppy-o"></i></div>
 
 </main>
 

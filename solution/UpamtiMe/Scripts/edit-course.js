@@ -87,17 +87,21 @@ var addLevel = function() {
 
   var string = '';
   string += '<li>';
-    string += '<span>' + newLevel.name + '</span>';
-    string += '<ul class="level" data-level-id="' + newLevel.levelID + '" data-level-number="' + newLevel.number + '" data-level-type="' + newLevel.type + '">';
-      string += '<li class="new-card">';
-        string += '<div class="inner-wrapper">';
-          string += '<span>Pitanje:</span> <input class="question" type="text" />';
-		      string += '<span>Odgovor:</span> <input class="answer" type="text" />';
-			    string += '<span>Opis:</span> <input class="description" type="text" />';
-        string += '</div>';
-				string += '<div class="add-button">+</div>';
-      string += '</li>';
-    string += '</ul>';
+    string += '<div class="level-info">';
+      string += '<span>' + newLevel.name + '</span>';
+      string += '<div class="buttons">';
+        string += '<div class="options-button"><i class="fa fa-cog"></i>';
+      string += '</div>';
+      string += '<ul class="level" data-level-id="' + newLevel.levelID + '" data-level-number="' + newLevel.number + '" data-level-type="' + newLevel.type + '">';
+        string += '<li class="new-card collapsed">';
+          string += '<div class="inner-wrapper">';
+            string += '<div><span>Pitanje:</span> <input class="question" type="text" /></div>';
+  		      string += '<div><span>Odgovor:</span> <input class="answer" type="text" /></div>';
+  			    string += '<div><span>Opis:</span> <input class="description" type="text" /></div>';
+          string += '</div>';
+  				string += '<div class="add-button"><i class="fa fa-plus"></i></div>';
+        string += '</li>';
+      string += '</ul>';
   string += '</li>';
 
   $('#course > li:last-of-type').before(string);
@@ -128,11 +132,11 @@ var addCard = function(level) {
       string += '<span class="description">' + newCard.description + '</span>';
     string += '</div>';
     string += '<div class="buttons">';
-      string += '<div class="change-button">E</div>';
-      string += '<div class="remove-button">R</div>';
-      string += '<div class="accept-button">A</div>';
-      string += '<div class="discard-button">D</div>';
-      string += '<div class="undo-button">U</div>';
+      string += '<div class="change-button"><i class="fa fa-pencil"></i></div>';
+      string += '<div class="remove-button"><i class="fa fa-trash"></i></div>';
+      string += '<div class="accept-button"><i class="fa fa-check"></i></div>';
+      string += '<div class="discard-button"><i class="fa fa-times"></i></div>';
+      string += '<div class="undo-button"><i class="fa fa-undo"></i></div>';
     string += '</div>';
   string += '</li>';
 
@@ -157,8 +161,8 @@ var editLevel = function(levelID) {
 
 // Kad se klikne na Edit dugme prilikom editovanja kartice
 //   - Zameni spanove inputima ali im sacuvaj trenutno stanje u data-old (za cancel)
-$('#course').on('click', '.level .buttons .change-button', function() {
-  var cardInfo = $(this).parent().parent().find('.card-info');
+var onEditButtonClick = function(button) {
+  var cardInfo = button.parent().parent().find('.card-info');
   var oldQ = cardInfo.children('span.question').html().trim();
   var oldA = cardInfo.children('span.answer').html().trim();
   var oldD = cardInfo.children('span.description').html().trim();
@@ -168,16 +172,18 @@ $('#course').on('click', '.level .buttons .change-button', function() {
   cardInfo.append('<input type="text" class="question" data-old-value="' + oldQ + '" value="' + oldQ + '">');
   cardInfo.append('<input type="text" class="answer" data-old-value="' + oldA + '" value="' + oldA + '">');
   cardInfo.append('<input type="text" class="description" data-old-value="' + oldD + '" value="' + oldD + '">');
+}
+$('#course').on('click', '.level .buttons .change-button', function() {
+  onEditButtonClick($(this));
 });
 
 // Kad se klikne na Accept dugme prilikom editovanja kartice:
 //   - Obradi edit (upisi u _course)
 //   - Vrati spanove od inputa
-$('#course').on('click', '.level .buttons .accept-button', function() {
-
+var onAcceptButtonClick = function(button) {
   // Prikupljanje podataka
-  var cardID = $(this).parent().parent().attr('data-card-id');
-  var cardInfo = $(this).parent().parent().find('.card-info');
+  var cardID = button.parent().parent().attr('data-card-id');
+  var cardInfo = button.parent().parent().find('.card-info');
   var newQ = cardInfo.children('input.question').val().trim();
   var newA = cardInfo.children('input.answer').val().trim();
   var newD = cardInfo.children('input.description').val().trim();
@@ -213,14 +219,17 @@ $('#course').on('click', '.level .buttons .accept-button', function() {
   cardInfo.append('<span class="question">'+     newQ + '</span>');
   cardInfo.append('<span class="answer">' +      newA + '</span>');
   cardInfo.append('<span class="description">' + newD + '</span>');
+}
+$('#course').on('click', '.level .buttons .accept-button', function() {
+  onAcceptButtonClick($(this));
 });
 
-// Kad klikne na iscard dugme prilikom editovanja kartice, vrati sve nazad.
+// Kad klikne na Discard dugme prilikom editovanja kartice, vrati sve nazad.
 // Skroz je nebitno sta je upisao.
 // Samo vizuelno treba da vrati sve nazad.
 // To "sve nazad" se cuva u data-old-value u inputima.
-$('#course').on('click', '.level .buttons .discard-button', function() {
-  var cardInfo = $(this).parent().parent().find('.card-info');
+var onDiscardButtonClick = function(button) {
+  var cardInfo = button.parent().parent().find('.card-info');
   var oldQ = cardInfo.children('input.question').attr('data-old-value').trim();
   var oldA = cardInfo.children('input.answer').attr('data-old-value').trim();
   var oldD = cardInfo.children('input.description').attr('data-old-value').trim();
@@ -230,6 +239,9 @@ $('#course').on('click', '.level .buttons .discard-button', function() {
   cardInfo.append('<span class="question">'+     oldQ + '</span>');
   cardInfo.append('<span class="answer">' +      oldA + '</span>');
   cardInfo.append('<span class="description">' + oldD + '</span>');
+}
+$('#course').on('click', '.level .buttons .discard-button', function() {
+  onDiscardButtonClick($(this));
 });
 
 /****************************/
@@ -247,10 +259,9 @@ $('#course').on('click', '.level .buttons .discard-button', function() {
 //   - Ovo znaci da ce klikom na SAVE da obrise ovu karticu.
 //   - Dok je kartica u ovom stanju, postoji undo dugme kojim se kartica vraca,
 //     tj. nece da se je obrise kada pritisne na save.
-$('#course').on('click', '.level .buttons .remove-button', function() {
-
+var onRemoveButtonClick = function(button) {
   // Prikupljanje podataka
-  var cardID = $(this).parent().parent().attr('data-card-id');
+  var cardID = button.parent().parent().attr('data-card-id');
 
   // Sustina:
   for (var level = 0; level < _course.length; level++) {
@@ -268,15 +279,19 @@ $('#course').on('click', '.level .buttons .remove-button', function() {
   }
 
   // Vizuelno:
-  $(this).parent().parent().addClass('dimmed');
+  button.parent().parent().addClass('dimmed');
+}
+// Bind:
+$('#course').on('click', '.level .buttons .remove-button', function() {
+  onRemoveButtonClick($(this));
 });
 
 // Kad se klikne na Undo dugme
 //   - Kartici se vraca stari status.
-$('#course').on('click', '.level .buttons .undo-button', function() {
 
+var onUndoButtonClick = function(button) {
   // Prikupljanje podataka
-  var cardID = $(this).parent().parent().attr('data-card-id');
+  var cardID = button.parent().parent().attr('data-card-id');
 
   // Sustina:
   for (var level = 0; level < _course.length; level++) {
@@ -292,7 +307,11 @@ $('#course').on('click', '.level .buttons .undo-button', function() {
   }
 
   // Vizuelno:
-  $(this).parent().parent().removeClass('dimmed');
+  button.parent().parent().removeClass('dimmed');
+}
+
+$('#course').on('click', '.level .buttons .undo-button', function() {
+  onUndoButtonClick($(this));
 });
 
 /*****************************/
@@ -457,10 +476,11 @@ var toggleAdvancedLevelOptions = function(levelElement) {
   }
   var string = '';
   string += '<ul class="options">';
-    string += '<li data-function="name-change">Promeni ime</li>';
-    string += '<li data-function="level-delete">Obrisi nivo</li>';
-    string += '<li data-function="mass-edit">Grupno menjanje</li>';
-    string += '<li data-function="change-description">Promeni opis svima</li>';
+    string += '<li data-function="name-change"><span>Promeni ime</span><i class="fa fa-fw fa-pencil"></i></li>';
+    string += '<li data-function="level-delete"><span>Obrisi nivo</span><i class="fa fa-fw fa-trash"></i></li>';
+    string += '<li data-function="mass-edit"><span>Grupno menjanje</span><i class="fa fa-fw fa-object-group"></i></li>';
+    string += '<li data-function="swap-qa"><span>Zameni pitanje i odgovor</span><i class="fa fa-fw fa-exchange"></i></li>';
+    string += '<li data-function="change-description"><span>Promeni opis svima</span><i class="fa fa-fw fa-reply-all"></i></li>';
   string += '</ul>';
   levelInfo.after(string);
 }

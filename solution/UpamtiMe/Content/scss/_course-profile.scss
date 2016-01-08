@@ -1,0 +1,80 @@
+main#course-profile {
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .banner {
+    background-color: palette($blue-grey, 200);
+    @include z-depth(1);
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 18px;
+  }
+
+  .sidebar {
+    width: 20%;
+
+    & > * {
+      background-color: palette($blue-grey, 200);
+      @include z-depth(1);
+      margin-bottom: 16px;
+      padding: 12px;
+    }
+  }
+
+  .main-content {
+    width: 77%;
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+
+      // Fiktivna klasa
+      .button {
+        width: 30%;
+        background-color: white;
+        height: 48px;
+        line-height: 48px;
+        position: relative;
+        line-height: 48px;
+        @include z-depth(1);
+        transition: all .2s ease;
+
+        &:hover { @include z-depth(1.5); }
+
+        span {
+          display: block;
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        i {
+          position: absolute;
+          left: 16px;
+          height: 48px;
+          line-height: 48px;
+          font-size: 18px;
+        }
+      }
+
+      .learn-button, .review-button, .overreview-button {
+        @extend .button;
+      }
+
+    }
+
+    // Lista nivoa
+    & > ul {
+
+      // "Kartica" (UI element) za nivo
+      & > li {
+        margin: 12px 0;
+        background-color: palette($blue-grey, 200);
+        @include z-depth(1);
+      }
+    }
+  }
+
+}

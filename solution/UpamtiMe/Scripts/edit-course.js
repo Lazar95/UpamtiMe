@@ -60,6 +60,23 @@ var _dataToSend = {
   "addedLevels":   [], // nivo nivoi -- lazni ID (negativan)
 }
 
+var countWhatInWhere = function(STATUS, levelID) {
+  var count = 0;
+  for (var lvl = 0; lvl < _course.length; lvl++) {
+    var currLevel = _course[lvl];
+    if (currLevel.levelID == levelID) {
+      for (card = 0; card < currLevel.cards.length; card++) {
+        currCard = currLevel.cards[card];
+        if (currCard.status == STATUS) {
+          count++;
+        }
+      }
+      break;
+    }
+  }
+  return count;
+}
+
 /*****************************/
 /*****************************/
 /*****************************/
@@ -86,21 +103,28 @@ var addLevel = function() {
 
   var string = '';
   string += '<li>';
+
     string += '<div class="level-info">';
-      string += '<span>' + newLevel.name + '</span>';
-      string += '<div class="buttons">';
-        string += '<div class="options-button"><i class="fa fa-cog"></i>';
+      string += '<div class="level-name">';
+        string += '<div class="toggle-button"><i class="fa fa-plus"></i></div>';
+        string += '<span>' + newLevel.name + '</span>';
       string += '</div>';
-      string += '<ul class="level" data-level-id="' + newLevel.levelID + '" data-level-number="' + newLevel.number + '" data-level-type="' + newLevel.type + '">';
-        string += '<li class="new-card collapsed">';
-          string += '<div class="inner-wrapper">';
-            string += '<div><span>Pitanje:</span> <input class="question" type="text" /></div>';
-  		      string += '<div><span>Odgovor:</span> <input class="answer" type="text" /></div>';
-  			    string += '<div><span>Opis:</span> <input class="description" type="text" /></div>';
-          string += '</div>';
-  				string += '<div class="add-button"><i class="fa fa-plus"></i></div>';
-        string += '</li>';
-      string += '</ul>';
+      string += '<div class="buttons">';
+        string += '<div class="options-button"><i class="fa fa-cog"></i></div>';
+      string += '</div>';
+    string += '</div>';
+
+    string += '<ul class="level" data-level-id="' + newLevel.levelID + '" data-level-number="' + newLevel.number + '" data-level-type="' + newLevel.type + '">';
+      string += '<li class="new-card collapsed">';
+        string += '<div class="inner-wrapper">';
+          string += '<div><span>Pitanje:</span> <input class="question" type="text" /></div>';
+  	      string += '<div><span>Odgovor:</span> <input class="answer" type="text" /></div>';
+  		    string += '<div><span>Opis:</span> <input class="description" type="text" /></div>';
+        string += '</div>';
+  			string += '<div class="add-button" data-function="expand"><i class="fa fa-plus"></i></div>';
+      string += '</li>';
+    string += '</ul>';
+
   string += '</li>';
 
   $('#course > li:last-of-type').before(string);
@@ -155,6 +179,10 @@ var addCard = function(level) {
 // Kad se klikne na Edit dugme prilikom editovanja kartice
 //   - Zameni spanove inputima ali im sacuvaj trenutno stanje u data-old (za cancel)
 var onEditButtonClick = function(button) {
+  hideAllButtons(button.parent());
+  button.parent().children('.accept-button').show();
+  button.parent().children('.discard-button').show();
+
   var cardInfo = button.parent().parent().find('.card-info');
   var oldQ = cardInfo.children('span.question').html().trim();
   var oldA = cardInfo.children('span.answer').html().trim();
@@ -273,6 +301,18 @@ var onRemoveButtonClick = function(button) {
 
   // Vizuelno:
   button.parent().parent().addClass('dimmed');
+  hideAllButtons(button.parent());
+  button.parent().children('.undo-button').show();
+
+  // Ako je brisanjem ove kartice nivo postao prazan, obelezi to.
+  debugger;
+  var levelID = button.parent().parent().parent().parent().children('.level').attr('data-level-id');
+  var levelIDnum = parseInt(levelID);
+  var count = countWhatInWhere(DELETED, levelIDnum);
+  var length = _course[button.parent().parent().parent().index() - 1].cards.length
+  if (count == length) {
+    button.parent().parent().parent().parent().addClass('empty');
+  }
 }
 // Bind:
 $('#course').on('click', '.level .buttons .remove-button', function() {
@@ -301,6 +341,9 @@ var onUndoButtonClick = function(button) {
 
   // Vizuelno:
   button.parent().parent().removeClass('dimmed');
+  // Takodje cim je undovano nesto, onda SIGURNO znamo da u tom nivou
+  // postoji barem jedna kartica pa sklanjamo oznaku da je nivo prazan.
+  button.parent().parent().parent().parent().removeClass('empty');
 }
 
 $('#course').on('click', '.level .buttons .undo-button', function() {
@@ -324,25 +367,113 @@ $('#course').on('click', '.toggle-button', function() {
   onClickToggleLevel($(this));
 });
 
-var onClickLevelNameChange = function() {
+var closeAdvancedLevelOptions = function(levelInfo) {
+  levelInfo.parent().children('.options').addClass('remove-me');
+  // sacekaj da se izvrsi animacija
+  setTimeout(function() {
+    levelInfo.parent().children('.options').remove();
+  }, 500);
+}
+// Kad se klikne negde van, svi se zatvore
+$(document).click( function(event) {
+  if( $(event.target).closest('.level-info').length == 0 ) {
+    closeAdvancedLevelOptions($('.level-info'));
+  }
+});
 
+var toggleAdvancedLevelOptions = function(levelElement) {
+  var levelInfo = levelElement.children('.level-info');
+  if (levelInfo.parent().children('.options').length) {
+    // Ako je vec otvoreno, obrisi ga
+    closeAdvancedLevelOptions(levelInfo);
+    return;
+  }
+  var string = '';
+  string += '<ul class="options">';
+    string += '<li data-function="name-change"><span>Promeni ime</span><i class="fa fa-fw fa-pencil"></i></li>';
+    string += '<li data-function="level-delete"><span>Obriši nivo</span><i class="fa fa-fw fa-trash"></i></li>';
+    string += '<li data-function="mass-edit"><span>Grupno menjanje</span><i class="fa fa-fw fa-object-group"></i></li>';
+    string += '<li data-function="swap-qa"><span>Zameni pitanje i odgovor</span><i class="fa fa-fw fa-exchange"></i></li>';
+    string += '<li data-function="change-description"><span>Promeni opis svima</span><i class="fa fa-fw fa-reply-all"></i></li>';
+  string += '</ul>';
+  levelInfo.after(string);
+}
+$('#course').on('click', '.options-button', function() {
+  toggleAdvancedLevelOptions($(this).parent().parent().parent());
+})
+
+var onClickLevelNameChange = function(li) {
+  var levelName = li.find('.level-name');
+  var oldName = levelName.children('span').html().trim();
+  levelName.children('span').remove();
+  string = '';
+  string += '<div class="edit-level-name">';
+    string += '<input type="text" data-old-name="' + oldName + '" value="' + oldName + '"/>';
+    string += '<div class="button-accept"><i class="fa fa-check"></i></div>';
+    string += '<div class="button-discard"><i class="fa fa-times"></i></div>';
+  string += '</div>';
+  levelName.append(string);
 }
 
-var onClickDeleteLevel = function() {
+var onClickLevelNameChangeAccept = function(li) {
+  var levelID = li.children('ul.level').attr('data-level-id');
+  var newName = li.find('.level-name input').val().trim();
+  var oldName = li.find('.level-name input').attr('data-old-name');
+  if (oldName != newName) {
+    // Ako je zapravo doslo do promene necega
+    // (Izbegavamo situaciju edit -> ne promeni -> accept)
+    for (var level = 0; level < _course.length; level++) {
+      var currLevel = _course[level];
+      if (currLevel.levelID == levelID) {
+        // Nadjen je kurs kom je editovano ime
+        currLevel.name = newName;
+        if (currLevel.status != NEW) {
+          currLevel.status = CHANGED;
+        }
+      }
+    }
+  }
 
+  li.find('.level-name .edit-level-name').remove();
+  li.find('.level-name').append('<span>' + newName + '</span>');
+}
+$('#course').on('click', '.edit-level-name .button-accept', function() {
+  onClickLevelNameChangeAccept($(this).parent().parent().parent().parent());
+})
+
+var onClickDeleteLevel = function(button) {
+  var li = button.parent().parent();
+  var levelID = li.children('ul.level').attr('data-level-id');
+
+  button.parent().parent().children('ul.level').find('.remove-button').each(function() {
+    onRemoveButtonClick($(this));
+  });
+
+  li.addClass('empty');
 }
 
-var onClickMassEdit = function() {
-
+var onClickMassEdit = function(button) {
+  button.parent().parent().children('ul.level').find('.change-button').each(function() {
+    onEditButtonClick($(this));
+  });
 }
 
-var onClickExchangeQA = function() {
-
+var onClickSwapQA = function(button) {
 }
 
-var onClickChangeDescriptionToAll = function() {
+var onClickChangeDescriptionToAll = function(button) {
 
 }
+$('#course').on('click', 'ul.options > li', function() {
+  switch ($(this).attr('data-function')) {
+    case 'name-change': onClickLevelNameChange($(this).parent().parent()); break;
+    case 'level-delete': onClickDeleteLevel($(this)); break;
+    case 'mass-edit': onClickMassEdit($(this)); break;
+    case 'swap-qa': onClickSwapQA($(this)); break;
+    case 'change-description': onClickChangeDescriptionToAll($(this)); break;
+  }
+  toggleAdvancedLevelOptions($(this).parent().parent());
+});
 
 /*****************************/
 /*****************************/
@@ -467,6 +598,9 @@ var showInitialButtons = function(here) {
     here.children('.remove-button').show();
   }
 }
+$('#course').on('click', '.undo-button', function() {
+  showInitialButtons($(this).parent());
+});
 
 var hideAllButtons = function(here) {
   here.children('.change-button').hide();
@@ -476,17 +610,6 @@ var hideAllButtons = function(here) {
   here.children('.undo-button').hide();
 }
 
-$('#course').on('click', '.change-button', function() {
-  hideAllButtons($(this).parent());
-  $(this).parent().children('.accept-button').show();
-  $(this).parent().children('.discard-button').show();
-});
-
-$('#course').on('click', '.remove-button', function() {
-  hideAllButtons($(this).parent());
-  $(this).parent().children('.undo-button').show();
-});
-
 $('#course').on('click', '.accept-button', function() {
   showInitialButtons($(this).parent());
 });
@@ -494,31 +617,3 @@ $('#course').on('click', '.accept-button', function() {
 $('#course').on('click', '.discard-button', function() {
   showInitialButtons($(this).parent());
 });
-
-$('#course').on('click', '.undo-button', function() {
-  showInitialButtons($(this).parent());
-});
-
-var toggleAdvancedLevelOptions = function(levelElement) {
-  var levelInfo = levelElement.children('.level-info');
-  if (levelInfo.parent().children('.options').length) {
-    // Ako je vec otvoreno, obrisi ga (sacekaj da se izvrsi animacija)
-    levelInfo.parent().children('.options').addClass('remove-me');
-    setTimeout(function() {
-      levelInfo.parent().children('.options').remove();
-    }, 500);
-    return;
-  }
-  var string = '';
-  string += '<ul class="options">';
-    string += '<li data-function="name-change"><span>Promeni ime</span><i class="fa fa-fw fa-pencil"></i></li>';
-    string += '<li data-function="level-delete"><span>Obrisi nivo</span><i class="fa fa-fw fa-trash"></i></li>';
-    string += '<li data-function="mass-edit"><span>Grupno menjanje</span><i class="fa fa-fw fa-object-group"></i></li>';
-    string += '<li data-function="swap-qa"><span>Zameni pitanje i odgovor</span><i class="fa fa-fw fa-exchange"></i></li>';
-    string += '<li data-function="change-description"><span>Promeni opis svima</span><i class="fa fa-fw fa-reply-all"></i></li>';
-  string += '</ul>';
-  levelInfo.after(string);
-}
-$('#course').on('click', '.options-button', function() {
-  toggleAdvancedLevelOptions($(this).parent().parent().parent());
-})

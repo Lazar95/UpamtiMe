@@ -155,6 +155,10 @@ var addCard = function(level) {
 // Kad se klikne na Edit dugme prilikom editovanja kartice
 //   - Zameni spanove inputima ali im sacuvaj trenutno stanje u data-old (za cancel)
 var onEditButtonClick = function(button) {
+  hideAllButtons(button.parent());
+  button.parent().children('.accept-button').show();
+  button.parent().children('.discard-button').show();
+
   var cardInfo = button.parent().parent().find('.card-info');
   var oldQ = cardInfo.children('span.question').html().trim();
   var oldA = cardInfo.children('span.answer').html().trim();
@@ -324,25 +328,96 @@ $('#course').on('click', '.toggle-button', function() {
   onClickToggleLevel($(this));
 });
 
-var onClickLevelNameChange = function() {
+var toggleAdvancedLevelOptions = function(levelElement) {
+  var levelInfo = levelElement.children('.level-info');
+  if (levelInfo.parent().children('.options').length) {
+    // Ako je vec otvoreno, obrisi ga (sacekaj da se izvrsi animacija)
+    levelInfo.parent().children('.options').addClass('remove-me');
+    setTimeout(function() {
+      levelInfo.parent().children('.options').remove();
+    }, 500);
+    return;
+  }
+  var string = '';
+  string += '<ul class="options">';
+    string += '<li data-function="name-change"><span>Promeni ime</span><i class="fa fa-fw fa-pencil"></i></li>';
+    string += '<li data-function="level-delete"><span>Obrisi nivo</span><i class="fa fa-fw fa-trash"></i></li>';
+    string += '<li data-function="mass-edit"><span>Grupno menjanje</span><i class="fa fa-fw fa-object-group"></i></li>';
+    string += '<li data-function="swap-qa"><span>Zameni pitanje i odgovor</span><i class="fa fa-fw fa-exchange"></i></li>';
+    string += '<li data-function="change-description"><span>Promeni opis svima</span><i class="fa fa-fw fa-reply-all"></i></li>';
+  string += '</ul>';
+  levelInfo.after(string);
+}
+$('#course').on('click', '.options-button', function() {
+  toggleAdvancedLevelOptions($(this).parent().parent().parent());
+})
+
+var onClickLevelNameChange = function(li) {
+  var levelName = li.find('.level-name');
+  var oldName = levelName.children('span').html().trim();
+  levelName.children('span').remove();
+  string = '';
+  string += '<div class="edit-level-name">';
+    string += '<input type="text" data-old-name="' + oldName + '" value="' + oldName + '"/>';
+    string += '<div class="button-accept"><i class="fa fa-check"></i></div>';
+    string += '<div class="button-discard"><i class="fa fa-times"></i></div>';
+  string += '</div>';
+  levelName.append(string);
+}
+
+var onClickLevelNameChangeAccept = function(li) {
+  debugger;
+  var levelID = li.children('ul.level').attr('data-level-id');
+  var newName = li.find('.level-name input').val().trim();
+  var oldName = li.find('.level-name input').attr('data-old-name');
+  if (oldName != newName) {
+    // Ako je zapravo doslo do promene necega
+    // (Izbegavamo situaciju edit -> ne promeni -> accept)
+    for (var level = 0; level < _course.length; level++) {
+      var currLevel = _course[level];
+      if (currLevel.levelID == levelID) {
+        // Nadjen je kurs kom je editovano ime
+        currLevel.name = newName;
+        if (currLevel.status != NEW) {
+          currLevel.status = CHANGED;
+        }
+      }
+    }
+  }
+
+  li.find('.level-name .edit-level-name').remove();
+  li.find('.level-name').append('<span>' + newName + '</span>');
+}
+$('#course').on('click', '.edit-level-name .button-accept', function() {
+  onClickLevelNameChangeAccept($(this).parent().parent().parent().parent());
+})
+
+var onClickDeleteLevel = function(button) {
 
 }
 
-var onClickDeleteLevel = function() {
-
+var onClickMassEdit = function(button) {
+  button.parent().parent().children('ul.level').find('.change-button').each(function() {
+    onEditButtonClick($(this));
+  });
 }
 
-var onClickMassEdit = function() {
-
+var onClickSwapQA = function(button) {
 }
 
-var onClickExchangeQA = function() {
+var onClickChangeDescriptionToAll = function(button) {
 
 }
-
-var onClickChangeDescriptionToAll = function() {
-
-}
+$('#course').on('click', 'ul.options > li', function() {
+  switch ($(this).attr('data-function')) {
+    case 'name-change': onClickLevelNameChange($(this).parent().parent()); break;
+    case 'level-delete': onClickDeleteLevel($(this)); break;
+    case 'mass-edit': onClickMassEdit($(this)); break;
+    case 'swap-qa': onClickSwapQA($(this)); break;
+    case 'change-description': onClickChangeDescriptionToAll($(this)); break;
+  }
+  toggleAdvancedLevelOptions($(this).parent().parent());
+});
 
 /*****************************/
 /*****************************/
@@ -476,12 +551,6 @@ var hideAllButtons = function(here) {
   here.children('.undo-button').hide();
 }
 
-$('#course').on('click', '.change-button', function() {
-  hideAllButtons($(this).parent());
-  $(this).parent().children('.accept-button').show();
-  $(this).parent().children('.discard-button').show();
-});
-
 $('#course').on('click', '.remove-button', function() {
   hideAllButtons($(this).parent());
   $(this).parent().children('.undo-button').show();
@@ -498,27 +567,3 @@ $('#course').on('click', '.discard-button', function() {
 $('#course').on('click', '.undo-button', function() {
   showInitialButtons($(this).parent());
 });
-
-var toggleAdvancedLevelOptions = function(levelElement) {
-  var levelInfo = levelElement.children('.level-info');
-  if (levelInfo.parent().children('.options').length) {
-    // Ako je vec otvoreno, obrisi ga (sacekaj da se izvrsi animacija)
-    levelInfo.parent().children('.options').addClass('remove-me');
-    setTimeout(function() {
-      levelInfo.parent().children('.options').remove();
-    }, 500);
-    return;
-  }
-  var string = '';
-  string += '<ul class="options">';
-    string += '<li data-function="name-change"><span>Promeni ime</span><i class="fa fa-fw fa-pencil"></i></li>';
-    string += '<li data-function="level-delete"><span>Obrisi nivo</span><i class="fa fa-fw fa-trash"></i></li>';
-    string += '<li data-function="mass-edit"><span>Grupno menjanje</span><i class="fa fa-fw fa-object-group"></i></li>';
-    string += '<li data-function="swap-qa"><span>Zameni pitanje i odgovor</span><i class="fa fa-fw fa-exchange"></i></li>';
-    string += '<li data-function="change-description"><span>Promeni opis svima</span><i class="fa fa-fw fa-reply-all"></i></li>';
-  string += '</ul>';
-  levelInfo.after(string);
-}
-$('#course').on('click', '.options-button', function() {
-  toggleAdvancedLevelOptions($(this).parent().parent().parent());
-})

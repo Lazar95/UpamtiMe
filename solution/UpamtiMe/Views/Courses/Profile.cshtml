@@ -38,7 +38,7 @@
         </div>
 
         <ul>
-            @foreach (LevelsDTO level in Model.Levels)
+            @foreach (SimpleLevelDTO level in Model.Levels)
             {
                 <li>
                     <div class="level-basic-info">
@@ -46,7 +46,7 @@
                         <div class="right">
                             <div class="level-total-card">
                                 <span>Broj kartica</span>
-                                <span>@level.Cards.Count</span>
+                                <span>@level.CardNumber</span>
                             </div>
                             <div class="show-more">
                                 <i class="fa fa-ellipsis-v"></i>
@@ -64,9 +64,9 @@
             @if (Model.Statistics != null)
             {
                 <span>Statistics: Learned/Total/Review</span>
-                <span>@Model.Statistics.Learned</span>
-                <span>@Model.Statistics.Total</span>
-                <span>@Model.Statistics.Review</span>
+                <span>@Model.Statistics.LearningStatistics.Total</span>
+                <span>@Model.Statistics.LearningStatistics.Total</span>
+                <span>@Model.Statistics.LearningStatistics.Review</span>
             }
         </div>
 

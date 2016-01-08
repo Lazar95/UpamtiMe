@@ -18,6 +18,7 @@ namespace UpamtiMe.Models
         public int ParticipantCount { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
+        public int LevelNumber { get; set; }
         public List<Data.DTOs.SimpleLevelDTO> Levels { get; set; }
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public Data.DTOs.CourseUsersStatisticsDTO Statistics { get; set; }
@@ -40,6 +41,7 @@ namespace UpamtiMe.Models
                 SubcategoryName = course.subcategoryID == null ? null : Data.Courses.getSubcategoryName(course.subcategoryID.Value),
                 Levels = Data.Levels.getLevels(courseID, userID),
                 Leaderboard = Data.Courses.getLeaderboard(courseID),
+                LevelNumber = Data.Courses.countLevels(courseID),
                 Statistics = null,
                 CreatorID = course.creatorID,
                 CreatorUsername = Data.Users.getUsername(course.creatorID),

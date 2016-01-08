@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Data;
 
 namespace UpamtiMe.Models
 {
@@ -10,10 +11,14 @@ namespace UpamtiMe.Models
         public int CourseID { get; set; }
         public string Name { get; set; }
         public int CategoryID { get; set; }
+        public string CategoryName { get; set; }
         public int? SubcategoryID { get; set; }
+        public string SubcategoryName { get; set; }
         public int NumberOfCards { get; set; }
         public int ParticipantCount { get; set; }
-        public List<Data.LevelsDTO> Levels { get; set; }
+        public string Description { get; set; }
+        public DateTime StartDate { get; set; }
+        public List<Data.DTOs.SimpleLevelDTO> Levels { get; set; }
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public Data.DTOs.CourseUsersStatisticsDTO Statistics { get; set; }
 
@@ -25,22 +30,25 @@ namespace UpamtiMe.Models
             Data.Course course = Data.Courses.getCourse(courseID);
             CourseProfileModel cim = new CourseProfileModel
             {
-                CategoryID = course.categoryID,
                 CourseID = course.courseID,
                 Name = course.name,
                 NumberOfCards = course.numberOfCards,
                 ParticipantCount = course.participantCount,
+                CategoryID = course.categoryID,
+                CategoryName = Data.Courses.getCategoryName(course.categoryID),
                 SubcategoryID = course.subcategoryID,
-                Levels = Data.Levels.getLevelsAndCardsFor(courseID),
+                SubcategoryName = course.subcategoryID == null ? null : Data.Courses.getSubcategoryName(course.subcategoryID.Value),
+                Levels = Data.Levels.getLevels(courseID, userID),
                 Leaderboard = Data.Courses.getLeaderboard(courseID),
                 Statistics = null,
                 CreatorID = course.creatorID,
-                CreatorUsername = Data.Users.getUsername(course.creatorID)
+                CreatorUsername = Data.Users.getUsername(course.creatorID),
+                Description = course.description
             };
 
             if (userID != null)
             {
-                cim.Statistics = Data.Courses.getUserCourseStatistics(course);
+                cim.Statistics = Data.Courses.getUserCourseStatistics(courseID, userID.Value);
             }
 
             return cim;

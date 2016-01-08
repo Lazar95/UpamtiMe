@@ -120,7 +120,91 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Levels where a.levelID == levelID select a.courseID).First();
         }
-        
+
+        //ovo je strasno uradjeno, ali je mozda brze
+        public static List<SimpleLevelDTO> getLevelInfoAndStatistics(int courseID, int userID, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+
+            var lastNext = (from c in dc.Cards
+                            from l in dc.Levels
+                            from co in dc.Courses
+                            from u in dc.UsersCards
+                            where c.levelID == l.levelID && l.courseID == co.courseID && u.cardID == c.cardID && u.ignore == false && co.courseID == courseID && u.userID == userID
+                            select new
+                            {
+                                last = u.lastSeen,
+                                next = u.nextSee,
+                                levelID = l.levelID
+
+                            }).GroupBy(a=>a.levelID).ToList();
+
+            List<SimpleLevelDTO> returnValue = new List<SimpleLevelDTO>();
+
+            foreach (var a in lastNext)
+            {
+                SimpleLevelDTO sld = new SimpleLevelDTO();
+                sld.LevelID = a.Key;
+                Level l = (from aa in dc.Levels where aa.levelID == sld.LevelID select aa).First();
+                sld.Name = l.name;
+                sld.Number = l.number;
+                sld.Type = l.type;
+
+                sld.LearningStatistics = new LearningStatisticsDTO();
+                sld.LearningStatistics.Total = 0;
+                sld.LearningStatistics.Learned = 0;
+                sld.LearningStatistics.Review = 0;
+                
+                foreach (var item in a)
+                {
+                    sld.LearningStatistics.Total++;
+
+                    if (item.last != null)
+                    {
+                        if (item.next > DateTime.Now)
+                        {
+                            sld.LearningStatistics.Learned++;
+                        }
+                        else
+                        {
+                            sld.LearningStatistics.Review++;
+                        }
+                    }
+                }
+
+                sld.LearningStatistics.Unseen = sld.LearningStatistics.Total - sld.LearningStatistics.Learned - sld.LearningStatistics.Review;
+                sld.CardNumber = sld.LearningStatistics.Total;
+            }
+
+            return returnValue;
+        }
+
+        public static List<SimpleLevelDTO> getLevels(int courseID, int? userID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            List<SimpleLevelDTO> returnValue;
+            if (userID != null)
+            {
+                 returnValue = getLevelInfoAndStatistics(courseID, userID.Value, dc);
+            }
+            else
+            {
+                returnValue = (from c in dc.Cards
+                    from l in dc.Levels
+                    from co in dc.Courses
+                    where c.levelID == l.levelID && l.courseID == co.courseID && co.courseID == courseID
+                    select new SimpleLevelDTO
+                    {
+                        LevelID = l.levelID,
+                        Name = l.name,
+                        Number = l.number,
+                        Type = l.type,
+                        CardNumber = (from a in dc.Cards where a.levelID == l.levelID select a).Count()
+                    }).ToList();
+            }
+
+            return returnValue;
+        } 
 
         public static List<Data.LevelsDTO> getLevelsAndCardsFor(int courseID)
         {
@@ -133,7 +217,7 @@ namespace Data
                                                     Type = a.type,
                                                     Name = a.name,
                                                     Number = a.number
-                                                }).ToList();
+                                                }).OrderBy(a=>a.Number).ToList();
 
             // Za svaki preuzeti nivo preuzmi sve kartice za taj nivo
             foreach (Data.LevelsDTO level in returnValue)

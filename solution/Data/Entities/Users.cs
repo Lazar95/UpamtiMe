@@ -170,5 +170,13 @@ namespace Data
             return (from a in dc.Friendships where a.user1ID == aID && a.user2ID == bID select a).Any();
         }
 
+        public static void editAvatar(int userID, byte[] file)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            User usr = GetUser(userID, dc);
+            usr.avatar = new System.Data.Linq.Binary(file);
+            dc.SubmitChanges();
+        }
+
     }
 }

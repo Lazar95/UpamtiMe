@@ -8,8 +8,8 @@ namespace Data.DTOs
 {
     public class CourseUsersStatisticsDTO
     {
-        public int Total { get; set; }
-        public int Learned { get; set; }
-        public int  Review { get; set; }
+        public LearningStatisticsDTO LearningStatistics { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? LastPlayed { get; set; }
     }
 }

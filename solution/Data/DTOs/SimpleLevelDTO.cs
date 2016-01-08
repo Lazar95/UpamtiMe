@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Data.DTOs
 {
-    public class UserCourseDTO
+    public class SimpleLevelDTO
     {
-        public int CourseID { get; set; }
+        public int LevelID { get; set; }
+        public int Type { get; set; }
         public string Name { get; set; }
-        public int CategoryID { get; set; }
-        public int? SubcategoryID { get; set; }
+        public int Number { get; set; }
+        public int CardNumber { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
 
     }

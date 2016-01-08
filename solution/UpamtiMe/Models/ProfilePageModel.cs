@@ -18,6 +18,7 @@ namespace UpamtiMe.Models
         public string Bio { get; set; }
         public int Streak { get; set; }
         public string Location { get; set; }
+        public byte[] Image { get; set; }
         public List<Data.Achievement> Achievements { get; set; }
 
         public static ProfilePageModel Load(int userID)
@@ -36,6 +37,7 @@ namespace UpamtiMe.Models
                 DateRegistered = u.dateRegistered,
                 totalCardsLearned = u.totalCardsLearned,
                 Streak = u.streak,
+                Image = u.avatar == null ? null : u.avatar.ToArray(),
                 Achievements = null
             };
         }

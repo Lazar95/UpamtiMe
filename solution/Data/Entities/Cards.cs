@@ -145,7 +145,7 @@ namespace Data
                         Number = a.number,
                         //Image = a.image,
                         // Ovo nece zbog tipa, nebitno sad
-                    }).ToList();
+                    }).OrderBy(a=>a.Number).ToList();
         }
 
     }

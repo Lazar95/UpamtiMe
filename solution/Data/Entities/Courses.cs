@@ -49,7 +49,20 @@ namespace Data
             return course;
         }
 
-        public static CourseUsersStatisticsDTO getUserCourseStatistics(Course course, DataClasses1DataContext dc = null)
+        public static CourseUsersStatisticsDTO getUserCourseStatistics(int courseID, int userID, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+            CourseUsersStatisticsDTO cus = new CourseUsersStatisticsDTO();
+            cus.LearningStatistics = getUserLearningStatistics(courseID, userID);
+            UsersCourse uc =
+                (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).First();
+            cus.LastPlayed = uc.lastPlayed;
+            cus.StartDate = uc.startDate;
+
+            return cus;
+        }
+
+        public static LearningStatisticsDTO getUserLearningStatistics(int courseID, int userID, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
 
@@ -57,7 +70,7 @@ namespace Data
                              from l in dc.Levels
                              from co in dc.Courses
                              from u in dc.UsersCards
-                             where c.levelID == l.levelID && l.courseID == co.courseID && co.courseID == course.courseID && u.cardID == c.cardID && u.ignore ==  false
+                            where c.levelID == l.levelID && l.courseID == co.courseID && u.cardID == c.cardID && u.ignore == false && co.courseID == courseID && u.userID == userID
                              select new
                              {
                                  last = u.lastSeen,
@@ -65,7 +78,7 @@ namespace Data
 
                              }).ToList();
 
-            CourseUsersStatisticsDTO returnValue = new CourseUsersStatisticsDTO();
+            LearningStatisticsDTO returnValue = new LearningStatisticsDTO();
 
             returnValue.Total = 0;
             returnValue.Learned = 0;
@@ -88,6 +101,8 @@ namespace Data
                 }
             }
 
+            returnValue.Unseen = returnValue.Total - returnValue.Learned - returnValue.Review;
+
             return returnValue;
         }
 
@@ -104,7 +119,7 @@ namespace Data
 
             foreach (Course course in courses)
             {
-                CourseUsersStatisticsDTO cus = getUserCourseStatistics(course, dc);
+                CourseUsersStatisticsDTO cus = getUserCourseStatistics(course.courseID, userID, dc);
 
                 UserCourseDTO ucd = new UserCourseDTO
                 {
@@ -112,9 +127,7 @@ namespace Data
                     CategoryID = course.categoryID,
                     SubcategoryID = course.subcategoryID,
                     Name = course.name,
-                    CardsLearned = cus.Learned,
-                    TotalCards = cus.Total,
-                    ReviewCount = cus.Review
+                    LearningStatistics = cus.LearningStatistics
                 };
 
                 retrunValue.Add(ucd);
@@ -128,6 +141,19 @@ namespace Data
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Subcategories where a.subcategoryID == subID select a.name).First();
+        }
+
+        public static String getCategoryName(int catID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Categories where a.categoryID == catID select a.name).First();
+        }
+
+        public static DateTime getStartDate(int courseID, int userID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return
+                (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a.startDate).First();
         }
 
         public static List<LeaderboardEntryDTO> getLeaderboard(int courseID, DataClasses1DataContext dc = null)

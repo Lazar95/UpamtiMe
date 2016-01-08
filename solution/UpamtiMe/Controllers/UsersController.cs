@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -78,6 +79,23 @@ namespace UpamtiMe.Controllers
             return RedirectToAction("Profile", new { id = secondID });
         }
 
+        [HttpPost]
+        public ActionResult UploadAvatar(HttpPostedFileBase file, int userID)
+        {
+            if (file != null)
+            {
+                byte[] array;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    array = ms.GetBuffer();
+                }
+                Data.Users.editAvatar(userID, array);
 
+            }
+            
+            return RedirectToAction("Profile", "Users", new { id = userID});
+        }
+        
     }
 }

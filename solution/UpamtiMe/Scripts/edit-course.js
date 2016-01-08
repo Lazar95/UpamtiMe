@@ -71,7 +71,6 @@ var _dataToSend = {
 /*****************************/
 
 var addLevel = function() {
-
   _lastFakeLevelID--;
 
   var newLevel = {
@@ -105,7 +104,6 @@ var addLevel = function() {
   string += '</li>';
 
   $('#course > li:last-of-type').before(string);
-
 }
 
 var addCard = function(level) {
@@ -148,16 +146,11 @@ var addCard = function(level) {
 /******************************/
 /******************************/
 /******************************/
-/* Editovanje nivoa i kartica */
+/***** Editovanje kartica *****/
 /******************************/
 /******************************/
 /******************************/
 /******************************/
-
-var editLevel = function(levelID) {
-
-}
-
 
 // Kad se klikne na Edit dugme prilikom editovanja kartice
 //   - Zameni spanove inputima ali im sacuvaj trenutno stanje u data-old (za cancel)
@@ -248,7 +241,7 @@ $('#course').on('click', '.level .buttons .discard-button', function() {
 /****************************/
 /****************************/
 /****************************/
-/* Brisanje nivoa i kartica */
+/***** Brisanje kartica *****/
 /****************************/
 /****************************/
 /****************************/
@@ -313,6 +306,43 @@ var onUndoButtonClick = function(button) {
 $('#course').on('click', '.level .buttons .undo-button', function() {
   onUndoButtonClick($(this));
 });
+
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+/*******  Opcije nivoa *******/
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+
+var onClickToggleLevel = function(button) {
+  button.toggleClass('collapsed').parent().parent().parent().children('.level').slideToggle(200);
+}
+$('#course').on('click', '.toggle-button', function() {
+  onClickToggleLevel($(this));
+});
+
+var onClickLevelNameChange = function() {
+
+}
+
+var onClickDeleteLevel = function() {
+
+}
+
+var onClickMassEdit = function() {
+
+}
+
+var onClickExchangeQA = function() {
+
+}
+
+var onClickChangeDescriptionToAll = function() {
+
+}
 
 /*****************************/
 /*****************************/

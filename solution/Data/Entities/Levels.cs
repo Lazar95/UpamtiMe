@@ -57,6 +57,9 @@ namespace Data
 
             if (checkName(level.Name, courseID))
                 return;
+            if(level.Cards == null)
+                return;
+            
 
             Level newLevel = new Level
             {
@@ -67,6 +70,7 @@ namespace Data
             };
             dc.Levels.InsertOnSubmit(newLevel);
             dc.SubmitChanges();
+            
 
             foreach (CardDTO card in level.Cards)
                 card.LevelID = newLevel.levelID;

@@ -6,142 +6,100 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<div>
-    <h4>CourseProfileModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseID)
-        </dt>
+<main id="course-profile">
 
-        <dd>
-            @Html.DisplayFor(model => model.CourseID)
-        </dd>
+    <div class="banner">
+        @* TODO MASA // Nemamo sliku za nivo *@
+        <div class="picture">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CategoryID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SubcategoryID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SubcategoryID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NumberOfCards)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NumberOfCards)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ParticipantCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ParticipantCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatorUsername)
-        </dt>
-
-        <dd>
-            @Html.ActionLink(@Model.CreatorUsername, "Profile", "Users", new {id = @Model.CreatorID}, null)
-        </dd>
-
-    </dl>
-
-    @* statistika korisnika ako je prijavljen na kurs *@
-
-    @if (Model.Statistics != null)
-    {
-        <span>Statistics: Learned/Total/Review</span>
-        <span>@Model.Statistics.Learned</span>
-        <span>@Model.Statistics.Total</span>
-        <span>@Model.Statistics.Review</span>
-    }
-
-    @* Nivoe kopiram iz editCourse *@
-    <ul>
-        @foreach (LevelsDTO level in Model.Levels)
-        {
-            <li>@level.Name</li>
-            <ul>
-                @foreach (CardDTO card in level.Cards)
-                {
-                    <li>
-                        @if (card.Question != null)
-                        {
-                            @Html.EditorFor(m => card.Question, card.Question)
-                        }
-                        else
-                        {
-                            if (card.Image != null)
-                            {
-                                <span>@card.Image</span>
-                                <span>upload dugme</span>
-                            }
-                        }
-                        @Html.EditorFor(m => card.Answer, card.Answer)
-                    </li>
-                }
-                <li>
-
-                </li>
-            </ul>
-        }
-    </ul>
-
-    @* Leaderbord kopiram iz userIndex *@
-    <div id="leaderbord">
-        <p>All Time</p>
-
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
-        {
-            <span>@lde.Username</span>
-            <span>@lde.AllTimeScore</span>
-        }
-
-        <p>This Week</p>
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
-        {
-            <span>@lde.Username</span>
-            <span>@lde.WeekScore</span>
-        }
-
-        <p>This Month</p>
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
-        {
-            <span>@lde.Username</span>
-            <span>@lde.MonthScore</span>
-        }
+        </div>
+        <div class="basic-info">
+            <div class="course-name">@Model.Name</div>
+            <div class="course-cat-subcat">
+                <span class="cat">@Model.CategoryID</span><i class="fa fa-right-arrow"></i><span class="subcat">@Model.SubcategoryID</span>
+            </div>
+            <div class="course-description">@* TODO MASKE ne vidim descritpion*@</div>
+        </div>
     </div>
 
-    @if (Model.Statistics == null)
-    {
-        @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
-    }
-   
+    <div class="main-content">
+        <div class="buttons">
+            @if (Model.Statistics == null)
+            {
+                <div class="enroll">
+                    @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
+                </div>
+            }
+            <div class="learn-button"><i class="fa fa-fw fa-graduation-cap"></i><span>Uči</span></div>
+            <div class="review-button"><i class="fa fa-fw fa-bell"></i><span>Obnovi</span></div>
+            <div class="overreview-button"><i class="fa fa-fw fa-leanpub"></i><span>Spajalica</span></div>
+            @* TODO problem: ovo je ikonica nekog Leanpub.com, realno ne moze ovo xD*@
+        </div>
 
+        <ul>
+            @foreach (LevelsDTO level in Model.Levels)
+            {
+                <li>
+                    <div class="level-basic-info">
+                        <div class="left"><span>@level.Number</span><span>@level.Name</span></div>
+                        <div class="right">
+                            <div class="level-total-card">
+                                <span>Broj kartica</span>
+                                <span>@level.Cards.Count</span>
+                            </div>
+                            <div class="show-more">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <ul>@* Ovde cemo da importujemo AJAXom kad se expnaduje *@</ul>
+                </li>
+            }
+        </ul>
+    </div>
 
-</div>
+    <div class="sidebar">
+        <div class="personal-stats">
+            @if (Model.Statistics != null)
+            {
+                <span>Statistics: Learned/Total/Review</span>
+                <span>@Model.Statistics.Learned</span>
+                <span>@Model.Statistics.Total</span>
+                <span>@Model.Statistics.Review</span>
+            }
+        </div>
+
+        <div class="course-stats">
+            <span>Broj kartica:</span><span>@Model.NumberOfCards</span>
+            <span>Broj ucenisnika:</span><span>@Model.ParticipantCount</span>
+            <span>Kreator:</span><span>@Model.CreatorUsername</span>
+        </div>
+
+        <div class="leaderbord">
+            <p>All Time</p>
+
+            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
+            {
+                <span>@lde.Username</span>
+                <span>@lde.AllTimeScore</span>
+            }
+
+            <p>This Week</p>
+            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
+            {
+                <span>@lde.Username</span>
+                <span>@lde.WeekScore</span>
+            }
+
+            <p>This Month</p>
+            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
+            {
+                <span>@lde.Username</span>
+                <span>@lde.MonthScore</span>
+            }
+        </div>
+    </div>
+
+</main>
 

@@ -234,6 +234,11 @@ main#edit-course {
 			padding-bottom: 24px;
 			color: palette($blue-grey, 900);
 			transition: all .5s ease;
+
+			// Kad je nivo prazan
+			&.empty {
+				opacity: .5;
+			}
 		}
 
 		.add-button {

@@ -17,9 +17,11 @@
         <div class="basic-info">
             <div class="course-name">@Model.Name</div>
             <div class="course-cat-subcat">
-                <span class="cat">@Model.CategoryID</span><i class="fa fa-right-arrow"></i><span class="subcat">@Model.SubcategoryID</span>
+                <span class="cat" data-cat-id=@Model.CategoryID>@Model.CategoryName</span>
+                <i class="fa fa-caret-right"></i>
+                <span class="subcat" data-subcat-id=@Model.SubcategoryID>@Model.SubcategoryName</span>
             </div>
-            <div class="course-description">@* TODO MASKE ne vidim descritpion*@</div>
+            <div class="course-description">@Model.Description</div>
         </div>
     </div>
 
@@ -27,13 +29,16 @@
         <div class="buttons">
             @if (Model.Statistics == null)
             {
-                <div class="enroll">
+                <div class="enroll-button">
                     @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
                 </div>
             }
-            <div class="learn-button"><i class="fa fa-fw fa-graduation-cap"></i><span>Uči</span></div>
-            <div class="review-button"><i class="fa fa-fw fa-bell"></i><span>Obnovi</span></div>
-            <div class="overreview-button"><i class="fa fa-fw fa-leanpub"></i><span>Spajalica</span></div>
+            else
+            {
+                <div class="learn-button"><i class="fa fa-fw fa-graduation-cap"></i><span>Uči</span></div>
+                <div class="review-button"><i class="fa fa-fw fa-bell"></i><span>Obnovi</span></div>
+                <div class="overreview-button"><i class="fa fa-fw fa-leanpub"></i><span>Spajalica</span></div>
+            }
             @* TODO problem: ovo je ikonica nekog Leanpub.com, realno ne moze ovo xD*@
         </div>
 
@@ -45,15 +50,12 @@
                         <div class="left"><span>@level.Number</span><span>@level.Name</span></div>
                         <div class="right">
                             <div class="level-total-card">
-                                <span>Broj kartica</span>
-                                <span>@level.CardNumber</span>
-                            </div>
-                            <div class="show-more">
-                                <i class="fa fa-ellipsis-v"></i>
+                                <span class="level-number">Broj kartica</span>
+                                <span class="level-name">@level.CardNumber</span>
                             </div>
                         </div>
                     </div>
-                    <ul>@* Ovde cemo da importujemo AJAXom kad se expnaduje *@</ul>
+                    <ul class="list-of-cards" id=@("list-of-cards-level-id-" + level.LevelID)>@* Ovde cemo da importujemo AJAXom kad se expnaduje *@</ul>
                 </li>
             }
         </ul>

@@ -5,18 +5,50 @@ main#course-profile {
   justify-content: space-between;
 
   .banner {
-    background-color: palette($blue-grey, 200);
+    background-color: palette($blue-grey, 100);
     @include z-depth(1);
     width: 100%;
     margin-bottom: 24px;
     padding: 18px;
+    display: flex;
+    height: 192px;
+
+    .picture {
+      width:  192px;
+      height: 192px;
+      background-color: palette($blue-grey, 500);
+      margin-right: 18px; // isto kao padding
+    }
+
+    .basic-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      color: palette($blue-grey, 900);
+      & > * { flex-grow: 0; margin-top: 16px; }
+
+      .course-name {
+        font-size: 48px;
+        font-weight: bold;
+      }
+
+      .course-cat-subcat {
+        font-size: 24px;
+      }
+
+      .course-description {
+        color: palette($blue-grey, 700);
+        margin-top: 24px;
+        font-size: 18px;
+      }
+    }
   }
 
   .sidebar {
     width: 20%;
 
     & > * {
-      background-color: palette($blue-grey, 200);
+      background-color: palette($blue-grey, 100);
       @include z-depth(1);
       margin-bottom: 16px;
       padding: 12px;
@@ -59,8 +91,12 @@ main#course-profile {
         }
       }
 
-      .learn-button, .review-button, .overreview-button {
+      .learn-button, .review-button, .overreview-button, .enroll-button {
         @extend .button;
+      }
+
+      .enroll-button {
+        width: 100%;
       }
 
     }
@@ -71,8 +107,27 @@ main#course-profile {
       // "Kartica" (UI element) za nivo
       & > li {
         margin: 12px 0;
-        background-color: palette($blue-grey, 200);
+        background-color: palette($blue-grey, 100);
         @include z-depth(1);
+        padding: 12px;
+
+        .level-basic-info {
+          display: flex;
+          justify-content: space-between;
+
+          .left {
+            .level-number {
+              color: palette($blue-grey, 500);
+            }
+            .level-name {
+              
+            }
+          }
+
+          .right {
+            display: flex;
+          }
+        }
       }
     }
   }

@@ -75,7 +75,7 @@
         <div class="course-stats">
             <span>Broj kartica:</span><span>@Model.NumberOfCards</span>
             <span>Broj ucenisnika:</span><span>@Model.ParticipantCount</span>
-            <span>Kreator:</span><span>@Model.CreatorUsername</span>
+            <span>Kreator:</span><span>@Html.ActionLink(@Model.CreatorUsername, "Profile", "Users", new {id = @Model.CreatorID}, null)</span>
         </div>
 
         <div class="leaderbord">

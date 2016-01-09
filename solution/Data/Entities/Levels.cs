@@ -121,87 +121,72 @@ namespace Data
             return (from a in dc.Levels where a.levelID == levelID select a.courseID).First();
         }
 
-        //ovo je strasno uradjeno, ali je mozda brze
-        public static List<SimpleLevelDTO> getLevelInfoAndStatistics(int courseID, int userID, DataClasses1DataContext dc = null)
+
+        public static LearningStatisticsDTO getLevelStatistics(int levelID, int userID, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
 
             var lastNext = (from c in dc.Cards
                             from l in dc.Levels
-                            from co in dc.Courses
                             from u in dc.UsersCards
-                            where c.levelID == l.levelID && l.courseID == co.courseID && u.cardID == c.cardID && u.ignore == false && co.courseID == courseID && u.userID == userID
+                            where c.cardID == u.cardID && c.levelID == l.levelID && l.levelID == levelID && u.userID == userID
                             select new
                             {
                                 last = u.lastSeen,
                                 next = u.nextSee,
-                                levelID = l.levelID
+                            }).ToList();
 
-                            }).GroupBy(a=>a.levelID).ToList();
+            LearningStatisticsDTO returnValue = new LearningStatisticsDTO();
 
-            List<SimpleLevelDTO> returnValue = new List<SimpleLevelDTO>();
+            returnValue.Total = (from a in dc.Cards where a.levelID == levelID select a).Count();
+            returnValue.Learned = 0;
+            returnValue.Review = 0;
 
             foreach (var a in lastNext)
             {
-                SimpleLevelDTO sld = new SimpleLevelDTO();
-                sld.LevelID = a.Key;
-                Level l = (from aa in dc.Levels where aa.levelID == sld.LevelID select aa).First();
-                sld.Name = l.name;
-                sld.Number = l.number;
-                sld.Type = l.type;
-
-                sld.LearningStatistics = new LearningStatisticsDTO();
-                sld.LearningStatistics.Total = 0;
-                sld.LearningStatistics.Learned = 0;
-                sld.LearningStatistics.Review = 0;
-                
-                foreach (var item in a)
+                if (a.last != null)
                 {
-                    sld.LearningStatistics.Total++;
-
-                    if (item.last != null)
+                    if (a.next > DateTime.Now)
                     {
-                        if (item.next > DateTime.Now)
-                        {
-                            sld.LearningStatistics.Learned++;
-                        }
-                        else
-                        {
-                            sld.LearningStatistics.Review++;
-                        }
+                        returnValue.Learned++;
+                    }
+                    else
+                    {
+                        returnValue.Review++;
                     }
                 }
-
-                sld.LearningStatistics.Unseen = sld.LearningStatistics.Total - sld.LearningStatistics.Learned - sld.LearningStatistics.Review;
-                sld.CardNumber = sld.LearningStatistics.Total;
             }
+
+            returnValue.Unseen = returnValue.Total - returnValue.Learned - returnValue.Review;
 
             return returnValue;
         }
+       
 
         public static List<SimpleLevelDTO> getLevels(int courseID, int? userID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            List<SimpleLevelDTO> returnValue;
-            if (userID != null)
-            {
-                 returnValue = getLevelInfoAndStatistics(courseID, userID.Value, dc);
-            }
-            else
-            {
-                returnValue = (from c in dc.Cards
+            List<SimpleLevelDTO> returnValue = (
                     from l in dc.Levels
-                    from co in dc.Courses
-                    where c.levelID == l.levelID && l.courseID == co.courseID && co.courseID == courseID
+                    where l.courseID == courseID
                     select new SimpleLevelDTO
                     {
                         LevelID = l.levelID,
                         Name = l.name,
                         Number = l.number,
                         Type = l.type,
-                        CardNumber = (from a in dc.Cards where a.levelID == l.levelID select a).Count()
+                        CardNumber = (from a in dc.Cards where a.levelID == l.levelID select a).Count(),
+                        LearningStatistics = null
                     }).ToList();
+
+            if (userID != null)
+            {
+                foreach (SimpleLevelDTO level in returnValue)
+                {
+                    level.LearningStatistics = getLevelStatistics(level.LevelID, userID.Value, dc);
+                }
             }
+            
 
             return returnValue;
         } 

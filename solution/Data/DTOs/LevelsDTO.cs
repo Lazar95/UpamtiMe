@@ -14,5 +14,7 @@ namespace Data
         public string Name { get; set; }
         public int Number { get; set; }
         public List<Data.CardDTO> Cards { get; set; }
+        public int Icon { get; set; }
+        public int Color { get; set; }
     }
 }

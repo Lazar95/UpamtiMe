@@ -127,5 +127,11 @@ namespace UpamtiMe.Controllers
                 return Json(new { success = false});
             }
         }
+
+        public ActionResult Learn(int userID, int courseID, int? levelID, int? numberOfCards)
+        {
+            SessionModel model = Models.SessionModel.LoadLearningSession(userID, courseID, levelID, numberOfCards);
+            return View("SessionTest",model);
+        }
     }
 }

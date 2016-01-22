@@ -1,0 +1,42 @@
+﻿@using Data.DTOs
+@model UpamtiMe.Models.SessionModel
+
+@{
+    ViewBag.Title = "SessionTest";
+}
+
+<h2>SessionTest</h2>
+
+<div>
+    <h4>SessionModel</h4>
+    <hr />
+    <table style ="width:1400px ; ">
+        <thead style=" text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardID)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].Question)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].Answer)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].Description)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].LastSeen)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].NextSee)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].CorrectAnswers)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].WrongAnswers)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].Combo)</th>
+        </thead>
+        @foreach (CardSessionDTO card in @Model.Cards)
+        {
+            <tr>
+                <td>@Html.DisplayFor(a => card.UserCardID)</td>
+                <td>@Html.DisplayFor(a => card.Question)</td>
+                <td>@Html.DisplayFor(a => card.Answer)</td>
+                <td>@Html.DisplayFor(a => card.Description)</td>
+                <td>@Html.DisplayFor(a => card.LastSeen)</td>
+                <td>@Html.DisplayFor(a => card.NextSee)</td>
+                <td>@Html.DisplayFor(a => card.CorrectAnswers)</td>
+                <td>@Html.DisplayFor(a => card.WrongAnswers)</td>
+                <td>@Html.DisplayFor(a => card.Combo)</td>
+            </tr>
+        }
+
+
+    </table>
+</div>

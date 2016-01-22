@@ -17,7 +17,6 @@ namespace UpamtiMe.Models
         public int NumberOfCards { get; set; }
         public int ParticipantCount { get; set; }
         public string Description { get; set; }
-        public DateTime StartDate { get; set; }
         public int LevelNumber { get; set; }
         public List<Data.DTOs.SimpleLevelDTO> Levels { get; set; }
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }

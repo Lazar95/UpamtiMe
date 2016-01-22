@@ -66,7 +66,9 @@ namespace Data
                 name = level.Name,
                 type = level.Type,
                 number = level.Number,
-                courseID = courseID
+                courseID = courseID,
+                icon = level.Icon,
+                color = level.Color
             };
             dc.Levels.InsertOnSubmit(newLevel);
             dc.SubmitChanges();
@@ -104,6 +106,8 @@ namespace Data
                 l.name = level.Name;
                 l.type = level.Type;
                 l.number = level.Number;
+                l.icon = level.Icon;
+                l.color = level.Color;
                 dc.SubmitChanges();
             }
         }

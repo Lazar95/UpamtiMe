@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Data;
+using Data.DTOs;
 using Data.Entities;
+using UpamtiMe.Models;
 
 namespace UpamtiMe.Controllers
 {
@@ -20,6 +22,14 @@ namespace UpamtiMe.Controllers
             if (Session["user"] != null)
             {
                 return RedirectToAction("Profile", "Users", new { id = UserSession.GetUser().UserID });
+            }
+            else
+            {
+                Login(new HomeIndexModel
+                {
+                    Login = new LoginTransporterDTO {Username = "masa", Password = "plavusha", RememberMe = true}
+                });
+                return RedirectToAction("Profile", "Courses", new {id = 1});
             }
             return View();
         }

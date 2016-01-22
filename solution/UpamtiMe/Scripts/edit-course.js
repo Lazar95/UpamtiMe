@@ -354,6 +354,52 @@ $('#course').on('click', '.level .buttons .undo-button', function() {
 /*****************************/
 /*****************************/
 /*****************************/
+/*******  Icon picker  *******/
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+
+var closeLevelIconPicker = function(levelInfo) {
+  levelInfo.parent().children('.icon-picker').addClass('remove-me');
+  // sacekaj da se izvrsi animacija
+  setTimeout(function() { levelInfo.parent().children('.icon-picker').remove(); }, 500);
+}
+// Kad se klikne negde van, svi se zatvore
+$(document).click( function(event) {
+  if( $(event.target).closest('.level-info').length == 0 ) {
+    closeLevelIconPicker($('.level-info'));
+  }
+});
+
+var toggleLevelIconPicker = function(levelElement) {
+  var levelInfo = levelElement.children('.level-info');
+  if (levelInfo.parent().children('.icon-picker').length) {
+    // Ako je vec otvoreno, obrisi ga
+    closeLevelIconPicker(levelInfo);
+    return;
+  }
+  var string = '';
+  string += '<ul class="icon-picker">';
+    string += '<ul class="icon-picker-icons">';
+      for (var i = 1; i <= 50; i++)
+        string += '<li data-icon-id="' + i + '"><span></span></li>';
+    string += '</ul>';
+    string += '<ul class="icon-picker-colors">';
+      for (var i = 1; i <= 10; i++)
+        string += '<li data-color-id="' + i + '"><span></span></li>';
+    string += '</ul>';
+  string += '</ul>';
+  levelInfo.after(string);
+}
+$('#course').on('click', '.icon-picker-button', function() {
+  toggleLevelIconPicker($(this).parent().parent().parent());
+})
+
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
 /*******  Opcije nivoa *******/
 /*****************************/
 /*****************************/
@@ -370,9 +416,7 @@ $('#course').on('click', '.toggle-button', function() {
 var closeAdvancedLevelOptions = function(levelInfo) {
   levelInfo.parent().children('.options').addClass('remove-me');
   // sacekaj da se izvrsi animacija
-  setTimeout(function() {
-    levelInfo.parent().children('.options').remove();
-  }, 500);
+  setTimeout(function() { levelInfo.parent().children('.options').remove(); }, 500);
 }
 // Kad se klikne negde van, svi se zatvore
 $(document).click( function(event) {

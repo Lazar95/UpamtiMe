@@ -121,7 +121,7 @@ main#course-profile {
             cursor: pointer;
 
             .icon {
-              transition: all .2s ease;
+              transition: all .5s ease;
               border-radius: 50%;
               background-color: palette($blue-grey, 50);
               position: absolute;
@@ -131,7 +131,6 @@ main#course-profile {
               line-height: $ratio * $lvl-circ;
               margin: (1-$ratio)*50%;
               text-align: center;
-              color: palette($pink);
               font-size: 48px;
               font-weight: bold;
               z-index: 10;
@@ -218,10 +217,6 @@ main#course-profile {
               		border-radius: 0 $lvl-circ/2 $lvl-circ/2 0;
               	}
 
-                .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($pink, 600); }
-              	.pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($pink, 300); }
-              	.pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700); }
-
                 .pie[data-start="0"]  { transform:rotate(0deg); }
                 .pie[data-start="110"]  { transform:rotate(110deg); }
                 .pie[data-start="210"] { transform:rotate(210deg); }
@@ -236,69 +231,10 @@ main#course-profile {
              */
           }
 
-          // pod li.level
-          &.level-blue {
-            .icon { color: palette($blue); }
-            .icon:hover { color:palette($blue, 300); }
-            &.active { .icon {background-color: palette($blue, 600)!important; } }
-            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($blue, 600)!important; }
-            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($blue, 300)!important; }
-            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
-          }
-          &.level-green {
-            .icon { color: palette($green); }
-            .icon:hover { color:palette($green, 300); }
-            &.active { .icon {background-color: palette($green, 600)!important; } }
-            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($green, 600)!important; }
-            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($green, 300)!important; }
-            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
-          }
-          &.level-orange {
-            & .icon { color: palette($orange); }
-            .icon:hover { color:palette($orange, 300); }
-            &.active { & .icon {background-color: palette($orange, 600)!important; } }
-            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($orange, 600)!important; }
-            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($orange, 300)!important; }
-            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
-          }
-          &.level-red {
-            .icon { color: palette($red); }
-            .icon:hover { color:palette($red, 300); }
-            &.active { .icon {background-color: palette($red, 600)!important; } }
-            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($red, 600)!important; }
-            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($red, 200)!important; }
-            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
-          }
-          &.level-purple {
-            .icon { color: palette($purple); }
-            .icon:hover { color:palette($purple, 300); }
-            &.active { .icon {background-color: palette($purple, 600)!important; } }
-            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($purple, 600)!important; }
-            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($purple, 200)!important; }
-            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
-          }
-          &.level-pink {
-            .icon { color: palette($pink); }
-            .icon:hover { color:palette($pink, 300); }
-            &.active { .icon {background-color: palette($pink, 600)!important; } }
-            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($pink, 600)!important; }
-            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($pink, 200)!important; }
-            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
-          }
-          &.level-yellow {
-            .icon { color: palette($yellow, 700); }
-            .icon:hover { color:palette($yellow, 300); }
-            &.active { .icon {background-color: palette($yellow, 600)!important; } }
-            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($yellow, 600)!important; }
-            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($yellow, 400)!important; }
-            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
-          }
-
           .more-info-outer {
             transition: all .5s ease;
             margin-top: 72px;
             @include force-height(0);
-            //overflow: hidden;
             opacity: 0;
           }
 

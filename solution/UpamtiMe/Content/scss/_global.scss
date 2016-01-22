@@ -201,6 +201,101 @@ button, input[type="submit"] {
 .icon-id-10 { @extend .fa, .fa-plug; }
 
 /**
+ * Colors
+ */
+
+@function color-id($id, $amount: 500) {
+	@if ($id == 1) { @return palette($red, $amount); };
+	@if ($id == 2) { @return palette($purple, $amount); };
+	@if ($id == 3) { @return palette($indigo, $amount); };
+	@if ($id == 4) { @return palette($blue, $amount); };
+	@if ($id == 5) { @return palette($teal, $amount); };
+	@if ($id == 6) { @return palette($green, $amount); };
+	@if ($id == 7) { @return palette($lime, $amount); };
+	@if ($id == 8) { @return palette($amber, $amount); };
+	@if ($id == 9) { @return palette($deep-orange, $amount); };
+	@if ($id == 10) { @return palette($brown, $amount); };
+	@return palette($green, $amount);
+}
+
+@function icon-id($id) {
+	@if ($id == 1)  { @return ".fa-asterisk"; }
+	@if ($id == 2)  { @return ".fa-anchor"; }
+	@if ($id == 3)  { @return ".fa-automobile"; }
+	@if ($id == 4)  { @return ".fa-balance-scale"; }
+	@if ($id == 5)  { @return ".fa-bank"; }
+	@if ($id == 6)  { @return ".fa-bed"; }
+	@if ($id == 7)  { @return ".fa-beer"; }
+	@if ($id == 8)  { @return ".fa-bell"; }
+	@if ($id == 9)  { @return ".fa-binoculars"; }
+	@if ($id == 10) { @return ".fa-birthday-cake"; }
+	@if ($id == 11) { @return ".fa-bomb"; }
+	@if ($id == 12) { @return ".fa-book"; }
+	@if ($id == 13) { @return ".fa-briefcase"; }
+	@if ($id == 14) { @return ".fa-bug"; }
+	@if ($id == 15) { @return ".fa-building"; }
+	@if ($id == 16) { @return ".fa-bullhorn"; }
+	@if ($id == 17) { @return ".fa-bus"; }
+	@if ($id == 18) { @return ".fa-child"; }
+	@if ($id == 19) { @return ".fa-coffee"; }
+	@if ($id == 20) { @return ".fa-cogs"; }
+	@if ($id == 21) { @return ".fa-comments"; }
+	@if ($id == 22) { @return ".fa-cutlery"; }
+	@if ($id == 23) { @return ".fa-envelope"; }
+	@if ($id == 24) { @return ".fa-eye"; }
+	@if ($id == 25) { @return ".fa-flag"; }
+	@if ($id == 26) { @return ".fa-gavel"; }
+	@if ($id == 27) { @return ".fa-glass"; }
+	@if ($id == 28) { @return ".fa-group"; }
+	@if ($id == 29) { @return ".fa-headphones"; }
+	@if ($id == 30) { @return ".fa-heartbeat"; }
+	@if ($id == 31) { @return ".fa-leaf"; }
+	@if ($id == 32) { @return ".fa-magic"; }
+	@if ($id == 33) { @return ".fa-magnet"; }
+	@if ($id == 34) { @return ".fa-microphone"; }
+	@if ($id == 35) { @return ".fa-music"; }
+	@if ($id == 36) { @return ".fa-paint-brush"; }
+	@if ($id == 37) { @return ".fa-motorcycle"; }
+	@if ($id == 38) { @return ".fa-paw"; }
+	@if ($id == 39) { @return ".fa-quote-right"; }
+	@if ($id == 40) { @return ".fa-ship"; }
+	@if ($id == 41) { @return ".fa-space-shuttle"; }
+	@if ($id == 42) { @return ".fa-sticky-note"; }
+	@if ($id == 43) { @return ".fa-suitcase"; }
+	@if ($id == 44) { @return ".fa-tachometer"; }
+	@if ($id == 45) { @return ".fa-tree"; }
+	@if ($id == 46) { @return ".fa-truck"; }
+	@if ($id == 47) { @return ".fa-umbrella"; }
+	@if ($id == 48) { @return ".fa-wrench"; }
+	@if ($id == 49) { @return ".fa-tasks"; }
+	@if ($id == 50) { @return ".fa-shopping-basket"; }
+	@return ".fa-asterisk";
+}
+
+/*
+ * Mixin za boje
+ */
+
+@mixin level-color($color, $lighter: 300, $darker: 600, $icon: 500) {
+	.icon { color: palette($color, $icon); }
+ 	.icon:hover { color:palette($color, $lighter); }
+ 	&.active { .icon {background-color: palette($color, $darker)!important; } }
+ 	.pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($color, $darker)!important; }
+ 	.pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($color, $lighter)!important; }
+ 	.pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+}
+
+.level-blue {	@include level-color($blue); }
+.level-green { @include level-color($green); }
+.level-orange { @include level-color($orange, 300, 600, 700); }
+.level-red { @include level-color($red, 200); }
+.level-pink { @include level-color($pink); }
+.level-purple { @include level-color($purple); }
+.level-teal { @include level-color($teal); }
+.level-deep-purple { @include level-color($deep-purple); }
+.level-yellow { @include level-color($yellow, 400, 700, 800); }
+
+/**
  * STATS
  */
 

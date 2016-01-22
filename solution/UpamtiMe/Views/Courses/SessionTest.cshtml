@@ -13,6 +13,7 @@
     <table style ="width:1400px ; ">
         <thead style=" text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
         <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.UserCardID)</th>
+        <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.CardID)</th>
         <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Question)</th>
         <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Answer)</th>
         <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Description)</th>
@@ -26,6 +27,7 @@
         {
             <tr>
                 <td>@Html.DisplayFor(a => card.UserCardInfo.UserCardID)</td>
+                <td>@Html.DisplayFor(a => card.BasicInfo.CardID)</td>
                 <td>@Html.DisplayFor(a => card.BasicInfo.Question)</td>
                 <td>@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
                 <td>@Html.DisplayFor(a => card.BasicInfo.Description)</td>

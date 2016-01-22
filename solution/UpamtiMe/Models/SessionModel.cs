@@ -39,6 +39,7 @@ namespace UpamtiMe.Models
                 {
                     BasicInfo = new CardDTO
                     {
+                        CardID = c.cardID,
                         Question = c.question,
                         Answer = c.answer,
                         Description = c.description,
@@ -47,6 +48,35 @@ namespace UpamtiMe.Models
                     }
                 }).OrderBy(a=>a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
 
+            //foreach (CardSessionDTO card in sm.Cards)
+            //{
+            //    var query =
+            //        (from a in dc.UsersCards where a.userID == userID && a.cardID == card.BasicInfo.CardID select a);
+            //    card.UserCardInfo = new UserCardSessionInfo();
+
+            //    if (query.Any())
+            //    {
+            //        card.UserCardInfo.UserCardID = query.First().usersCardID;
+            //    }
+            //    else
+            //    {
+            //        UsersCard usrcard = new UsersCard()
+            //        {
+            //            cardID = card.BasicInfo.CardID,
+            //            userID = userID,
+            //            ignore = false,
+            //            lastSeen = null,
+            //            cardCombo = 0,
+            //            nextSee = null,
+            //            correctAnswers = 0,
+            //            wrongAnswers = 0,
+            //            goodness = 0
+            //        };
+            //        dc.UsersCards.InsertOnSubmit(usrcard);
+            //        dc.SubmitChanges();                    
+            //        card.UserCardInfo.UserCardID = usrcard.usersCardID;
+            //    }
+            //}
             return sm;
         }
 
@@ -134,8 +164,8 @@ namespace UpamtiMe.Models
                                 BasicInfo = new CardDTO
                                 {
                                     Question = c.question,
-                                Answer = c.answer,
-                                Description = c.description
+                                    Answer = c.answer,
+                                    Description = c.description
                                 }
                             }).Take(numberOfCards.Value).ToList();
 

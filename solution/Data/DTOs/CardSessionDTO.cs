@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace Data.DTOs
 {
-    public class CardSessionDTO : CardDTO
+    public class CardSessionDTO : CardDTO, UserCardSessionInfo
     {
-        public int UserCardID { get; set; }
-        public DateTime LastSeen { get; set; }
-        public DateTime? NextSee { get; set; }
-        public int  Combo { get; set; }
-        public int CorrectAnswers { get; set; }
-        public int WrongAnswers { get; set; }
+      
     }
 }

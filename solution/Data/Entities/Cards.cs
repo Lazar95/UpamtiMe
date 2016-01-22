@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data.DTOs;
 
 namespace Data
 {
@@ -143,9 +145,54 @@ namespace Data
                         Answer = a.answer,
                         Description = a.description,
                         Number = a.number,
-                        //Image = a.image,
-                        // Ovo nece zbog tipa, nebitno sad
-                    }).OrderBy(a=>a.Number).ToList();
+                        Image = a.image == null ? null : a.image.ToArray(),
+                        }).OrderBy(a=>a.Number).ToList();
+        }
+
+        public static List<Data.DTOs.CardCourseProfileDTO> getCards(int levelID, int? userID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            List<Data.DTOs.CardCourseProfileDTO> returnValue = new List<CardCourseProfileDTO>();
+
+            if (userID == null)
+            {
+                List<CardDTO> l = getCardsFor(levelID, dc);
+                foreach (CardDTO card in l)
+                {
+                    returnValue.Add(new CardCourseProfileDTO {BasicInfo = card});
+                }
+            }
+            else
+            {
+                returnValue = (from c in dc.Cards
+                    join uc in dc.UsersCards on c.cardID equals uc.cardID into uc
+                    from u in uc.DefaultIfEmpty()
+                    where c.levelID == levelID && u.userID == userID.Value
+                    select new CardCourseProfileDTO
+                    {
+                        BasicInfo = new CardDTO()
+                        {
+                            CardID = c.cardID,
+                            Question = c.question,
+                            Answer = c.answer,
+                            Description = c.description,
+                            Number = c.number,
+                            Image = c.image == null ? null : c.image.ToArray(),
+                        },
+                        Ignore = u.ignore,
+                        UserCard = new UserCardSessionInfo
+                        {
+                            UserCardID = u.usersCardID,
+                            CorrectAnswers = u.correctAnswers,
+                            WrongAnswers = u.wrongAnswers,
+                            Combo = u.cardCombo,
+                            LastSeen = u.lastSeen,
+                            NextSee = u.nextSee
+                        }
+                    }).ToList();
+            }
+
+            return returnValue;
         }
 
     }

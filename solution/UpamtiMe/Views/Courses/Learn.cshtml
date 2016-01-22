@@ -1,0 +1,200 @@
+﻿@model UpamtiMe.Models.SessionModel
+
+@{
+    ViewBag.Title = "Learn";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/obicna-kartica.css">
+
+<table style="width:1400px ; " id="table-of-god">
+    <thead style=" text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.UserCardID)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.CardID)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Question)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Answer)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Description)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.LastSeen)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.NextSee)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.CorrectAnswers)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.WrongAnswers)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.Combo)</th>
+    </thead>
+    @foreach (Data.DTOs.CardSessionDTO card in @Model.Cards)
+    {
+        <tr>
+            <td data-type="user-card-id">@Html.DisplayFor(a => card.UserCardInfo.UserCardID)</td>
+            <td data-type="card-id">@Html.DisplayFor(a => card.BasicInfo.CardID)</td>
+            <td data-type="question">@Html.DisplayFor(a => card.BasicInfo.Question)</td>
+            <td data-type="answer">@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
+            <td data-type="description">@Html.DisplayFor(a => card.BasicInfo.Description)</td>
+            <td data-type="last-seen">@Html.DisplayFor(a => card.UserCardInfo.LastSeen)</td>
+            <td data-type="next-see">@Html.DisplayFor(a => card.UserCardInfo.NextSee)</td>
+            <td data-type="correct-answers">@Html.DisplayFor(a => card.UserCardInfo.CorrectAnswers)</td>
+            <td data-type="wrong-answers">@Html.DisplayFor(a => card.UserCardInfo.WrongAnswers)</td>
+            <td data-type="combo">@Html.DisplayFor(a => card.UserCardInfo.Combo)</td>
+        </tr>
+    }
+
+
+</table>
+
+
+
+    <main id="learn-session">
+
+        <div class="workspace">
+            <aside class="info">
+                <div class="session-info">
+                    <!--<h3>Trenutna sesija</h3>-->
+                    <dl class="general">
+                        <div><dt>Broj odgovora</dt>     <dd id="cards-current-total">11/20</dd></div>
+                        <div><dt>Tačnost</dt>           <dd id="accuracy">42%</dd></div>
+                        <div><dt>Proteklo vreme</dt>    <dd id="time">2'04"</dd></div>
+                        <div><dt>Trenutni kombo</dt>      <dd id="session-combo">4</dd></div>
+                    </dl>
+                    <dl class="total-score">
+                        <div><dt>Osvojeni poeni</dt>               <dd id="score">674</dd></div>
+                    </dl>
+                    <dl class="last-score">
+                        <div><dt></dt><dd id="last-score"></dd></div>
+                    </dl>
+                    <dl class="last-score-breakdown">
+                        <div><dt>Base score</dt> <dd id="base-score" class="level-1">&nbsp;</dd></div>
+                        <!--<div><dt>Card combo</dt> <dd id="card-combo" class="level-1">&nbsp;</dd></div>-->
+                        <div><dt>Session combo</dt> <dd id="session-combo" class="level-1">&nbsp;</dd></div>
+                        <!--<div><dt>Time bonus</dt> <dd id="time-bonus" class="level-1">&nbsp;</dd></div>-->
+                    </dl>
+                </div>
+            </aside>
+            <div class="cards">
+                <div class="card current-card">
+                    <div class="card-content simple">
+                        <!-- Ne postoji card info za sesiju ucenja -->
+                        <div class="question">
+                            <span>ođe je reč na srpski</span>
+                        </div>
+                        <div class="prompt">
+                            <input type="text" spellcheck="false" id="type-answer">
+                        </div>
+                        <ul class="multiple-choice">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <input id="virtual-typing" type="text" spellcheck="false">
+                        </ul>
+                        <div class="hangman">
+                            <ul>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                                <li><input type="text" maxlength="1" spellcheck="false"></li>
+                            </ul>
+                        </div>
+                        <div id="scrabble">
+                            <input id="scrabble-typing" type="text" spellcheck="false">
+                            <span id="scrabble-typed" data-plain-text=""></span>
+                            <ul id="scrabble-letters">
+                                <!-- dynamic with JS -->
+                            </ul>
+                            <ul id="scrabble-control">
+                                <li id="scrabble-backspace">←</li>
+                                <li id="scrabble-space"></li>
+                                <li id="scrabble-enter">↲</li>
+                            </ul>
+                        </div>
+                        <div class="given-answer">
+                            <span></span>
+                        </div>
+                        <div class="correct-answer">
+                            <span></span>
+                        </div>
+                        <div id="initial-choice">
+                            <div id="yes">
+                                <button>✔</button>
+                            </div>
+                            <div id="no">
+                                <button>Ovu reč znam od ranije.</button>
+                            </div>
+                        </div>
+                        <button class="next"><span>➤</span></button>
+                    </div>
+                    <!-- Ne postoji tajmer za sesiju ucenja -->
+                </div>
+                <!-- Ne postoji sledeca kartica za sesiju ucenja -->
+            </div>
+            <aside class="options">
+                <button id="ignore">X</button>
+                <button id="help">?</button>
+                <button id="bookmark">!</button>
+            </aside>
+        </div>
+
+        <aside class="progress-bar">
+            <ul>
+                <div>
+                    <li class="current"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                </div>
+                <div>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                </div>
+                <div>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                </div>
+                <div>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                </div>
+                <div>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                </div>
+                <div>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                    <li class="unopened"></li>
+                </div>
+            </ul>
+        </aside>
+
+    </main>
+
+<script src="~/Scripts/ucenje-novih.js"></script>
+
+

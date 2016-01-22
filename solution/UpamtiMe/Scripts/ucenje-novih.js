@@ -37,18 +37,45 @@
 }
 
 // JSON za pitanja i odgovore
-var _qa = [
-  { "question" : "osiguranje", "answer" : "die Versicherung"  , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "ne",             "answer" : "nein"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "hvala",          "answer" : "danke"         , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "nema na čemu",   "answer" : "bitte schön"   , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "dobro jutro",    "answer" : "Guten Morgen"  , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "dobar dan",      "answer" : "Guten Tag"     , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-];
+var parseTableOfGod = function() {
+  table = $('#table-of-god');
+  numberOfEntries = table.children('tbody').children('tr').length;
 
+  for ( var i = 1; i <= numberOfEntries; i++ ) {
+    var curr = table.children('tbody').children('tr:nth-child(' + i + ')');
+    console.log(curr);
+    _qa.push( {
+      "status": -1,
+      //TODO svasta nesto gledaj dole
+      //"userCardID": curr.children('[data-type="user-usercard-id"]'), // novo
+      "cardID": curr.children('[data-type="card-id"]').text().trim(), // novo
+      "question" : curr.children('[data-type="question"]').text().trim(),
+      "answer" : curr.children('[data-type="answer"]').text().trim(),
+      "description": curr.children('[data-type="description"]').text().trim(),
+      "nextSee": 0, // nije isto ako si u startu reko da znas rec
+      "correctAnswers": 0, // uvek 0, vracam samo nov broj, odnosno akrtice radjene tokom ove sesije
+      "wrongAnswers": 0, // uvek 0
+      "combo": 0,
+      "goodness": 0; // ja treba da sracunam goodness
+    } );
+  }
+
+  console.log(_qa);
+}
+
+var _qa = [];
 var LENGTH = _qa.length;
-
 var ALREADY_PUNISHED = false;
+
+$(window).bind('load', function() {
+  parseTableOfGod();
+  LENGTH = _qa.length;
+  setLevels();
+
+  //console.log('Broj pitanja: ', LENGTH);
+  loadQuestion();
+
+});
 
 var UNOPENED = -1;
 var SHOWN = 0;
@@ -72,13 +99,13 @@ var _partLength = 3;
 var _sectionLength = 2 * _partLength;
 var _levels = [[], [], []];
 
-{
+var setLevels = function() {
   for (var section = 0; section < Math.ceil(2 * LENGTH / _sectionLength); section++) {
     var sectionStart = section * _sectionLength;
-    //console.log("Section #" + section + " starts at index " + sectionStart + ".");
+    console.log("Section #" + section + " starts at index " + sectionStart + ".");
     for (var part = 0; part < 2; part++) {
       var partStart = sectionStart + part * _partLength;
-      //console.log("In section #" + section + ", part #" + part + " starts at index " + partStart + ".");
+      console.log("In section #" + section + ", part #" + part + " starts at index " + partStart + ".");
       for (var offset = 0; offset < _partLength; offset++)
         _levels[0].push(_partLength * section + offset);
     }
@@ -89,19 +116,20 @@ var _levels = [[], [], []];
   var removeLength = expectedNumberOfQuestions - LENGTH;
   _levels[0].splice(indexOfLastSession + _partLength + _partLength - removeLength, removeLength);
   _levels[0].splice(indexOfLastSession + _partLength - removeLength, removeLength);
+
+  for (var i = 0; i < 2*LENGTH; i++) {
+    _levels[1][i] = i % LENGTH;
+    _levels[2][i] = i % LENGTH;
+  }
+
+  shuffleArray(_levels[1]);
+  shuffleArray(_levels[2]);
 }
 
 //console.log(_levels[0]);
 //alert();
 
 
-for (var i = 0; i < 2*LENGTH; i++) {
-  _levels[1][i] = i % LENGTH;
-  _levels[2][i] = i % LENGTH;
-}
-
-shuffleArray(_levels[1]);
-shuffleArray(_levels[2]);
 
 var _currentQuestion = function() {
   return _levels[_currentLevel][_questionPointer];
@@ -796,10 +824,3 @@ var dump = function() {
 var sessionCompleted = function() {
   alert("Napusi se kurca");
 }
-
-$(document).ready(function() {
-
-  //console.log('Broj pitanja: ', LENGTH);
-  loadQuestion();
-
-});

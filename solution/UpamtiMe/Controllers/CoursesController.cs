@@ -154,7 +154,7 @@ namespace UpamtiMe.Controllers
                 return RedirectToAction("Error", "Home");
                 // neka baci neki bolji exception
             }
-            return View("SessionTest",model);
+            return View("Learn",model);
         }
 
         public ActionResult Review(int courseID, int? levelID, int? numberOfCards)

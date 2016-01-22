@@ -146,6 +146,7 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Courses\Profile.cshtml" />
     <Content Include="Views\Courses\SessionTest.cshtml" />
+    <Content Include="Views\Courses\Learn.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

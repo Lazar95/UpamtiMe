@@ -146,7 +146,7 @@
   </Table>
   <Table Name="dbo.UsersCards" Member="UsersCards">
     <Type Name="UsersCard">
-      <Column Name="usersCardsD" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="usersCardID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="cardID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ignore" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />

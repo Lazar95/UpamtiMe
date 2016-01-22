@@ -128,10 +128,23 @@ namespace UpamtiMe.Controllers
             }
         }
 
-        public ActionResult Learn(int userID, int courseID, int? levelID, int? numberOfCards)
+        public ActionResult Learn(int courseID, int? levelID, int? numberOfCards)
         {
-            SessionModel model = Models.SessionModel.LoadLearningSession(userID, courseID, levelID, numberOfCards);
+            SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
             return View("SessionTest",model);
         }
+
+        public ActionResult Review(int courseID, int? levelID, int? numberOfCards)
+        {
+            SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            return View("SessionTest", model);
+        }
+
+        public ActionResult Linky(int courseID, int? levelID, int? numberOfCards)
+        {
+            SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            return View("SessionTest", model);
+        }
+
     }
 }

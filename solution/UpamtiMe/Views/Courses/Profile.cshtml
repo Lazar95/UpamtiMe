@@ -43,17 +43,19 @@
                 }
                 else
                 {
-                   
-                    int level = (from a in @Model.Levels where a.LearningStatistics.Unseen > 0 select a.LevelID).First();
+                    var learnLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Unseen > 0 select new { id = a.LevelID, no = a.Number });
+                    int learnLevel = learnLevelQuery.Any() ? learnLevelQuery.OrderBy(a => a.no).First().id : 0;
+                    var reviewLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Review > 0 select new {id = a.LevelID, no = a.Number});
+                    int reviewLevel = reviewLevelQuery.Any() ? reviewLevelQuery.OrderBy(a => a.no).First().id : 0;
 
                     <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new {userID = user.UserID, courseID = Model.CourseID, levelID = @level})">Uči</a></span>
+                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new {courseID = Model.CourseID, levelID = @learnLevel})">Uči</a></span>
                     </div>
                     <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span>Obnovi</span>
+                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", new {courseID = Model.CourseID, levelID = @reviewLevel})">Obnovi</a></span>
                     </div>
                     <div class="button button-rect overreview-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span>Spajalica</span>
+                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", new { courseID = Model.CourseID })">Spajalica</a></span>
                     </div>
                 }
             }
@@ -84,9 +86,9 @@
                                     <div class="more-info-inner">
 
                                         <div class="session-buttons">
-                                            <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new {userID = user.UserID, courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Uči</a></span></div>
-                                            <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span>Obnovi</span></div>
-                                            <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span>Spajalica</span></div>
+                                            <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Uči</a></span></div>
+                                            <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Obnovi</a></span></div>
+                                            <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Spajalica</a></span></div>
                                             <div class="button button-rect show-words-button"><div class="btn-icon icon-id-list"><span></span></div><span>Spisak</span></div>
                                         </div>
 

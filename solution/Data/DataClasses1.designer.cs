@@ -3279,7 +3279,7 @@ namespace Data
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _usersCardsD;
+		private int _usersCardID;
 		
 		private int _userID;
 		
@@ -3305,8 +3305,8 @@ namespace Data
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnusersCardsDChanging(int value);
-    partial void OnusersCardsDChanged();
+    partial void OnusersCardIDChanging(int value);
+    partial void OnusersCardIDChanged();
     partial void OnuserIDChanging(int value);
     partial void OnuserIDChanged();
     partial void OncardIDChanging(int value);
@@ -3332,22 +3332,22 @@ namespace Data
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_usersCardsD", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int usersCardsD
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_usersCardID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int usersCardID
 		{
 			get
 			{
-				return this._usersCardsD;
+				return this._usersCardID;
 			}
 			set
 			{
-				if ((this._usersCardsD != value))
+				if ((this._usersCardID != value))
 				{
-					this.OnusersCardsDChanging(value);
+					this.OnusersCardIDChanging(value);
 					this.SendPropertyChanging();
-					this._usersCardsD = value;
-					this.SendPropertyChanged("usersCardsD");
-					this.OnusersCardsDChanged();
+					this._usersCardID = value;
+					this.SendPropertyChanged("usersCardID");
+					this.OnusersCardIDChanged();
 				}
 			}
 		}

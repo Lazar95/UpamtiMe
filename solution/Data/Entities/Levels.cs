@@ -181,7 +181,7 @@ namespace Data
                         Type = l.type,
                         CardNumber = (from a in dc.Cards where a.levelID == l.levelID select a).Count(),
                         LearningStatistics = null
-                    }).ToList();
+                    }).OrderBy(a=>a.Number).ToList();
 
             if (userID != null)
             {

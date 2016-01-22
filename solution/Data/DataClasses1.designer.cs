@@ -3321,6 +3321,8 @@ namespace Data
 		
 		private int _wrongAnswers;
 		
+		private double _goodness;
+		
 		private EntityRef<Card> _Card;
 		
 		private EntityRef<User> _User;
@@ -3347,6 +3349,8 @@ namespace Data
     partial void OncorrectAnswersChanged();
     partial void OnwrongAnswersChanging(int value);
     partial void OnwrongAnswersChanged();
+    partial void OngoodnessChanging(double value);
+    partial void OngoodnessChanged();
     #endregion
 		
 		public UsersCard()
@@ -3540,6 +3544,26 @@ namespace Data
 					this._wrongAnswers = value;
 					this.SendPropertyChanged("wrongAnswers");
 					this.OnwrongAnswersChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_goodness", DbType="Float NOT NULL")]
+		public double goodness
+		{
+			get
+			{
+				return this._goodness;
+			}
+			set
+			{
+				if ((this._goodness != value))
+				{
+					this.OngoodnessChanging(value);
+					this.SendPropertyChanging();
+					this._goodness = value;
+					this.SendPropertyChanged("goodness");
+					this.OngoodnessChanged();
 				}
 			}
 		}

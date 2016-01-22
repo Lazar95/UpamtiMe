@@ -156,6 +156,7 @@
       <Column Name="nextSee" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="correctAnswers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="wrongAnswers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="goodness" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="Card_UsersCard" Member="Card" ThisKey="cardID" OtherKey="cardID" Type="Card" IsForeignKey="true" />
       <Association Name="User_UsersCard" Member="User" ThisKey="userID" OtherKey="userID" Type="User" IsForeignKey="true" />
     </Type>

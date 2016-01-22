@@ -1138,6 +1138,8 @@ namespace Data
 		
 		private string _description;
 		
+		private System.Data.Linq.Binary _image;
+		
 		private EntitySet<UsersCourse> _UsersCourses;
 		
 		private EntitySet<Level> _Levels;
@@ -1168,6 +1170,8 @@ namespace Data
     partial void OnratingChanged();
     partial void OndescriptionChanging(string value);
     partial void OndescriptionChanged();
+    partial void OnimageChanging(System.Data.Linq.Binary value);
+    partial void OnimageChanged();
     #endregion
 		
 		public Course()
@@ -1363,6 +1367,26 @@ namespace Data
 					this._description = value;
 					this.SendPropertyChanged("description");
 					this.OndescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary image
+		{
+			get
+			{
+				return this._image;
+			}
+			set
+			{
+				if ((this._image != value))
+				{
+					this.OnimageChanging(value);
+					this.SendPropertyChanging();
+					this._image = value;
+					this.SendPropertyChanged("image");
+					this.OnimageChanged();
 				}
 			}
 		}

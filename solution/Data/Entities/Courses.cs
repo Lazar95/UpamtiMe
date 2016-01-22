@@ -197,7 +197,15 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Courses where a.courseID == courseID select a).First().numberOfCards;
         }
-        
+
+        public static void editImage(int courseID, byte[] file)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            Course c = getCourse(courseID, dc);
+            c.image = new System.Data.Linq.Binary(file);
+            dc.SubmitChanges();
+        }
+
     }
 
     

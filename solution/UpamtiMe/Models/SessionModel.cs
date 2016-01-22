@@ -108,7 +108,7 @@ namespace UpamtiMe.Models
                                 Question = c.question,
                                 Answer = c.answer,
                                 Description = c.description,
-                            }).OrderBy(a => a.Number).Take(numberOfCards.Value).ToList();
+                            }).Take(numberOfCards.Value).ToList();
 
                 if (sm.Cards.Count < 5)
                     return null; //ovde bi mogo i da se baci odgovarajuci exception

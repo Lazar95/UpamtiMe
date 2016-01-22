@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -126,6 +127,23 @@ namespace UpamtiMe.Controllers
             { 
                 return Json(new { success = false});
             }
+        }
+
+        [HttpPost]
+        public ActionResult EditImage(HttpPostedFileBase file, int courseID)
+        {
+            if (file != null)
+            {
+                byte[] array;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    array = ms.GetBuffer();
+                }
+                Data.Courses.editImage(courseID, array);
+            }
+
+            return RedirectToAction("Profile", "Courses", new { id = courseID });
         }
 
         public ActionResult Learn(int courseID, int? levelID, int? numberOfCards)

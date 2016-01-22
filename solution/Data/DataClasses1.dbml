@@ -56,6 +56,7 @@
       <Column Name="creatorID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="rating" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="description" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Course_UsersCourse" Member="UsersCourses" ThisKey="courseID" OtherKey="courseID" Type="UsersCourse" />
       <Association Name="Course_Level" Member="Levels" ThisKey="courseID" OtherKey="courseID" Type="Level" />
       <Association Name="Category_Course" Member="Category" ThisKey="categoryID" OtherKey="categoryID" Type="Category" IsForeignKey="true" />

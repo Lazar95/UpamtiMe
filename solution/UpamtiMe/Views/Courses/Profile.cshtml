@@ -13,10 +13,18 @@
         @if(user != null && user.UserID == Model.CreatorID)
         {
             <a href="@Url.Action("EditCourse", "Courses", new {id = @Model.CourseID})">Edit</a>
-        } 
-      
-        @* TODO MASA // Nemamo sliku za nivo *@
+        }
+
+
         <div class="picture">
+                @{
+                    if (Model.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Image.ToArray());
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <img src="@imgSrc" width="208px" height="208px" />
+                    }
+                }
 
         </div>
         <div class="basic-info">

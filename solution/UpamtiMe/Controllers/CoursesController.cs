@@ -149,12 +149,22 @@ namespace UpamtiMe.Controllers
         public ActionResult Learn(int courseID, int? levelID, int? numberOfCards)
         {
             SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            if (model.Cards.Count < 1)
+            {
+                return RedirectToAction("Error", "Home");
+                // neka baci neki bolji exception
+            }
             return View("SessionTest",model);
         }
 
         public ActionResult Review(int courseID, int? levelID, int? numberOfCards)
         {
             SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            if (model.Cards.Count < 1)
+            {
+                return RedirectToAction("Error", "Home");
+                // neka baci neki bolji exception
+            }
             return View("SessionTest", model);
         }
 

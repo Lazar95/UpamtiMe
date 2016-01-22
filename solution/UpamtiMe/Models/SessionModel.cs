@@ -92,7 +92,7 @@ namespace UpamtiMe.Models
                 levelID = (from c in dc.Cards
                            from l in dc.Levels
                            from u in dc.UsersCards
-                           where u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee < DateTime.Now
+                           where u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
                            select new { id = l.levelID, no = l.number }).OrderBy(a => a.no).First().id;
             }
 
@@ -100,7 +100,7 @@ namespace UpamtiMe.Models
 
             sm.Cards = (from c in dc.Cards 
                         from u in dc.UsersCards
-                        where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now
+                        where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
                         select new CardSessionDTO
                         {
                             UserCardInfo = new UserCardSessionInfo
@@ -140,7 +140,7 @@ namespace UpamtiMe.Models
             {
                 sm.Cards = (from c in dc.Cards
                             from u in dc.UsersCards
-                            where u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee < DateTime.Now
+                            where u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardDTO
@@ -151,14 +151,14 @@ namespace UpamtiMe.Models
                                 }
                             }).Take(numberOfCards.Value).ToList();
 
-                if (sm.Cards.Count < 5)
+                if (sm.Cards.Count < linkyLimit)
                     return null; //ovde bi mogo i da se baci odgovarajuci exception
             }
             else
             {
                 sm.Cards = (from c in dc.Cards
                             from u in dc.UsersCards
-                            where u.cardID == c.cardID &&  u.ignore == false && u.nextSee < DateTime.Now
+                            where u.cardID == c.cardID &&  u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardDTO

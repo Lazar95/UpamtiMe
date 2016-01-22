@@ -37,12 +37,15 @@ namespace UpamtiMe.Models
                     !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
                 select new CardSessionDTO
                 {
-                    Question = c.question,
-                    Answer = c.answer,
-                    Description = c.description,
-                    Image = c.image.ToArray(),
-                    Number = c.number,
-                }).OrderBy(a=>a.Number).Take(numberOfCards.Value).ToList();
+                    BasicInfo = new CardDTO
+                    {
+                        Question = c.question,
+                        Answer = c.answer,
+                        Description = c.description,
+                        Image = c.image.ToArray(),
+                        Number = c.number,
+                    }
+                }).OrderBy(a=>a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
 
             return sm;
         }
@@ -70,19 +73,24 @@ namespace UpamtiMe.Models
                         where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now
                         select new CardSessionDTO
                         {
-                            Question = c.question,
-                            Answer = c.answer,
-                            Description = c.description,
-                            Image = c.image.ToArray(),
-                            Number = c.number,
-                            Combo =  u.cardCombo,
-                            CorrectAnswers = u.correctAnswers,
-                            WrongAnswers = u.wrongAnswers,
-                            LastSeen = u.lastSeen,
-                            NextSee = u.nextSee,
-                            UserCardID = u.usersCardID,
-
-                        }).OrderBy(a => a.Number).Take(numberOfCards.Value).ToList();
+                            UserCardInfo = new UserCardSessionInfo
+                            {
+                                Combo = u.cardCombo,
+                                CorrectAnswers = u.correctAnswers,
+                                WrongAnswers = u.wrongAnswers,
+                                LastSeen = u.lastSeen,
+                                NextSee = u.nextSee,
+                                UserCardID = u.usersCardID,
+                            },
+                            BasicInfo = new CardDTO
+                            {
+                                Question = c.question,
+                                Answer = c.answer,
+                                Description = c.description,
+                                Image = c.image.ToArray(),
+                                Number = c.number,
+                            }
+                        }).OrderBy(a => a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
 
             return sm;
         }
@@ -105,9 +113,12 @@ namespace UpamtiMe.Models
                             where u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee < DateTime.Now
                             select new CardSessionDTO
                             {
-                                Question = c.question,
-                                Answer = c.answer,
-                                Description = c.description,
+                                BasicInfo = new CardDTO
+                                {
+                                    Question = c.question,
+                                    Answer = c.answer,
+                                    Description = c.description
+                                }
                             }).Take(numberOfCards.Value).ToList();
 
                 if (sm.Cards.Count < 5)
@@ -120,9 +131,12 @@ namespace UpamtiMe.Models
                             where u.cardID == c.cardID &&  u.ignore == false && u.nextSee < DateTime.Now
                             select new CardSessionDTO
                             {
-                                Question = c.question,
+                                BasicInfo = new CardDTO
+                                {
+                                    Question = c.question,
                                 Answer = c.answer,
-                                Description = c.description,
+                                Description = c.description
+                                }
                             }).Take(numberOfCards.Value).ToList();
 
                 if (sm.Cards.Count < 5)

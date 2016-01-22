@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\CardCourseProfileDTO.cs" />
     <Compile Include="DTOs\CardSessionDTO.cs" />
     <Compile Include="DTOs\CourseUsersStatisticsDTO.cs" />
     <Compile Include="DTOs\EditCourseLevelsCards.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="DTOs\LoginTransporterDTO.cs" />
     <Compile Include="DTOs\RegisterTransporterDTO.cs" />
     <Compile Include="DTOs\SimpleLevelDTO.cs" />
+    <Compile Include="DTOs\UserCardSessionInfo.cs" />
     <Compile Include="DTOs\UserCourseDTO.cs" />
     <Compile Include="Entities\Cards.cs" />
     <Compile Include="DTOs\CardDTO.cs" />

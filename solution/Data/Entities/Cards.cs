@@ -187,7 +187,8 @@ namespace Data
                             WrongAnswers = u.wrongAnswers,
                             Combo = u.cardCombo,
                             LastSeen = u.lastSeen,
-                            NextSee = u.nextSee
+                            NextSee = u.nextSee,
+                            Goodness = u.goodness
                         }
                     }).ToList();
             }

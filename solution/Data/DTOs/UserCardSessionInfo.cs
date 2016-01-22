@@ -14,5 +14,6 @@ namespace Data.DTOs
         public int Combo { get; set; }
         public int CorrectAnswers { get; set; }
         public int WrongAnswers { get; set; }
+        public double Goodness { get; set; }
     }
 }

@@ -21,7 +21,7 @@
 
 /**
  * http://stackoverflow.com/questions/17386774/
- * Ispravleno
+ * Ispravljeno da radi
  */
  function longestWord(string) {
     var str = string.split(" ");

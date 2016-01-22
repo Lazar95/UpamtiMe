@@ -115,3 +115,120 @@ button, input[type="submit"] {
 	cursor: pointer;
 	font-weight: bold;
 }
+
+/**
+ * Pravougaoni dugmici
+ */
+
+.button-rect {
+	background-color: palette($blue-grey, 200);
+	position: relative;
+	//border-radius: 5px;
+	cursor: pointer;
+	overflow: hidden;
+
+	.btn-icon {
+		background-color: palette($blue-grey, 300);
+		width: 15%;
+		transition: all .1s ease;
+		height: 100%;
+		position: absolute;
+
+		& > span {
+			transition: transform .1s ease;
+			position: absolute;
+			$s: 36px;
+			width: $s;
+			height: $s;
+			line-height: $s;
+			font-size: 0.5 * $s;
+			right: - $s/2;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			background-color: palette($blue-grey, 50);
+			border-radius: 50%;
+			text-align: center;
+			color: palette($pink);
+		}
+	}
+
+	& > span {
+		position: absolute;
+		height: 16px;
+		font-size: 16px;
+		font-weight: bold;
+		top: 0;
+		bottom: 0;
+		right: 16px;
+		margin: auto;
+	}
+
+	// Kada se dugme hoveruje
+	&:hover {
+		.btn-icon {
+			background-color: palette($blue-grey, 400);
+			width: 18%;
+
+			& > span {
+				transform: scale(1);
+			}
+		}
+	}
+}
+
+/**
+ * Ikoncie, TODO
+ */
+.icon-id-x {
+	@extend .fa, .fa-paw;
+}
+
+.icon-id-learn  > span { @extend .fa, .fa-graduation-cap; }
+.icon-id-review > span { @extend .fa, .fa-flask; }
+.icon-id-linky  > span { @extend .fa, .fa-link; }
+.icon-id-list   > span { @extend .fa, .fa-list; }
+
+.icon-id-1  { @extend .fa, .fa-comment; }
+.icon-id-2  { @extend .fa, .fa-dashboard; }
+.icon-id-3  { @extend .fa, .fa-hourglass; }
+.icon-id-4  { @extend .fa, .fa-leaf; }
+.icon-id-5  { @extend .fa, .fa-paint-brush; }
+.icon-id-6  { @extend .fa, .fa-umbrella; }
+.icon-id-7  { @extend .fa, .fa-truck; }
+.icon-id-8  { @extend .fa, .fa-user-secret; }
+.icon-id-9  { @extend .fa, .fa-ship; }
+.icon-id-10 { @extend .fa, .fa-plug; }
+
+/**
+ * STATS
+ */
+
+ dl.stats {
+ 	display: flex;
+ 	justify-content: center;
+ 	align-items: center;
+
+ 	dt {
+ 		color: palette($blue-grey, 600);
+ 	}
+
+ 	dd {
+ 		display: inline-block;
+ 		margin-top: 8px;
+ 		color: palette($pink);
+ 		font-weight: bold;
+ 		font-size: 32px;
+ 	}
+ }
+
+ dl.stats-vertical {
+  	flex-flow: column;
+ }
+
+ dl.stats-horizontal {
+	 flex-flow: row;
+	 & > * { flex-grow: 1; }
+	 dt { text-align: left; }
+	 dd { text-align: right; }
+ }

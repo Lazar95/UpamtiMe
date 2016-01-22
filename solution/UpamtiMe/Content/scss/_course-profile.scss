@@ -1,4 +1,9 @@
+$lvl-circ: 130px;
+
+
 main#course-profile {
+
+  padding-bottom: 500px;
 
   display: flex;
   flex-wrap: wrap;
@@ -51,8 +56,10 @@ main#course-profile {
       background-color: palette($blue-grey, 100);
       @include z-depth(1);
       margin-bottom: 16px;
-      padding: 12px;
+      padding: 8px 24px;
     }
+
+
   }
 
   .main-content {
@@ -65,30 +72,12 @@ main#course-profile {
       // Fiktivna klasa
       .button {
         width: 30%;
-        background-color: white;
-        height: 48px;
-        line-height: 48px;
+        height: 72px;
         position: relative;
-        line-height: 48px;
         @include z-depth(1);
         transition: all .2s ease;
 
         &:hover { @include z-depth(1.5); }
-
-        span {
-          display: block;
-          text-align: center;
-          font-size: 18px;
-          font-weight: bold;
-        }
-
-        i {
-          position: absolute;
-          left: 16px;
-          height: 48px;
-          line-height: 48px;
-          font-size: 18px;
-        }
       }
 
       .learn-button, .review-button, .overreview-button, .enroll-button {
@@ -98,38 +87,312 @@ main#course-profile {
       .enroll-button {
         width: 100%;
       }
-
     }
 
-    // Lista nivoa
-    & > ul {
+    & > ul.levels {
+      display: flex;
+      flex-flow: column;
+      width: 100%;
+      @include z-depth(1);
+      margin-top: 20px;
+      background-color: palette($blue-grey, 200);
 
-      // "Kartica" (UI element) za nivo
-      & > li {
-        margin: 12px 0;
-        background-color: palette($blue-grey, 100);
-        @include z-depth(1);
-        padding: 12px;
+      // Lista od pet nivoa
+      & > li.level-group > ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 36px;
+        padding-bottom: 0;
+        margin-bottom: -16px;
+        transition: all .5s ease;
+        position: relative;
 
-        .level-basic-info {
-          display: flex;
-          justify-content: space-between;
+        // "Kartica" (UI element) za nivo
+        & > li.level {
+          margin: 16px;
 
-          .left {
-            .level-number {
-              color: palette($blue-grey, 500);
+          .circle-display {
+            transition: all .5s ease;
+            width: $lvl-circ;
+            height: $lvl-circ;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+
+            .icon {
+              transition: all .2s ease;
+              border-radius: 50%;
+              background-color: palette($blue-grey, 50);
+              position: absolute;
+              $ratio: 0.84;
+              width: $ratio * $lvl-circ;
+              height: $ratio * $lvl-circ;
+              line-height: $ratio * $lvl-circ;
+              margin: (1-$ratio)*50%;
+              text-align: center;
+              color: palette($pink);
+              font-size: 48px;
+              font-weight: bold;
+              z-index: 10;
             }
-            .level-name {
-              
+
+            .name {
+              position: absolute;
+              padding: 5px;
+              word-wrap: break-word;
+              width: $lvl-circ;
+              text-align: center;
+              top: 0;
+              margin-top: $lvl-circ + 10px;
+              color: palette($blue-grey, 800);
+              font-size: 18px;
+              line-height: 18px;
+              border-radius: 5px;
+              box-sizing: border-box;
+
+              & > span {
+                display: inline-block;
+                margin-right: 0.5ex;
+                font-weight: bold;
+              }
             }
+
+            /**
+             * POCINJE PITA
+             */
+            .pie-ring-outer {
+              position: absolute;
+              width: $lvl-circ;
+              height: $lvl-circ;
+              z-index: 5;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              align-content: center;
+
+              .pie-ring-inner {
+                @include force-height(1 * $lvl-circ);
+                @include force-width(1 * $lvl-circ);
+                transition: all .2s ease;
+                //background-color: palette($teal, 500);
+                border-radius: 50%;
+                display: block;
+
+                .pie {
+                  position:absolute;
+                  width: $lvl-circ / 2;
+                  height: $lvl-circ;
+                  overflow:hidden;
+                  left: $lvl-circ / 2;
+                  transform-origin:left center;
+                }
+
+                .pie.big {
+              		width: $lvl-circ;
+              		height: $lvl-circ;
+              		left: 0;
+              		transform-origin:center center;
+              	}
+
+                .pie:BEFORE {
+                  content:"";
+                  position:absolute;
+                  width: $lvl-circ / 2;
+                  height: $lvl-circ;
+                  left: - $lvl-circ / 2;
+                  border-radius: $lvl-circ/2 0 0 $lvl-circ/2;
+                  transform-origin:right center;
+                }
+
+                .pie.big:BEFORE {
+                  left: 0;
+                }
+
+                .pie.big:AFTER {
+              		content: "";
+              		position: absolute;
+              		width: $lvl-circ / 2;
+              		height: $lvl-circ;
+              		left: $lvl-circ / 2;
+              		border-radius: 0 $lvl-circ/2 $lvl-circ/2 0;
+              	}
+
+                .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($pink, 600); }
+              	.pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($pink, 300); }
+              	.pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700); }
+
+                .pie[data-start="0"]  { transform:rotate(0deg); }
+                .pie[data-start="110"]  { transform:rotate(110deg); }
+                .pie[data-start="210"] { transform:rotate(210deg); }
+                .pie[data-value="110"]::before  { transform:rotate(111deg); }
+                .pie[data-value="100"]::before  { transform:rotate(101deg);	}
+                .pie[data-value="150"]::before { transform:rotate(151deg);	}
+
+              } // pie-ring-inner
+            }
+            /**
+             * KRAJ PITE
+             */
           }
 
-          .right {
+          // pod li.level
+          &.level-blue {
+            .icon { color: palette($blue); }
+            .icon:hover { color:palette($blue, 300); }
+            &.active { .icon {background-color: palette($blue, 600)!important; } }
+            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($blue, 600)!important; }
+            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($blue, 300)!important; }
+            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+          }
+          &.level-green {
+            .icon { color: palette($green); }
+            .icon:hover { color:palette($green, 300); }
+            &.active { .icon {background-color: palette($green, 600)!important; } }
+            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($green, 600)!important; }
+            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($green, 300)!important; }
+            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+          }
+          &.level-orange {
+            & .icon { color: palette($orange); }
+            .icon:hover { color:palette($orange, 300); }
+            &.active { & .icon {background-color: palette($orange, 600)!important; } }
+            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($orange, 600)!important; }
+            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($orange, 300)!important; }
+            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+          }
+          &.level-red {
+            .icon { color: palette($red); }
+            .icon:hover { color:palette($red, 300); }
+            &.active { .icon {background-color: palette($red, 600)!important; } }
+            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($red, 600)!important; }
+            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($red, 200)!important; }
+            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+          }
+          &.level-purple {
+            .icon { color: palette($purple); }
+            .icon:hover { color:palette($purple, 300); }
+            &.active { .icon {background-color: palette($purple, 600)!important; } }
+            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($purple, 600)!important; }
+            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($purple, 200)!important; }
+            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+          }
+          &.level-pink {
+            .icon { color: palette($pink); }
+            .icon:hover { color:palette($pink, 300); }
+            &.active { .icon {background-color: palette($pink, 600)!important; } }
+            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($pink, 600)!important; }
+            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($pink, 200)!important; }
+            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+          }
+          &.level-yellow {
+            .icon { color: palette($yellow, 700); }
+            .icon:hover { color:palette($yellow, 300); }
+            &.active { .icon {background-color: palette($yellow, 600)!important; } }
+            .pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($yellow, 600)!important; }
+            .pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($yellow, 400)!important; }
+            .pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
+          }
+
+          .more-info-outer {
+            transition: all .5s ease;
+            margin-top: 72px;
+            @include force-height(0);
+            //overflow: hidden;
+            opacity: 0;
+          }
+
+          .more-info-inner {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            height: 240px;
+            background-color: palette($blue-grey, 100);
+            padding: 24px;
+            box-sizing: border-box;
+            z-index: 100;
+
             display: flex;
+            flex-flow: column;
+
+            & > * { margin: auto; @include force-width(80%); }
+
+            .session-buttons {
+              order: 1;
+              display: flex;
+              flex-flow: row;
+              justify-content: space-between;
+              margin-right: 16px 0;
+              width: 100%;
+
+              & > .button {
+                width: 100%;
+                height: 56px;
+                margin: 6px;
+              }
+            }
+
+            .level-info {
+              width: 100%;
+              display: flex;
+              flex-flow: column;
+
+              .statistics {
+                flex-grow: 0;
+                width: 100%;
+
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: space-around;
+              }
+
+              .list-of-cards {
+                flex-grow: 1;
+                width: 100%;
+              }
+            }
           }
-        }
+
+
+          // level
+          &.active {
+
+            // Mora ">" jer inace gadja i .icon iz button-rect
+            .circle-display > .icon {
+              background-color: palette($pink, 600);
+              color: palette($blue-grey, 50);
+              box-shadow: 0px 0px 0px 4px palette($blue-grey, 50) inset;
+            }
+
+            .pie-ring-inner {
+              transform: scale(1.08);
+            }
+
+            // Trouglic koji pokazuje na nivo iz koga je info expandovan
+            .circle-display::after {
+              opacity: 1;
+              transition: all .2s ease;
+              content: "";
+              background-color: transparent;
+              position: absolute;
+              width: 0; height: 0;
+              bottom: 0;
+              left: 0; right: 0;
+              margin: 0 auto;
+              margin-bottom: -72px;
+              border: 24px solid palette($blue-grey, 100);
+              border-top: 24px solid transparent;
+              border-left:  18px solid transparent;
+              border-right: 18px solid transparent;
+            }
+
+            .more-info-outer {
+              opacity: 1;
+              @include force-height(240px);
+            }
+          }
+        } // level
       }
     }
   }
-
 }

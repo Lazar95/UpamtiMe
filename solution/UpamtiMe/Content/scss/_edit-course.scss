@@ -297,6 +297,9 @@ main#edit-course {
 					color: palette($blue-grey, 500);
 					transform: rotate(45deg);
 					transition: all .2s ease;
+					position: absolute;
+			    left: -30px;
+			    top: 5px;
 					&:hover { color: palette($blue-grey, 800); }
 
 					&.collapsed {
@@ -304,6 +307,18 @@ main#edit-course {
 					}
 				}
 
+				& > .icon {
+					display: inline-block;
+					margin-right: 12px;
+					width:       26px;
+					height:      26px;
+					line-height: 26px;
+					font-size: 16px;
+					text-align: center;
+					background-color: palette($blue-grey, 600);
+					color: palette($blue-grey, 50);
+					border-radius: 50%;
+				}
 
 				span {
 					// Naslov nivoa

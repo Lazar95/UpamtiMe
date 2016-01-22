@@ -35,40 +35,99 @@
             }
             else
             {
-                <div class="learn-button"><i class="fa fa-fw fa-graduation-cap"></i><span>Uči</span></div>
-                <div class="review-button"><i class="fa fa-fw fa-bell"></i><span>Obnovi</span></div>
-                <div class="overreview-button"><i class="fa fa-fw fa-leanpub"></i><span>Spajalica</span></div>
+                <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span>Uči</span></div>
+                <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span>Obnovi</span></div>
+                <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span>Spajalica</span></div>
             }
-            @* TODO problem: ovo je ikonica nekog Leanpub.com, realno ne moze ovo xD*@
         </div>
 
-        <ul>
-            @foreach (SimpleLevelDTO level in Model.Levels)
+        @{int index = -1;
+        <ul class="levels">
+            @for (int i = 0; i <= 2 * Model.Levels.Count / 9; i++)
             {
-                <li>
-                    <div class="level-basic-info">
-                        <div class="left"><span>@level.Number</span><span>@level.Name</span></div>
-                        <div class="right">
-                            <div class="level-total-card">
-                                <span class="level-number">Broj kartica</span>
-                                <span class="level-name">@level.CardNumber</span>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="list-of-cards" id=@("list-of-cards-level-id-" + level.LevelID)>@* Ovde cemo da importujemo AJAXom kad se expnaduje *@</ul>
+                <li class="level-group">
+                    <ul>
+                        @for (int j = 0; index + 1 < Model.Levels.Count && j < ((i % 2 == 0) ? 5 : 4); j++)
+                        {
+                            index++;
+                            <li class="@(index == 1 ? "level active" : "level") @(index % 3 == 0 ? "level-green" : "") @(index % 3 == 1 ? "level-orange" : "") @(index % 3 == 2 ? "level-blue" : "")"> @* TODO skloni samo dok dizajniram *@
+                                <div class="circle-display">
+                                    <div class="icon icon-id-@(index + 1)">@*level.icon; level.color*@</div>
+                                    <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
+                                    <div class="pie-ring-outer">
+                                        <div class="pie-ring-inner">
+                                            <div class="pie pie-learned" data-start="0" data-value="110"></div>
+                                            <div class="pie pie-forgotten" data-start="110" data-value="100"></div>
+                                            <div class="pie pie-unseen" data-start="210" data-value="150"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="more-info-outer">
+                                    <div class="more-info-inner">
+
+                                        <div class="session-buttons">
+                                            <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span>Uči</span></div>
+                                            <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span>Obnovi</span></div>
+                                            <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span>Spajalica</span></div>
+                                            <div class="button button-rect show-words-button"><div class="btn-icon icon-id-list"><span></span></div><span>Spisak</span></div>
+                                        </div>
+
+                                        <div class="level-info">
+
+                                            @if (Model.Levels[index].LearningStatistics != null)
+                                            {
+                                            <div class="statistics">
+                                                <dl class="stats stats-vertical level-total-card">
+                                                    <dt>Ukupno</dt>
+                                                    <dd>@Model.Levels[index].CardNumber</dd>
+                                                </dl>
+                                                <dl class="stats stats-vertical  level-learned-cards">
+                                                    <dt>Nauceno</dt>
+                                                    <dd>@Model.Levels[index].LearningStatistics.Learned</dd>
+                                                </dl>
+                                                <dl class="stats stats-vertical  level-review-cards">
+                                                    <dt>Za obnavljanje</dt>
+                                                    <dd>@Model.Levels[index].LearningStatistics.Review</dd>
+                                                </dl>
+                                                <dl class="stats stats-vertical  level-unseen-cards">
+                                                    <dt>Neotvorenih</dt>
+                                                    <dd>@Model.Levels[index].LearningStatistics.Unseen</dd>
+                                                </dl>
+                                            </div>
+
+                                            <div class="words-highlight">
+
+                                            </div>
+                                            }
+                                            
+                                            <ul class="list-of-cards" id=@("list-of-cards-level-id-" + Model.Levels[index].LevelID)>
+                                                @*@for (int c = 0; c < Model.Levels[index].CardNumber; c++)
+                                                {
+                                                    <li>@Model.Levels[index].</li>
+                                                    Gde jke lsita kartica?
+                                                }*@
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
                 </li>
             }
         </ul>
+        }
     </div>
 
     <div class="sidebar">
         <div class="personal-stats">
             @if (Model.Statistics != null)
             {
-                <span>Statistics: Learned/Total/Review</span>
-                <span>@Model.Statistics.LearningStatistics.Total</span>
-                <span>@Model.Statistics.LearningStatistics.Total</span>
-                <span>@Model.Statistics.LearningStatistics.Review</span>
+                <dl class="stats stats-horizontal"><dt>Neotvorenih</dt><dd>@Model.Statistics.LearningStatistics.Unseen</dd></dl>
+                <dl class="stats stats-horizontal"><dt>Za obnavljanje</dt><dd>@Model.Statistics.LearningStatistics.Review</dd></dl>
+                <dl class="stats stats-horizontal"><dt>Nauceno</dt><dd>@Model.Statistics.LearningStatistics.Learned</dd></dl>
             }
         </div>
 
@@ -105,3 +164,4 @@
 
 </main>
 
+<script src="~/Scripts/course-profile.js"></script>

@@ -5,13 +5,26 @@
 @{
     ViewBag.Title = "Index";
 }
-
+@{ LoginDTO user = UserSession.GetUser();}
 
 <main id="course-profile">
 
     <div class="banner">
-        @* TODO MASA // Nemamo sliku za nivo *@
+        @if(user != null && user.UserID == Model.CreatorID)
+        {
+            <a href="@Url.Action("EditCourse", "Courses", new {id = @Model.CourseID})">Edit</a>
+        }
+
+
         <div class="picture">
+                @{
+                    if (Model.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Image.ToArray());
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <img src="@imgSrc" width="208px" height="208px" />
+                    }
+                }
 
         </div>
         <div class="basic-info">
@@ -22,22 +35,37 @@
                 <span class="subcat" data-subcat-id=@Model.SubcategoryID>@Model.SubcategoryName</span>
             </div>
             <div class="course-description">@Model.Description</div>
+
         </div>
     </div>
 
     <div class="main-content">
         <div class="buttons">
-            @if (Model.Statistics == null)
+            @if (user != null)
             {
-                <div class="enroll-button">
-                    @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
-                </div>
-            }
-            else
-            {
-                <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span>Uči</span></div>
-                <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span>Obnovi</span></div>
-                <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span>Spajalica</span></div>
+                if (Model.Statistics == null)
+                {
+                    <div class="enroll-button">
+                        @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
+                    </div>
+                }
+                else
+                {
+                    var learnLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Unseen > 0 select new { id = a.LevelID, no = a.Number });
+                    int learnLevel = learnLevelQuery.Any() ? learnLevelQuery.OrderBy(a => a.no).First().id : 0;
+                    var reviewLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Review > 0 select new {id = a.LevelID, no = a.Number});
+                    int reviewLevel = reviewLevelQuery.Any() ? reviewLevelQuery.OrderBy(a => a.no).First().id : 0;
+
+                    <div class="button button-rect learn-button">
+                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new {courseID = Model.CourseID, levelID = @learnLevel})">Uči</a></span>
+                    </div>
+                    <div class="button button-rect review-button">
+                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", new {courseID = Model.CourseID, levelID = @reviewLevel})">Obnovi</a></span>
+                    </div>
+                    <div class="button button-rect overreview-button">
+                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", new { courseID = Model.CourseID })">Spajalica</a></span>
+                    </div>
+                }
             }
         </div>
 
@@ -66,9 +94,9 @@
                                     <div class="more-info-inner">
 
                                         <div class="session-buttons">
-                                            <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span>Uči</span></div>
-                                            <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span>Obnovi</span></div>
-                                            <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span>Spajalica</span></div>
+                                            <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Uči</a></span></div>
+                                            <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Obnovi</a></span></div>
+                                            <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Spajalica</a></span></div>
                                             <div class="button button-rect show-words-button"><div class="btn-icon icon-id-list"><span></span></div><span>Spisak</span></div>
                                         </div>
 
@@ -122,14 +150,16 @@
     </div>
 
     <div class="sidebar">
-        <div class="personal-stats">
-            @if (Model.Statistics != null)
-            {
+        @if (Model.Statistics != null)
+        {
+            <div class="personal-stats">
+
                 <dl class="stats stats-horizontal"><dt>Neotvorenih</dt><dd>@Model.Statistics.LearningStatistics.Unseen</dd></dl>
                 <dl class="stats stats-horizontal"><dt>Za obnavljanje</dt><dd>@Model.Statistics.LearningStatistics.Review</dd></dl>
                 <dl class="stats stats-horizontal"><dt>Nauceno</dt><dd>@Model.Statistics.LearningStatistics.Learned</dd></dl>
-            }
-        </div>
+            </div>
+        }
+       
 
         <div class="course-stats">
             <span>Broj kartica:</span><span>@Model.NumberOfCards</span>

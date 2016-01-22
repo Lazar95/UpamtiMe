@@ -66,7 +66,9 @@ namespace Data
                 name = level.Name,
                 type = level.Type,
                 number = level.Number,
-                courseID = courseID
+                courseID = courseID,
+                icon = level.Icon,
+                color = level.Color
             };
             dc.Levels.InsertOnSubmit(newLevel);
             dc.SubmitChanges();
@@ -104,6 +106,8 @@ namespace Data
                 l.name = level.Name;
                 l.type = level.Type;
                 l.number = level.Number;
+                l.icon = level.Icon;
+                l.color = level.Color;
                 dc.SubmitChanges();
             }
         }
@@ -177,7 +181,7 @@ namespace Data
                         Type = l.type,
                         CardNumber = (from a in dc.Cards where a.levelID == l.levelID select a).Count(),
                         LearningStatistics = null
-                    }).ToList();
+                    }).OrderBy(a=>a.Number).ToList();
 
             if (userID != null)
             {
@@ -213,6 +217,7 @@ namespace Data
             return returnValue;
         }
 
+       
         
     }
 }

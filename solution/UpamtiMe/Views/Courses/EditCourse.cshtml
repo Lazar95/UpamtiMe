@@ -34,7 +34,36 @@
     <div class="basic-info">
         <h1 id="course-name"><span class="editable">@Model.Name</span></h1>
 
-    <div class="description">
+        <div class="avatar" style="float: left;">
+            @{
+                if (Model.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Image.ToArray());
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src="@imgSrc" width="208px" height="208px" />
+                }
+            }
+
+            <div style="float: right;">
+                <h2>Basic File Upload</h2>
+                @using (Html.BeginForm("EditImage", "Courses", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                    <label for="file">Upload Image:</label>
+                    <input type="file" name="file" id="file" /><br><br>
+                    <input type="submit" value="Upload Image" class="submit" />
+                    <input name="courseID" value="@Model.CourseID" style="display: none" />
+
+                    @ViewBag.Message
+                }
+            </div>
+           
+        </div>
+
+
+      
+        
+
+        <div class="description">
         <span>@Model.Description</span>
     </div>
 

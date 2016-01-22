@@ -119,7 +119,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LevelsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\ModelStateErrors.cs" />
     <Compile Include="Global.asax.cs">
@@ -130,6 +129,7 @@
     <Compile Include="Models\EditCourseModel.cs" />
     <Compile Include="Models\ProfilePageModel.cs" />
     <Compile Include="Models\HomeIndexModel.cs" />
+    <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Models\UserIndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserSession.cs" />
@@ -145,6 +145,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Courses\Profile.cshtml" />
+    <Content Include="Views\Courses\SessionTest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

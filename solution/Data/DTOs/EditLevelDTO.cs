@@ -12,5 +12,7 @@ namespace Data.DTOs
         public int Type { get; set; }
         public string Name { get; set; }
         public int Number { get; set; }
+        public int Icon { get; set; }
+        public int Color { get; set; }
     }
 }

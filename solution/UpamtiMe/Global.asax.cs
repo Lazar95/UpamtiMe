@@ -17,6 +17,9 @@ namespace UpamtiMe
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+
+          
             
             SetTimer();
         }
@@ -43,9 +46,8 @@ namespace UpamtiMe
         static void sTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             sTimer.Interval = TimeSpan.FromHours(24).TotalMilliseconds;
-            //ne zaboravi na streak
-            //thisWeekScore i thisMonthScore u UserCourses i Users
-            int a = 4;
+            Data.Users.resetStatisticsForAllUsers();
+
         }
     }
 }

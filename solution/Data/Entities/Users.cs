@@ -192,5 +192,44 @@ namespace Data
             dc.SubmitChanges();
         }
 
+        public static void resetStatisticsForAllUsers()
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            foreach (User user in dc.Users)
+            {
+                int last7days = 0;
+                int last30days = 0;
+                bool streak = true;
+
+                foreach (UsersCourse uc in (from a in dc.UsersCourses where a.userID == user.userID select a))
+                {
+                    var query = (from a in dc.UserCourseStatistics
+                        where a.userCourseID == uc.usersCoursesID && DateTime.Now.Subtract(a.date).Days < 30
+                        select a.date);
+
+                    if ((from a in query where DateTime.Now.Subtract(a).Days == 0 select a).Any())
+                        streak = false;
+
+                    int week = (from a in query where DateTime.Now.Subtract(a).Days < 7 select a).Count();
+                    int month = query.Count();
+
+                    uc.thisWeekScore = week;
+                    uc.thisMonthScore = month;
+
+                    last7days += week;
+                    last30days += month;
+
+                }
+
+                if (streak)
+                    user.streak = 0;
+
+                user.thisWeekScore = last7days;
+                user.thisMonthScore = last30days;
+            }
+            dc.SubmitChanges();
+        }
+
     }
 }

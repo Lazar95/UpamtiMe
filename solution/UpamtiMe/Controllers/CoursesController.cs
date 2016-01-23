@@ -164,7 +164,8 @@ namespace UpamtiMe.Controllers
         {
             LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
 
-            int timeSpent = DateTime.Now.Subtract(UserSession.GetTime()).Minutes;
+          
+            int timeSpent = DateTime.Now.Subtract(UserSession.GetTime()).Minutes + 1;
 
             //upisi u usercard
             Data.DTOs.CorrectWrong cw = Data.Cards.CreateUserCard(qaInfo, usr.UserID);

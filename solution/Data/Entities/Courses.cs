@@ -206,21 +206,7 @@ namespace Data
             c.image = new System.Data.Linq.Binary(file);
             dc.SubmitChanges();
         }
-
-        public static bool DateInsideOneWeek(DateTime checkDate, DateTime referenceDate)
-        {
-            // get first day of week from your actual culture info, 
-            DayOfWeek firstWeekDay = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-            // or you can set exactly what you want: firstWeekDay = DayOfWeek.Monday;
-            // calculate first day of week from your reference date
-            DateTime startDateOfWeek = referenceDate;
-            while (startDateOfWeek.DayOfWeek != firstWeekDay)
-            { startDateOfWeek = startDateOfWeek.AddDays(-1d); }
-            // fist day of week is find, then find last day of reference week
-            DateTime endDateOfWeek = startDateOfWeek.AddDays(6d);
-            // and check if checkDate is inside this period
-            return checkDate >= startDateOfWeek && checkDate <= endDateOfWeek;
-        }
+        
 
         public static int updateUserCourse(int courseID, int userID, float score)
         {
@@ -230,34 +216,16 @@ namespace Data
 
             if (uc.lastPlayed == null)
             {
-                uc.lastPlayed = DateTime.Now;
                 uc.thisWeekScore = score;
                 uc.thisMonthScore = score;
             }
             else
             {
-                if (DateInsideOneWeek(uc.lastPlayed.Value, DateTime.Now))
-                {
-                    uc.thisWeekScore += score;
-                }
-                else
-                {
-                    uc.thisWeekScore = score;
-                }
-
-                if (uc.lastPlayed.Value.Year == DateTime.Now.Year && uc.lastPlayed.Value.Month == DateTime.Now.Month)
-                {
-                    uc.thisMonthScore += score;
-                }
-                else
-                {
-                    uc.thisMonthScore = score;
-                }
-
-                uc.lastPlayed = DateTime.Now;
+                uc.thisWeekScore += score;
+                uc.thisMonthScore += score;
             }
 
-           
+            uc.lastPlayed = DateTime.Now;
             dc.SubmitChanges();
             return uc.usersCoursesID;
         }

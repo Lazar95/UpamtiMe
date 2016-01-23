@@ -388,7 +388,7 @@ $('#course').on('click', '.icon-picker .icon-picker-icons li', function() {
   $(this).parent().children().removeClass('selected');
   $(this).addClass('selected');
 
-  var levelID = $(this).parent().parent().parent().parent().attr('data-course-id');
+  var levelID = $(this).parent().parent().parent().children('.level').attr('data-level-id');
   for (var level = 0; level < _course.length; level++) {
     var currLevel = _course[level];
     if (currLevel.levelID == levelID) {
@@ -411,7 +411,7 @@ $('#course').on('click', '.icon-picker .icon-picker-colors li', function() {
   $(this).parent().children().removeClass('selected');
   $(this).addClass('selected');
 
-  var levelID = $(this).parent().parent().parent().parent().attr('data-course-id');
+  var levelID = $(this).parent().parent().parent().children('.level').attr('data-level-id');
   for (var level = 0; level < _course.length; level++) {
     var currLevel = _course[level];
     if (currLevel.levelID == levelID) {

@@ -17,17 +17,9 @@ namespace UpamtiMe
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-
           
             
             SetTimer();
-        }
-
-        void checkForTime_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            int a = 10;
-            a++;
         }
 
         private static void SetTimer()

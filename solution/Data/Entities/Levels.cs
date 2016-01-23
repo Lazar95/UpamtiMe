@@ -34,8 +34,8 @@ namespace Data
                 Cards.deleteCards(cards);
                 Level l = (from a in dc.Levels where a.levelID == level select a).First();
                 dc.Levels.DeleteOnSubmit(l);
-                dc.SubmitChanges();
             }
+            dc.SubmitChanges();
         }
 
         //proveri da li u istom kursu postoji nivo sa istim imenom a da nije bas taj nivo

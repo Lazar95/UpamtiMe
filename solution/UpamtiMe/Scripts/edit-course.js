@@ -655,8 +655,9 @@ var save = function() {
       method: "POST",
       data: _dataToSend,
       success: function (res) {
-          if (res.success) {
-            $('#new-level').append('Waai uspesno!');
+          if (res.success) {			  
+            $('#new-level').append('Waai uspesno!');		
+			
           } else {
             $('#new-level').append('Nije uspelo!');
           }

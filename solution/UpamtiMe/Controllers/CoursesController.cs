@@ -122,7 +122,7 @@ namespace UpamtiMe.Controllers
 
                 Courses.updateCourseInfo(model.CourseID, model.Name, model.CategoryID, model.SubcategoryID, newnum, model.Description);
 
-                return RedirectToAction("EditCourse", new {id = model.CourseID});
+                return Json(new { success = true });
             }
             catch (Exception e)
             { 

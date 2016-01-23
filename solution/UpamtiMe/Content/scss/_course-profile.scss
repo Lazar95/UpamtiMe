@@ -49,7 +49,7 @@ main#course-profile {
     }
   }
 
-  .sidebar {
+  aside {
     width: 20%;
 
     & > * {
@@ -59,6 +59,93 @@ main#course-profile {
       padding: 8px 24px;
     }
 
+    #leaderboard {
+      h3 { display: none; }
+
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      li {
+        width: 100%;
+        box-sizing: border-box;;
+        padding: 6px;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .avatar {
+          display: none;
+          background-color: white;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          margin-bottom: 8px;
+
+          i {
+            @extend .fa-spin;
+          }
+        }
+
+        .username {
+          display: inline-block;
+          font-size: 16px;
+        }
+
+        .score {
+          display: inline-block;
+          font-size: 18px;
+          font-weight: bold;
+        }
+      }
+
+      li:nth-of-type(1) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .avatar {
+          display: flex;
+          width:  92px;
+          height: 92px;
+        }
+
+        .username {
+          font-size: 20px;
+          font-weight: bold;
+          color: palette($pink, 600);
+        }
+
+        .score {
+          font-size: 24px;
+        }
+      }
+
+      li:nth-of-type(2), li:nth-of-type(3) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+
+        .avatar {
+          width: 64px;
+          height: 64px;
+          display: flex;
+        }
+
+        .username {
+
+        }
+
+        .score {
+
+        }
+      }
+    }
 
   }
 

@@ -161,11 +161,10 @@
         }
     </div>
 
-    <div class="sidebar">
+    <aside>
         @if (Model.Statistics != null)
         {
             <div class="personal-stats">
-
                 <dl class="stats stats-horizontal"><dt>Neotvorenih</dt><dd>@Model.Statistics.LearningStatistics.Unseen</dd></dl>
                 <dl class="stats stats-horizontal"><dt>Za obnavljanje</dt><dd>@Model.Statistics.LearningStatistics.Review</dd></dl>
                 <dl class="stats stats-horizontal"><dt>Nauceno</dt><dd>@Model.Statistics.LearningStatistics.Learned</dd></dl>
@@ -174,35 +173,52 @@
        
 
         <div class="course-stats">
-            <span>Broj kartica:</span><span>@Model.NumberOfCards</span>
-            <span>Broj ucenisnika:</span><span>@Model.ParticipantCount</span>
-            <span>Kreator:</span><span>@Html.ActionLink(@Model.CreatorUsername, "Profile", "Users", new {id = @Model.CreatorID}, null)</span>
+            <dl class="stats stats-horizontal"><dt>Broj kartica</dt><dd>@Model.NumberOfCards</dd></dl>
+            <dl class="stats stats-horizontal"><dt>Broj učesnika</dt><dd>@Model.ParticipantCount</dd></dl>
+            <dl class="stats stats-horizontal"><dt>Kreator</dt><dd><a href="@Url.Action(@Model.CreatorUsername, "Profile", new { id = @Model.CreatorID })">@Model.CreatorUsername</a></dd></dl>
         </div>
 
-        <div class="leaderbord">
-            <p>All Time</p>
+        <div id="leaderboard">
+            <h3>All Time</h3>
+            <ul id="leaderboard-all-time">
+                @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
+                {
+                    <li>
+                        <div class="avatar"><i class="fa fa-refresh"></i></div>
+                        <div class="username">@lde.Username</div>
+                        <div class="score">@lde.AllTimeScore</div>
+                    </li>
+                }
+                @for (int i = 0; i < 5; i++)
+                {
+                    // Fiktivni
+                    <li>
+                        <div class="avatar"><i class="fa fa-refresh"></i></div>
+                        <div class="username">Fiktivni@(i)</div>
+                        <div class="score">1.5</div>
+                    </li>
+                }
+            </ul>
 
-            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
-            {
-                <span>@lde.Username</span>
-                <span>@lde.AllTimeScore</span>
-            }
+            <h3>This Week</h3>
+            <ul id="leaderboard-this-week">
+                @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
+                {
+                    <span>@lde.Username</span>
+                    <span>@lde.WeekScore</span>
+                }   
+            </ul>
 
-            <p>This Week</p>
-            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
-            {
-                <span>@lde.Username</span>
-                <span>@lde.WeekScore</span>
-            }
-
-            <p>This Month</p>
-            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
-            {
-                <span>@lde.Username</span>
-                <span>@lde.MonthScore</span>
-            }
+            <h3>This Month</h3>
+            <ul id="leaderboard-this-month">
+                @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
+                {
+                    <span>@lde.Username</span>
+                    <span>@lde.MonthScore</span>
+                }
+            </ul>
         </div>
-    </div>
+    </aside>
 
 </main>
 

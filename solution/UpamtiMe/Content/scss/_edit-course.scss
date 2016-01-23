@@ -504,6 +504,16 @@ main#edit-course {
 			}
 		}
 
+		.mass-edit-buttons {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			height: 36px;
+			font-size: 24px;
+
+			& > * { margin: 7px; cursor: pointer; }
+		}
+
 		& > li > ul:not(.options):not(.icon-picker) {
 			margin: 32px;
 

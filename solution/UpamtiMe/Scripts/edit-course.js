@@ -578,7 +578,7 @@ var onClickDeleteLevel = function(button) {
 
 var onClickMassEdit = function(button) {
   button.parent().parent().children('.level')
-    .append('<div class="mass-edit-buttons"><div class="mass-edit-accept">A</div><div class="mass-edit-discard">D</div></div>');
+    .append('<div class="mass-edit-buttons"><div class="mass-edit-accept"><i class="fa fa-check"></i></div><div class="mass-edit-discard"><i class="fa fa-times"></i></div></div>');
   button.parent().parent().children('ul.level').find('.change-button').each(function() {
     try { onEditButtonClick($(this)); } catch (e) { /* haker */ }
   });

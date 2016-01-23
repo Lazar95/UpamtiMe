@@ -78,9 +78,9 @@
                         @for (int j = 0; index + 1 < Model.Levels.Count && j < ((i % 2 == 0) ? 5 : 4); j++)
                         {
                             index++;
-                            <li class="level @(index % 3 == 0 ? "level-green" : "") @(index % 3 == 1 ? "level-orange" : "") @(index % 3 == 2 ? "level-blue" : "")">
+                            <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)">
                                 <div class="circle-display">
-                                    <div class="icon icon-id-@(index + 1)">@*level.icon; level.color*@</div>
+                                    <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1: Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
                                     <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
                                     <div class="pie-ring-outer">
                                         <div class="pie-ring-inner">

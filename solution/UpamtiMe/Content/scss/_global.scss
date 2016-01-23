@@ -190,16 +190,6 @@ button, input[type="submit"] {
 .icon-id-linky  > span { @extend .fa, .fa-link; }
 .icon-id-list   > span { @extend .fa, .fa-list; }
 
-.icon-id-1  { @extend .fa, .fa-comment; }
-.icon-id-2  { @extend .fa, .fa-dashboard; }
-.icon-id-3  { @extend .fa, .fa-hourglass; }
-.icon-id-4  { @extend .fa, .fa-leaf; }
-.icon-id-5  { @extend .fa, .fa-paint-brush; }
-.icon-id-6  { @extend .fa, .fa-umbrella; }
-.icon-id-7  { @extend .fa, .fa-truck; }
-.icon-id-8  { @extend .fa, .fa-user-secret; }
-.icon-id-9  { @extend .fa, .fa-ship; }
-.icon-id-10 { @extend .fa, .fa-plug; }
 
 /**
  * Colors
@@ -272,6 +262,7 @@ button, input[type="submit"] {
 	@if ($id == 50) { @return ".fa-shopping-basket"; }
 	@return ".fa-asterisk";
 }
+@for $i from 1 to 51 { .icon-id-#{$i}  { @extend .fa, #{icon-id($i)}; } }
 
 /*
  * Mixin za boje
@@ -286,15 +277,27 @@ button, input[type="submit"] {
  	.pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
 }
 
-.level-blue {	@include level-color($blue); }
-.level-green { @include level-color($green); }
-.level-orange { @include level-color($orange, 300, 600, 700); }
 .level-red { @include level-color($red, 200); }
-.level-pink { @include level-color($pink); }
 .level-purple { @include level-color($purple); }
+.level-indigo { @include level-color($indigo); }
+.level-blue {	@include level-color($blue); }
 .level-teal { @include level-color($teal); }
-.level-deep-purple { @include level-color($deep-purple); }
-.level-yellow { @include level-color($yellow, 400, 700, 800); }
+.level-green { @include level-color($green); }
+.level-lime { @include level-color($lime); }
+.level-amber { @include level-color($amber); }
+.level-orange { @include level-color($orange, 300, 600, 700); }
+.level-brown { @include level-color($brown); }
+
+.level-color-id-1 { @extend .level-red; }
+.level-color-id-2 { @extend .level-purple; }
+.level-color-id-3 { @extend .level-indigo; }
+.level-color-id-4 { @extend .level-blue; }
+.level-color-id-5 { @extend .level-teal; }
+.level-color-id-6 { @extend .level-green; }
+.level-color-id-7 { @extend .level-lime; }
+.level-color-id-8 { @extend .level-amber; }
+.level-color-id-9 { @extend .level-orange; }
+.level-color-id-10 { @extend .level-brown; }
 
 /**
  * STATS

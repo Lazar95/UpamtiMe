@@ -47,7 +47,6 @@ var parseTableOfGod = function() {
     _qa.push( {
       "status": -1,
       //TODO svasta nesto gledaj dole
-      //"userCardID": curr.children('[data-type="user-usercard-id"]'), // novo
       "cardID": curr.children('[data-type="card-id"]').text().trim(), // novo
       "question" : curr.children('[data-type="question"]').text().trim(),
       "answer" : curr.children('[data-type="answer"]').text().trim(),
@@ -56,7 +55,7 @@ var parseTableOfGod = function() {
       "correctAnswers": 0, // uvek 0, vracam samo nov broj, odnosno akrtice radjene tokom ove sesije
       "wrongAnswers": 0, // uvek 0
       "combo": 0,
-      "goodness": 0; // ja treba da sracunam goodness
+      "goodness": 0, // ja treba da sracunam goodness
     } );
   }
 
@@ -95,6 +94,9 @@ var _lastPoints = 0;
 var _currentCombo = 0;
 var _maxComboReached = 0;
 
+var _correctAnswers = 0;
+var _wrongAnswers = 0;
+
 var _partLength = 3;
 var _sectionLength = 2 * _partLength;
 var _levels = [[], [], []];
@@ -126,22 +128,60 @@ var setLevels = function() {
   shuffleArray(_levels[2]);
 }
 
-//console.log(_levels[0]);
-//alert();
-
-
-
 var _currentQuestion = function() {
   return _levels[_currentLevel][_questionPointer];
 }
 
-// verovatno necu da koristim ovo
 var isLevelDone = function() {
   return _questionPointer == _levels[_currentLevel].length;
 }
 
 var isCorrect = function(questionNumber, givenAnswer) {
   return (_qa[questionNumber].answer.toUpperCase() == givenAnswer.toUpperCase());
+}
+
+var calculateSessionComboMultiplier = function(sessionCombo) {
+  if (sessionCombo <= 4) return 1; // level-1
+  else if (sessionCombo <= 9) return 1.25; // level-2
+  else if (sessionCombo <= 14) return 1.5; //level-3
+  else if (sessionCombo <= 19) return 1.75; //level-4
+  else return 2; //level-5 (perfect!)
+}
+
+var evaluateStatsCorrect = function() {
+  _correctAnswers++;
+  _currentCombo++;
+  if (_currentCombo > _maxComboReached)
+    _maxComboReached = _currentCombo;
+
+  var temp = $('#cards-current-total').attr('data-current');
+  temp = parseInt(temp);
+  $('#cards-current-total').attr('data-current', temp + 1);
+  $('#cards-current-total').html((temp + 1) + '/' + $('#cards-current-total').attr('data-total'));
+  temp = (100 * _correctAnswers) / (_correctAnswers + _wrongAnswers);
+  $('#accuracy').html(temp.toFixed(0) + '%');
+  $('#session-combo').html(_currentCombo);
+
+  $('#base-score').html('1');
+  _lastPoints = calculateSessionComboMultiplier(_currentCombo);
+  $('#session-combo-multiplier').html(_lastPoints);
+  $('#last-score').html(_lastPoints > 0 ? '+' + _lastPoints.toFixed(2) : _lastPoints.toFixed(2));
+  _currentPoints += _lastPoints;
+  $('#score').html(_currentPoints.toFixed(2));
+}
+
+var evaluateStatsWrong = function() {
+  _wrongAnswers++;
+  _currentCombo = 0;
+
+  temp = (100 * _correctAnswers) / (_correctAnswers + _wrongAnswers);
+  $('#accuracy').html(temp.toFixed(0) + '%');
+  $('#session-combo').html(_currentCombo);
+
+  $('#base-score').html('0');
+  _lastPoints = 0;
+  $('#session-combo-multiplier').html('1');
+  $('#last-score').html('&pm; 0.00');
 }
 
 var setVariablesForNextQuestion = function() {
@@ -179,19 +219,15 @@ var loadQuestion = function() {
     temp = [];
     for (var i = 0; i < LENGTH; i++) temp.push(_qa[i].answer);
     shuffleArray(temp);
-    // Iz niza pomesanih odgovora uklanjam tacan:
-    temp.splice(temp.indexOf(_qa[_currentQuestion()].answer), 1);
-    // Dodajem tacan odgovor na pocetak niza:
-    temp.unshift(_qa[_currentQuestion()].answer);
-    // Secem niz tako da ima samo 4 odgovora, medju njima je prvi tacan:
-    var newTemp = temp.splice(0, 4);
-    // Mesamo cetiri odgovora:
-    shuffleArray(newTemp);
+    temp.splice(temp.indexOf(_qa[_currentQuestion()].answer), 1); // Iz niza pomesanih odgovora uklanjam tacan
+    temp.unshift(_qa[_currentQuestion()].answer); // Dodajem tacan odgovor na pocetak niza
+    var newTemp = temp.splice(0, 4); // Secem niz tako da ima samo 4 odgovora, medju njima je prvi tacan
+    shuffleArray(newTemp); // Mesamo cetiri odgovora
     var multipleChoiceArray = newTemp;
   } else {
     // (b)
     // TODO jajac
-    var multipleChoiceArray = [ _qa[_currentQuestion()].answer, 'lel', 'lel', 'lel' ];
+    var multipleChoiceArray = shuffleArray([ _qa[_currentQuestion()].answer, 'lel', 'lel', 'lel' ]);
   }
 
   // HANGMAN
@@ -434,6 +470,7 @@ var multipleChoiceSelect = function(n) {
   //console.log('Izabran odgovor ' + n);
   if (isCorrect(_currentQuestion(), selected.html())) {
     // Izabran tacan odgovor:
+    evaluateStatsCorrect();
     //console.log('Tacan odgovor!');
     if (!ALREADY_PUNISHED) {
       _qa[_currentQuestion()].status = MULTIPLE_CHOICE_DONE;
@@ -442,6 +479,7 @@ var multipleChoiceSelect = function(n) {
     $('.card-content .next').show().focus();
   } else {
     // Izabran netacan odgovor.
+    evaluateStatsWrong();
     //console.log('Netacan odgovor!');
     scheduleAgain();
     selected.addClass('wrong');
@@ -550,12 +588,14 @@ $('.hangman').on('keyup', 'input', function(e) {
     });
     //console.log("Otkucana cela rec: " + typedString);
     if (isCorrect(_currentQuestion(), typedString)) {
+      evaluateStatsCorrect();
       //console.log('Tacan odgovor!');
       if (!ALREADY_PUNISHED) {
         _qa[_currentQuestion()].status = HANGMAN_DONE;
       }
       $('.card-content .next').show().focus();
     } else {
+      evaluateStatsWrong();
       //console.log('Netacan odgovor!');
     }
   }
@@ -714,6 +754,7 @@ var scrabbleEnter = function() {
   //console.log('Scrabble Enter: ' + given);
   if (isCorrect(_currentQuestion(), given)) {
     // Izabran tacan odgovor:
+    evaluateStatsCorrect();
     //console.log('Tacan odgovor!');
     if (!ALREADY_PUNISHED) {
       _qa[_currentQuestion()].status = SCRABBLE_DONE;
@@ -721,6 +762,7 @@ var scrabbleEnter = function() {
     $('.card-content .next').show().focus();
   } else {
     // Izabran netacan odgovor.
+    evaluateStatsWrong();
     //console.log('Netacan odgovor!');
     scheduleAgain();
   }
@@ -780,6 +822,7 @@ $('#scrabble-typing').bind('input', function() {
 
 var realDealCheckAnswer = function() {
   if (isCorrect(_currentQuestion(), $('#type-answer').val())) {
+    evaluateStatsCorrect();
     // Izabran tacan odgovor:
     //console.log('Tacan odgovor!');
     if (_qa[_currentQuestion()].status == SCRABBLE_DONE) {
@@ -789,10 +832,18 @@ var realDealCheckAnswer = function() {
       // Vec je jednom video pitanje ili je ovde skocio tako sto je objavio da
       // vec zna rec.
       _qa[_currentQuestion()].status = CORRECT_SECOND;
+
+      // I sad upisujemo sve zivo:
+      _qa[_currentQuestion()].nextSee = 240; // 4h
+      _qa[_currentQuestion()].correctAnswers = 1;
+      _qa[_currentQuestion()].wrongAnswers = 0;
+      _qa[_currentQuestion()].combo = 1;
+      _qa[_currentQuestion()].goodness = 0;
     }
     $('.card-content .next').show().focus();
   } else {
     // Izabran netacan odgovor.
+    evaluateStatsWrong();
     //console.log('Netacan odgovor!');
     scheduleAgain();
     displayQuestionAndAnswer();
@@ -822,5 +873,24 @@ var dump = function() {
 }
 
 var sessionCompleted = function() {
-  alert("Napusi se kurca");
+  alert("Gotovo");
+
+  var dataToSend = {
+    "qaInfo": _qa,
+    "score": _currentPoints,
+  };
+  console.log(dataToSend);
+
+  $.ajax({
+    url: "/Courses/EditCourse", // /kontroler/akcija (klasa/funkcija u klasi)
+    method: "POST",
+    data: dataToSend,
+    success: function (res) {
+      if (res.success) {
+        $('body').append('Waai uspesno!');
+      } else {
+        $('body').append('Nije uspelo!');
+      }
+    }
+  });
 }

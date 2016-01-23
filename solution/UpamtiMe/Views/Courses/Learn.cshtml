@@ -5,9 +5,7 @@
 }
 
 
-<link rel="stylesheet" type="text/css" href="~/Content/obicna-kartica.css">
-
-<table style="width:1400px ; " id="table-of-god">
+<table style="width:1400px ; display: none " id="table-of-god">
     <thead style=" text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
     <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.UserCardID)</th>
     <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.CardID)</th>
@@ -46,23 +44,22 @@
         <div class="workspace">
             <aside class="info">
                 <div class="session-info">
-                    <!--<h3>Trenutna sesija</h3>-->
                     <dl class="general">
-                        <div><dt>Broj odgovora</dt>     <dd id="cards-current-total">11/20</dd></div>
-                        <div><dt>Tačnost</dt>           <dd id="accuracy">42%</dd></div>
-                        <div><dt>Proteklo vreme</dt>    <dd id="time">2'04"</dd></div>
-                        <div><dt>Trenutni kombo</dt>      <dd id="session-combo">4</dd></div>
+                        <div><dt>Broj odgovora</dt>     <dd id="cards-current-total" data-current="0" data-total="@(Model.Cards.Count*5)">0/@(Model.Cards.Count*5)</dd></div>
+                        <div><dt>Tačnost</dt>           <dd id="accuracy">0%</dd></div>
+                        <div><dt>Proteklo vreme</dt>    <dd id="time">00'00"</dd></div>
+                        <div><dt>Trenutni kombo</dt>      <dd id="session-combo">0</dd></div>
                     </dl>
                     <dl class="total-score">
-                        <div><dt>Osvojeni poeni</dt>               <dd id="score">674</dd></div>
+                        <div><dt>Osvojeni poeni</dt>               <dd id="score">0.00</dd></div>
                     </dl>
                     <dl class="last-score">
-                        <div><dt></dt><dd id="last-score"></dd></div>
+                        <div><dt></dt><dd id="last-score">&pm;0.00</dd></div>
                     </dl>
                     <dl class="last-score-breakdown">
                         <div><dt>Base score</dt> <dd id="base-score" class="level-1">&nbsp;</dd></div>
                         <!--<div><dt>Card combo</dt> <dd id="card-combo" class="level-1">&nbsp;</dd></div>-->
-                        <div><dt>Session combo</dt> <dd id="session-combo" class="level-1">&nbsp;</dd></div>
+                        <div><dt>Session combo</dt> <dd id="session-combo-multiplier" class="level-1">&nbsp;</dd></div>
                         <!--<div><dt>Time bonus</dt> <dd id="time-bonus" class="level-1">&nbsp;</dd></div>-->
                     </dl>
                 </div>

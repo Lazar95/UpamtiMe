@@ -307,13 +307,24 @@ var onRemoveButtonClick = function(button) {
   button.parent().children('.undo-button').show();
 
   // Ako je brisanjem ove kartice nivo postao prazan, obelezi to.
-  debugger;
+  //debugger;
   var levelID = button.parent().parent().parent().parent().children('.level').attr('data-level-id');
   var levelIDnum = parseInt(levelID);
   var count = countWhatInWhere(DELETED, levelIDnum);
-  var length = _course[button.parent().parent().parent().index() - 1].cards.length
+  var length = _course[button.closest('.level').parent().index()].cards.length;
   if (count == length) {
     button.parent().parent().parent().parent().addClass('empty');
+    for (var level = 0; level < _course.length; level++) {
+      var currLevel = _course[level];
+      if (levelID == currLevel.levelID) {
+        if (currLevel.status == NEW) {
+          currLevel.status = UNTOUCHED;
+        } else {
+          currLevel.prevStatus = currLevel.status;
+          currLevel.status = DELETED;
+        }
+      }
+    }
   }
 }
 // Bind:
@@ -323,13 +334,21 @@ $('#course').on('click', '.level .buttons .remove-button', function() {
 
 // Kad se klikne na Undo dugme
 //   - Kartici se vraca stari status.
+//   - LEvelu se vraca stari status.
 
 var onUndoButtonClick = function(button) {
   // Prikupljanje podataka
+  debugger;
   var cardID = button.parent().parent().attr('data-card-id');
+  var levelID = button.closest('.level').attr('data-level-id');
 
   // Sustina:
   for (var level = 0; level < _course.length; level++) {
+    if (_course[level].levelID == levelID) {
+      var currLevel = _course[level];
+      currLevel.status = currLevel.prevStatus;
+      currLevel.prevStatus = -1;
+    }
     for (var card = 0; card < _course[level].cards.length; card++) {
       if (_course[level].cards[card].cardID == cardID) {
         // Nasili smo na karticu koja nam treba
@@ -337,6 +356,7 @@ var onUndoButtonClick = function(button) {
         // Vrati stanje kartice koje je bilo pre nego sto je obrisana.
         currCard.status = currCard.prevStatus;
         currCard.prevStatus = -1;
+        break;
       }
     }
   }

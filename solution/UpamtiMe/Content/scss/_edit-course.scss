@@ -277,7 +277,6 @@ main#edit-course {
 		}
 
 	//ul#course
-
 		& > li .level-info {
 
 			display: flex;
@@ -286,6 +285,7 @@ main#edit-course {
 			line-height: 24px;
 
 			.level-name {
+				width: 100%;
 				display: flex;
 
 				.toggle-button {
@@ -346,6 +346,20 @@ main#edit-course {
 					font-variant: small-caps;
 					font-weight: bold;
 				}
+
+				.edit-level-name {
+					width: 100%;
+					display: flex;
+
+					& > * {
+						margin-right: 8px;
+					}
+
+					input {
+						height: 24px;
+					}
+				}
+
 			}
 
 			.buttons {
@@ -358,6 +372,7 @@ main#edit-course {
 				}
 			}
 		}
+
 
 		.options-popup {
 			// Fiktivna klasa
@@ -527,16 +542,8 @@ main#edit-course {
 
 					& > input {
 						// Tokom editovanja
-						font-family: inherit;
 						height: $h;
 						font-size: 0.9*$h;
-						background-color: transparent;
-						box-shadow: 0px 2px palette($blue-grey, 600);
-						transition: box-shadow .33s ease;
-
-						&:focus {
-							box-shadow: 0px 2px palette($pink, 600);
-						}
 					}
 				}
 

@@ -38,24 +38,25 @@ namespace Data
             }
         }
 
-        public static bool checkName(string name, int courseID)
+        //proveri da li u istom kursu postoji nivo sa istim imenom a da nije bas taj nivo
+        public static bool checkName(string name, int courseID, int levelID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Levels
-                    where a.courseID == courseID && a.name == name
+                    where a.courseID == courseID && a.name == name && a.levelID != levelID
                     select a).Any();
         }
 
         public static bool checkName(Level level)
         {
-            return checkName(level.name, level.courseID);
+            return checkName(level.name, level.courseID, level.levelID);
         }
 
         public static void addLevel(int courseID, LevelsDTO level)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
-            if (checkName(level.Name, courseID))
+            if (checkName(level.Name, courseID, -1))
                 return;
             if(level.Cards == null)
                 return;
@@ -98,7 +99,7 @@ namespace Data
 
             foreach (EditLevelDTO level in levels)
             {
-                if (checkName(level.Name, courseID))
+                if (checkName(level.Name, courseID, level.LevelID))
                     continue;
 
                 //opet ovo besmisleno
@@ -205,7 +206,9 @@ namespace Data
                                                     LevelID = a.levelID,
                                                     Type = a.type,
                                                     Name = a.name,
-                                                    Number = a.number
+                                                    Number = a.number,
+                                                    Color = a.color,
+                                                    Icon = a.icon
                                                 }).OrderBy(a=>a.Number).ToList();
 
             // Za svaki preuzeti nivo preuzmi sve kartice za taj nivo

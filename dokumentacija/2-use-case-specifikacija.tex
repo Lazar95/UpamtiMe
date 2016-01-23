@@ -1,0 +1,72 @@
+\part{Specifikacija slučajeva korišćenja}
+
+\chapter{Uvod}
+Slučajevi korišćenja mogu biti podeljeni u sledeće grupe.
+\begin{enumerate}
+  \item Pristup aplikaciji:
+  \begin{enumerate}
+    \item Registracija.
+    \item Prijava.
+  \end{enumerate}
+  \item Kursevi:
+  \begin{enumerate}
+    \item Pretraga kurseva.
+    \item Prijava na kurs.
+    \item Kreiranje novog kursa.
+    \item Izmena kreiranog kursa.
+    \item Navigacija kroz kurs.
+    \item Pregled detaljne statistike.
+  \end{enumerate}
+  \item Sesije:
+  \begin{enumerate}
+    \item Učenje novih.
+    \item Obnavljanje.
+    \item Spajalica.
+  \end{enumerate}
+  \item Korisnici:
+  \begin{enumerate}
+    \item Pregled profila.
+    \item Follow drugih profila.
+    \item Pregled detaljnih statistika.
+  \end{enumerate}
+\end{enumerate}
+
+
+
+\chapter{Akteri}
+\label{ch:akteri}
+
+\section{Korisnik}
+\label{sec:korisnik}
+Korisnik aplikacije može biti svako lice koje poseduje ispravan računar sa modernim veb-pretraživačem i internet-konekcijom.
+
+
+
+\chapter{Slučajevi korišćenja}
+\label{ch:slucajevi-koriscenja}
+
+\section{Pristup aplikaciji}
+\label{sec:pristup-aplikaciji}
+Većina mogućnosti koje aplikacija pruža postaju dostupne korisniku tek nakon registracije, odnosno prijave.
+
+Korisnik koji želi da u potpunosti koristi aplikaciju mora da se registruje na istu (\ref{subsec:registracija}), i po potrebi da se prijavi (\ref{subsec:prijava}).
+Ukoliko korisnik trenutno nije prijavljen na aplikaciju, pri njenom pokretanju će dobiti mogućnost registracije i prijave.
+Ukoliko je već prijavljen, pri pokretanju aplikacije korisnik vidi svoj profil (\ref{TODO}).
+
+\subsection{Registracija}
+\label{subsec:registracija}
+Registracija se obavlja ispunjavanjem forme sa glavne strane aplikacije i pritiskom na dugme \dugme{registracija}.
+Da bi se registracija uspešno obavila, neophodno je ispuniti sva ponuđena polja:
+\begin{itemize}
+  \item korisničko ime, \item šifra, \item ime i \item mejl adresa.
+\end{itemize}
+
+\emph{Korisničko ime} i \emph{mejl adresa} moraju biti jedinstveni u aplikaciji nezavisno jedni od drugog.
+Drugim rečima, ne mogu postojati dva naloga sa istim adresama (čak i sa različitim korisničkim imenima), niti dva naloga sa istim korisničkim imenima (čak i sa različitim adresama).
+Polja \emph{ime} i \emph{šifra} ne moraju biti jedinstveni za aplikaciju.
+
+U slučaju da korisnik unese \emph{korisničko ime} i/ili \emph{mejl adresu} koja ne zadovoljava opisane uslove, dobija odgovarajuću poruku o tome.
+Tek će se nakon ispunjenja svih uslova korisniku odobriti registracija.
+
+\subsection{Prijava}
+\label{subsec:prijava}

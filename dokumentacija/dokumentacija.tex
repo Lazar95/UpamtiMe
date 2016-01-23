@@ -1,0 +1,23 @@
+\documentclass[oneside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[serbian]{babel}
+
+\title{UpamtiMe - Dokumentacija v.0.$\alpha$}
+\author{Lazar Ljubenović \\ Marija Đorđević \\ Miloš Jajac}
+\date{Januar 2016}
+
+\usepackage{parskip} % da novi apragraf nema "dva prsta uvučeno" nego da ima razmak između paragrafa
+\usepackage{microtype} % bolji paragrafi i hifernacija
+\hyphenation{UpamtiMe}  % nećemo da se reč UpamtiMe deli na slogove (ionako će nepravilno da se podeli)
+
+\newcommand{\UpamtiMe}{\textsf{UpamtiMe}}
+\newcommand{\dugme}[1]{\textit{#1}}
+
+\begin{document}
+
+\maketitle
+
+\input{1-vizija-sistema}
+\input{2-use-case-specifikacija}
+
+\end{document}

@@ -84,9 +84,21 @@
                                     <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
                                     <div class="pie-ring-outer">
                                         <div class="pie-ring-inner">
-                                            <div class="pie pie-learned" data-start="0" data-value="110"></div>
-                                            <div class="pie pie-forgotten" data-start="110" data-value="100"></div>
-                                            <div class="pie pie-unseen" data-start="210" data-value="150"></div>
+                                            @if (user != null)
+                                            {
+                                                int t = Model.Levels[index].LearningStatistics.Total;
+                                                t = t == 0 ? 1 : t;
+                                                double tdeg = 360.0 / t;
+                                                double ldeg = Model.Levels[index].LearningStatistics.Learned * tdeg;
+                                                double rdeg = Model.Levels[index].LearningStatistics.Review * tdeg;
+                                                double udeg = Model.Levels[index].LearningStatistics.Unseen * tdeg;
+                                                int l = (int)Math.Ceiling(ldeg) == 360 ? 361 : (int)Math.Ceiling(ldeg);
+                                                int r = (int)Math.Ceiling(rdeg) == 360 ? 361 : (int)Math.Ceiling(rdeg);
+                                                int u = (int)Math.Ceiling(udeg) == 360 ? 361 : (int)Math.Ceiling(udeg);
+                                                <div class="pie pie-learned @(l > 180 ? "big" : "")" data-start="0" data-value="@l"></div>
+                                                <div class="pie pie-forgotten @(r > 180 ? "big" : "")" data-start="@l" data-value="@r"></div>
+                                                <div class="pie pie-unseen @(u > 180 ? "big" : "")" data-start="@(l+r)" data-value="@u"></div>
+                                            }
                                         </div>
                                     </div>
                                 </div>

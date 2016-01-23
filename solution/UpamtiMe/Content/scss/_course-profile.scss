@@ -174,7 +174,6 @@ main#course-profile {
                 @include force-height(1 * $lvl-circ);
                 @include force-width(1 * $lvl-circ);
                 transition: all .2s ease;
-                //background-color: palette($teal, 500);
                 border-radius: 50%;
                 display: block;
 
@@ -204,11 +203,11 @@ main#course-profile {
                   transform-origin:right center;
                 }
 
-                .pie.big:BEFORE {
+                .pie.big:before {
                   left: 0;
                 }
 
-                .pie.big:AFTER {
+                .pie.big:after {
               		content: "";
               		position: absolute;
               		width: $lvl-circ / 2;
@@ -217,12 +216,14 @@ main#course-profile {
               		border-radius: 0 $lvl-circ/2 $lvl-circ/2 0;
               	}
 
-                .pie[data-start="0"]  { transform:rotate(0deg); }
-                .pie[data-start="110"]  { transform:rotate(110deg); }
-                .pie[data-start="210"] { transform:rotate(210deg); }
-                .pie[data-value="110"]::before  { transform:rotate(111deg); }
-                .pie[data-value="100"]::before  { transform:rotate(101deg);	}
-                .pie[data-value="150"]::before { transform:rotate(151deg);	}
+                @for $i from 0 to 361 {
+                  .pie[data-start="#{$i}"] { transform: rotate(#{$i}deg); }
+                  $j : $i + 1;
+                  .pie[data-value="#{$i}"]::before {
+                    transform: rotate(#{$j}deg);
+                  }
+                }
+                .pie[data-value="0"] { display: none};
 
               } // pie-ring-inner
             }

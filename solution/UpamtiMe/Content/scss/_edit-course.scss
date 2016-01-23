@@ -306,7 +306,7 @@ main#edit-course {
 					}
 				}
 
-				& > .icon {
+				& > .icon-picker-button {
 					display: inline-block;
 					border-radius: 50%;
 					width:       48px;
@@ -314,11 +314,28 @@ main#edit-course {
 					line-height: 48px;
 					font-size: 20px;
 					text-align: center;
-					background-color: #fff;
 					position: absolute;
 					top: 42px;
 					left: -24px;
 					cursor: pointer;
+					background-color: palette($blue-grey, 50);
+					@include z-depth(1);
+
+					&::before {
+						display: block;
+						width: 48px;
+						height: 48px;
+						line-height: 48px;
+						font-size: 24px;
+					}
+
+					@for $i from 1 to 51 {
+						&[data-icon-id="#{$i}"] { @extend .fa, #{icon-id($i)}; }
+					}
+
+					@for $i from 1 to 11 {
+						&[data-color-id="#{$i}"] { color: color-id($i); }
+					}
 				}
 
 				& > span {
@@ -412,22 +429,12 @@ main#edit-course {
 				transition: all .1s ease;
 				cursor: pointer;
 				&:hover { transform: scale(1.3); color: white; border-radius: 1px; }
-
-				& > span {
-					@extend .fa, .fa-check;
-					opacity: 0;
-					transition: all .2s ease;
-					color: white;
-				}
-
-				&.selected > span {
-					opacity: 1;
-				}
 			}
 
-			& > ul.icon-picker-icons {
+			& > ul.icon-picker-icons {// stiklirka za selecktirno, uvek postoji ali se ne vidi dok nije .selected
 				margin-bottom: 16px;
 				color: palette($blue-grey, 100);
+				li.selected { box-shadow: 0 0 0 2px rgba(white, .33); } // stiklirka da se vidi
 				li {
 					&:hover { background-color: palette($blue-grey, 800); }
 					@for $i from 1 to 51 {
@@ -437,10 +444,20 @@ main#edit-course {
 			}
 
 			& > ul.icon-picker-colors {
+				// stiklirka za selecktirno, uvek postoji ali se ne vidi dok nije .selected
+				li > span {
+					@extend .fa, .fa-check;
+					opacity: 0;
+					transition: all .2s ease;
+					color: white;
+				}
+				li.selected > span { opacity: 1;	} // stiklirka da se vidi
 				@for $i from 1 to 11 {
 					[data-color-id="#{$i}"] { background-color: color-id($i); }
 				}
 			}
+
+			&.selected { box-shadow: 0 0 0 1px rgba(white, .5); }
 		}
 
 		& > li > ul.options {

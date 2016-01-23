@@ -29,10 +29,12 @@ var viewToData = function() {
     _course.push(
       {
         "levelID": $(this).attr('data-level-id'),
-        "name": $(this).children('span').html(),
+        "name": $(this).parent().find('.level-name').children('span').html(),
         "number": $(this).attr('data-level-number'),
         "type": $(this).attr('data-level-type'),
         "cards": cardsInCurrLevel,
+        "icon": $(this).parent().find('.icon-picker-button').attr('data-icon-id'),
+        "color": $(this).parent().find('.icon-picker-button').attr('data-color-id'),
         "status": UNTOUCHED,
         "prevStatus": -1,
       }
@@ -371,6 +373,56 @@ $(document).click( function(event) {
     closeLevelIconPicker($('.level-info'));
   }
 });
+$('#course').on('click', '.icon-picker', function() {
+  return false; // da se ne zatvori
+})
+
+
+// Izabrao novu ikonicu:
+$('#course').on('click', '.icon-picker .icon-picker-icons li', function() {
+  var newIconID = $(this).attr('data-icon-id');
+  var ipb = $(this).parent().parent().parent().find('.icon-picker-button');
+  var oldIconID = ipb.attr('data-icon-id');
+  var oldColorID = ipb.attr('data-color-id');
+  ipb.attr('data-icon-id', newIconID);
+  $(this).parent().children().removeClass('selected');
+  $(this).addClass('selected');
+
+  var levelID = $(this).parent().parent().parent().parent().attr('data-course-id');
+  for (var level = 0; level < _course.length; level++) {
+    var currLevel = _course[level];
+    if (currLevel.levelID == levelID) {
+      // Nadjen je kurs kom je editovana ikonica
+      currLevel.icon = newIconID;
+      if (currLevel.status != NEW) {
+        currLevel.status = CHANGED;
+      }
+    }
+  }
+});
+
+// Izabrao novu boju
+$('#course').on('click', '.icon-picker .icon-picker-colors li', function() {
+  var newColorID = $(this).attr('data-color-id');
+  var ipb = $(this).parent().parent().parent().find('.icon-picker-button');
+  var oldIconID = ipb.attr('data-icon-id');
+  var oldColorID = ipb.attr('data-color-id');
+  ipb.attr('data-color-id', newColorID);
+  $(this).parent().children().removeClass('selected');
+  $(this).addClass('selected');
+
+  var levelID = $(this).parent().parent().parent().parent().attr('data-course-id');
+  for (var level = 0; level < _course.length; level++) {
+    var currLevel = _course[level];
+    if (currLevel.levelID == levelID) {
+      // Nadjen je kurs kom je editovana boja
+      currLevel.color = newColorID;
+      if (currLevel.status != NEW) {
+        currLevel.status = CHANGED;
+      }
+    }
+  }
+});
 
 var toggleLevelIconPicker = function(levelElement) {
   var levelInfo = levelElement.children('.level-info');
@@ -382,12 +434,20 @@ var toggleLevelIconPicker = function(levelElement) {
   var string = '';
   string += '<ul class="icon-picker">';
     string += '<ul class="icon-picker-icons">';
-      for (var i = 1; i <= 50; i++)
-        string += '<li data-icon-id="' + i + '"><span></span></li>';
+      for (var i = 1; i <= 50; i++) {
+        var temp = "";
+        if (levelInfo.find('.icon-picker-button').attr('data-icon-id') == i)
+          temp = "selected";
+        string += '<li data-icon-id="' + i + '" class="' + temp + '"><span></span></li>';
+      }
     string += '</ul>';
     string += '<ul class="icon-picker-colors">';
-      for (var i = 1; i <= 10; i++)
-        string += '<li data-color-id="' + i + '"><span></span></li>';
+      for (var i = 1; i <= 10; i++) {
+        var temp = "";
+        if (levelInfo.find('.icon-picker-button').attr('data-color-id') == i)
+          temp = "selected";
+        string += '<li data-color-id="' + i + '" class="' + temp + '"><span></span></li>';
+      }
     string += '</ul>';
   string += '</ul>';
   levelInfo.after(string);

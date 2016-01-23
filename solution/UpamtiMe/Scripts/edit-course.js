@@ -665,6 +665,8 @@ var save = function() {
       case CHANGED: _dataToSend.editedLevels.push(currLevel); break;
       case DELETED: _dataToSend.deletedLevels.push(currLevel.levelID); break;
     }
+    if (currLevel.cards.length == 0)
+      _dataToSend.deletedLevels.push(currLevel.levelID);
   }
 
   // Pojedinacne kartice:

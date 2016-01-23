@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DTOs\CardCourseProfileDTO.cs" />
     <Compile Include="DTOs\CardSessionDTO.cs" />
+    <Compile Include="DTOs\CorrectWrong.cs" />
     <Compile Include="DTOs\CourseUsersStatisticsDTO.cs" />
     <Compile Include="DTOs\EditCourseLevelsCards.cs" />
     <Compile Include="DTOs\EditLevelDTO.cs" />

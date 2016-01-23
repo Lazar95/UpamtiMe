@@ -29,7 +29,7 @@ namespace Data
                 avatar = null,
                 lastLogin = DateTime.Now,
                 dateRegistered = DateTime.Now,
-                totalCardsLearned = 0,
+                totalCardsSeen = 0,
                 streak = 0,
             };
 
@@ -175,6 +175,17 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             User usr = GetUser(userID, dc);
             usr.avatar = new System.Data.Linq.Binary(file);
+            dc.SubmitChanges();
+        }
+
+        public static void updateStatisctics(int userID, float score, int cardsLearned)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            User usr = GetUser(userID, dc);
+            usr.score += score;
+            usr.thisWeekScore += score;
+            usr.thisMonthScore += score;
+            usr.totalCardsSeen += cardsLearned;
             dc.SubmitChanges();
         }
 

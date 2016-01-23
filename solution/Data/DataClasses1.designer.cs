@@ -2188,7 +2188,7 @@ namespace Data
 		
 		private System.DateTime _date;
 		
-		private int _score;
+		private float _score;
 		
 		private int _learnedCards;
 		
@@ -2218,7 +2218,7 @@ namespace Data
     partial void OnuserCourseIDChanged();
     partial void OndateChanging(System.DateTime value);
     partial void OndateChanged();
-    partial void OnscoreChanging(int value);
+    partial void OnscoreChanging(float value);
     partial void OnscoreChanged();
     partial void OnlearnedCardsChanging(int value);
     partial void OnlearnedCardsChanged();
@@ -2288,7 +2288,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date", DbType="Date NOT NULL")]
 		public System.DateTime date
 		{
 			get
@@ -2308,8 +2308,8 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_score", DbType="Int NOT NULL")]
-		public int score
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_score", DbType="Real NOT NULL")]
+		public float score
 		{
 			get
 			{
@@ -2569,7 +2569,7 @@ namespace Data
 		
 		private string _email;
 		
-		private int _totalCardsLearned;
+		private int _totalCardsSeen;
 		
 		private string _bio;
 		
@@ -2615,8 +2615,8 @@ namespace Data
     partial void OnpasswordChanged();
     partial void OnemailChanging(string value);
     partial void OnemailChanged();
-    partial void OntotalCardsLearnedChanging(int value);
-    partial void OntotalCardsLearnedChanged();
+    partial void OntotalCardsSeenChanging(int value);
+    partial void OntotalCardsSeenChanged();
     partial void OnbioChanging(string value);
     partial void OnbioChanged();
     partial void OnstreakChanging(int value);
@@ -2839,22 +2839,22 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_totalCardsLearned", DbType="Int NOT NULL")]
-		public int totalCardsLearned
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_totalCardsSeen", DbType="Int NOT NULL")]
+		public int totalCardsSeen
 		{
 			get
 			{
-				return this._totalCardsLearned;
+				return this._totalCardsSeen;
 			}
 			set
 			{
-				if ((this._totalCardsLearned != value))
+				if ((this._totalCardsSeen != value))
 				{
-					this.OntotalCardsLearnedChanging(value);
+					this.OntotalCardsSeenChanging(value);
 					this.SendPropertyChanging();
-					this._totalCardsLearned = value;
-					this.SendPropertyChanged("totalCardsLearned");
-					this.OntotalCardsLearnedChanged();
+					this._totalCardsSeen = value;
+					this.SendPropertyChanged("totalCardsSeen");
+					this.OntotalCardsSeenChanged();
 				}
 			}
 		}

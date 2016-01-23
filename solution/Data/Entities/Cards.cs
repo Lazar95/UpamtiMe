@@ -196,5 +196,31 @@ namespace Data
             return returnValue;
         }
 
+        public static CorrectWrong CreateUserCard(List<UserCardSessionInfo> cards, int userID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            CorrectWrong cw = new CorrectWrong();
+            cw.Correct = 0;
+            cw.Wrong = 0;
+            foreach (UserCardSessionInfo card in cards)
+            {
+                cw.Correct += card.CorrectAnswers;
+                cw.Wrong += card.WrongAnswers;
+                UsersCard uc = new UsersCard
+                {
+                    userID = userID,
+                    cardID = card.CardID,
+                    lastSeen = DateTime.Now,
+                    nextSee = DateTime.Now.AddMinutes(card.NextSeeMinutes),
+                    cardCombo = card.Combo,
+                    correctAnswers = card.CorrectAnswers,
+                    wrongAnswers = card.WrongAnswers,
+                    goodness = card.Goodness
+                };
+                dc.UsersCards.InsertOnSubmit(uc);
+            }
+            dc.SubmitChanges();
+            return cw;
+        }
     }
 }

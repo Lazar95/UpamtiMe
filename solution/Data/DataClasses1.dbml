@@ -98,8 +98,8 @@
     <Type Name="UserCourseStatistic">
       <Column Name="userCourseStatisticID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="userCourseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="score" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="score" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="learnedCards" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="reviewedCards" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="sessionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -123,7 +123,7 @@
       <Column Name="username" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="password" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="totalCardsLearned" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="totalCardsSeen" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="bio" Type="System.String" DbType="VarChar(400)" CanBeNull="true" />
       <Column Name="streak" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />

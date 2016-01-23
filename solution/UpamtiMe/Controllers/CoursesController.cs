@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Data;
 using Data.DTOs;
@@ -154,8 +155,32 @@ namespace UpamtiMe.Controllers
                 return RedirectToAction("Error", "Home");
                 // neka baci neki bolji exception
             }
+            UserSession.SetTime();
             return View("Learn",model);
         }
+
+        [HttpPost]
+        public ActionResult Learn(List<UserCardSessionInfo> qaInfo , float score, int courseID)
+        {
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+
+            int timeSpent = DateTime.Now.Subtract(UserSession.GetTime()).Minutes;
+
+            //upisi u usercard
+            Data.DTOs.CorrectWrong cw = Data.Cards.CreateUserCard(qaInfo, usr.UserID);
+
+            //upisi u tabelu sa statistikama i userCourses
+            Data.Courses.updateStatistics(courseID, usr.UserID, score, qaInfo.Count, 0, cw.Correct, cw.Wrong, 0, 0,
+                timeSpent);
+
+            //upisi u user-a
+            Data.Users.updateStatisctics(usr.UserID, score, qaInfo.Count);
+
+
+            return Json(new { success = true});
+        }
+
+      
 
         public ActionResult Review(int courseID, int? levelID, int? numberOfCards)
         {

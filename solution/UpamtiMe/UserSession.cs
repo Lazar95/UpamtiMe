@@ -12,5 +12,15 @@ namespace UpamtiMe
         {
             return (LoginDTO) HttpContext.Current.Session["user"];
         }
+
+        public static void SetTime()
+        {
+            HttpContext.Current.Session["timeSpent"] = DateTime.Now;
+        }
+
+        public static DateTime GetTime()
+        {
+            return (DateTime) HttpContext.Current.Session["timeSpent"];
+        }
     }
 }

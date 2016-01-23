@@ -11,6 +11,7 @@ namespace UpamtiMe.Models
     public class SessionModel
     {
         public List<Data.DTOs.CardSessionDTO> Cards { get; set; }
+        public int CourseID { get; set; }
 
         public static SessionModel LoadLearningSession(int userID, int courseID, int? levelID, int? numberOfCards)
         {
@@ -30,7 +31,7 @@ namespace UpamtiMe.Models
             }
 
             SessionModel sm = new SessionModel();
-            
+            sm.CourseID = courseID;
             sm.Cards = (from c in dc.Cards
                 where
                     c.levelID == levelID.Value &&

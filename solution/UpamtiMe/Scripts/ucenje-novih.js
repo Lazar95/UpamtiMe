@@ -51,7 +51,7 @@ var parseTableOfGod = function() {
       "question" : curr.children('[data-type="question"]').text().trim(),
       "answer" : curr.children('[data-type="answer"]').text().trim(),
       "description": curr.children('[data-type="description"]').text().trim(),
-      "nextSee": 0, // nije isto ako si u startu reko da znas rec
+      "nextSeeMinutes": 0, // nije isto ako si u startu reko da znas rec
       "correctAnswers": 0, // uvek 0, vracam samo nov broj, odnosno akrtice radjene tokom ove sesije
       "wrongAnswers": 0, // uvek 0
       "combo": 0,
@@ -834,7 +834,7 @@ var realDealCheckAnswer = function() {
       _qa[_currentQuestion()].status = CORRECT_SECOND;
 
       // I sad upisujemo sve zivo:
-      _qa[_currentQuestion()].nextSee = 240; // 4h
+      _qa[_currentQuestion()].nextSeeMinutes = 240; // 4h
       _qa[_currentQuestion()].correctAnswers = 1;
       _qa[_currentQuestion()].wrongAnswers = 0;
       _qa[_currentQuestion()].combo = 1;
@@ -878,11 +878,12 @@ var sessionCompleted = function() {
   var dataToSend = {
     "qaInfo": _qa,
     "score": _currentPoints,
+	"courseID" : $('#table-of-god').attr('data-course-id'),
   };
   console.log(dataToSend);
 
   $.ajax({
-    url: "/Courses/EditCourse", // /kontroler/akcija (klasa/funkcija u klasi)
+    url: "/Courses/Learn", // /kontroler/akcija (klasa/funkcija u klasi)
     method: "POST",
     data: dataToSend,
     success: function (res) {

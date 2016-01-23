@@ -14,7 +14,7 @@ namespace UpamtiMe.Models
         public float Score { get; set; }
         public DateTime LastLogin { get; set; }
         public DateTime DateRegistered { get; set; }
-        public int totalCardsLearned { get; set; }
+        public int totalCardsSeen { get; set; }
         public string Bio { get; set; }
         public int Streak { get; set; }
         public string Location { get; set; }
@@ -35,7 +35,7 @@ namespace UpamtiMe.Models
                 Bio = u.bio,
                 LastLogin = u.lastLogin,
                 DateRegistered = u.dateRegistered,
-                totalCardsLearned = u.totalCardsLearned,
+                totalCardsSeen = u.totalCardsSeen,
                 Streak = u.streak,
                 Image = u.avatar == null ? null : u.avatar.ToArray(),
                 Achievements = null

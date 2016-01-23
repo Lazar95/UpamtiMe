@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -203,6 +204,112 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             Course c = getCourse(courseID, dc);
             c.image = new System.Data.Linq.Binary(file);
+            dc.SubmitChanges();
+        }
+
+        public static bool DateInsideOneWeek(DateTime checkDate, DateTime referenceDate)
+        {
+            // get first day of week from your actual culture info, 
+            DayOfWeek firstWeekDay = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            // or you can set exactly what you want: firstWeekDay = DayOfWeek.Monday;
+            // calculate first day of week from your reference date
+            DateTime startDateOfWeek = referenceDate;
+            while (startDateOfWeek.DayOfWeek != firstWeekDay)
+            { startDateOfWeek = startDateOfWeek.AddDays(-1d); }
+            // fist day of week is find, then find last day of reference week
+            DateTime endDateOfWeek = startDateOfWeek.AddDays(6d);
+            // and check if checkDate is inside this period
+            return checkDate >= startDateOfWeek && checkDate <= endDateOfWeek;
+        }
+
+        public static int updateUserCourse(int courseID, int userID, float score)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            UsersCourse uc = (from a in dc.UsersCourses where a.courseID == courseID && a.userID == userID select a).First();
+            uc.score += score;
+
+            if (uc.lastPlayed == null)
+            {
+                uc.lastPlayed = DateTime.Now;
+                uc.thisWeekScore = score;
+                uc.thisMonthScore = score;
+            }
+            else
+            {
+                if (DateInsideOneWeek(uc.lastPlayed.Value, DateTime.Now))
+                {
+                    uc.thisWeekScore += score;
+                }
+                else
+                {
+                    uc.thisWeekScore = score;
+                }
+
+                if (uc.lastPlayed.Value.Year == DateTime.Now.Year && uc.lastPlayed.Value.Month == DateTime.Now.Month)
+                {
+                    uc.thisMonthScore += score;
+                }
+                else
+                {
+                    uc.thisMonthScore = score;
+                }
+
+                uc.lastPlayed = DateTime.Now;
+            }
+
+           
+            dc.SubmitChanges();
+            return uc.usersCoursesID;
+        }
+
+        public static UserCourseStatistic findStatistics(int userCourseID, DateTime date, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+            var query =
+                (from a in dc.UserCourseStatistics where a.userCourseID == userCourseID && a.date == date select a);
+            if (query.Any())
+                return query.First();
+            else
+                return null;
+        }
+
+        public static void updateStatistics(int courseID, int userID, float score, int learnedCards, int reviewedCards,
+            int learnedCorrectAnswers, int learnedWrongAnswers, int reviewCorrectAnswers, int reviewWrongAnswers, int timeSpent)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            int userCourseID = updateUserCourse(courseID, userID, score);
+            UserCourseStatistic ucs = findStatistics(userCourseID, DateTime.Today.Date, dc);
+            if (ucs == null)
+            {
+                UserCourseStatistic newStat = new UserCourseStatistic
+                {
+                    userCourseID = userCourseID,
+                    date = DateTime.Today.Date,
+                    score = score,
+                    learnedCards = learnedCards,
+                    reviewedCards = reviewedCards,
+                    sessionNo = 1, //prva sesija za taj dan
+                    timeSpent = timeSpent,
+                    learnedCorrectAnswers = learnedCorrectAnswers,
+                    learnedWrongAnswers = learnedWrongAnswers,
+                    reviewCorrectAnswers = reviewCorrectAnswers,
+                    reviewWrongAnswers = reviewWrongAnswers
+                };
+                dc.UserCourseStatistics.InsertOnSubmit(newStat);
+                
+            }
+            else
+            {
+                ucs.score += score;
+                ucs.learnedCards += learnedCards;
+                ucs.reviewedCards += reviewedCards;
+                ucs.sessionNo ++;
+                ucs.timeSpent += timeSpent;
+                ucs.learnedCorrectAnswers += learnedCorrectAnswers;
+                ucs.learnedWrongAnswers += learnedWrongAnswers;
+                ucs.reviewCorrectAnswers += reviewCorrectAnswers;
+                ucs.reviewWrongAnswers += reviewWrongAnswers;
+            }
             dc.SubmitChanges();
         }
 

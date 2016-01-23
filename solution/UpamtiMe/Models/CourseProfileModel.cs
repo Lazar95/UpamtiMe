@@ -51,7 +51,7 @@ namespace UpamtiMe.Models
 
             if (userID != null)
             {
-                cim.Statistics = Data.Courses.getUserCourseStatistics(courseID, userID.Value);
+                cim.Statistics = Data.Courses.getUserCourseStatistics(courseID, userID.Value, course.numberOfCards);
             }
 
             return cim;

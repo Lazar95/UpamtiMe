@@ -50,20 +50,35 @@ namespace Data
             return course;
         }
 
-        public static CourseUsersStatisticsDTO getUserCourseStatistics(int courseID, int userID, DataClasses1DataContext dc = null)
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="courseID"></param>
+        /// <param name="userID"></param>
+        /// <param name="numberOfCards">broj kartica u tom kursu, sluzi samo da ne bih pristupala bazi opet zbog te informacije</param>
+        /// <param name="dc"></param>
+        /// <returns></returns>
+        public static CourseUsersStatisticsDTO getUserCourseStatistics(int courseID, int userID, int numberOfCards, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
             CourseUsersStatisticsDTO cus = new CourseUsersStatisticsDTO();
-            cus.LearningStatistics = getUserLearningStatistics(courseID, userID);
-            UsersCourse uc =
-                (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).First();
+            cus.LearningStatistics = getUserLearningStatistics(courseID, userID, numberOfCards);
+            UsersCourse uc = (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).First();
             cus.LastPlayed = uc.lastPlayed;
             cus.StartDate = uc.startDate;
 
             return cus;
         }
 
-        public static LearningStatisticsDTO getUserLearningStatistics(int courseID, int userID, DataClasses1DataContext dc = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="courseID"></param>
+        /// <param name="userID"></param>
+        /// <param name="numberOfCards">broj kartica u tom kursu, sluzi samo da ne bih pristupala bazi opet zbog te informacije</param>
+        /// <param name="dc"></param>
+        /// <returns></returns>
+        public static LearningStatisticsDTO getUserLearningStatistics(int courseID, int userID, int numberOfCards, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
 
@@ -81,14 +96,12 @@ namespace Data
 
             LearningStatisticsDTO returnValue = new LearningStatisticsDTO();
 
-            returnValue.Total = 0;
+            returnValue.Total = numberOfCards;
             returnValue.Learned = 0;
             returnValue.Review = 0;
 
             foreach (var a in lastNext)
             {
-                returnValue.Total++;
-
                 if (a.last != null)
                 {
                     if (a.next > DateTime.Now)
@@ -120,7 +133,7 @@ namespace Data
 
             foreach (Course course in courses)
             {
-                CourseUsersStatisticsDTO cus = getUserCourseStatistics(course.courseID, userID, dc);
+                CourseUsersStatisticsDTO cus = getUserCourseStatistics(course.courseID, userID, course.numberOfCards, dc);
 
                 UserCourseDTO ucd = new UserCourseDTO
                 {

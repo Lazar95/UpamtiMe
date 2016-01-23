@@ -18,6 +18,7 @@ namespace Data.DTOs
         public List<int> DeletedLevels { get; set; }
 
         //kada je ID kartice/nivoa 0 to znci da je to nova kartica
+        //mmsm da ovo ^ vise ne vazi 
         public List<CardDTO> EditedCards { get; set; }   
         public List<EditLevelDTO> EditedLevels { get; set; }
 

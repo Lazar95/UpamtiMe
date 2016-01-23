@@ -242,6 +242,7 @@ var onAcceptButtonClick = function(button) {
   cardInfo.append('<span class="question">'+     newQ + '</span>');
   cardInfo.append('<span class="answer">' +      newA + '</span>');
   cardInfo.append('<span class="description">' + newD + '</span>');
+  showInitialButtons(button.parent());
 }
 $('#course').on('click', '.level .buttons .accept-button', function() {
   onAcceptButtonClick($(this));
@@ -262,6 +263,7 @@ var onDiscardButtonClick = function(button) {
   cardInfo.append('<span class="question">'+     oldQ + '</span>');
   cardInfo.append('<span class="answer">' +      oldA + '</span>');
   cardInfo.append('<span class="description">' + oldD + '</span>');
+  showInitialButtons(button.parent());
 }
 $('#course').on('click', '.level .buttons .discard-button', function() {
   onDiscardButtonClick($(this));
@@ -307,7 +309,6 @@ var onRemoveButtonClick = function(button) {
   button.parent().children('.undo-button').show();
 
   // Ako je brisanjem ove kartice nivo postao prazan, obelezi to.
-  //debugger;
   var levelID = button.parent().parent().parent().parent().children('.level').attr('data-level-id');
   var levelIDnum = parseInt(levelID);
   var count = countWhatInWhere(DELETED, levelIDnum);
@@ -338,7 +339,6 @@ $('#course').on('click', '.level .buttons .remove-button', function() {
 
 var onUndoButtonClick = function(button) {
   // Prikupljanje podataka
-  debugger;
   var cardID = button.parent().parent().attr('data-card-id');
   var levelID = button.closest('.level').attr('data-level-id');
 
@@ -348,15 +348,15 @@ var onUndoButtonClick = function(button) {
       var currLevel = _course[level];
       currLevel.status = currLevel.prevStatus;
       currLevel.prevStatus = -1;
-    }
-    for (var card = 0; card < _course[level].cards.length; card++) {
-      if (_course[level].cards[card].cardID == cardID) {
-        // Nasili smo na karticu koja nam treba
-        var currCard = _course[level].cards[card];
-        // Vrati stanje kartice koje je bilo pre nego sto je obrisana.
-        currCard.status = currCard.prevStatus;
-        currCard.prevStatus = -1;
-        break;
+      for (var card = 0; card < _course[level].cards.length; card++) {
+        if (_course[level].cards[card].cardID == cardID) {
+          // Nasili smo na karticu koja nam treba
+          var currCard = _course[level].cards[card];
+          // Vrati stanje kartice koje je bilo pre nego sto je obrisana.
+          currCard.status = currCard.prevStatus;
+          currCard.prevStatus = -1;
+          break;
+        }
       }
     }
   }
@@ -577,17 +577,56 @@ var onClickDeleteLevel = function(button) {
 }
 
 var onClickMassEdit = function(button) {
+  button.parent().parent().children('.level')
+    .append('<div class="mass-edit-buttons"><div class="mass-edit-accept">A</div><div class="mass-edit-discard">D</div></div>');
   button.parent().parent().children('ul.level').find('.change-button').each(function() {
-    onEditButtonClick($(this));
+    try { onEditButtonClick($(this)); } catch (e) { /* haker */ }
   });
 }
 
+var onClickMassEditAccept = function(button) {
+  var level = button.closest('.level').find('.accept-button').each(function() {
+    try { onAcceptButtonClick($(this)); } catch (e) { /* haker */ }
+  });
+}
+var onClickMassEditDiscard = function(button) {
+  var level = button.closest('.level').find('.discard-button').each(function() {
+    try { onDiscardButtonClick($(this)); } catch (e) { /* haker */ }
+  });
+}
+$('#course').on('click', '.mass-edit-accept', function() {
+  onClickMassEditAccept($(this));
+  $(this).parent().remove();
+});
+$('#course').on('click', '.mass-edit-discard', function() {
+  onClickMassEditDiscard($(this));
+  $(this).parent().remove();
+});
+
 var onClickSwapQA = function(button) {
+  button.parent().siblings('.level').children('li:not(.new-card)').each(function() {
+    var curr = $(this).find('.buttons');
+    onEditButtonClick(curr.children('.change-button'));
+    var q = $(this).find('input.question').val();
+    var a = $(this).find('input.answer').val();
+    $(this).find('input.question').val(a);
+    $(this).find('input.answer').val(q);
+    onAcceptButtonClick(curr.children('.accept-button'));
+  });
 }
 
 var onClickChangeDescriptionToAll = function(button) {
-
+  var newDesc = prompt("Unesi novi opis:", "");
+  if (newDesc != null) {
+    button.parent().siblings('.level').children('li:not(.new-card)').each(function() {
+      var curr = $(this).find('.buttons');
+      onEditButtonClick(curr.children('.change-button'));
+      $(this).find('input.description').val(newDesc);
+      onAcceptButtonClick(curr.children('.accept-button'));
+    });
+  }
 }
+
 $('#course').on('click', 'ul.options > li', function() {
   switch ($(this).attr('data-function')) {
     case 'name-change': onClickLevelNameChange($(this).parent().parent()); break;
@@ -709,6 +748,11 @@ $(document).ready(function() {
  * Dizajn
  */
 
+/**
+ * Prikazuje dugmad EDIT i REMOVE.
+ * @param  {DOM object} here Container dugmadi nad kojima se radi funkcija.
+ *                           Ako je null onda radi nad svima.
+ */
 var showInitialButtons = function(here) {
   if (here == null) {
     // sve
@@ -733,11 +777,3 @@ var hideAllButtons = function(here) {
   here.children('.discard-button').hide();
   here.children('.undo-button').hide();
 }
-
-$('#course').on('click', '.accept-button', function() {
-  showInitialButtons($(this).parent());
-});
-
-$('#course').on('click', '.discard-button', function() {
-  showInitialButtons($(this).parent());
-});

@@ -43,7 +43,7 @@ namespace UpamtiMe
         static void sTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             sTimer.Interval = TimeSpan.FromHours(24).TotalMilliseconds;
-           
+            //ne zaboravi na streak
             int a = 4;
         }
     }

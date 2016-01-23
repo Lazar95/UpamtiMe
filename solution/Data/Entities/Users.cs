@@ -178,7 +178,7 @@ namespace Data
             dc.SubmitChanges();
         }
 
-        public static void updateStatisctics(int userID, float score, int cardsLearned)
+        public static void updateStatisctics(int userID, float score, int cardsLearned, bool streak)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             User usr = GetUser(userID, dc);
@@ -186,6 +186,9 @@ namespace Data
             usr.thisWeekScore += score;
             usr.thisMonthScore += score;
             usr.totalCardsSeen += cardsLearned;
+
+            if (streak)
+                usr.streak++;
             dc.SubmitChanges();
         }
 

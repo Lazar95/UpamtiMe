@@ -241,14 +241,18 @@ namespace Data
                 return null;
         }
 
-        public static void updateStatistics(int courseID, int userID, float score, int learnedCards, int reviewedCards,
+        //vraca bool koji govori da li treba da se uveca streak ili ne
+        public static bool updateStatistics(int courseID, int userID, float score, int learnedCards, int reviewedCards,
             int learnedCorrectAnswers, int learnedWrongAnswers, int reviewCorrectAnswers, int reviewWrongAnswers, int timeSpent)
         {
+            bool streak;
             DataClasses1DataContext dc = new DataClasses1DataContext();
             int userCourseID = updateUserCourse(courseID, userID, score);
             UserCourseStatistic ucs = findStatistics(userCourseID, DateTime.Today.Date, dc);
             if (ucs == null)
             {
+                streak = true;
+
                 UserCourseStatistic newStat = new UserCourseStatistic
                 {
                     userCourseID = userCourseID,
@@ -268,6 +272,8 @@ namespace Data
             }
             else
             {
+                streak = false;
+
                 ucs.score += score;
                 ucs.learnedCards += learnedCards;
                 ucs.reviewedCards += reviewedCards;
@@ -279,6 +285,8 @@ namespace Data
                 ucs.reviewWrongAnswers += reviewWrongAnswers;
             }
             dc.SubmitChanges();
+
+            return streak;
         }
 
     }

@@ -623,9 +623,8 @@ var save = function() {
     var currLevel = _course[i];
     switch (currLevel.status) {
       case NEW:     _dataToSend.addedLevels.push(currLevel); break;
-      case CHANGED: _dataToSend.editedLevels.push(currLevel);
-          break;
-      case DELETED: _dataToSend.deletedLevels.push(currLevel); break;
+      case CHANGED: _dataToSend.editedLevels.push(currLevel); break;
+      case DELETED: _dataToSend.deletedLevels.push(currLevel.levelID); break;
     }
   }
 
@@ -655,11 +654,11 @@ var save = function() {
       method: "POST",
       data: _dataToSend,
       success: function (res) {
-          if (res.success) {			  
-            $('#new-level').append('Waai uspesno!');		
-			
+          if (res.success) {
+            $('main').append('<div class="toast-success"><span>Uspešno sačuvano.</span></div>');
+            //TODO Vrati svaki status na UNCHANGED.
           } else {
-            $('#new-level').append('Nije uspelo!');
+            $('main').append('<div class="toast-error"><span>Neuspelo čuvanje.</span></div>');
           }
       }
   });

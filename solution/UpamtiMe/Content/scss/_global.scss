@@ -286,7 +286,7 @@ button, input[type="submit"] {
 .level-lime { @include level-color($lime); }
 .level-amber { @include level-color($amber); }
 .level-orange { @include level-color($orange, 300, 600, 700); }
-.level-brown { @include level-color($brown); }
+.level-brown { @include level-color($brown, 300, 500, 600); }
 
 .level-color-id-1 { @extend .level-red; }
 .level-color-id-2 { @extend .level-purple; }
@@ -331,3 +331,40 @@ button, input[type="submit"] {
 	 dt { text-align: left; }
 	 dd { text-align: right; }
  }
+
+/**
+* Toastovi
+*/
+.toast {
+	// Fiktivna klasa
+	position: fixed;
+	width: 40%;
+	height: 36px;
+	padding: 24px;
+	bottom: 64px;
+	left: 0; right: 0;
+	margin: auto;
+	background-color: palette($blue-grey, 900);
+	border-radius: 10px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	span {
+		display: inline-block;
+	}
+}
+
+.toast-success, .toast-error, .toast-warning, .toast-message {
+	@extend .toast;
+}
+
+.toast-success {
+}
+
+.toast-error {
+	span::before {
+		@extend .fa, .fa-fw;
+	}
+}

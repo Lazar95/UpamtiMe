@@ -44,6 +44,7 @@ namespace UpamtiMe
         {
             sTimer.Interval = TimeSpan.FromHours(24).TotalMilliseconds;
             //ne zaboravi na streak
+            //thisWeekScore i thisMonthScore u UserCourses i Users
             int a = 4;
         }
     }

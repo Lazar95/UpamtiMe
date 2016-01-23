@@ -180,6 +180,8 @@ namespace Data
                         Name = l.name,
                         Number = l.number,
                         Type = l.type,
+                        Icon = l.icon,
+                        Color = l.color,
                         CardNumber = (from a in dc.Cards where a.levelID == l.levelID select a).Count(),
                         LearningStatistics = null
                     }).OrderBy(a=>a.Number).ToList();

@@ -13,6 +13,8 @@ namespace Data.DTOs
         public string Name { get; set; }
         public int Number { get; set; }
         public int CardNumber { get; set; }
+        public int Icon { get; set; }
+        public int Color { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
 
     }

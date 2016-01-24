@@ -8,38 +8,70 @@
 
 <main id="users-index">
 
-    @*<ul id="user-stats">
-            <li id="user-stats-always">
-                <ul>
-                    <li>stats1</li>
-                    <li>stats2</li>
-                </ul>
-            </li>
-            <li id="user-stats-more">
-                <ul>
-                    <li>stats3 (nevidljiv)</li>
-                    <li>stats4 (nevidljiv)</li>
-                    <li>stats5 (nevidljiv)</li>
-                    <li>stats6 (nevidljiv)</li>
-                </ul>
-            </li>
-            <li class="more"></li>
-        </ul>*@
-
-    <ul id="user-coruses">
-        <li id="user-courses-always">
+    <ul id="user-stats" class="big-container">
+        <li>stats1</li>
+        <li>stats2</li>
+        <li>stats3</li>
+        <li>stats4</li>
+        <li class="more"><i class="fa fa-arrows-alt"></i></li>
+        <li class="full-screen">
             <ul>
-                <li>1. kurs</li>
-                <li>2. kurs</li>
-                <li>3. kurs</li>
-                <li>4. kurs</li>
-                <li>5. kurs</li>
-                <li>6. kurs</li>
-                <li>7. kurs</li>
-                <li>8. kurs</li>
+                <li>stats1</li>
+                <li>stats2</li>
+                <li>stats3</li>
+                <li>stats4</li>
+                <li>stats5</li>
+                <li>stats6</li>
             </ul>
         </li>
-        <li class="more"><button>MORE</button></li>
+    </ul>
+
+    <ul id="user-leaderboard" class="big-container">
+        <li><dl class="stats-horizontal"><dt>Username1</dt><dd>69</dd></dl></li>
+        <li class="you"><dl class="stats-horizontal"><dt>Username2</dt><dd>69</dd></dl></li>
+        <li><dl class="stats-horizontal"><dt>Username3</dt><dd>69</dd></dl></li>
+        <li><dl class="stats-horizontal"><dt>Username4</dt><dd>69</dd></dl></li>
+        <li><dl class="stats-horizontal"><dt>Username5</dt><dd>69</dd></dl></li>
+        <li><dl class="stats-horizontal"><dt>Username6</dt><dd>69</dd></dl></li>
+        <li><dl class="stats-horizontal"><dt>Username7</dt><dd>69</dd></dl></li>
+        <li><dl class="stats-horizontal"><dt>Username8</dt><dd>69</dd></dl></li>
+        <li class="more"><i class="fa fa-arrows-alt"></i></li>
+        <li class="full-screen">
+            <ul>
+                <li><dl class="stats-horizontal"><dt>Username1</dt><dd>69</dd></dl></li>
+                <li class="you"><dl class="stats-horizontal"><dt>Username2</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username3</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username4</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username5</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username6</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username7</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username8</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username9</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username10</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username11</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username12</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username13</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username14</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username15</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username16</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username17</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username18</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username19</dt><dd>69</dd></dl></li>
+                <li><dl class="stats-horizontal"><dt>Username20</dt><dd>69</dd></dl></li>
+            </ul>
+        </li>
+    </ul>
+
+    <ul id="user-courses" class="big-container">
+        <button id="load-more-courses">More</button>
+        <li><div>1. kurs</div></li>
+        <li><div>2. kurs</div></li>
+        <li><div>3. kurs</div></li>
+        <li><div>4. kurs</div></li>
+        <li><div>5. kurs</div></li>
+        <li><div>6. kurs</div></li>
+        <li><div>7. kurs</div></li>
+        <li><div>8. kurs</div></li>
     </ul>
 
 </main>
@@ -61,14 +93,16 @@
 
                         BlockNumber = BlockNumber + 1;
                         NoMoreData = data.NoMoreData;
-                        $('#user-courses-always > ul').append(data.HTMLString);
+                        $('#user-courses > ul').append(data.HTMLString);
                         //$("#bookListDiv").append(data.HTMLString);
-                       // $("#loadingDiv").hide();
+                        //$("#loadingDiv").hide();
                         inProgress = false;
                     });
         }
     });
 </script>
+
+<script src="~/Scripts/users-index.js"></script>
 
 @*
     <div>

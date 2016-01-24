@@ -313,34 +313,37 @@ button, input[type="submit"] {
  * STATS
  */
 
- dl.stats {
- 	display: flex;
- 	justify-content: center;
- 	align-items: center;
+dl.stats {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
 
- 	dt {
- 		color: palette($blue-grey, 600);
- 	}
+	dt {
+		color: palette($blue-grey, 600);
+	}
 
- 	dd {
- 		display: inline-block;
- 		margin-top: 8px;
- 		color: palette($pink);
- 		font-weight: bold;
- 		font-size: 32px;
- 	}
- }
+	dd {
+		display: inline-block;
+		color: palette($pink);
+		font-weight: bold;
+		font-size: 32px;
+	}
+}
 
- dl.stats-vertical {
-  	flex-flow: column;
- }
+dl.stats-vertical {
+	@extend dl.stats;
+	flex-flow: column;
+	dd { margin-top: 8px; }
+}
 
- dl.stats-horizontal {
-	 flex-flow: row;
-	 & > * { flex-grow: 1; }
-	 dt { text-align: left; }
-	 dd { text-align: right; }
- }
+dl.stats-horizontal {
+	@extend dl.stats;
+	flex-flow: row;
+	& > * { flex-grow: 1; }
+	dt { text-align: left; }
+	dd { text-align: right; }
+}
 
 /**
 * Toastovi
@@ -377,4 +380,15 @@ button, input[type="submit"] {
 	span::before {
 		@extend .fa, .fa-fw;
 	}
+}
+
+/**
+ * Velike "kartice" koji sluze kao kontejneri na stranicama
+ */
+.big-container {
+	background-color: palette($blue-grey, 100);
+	margin-bottom: 16px;
+	@include z-depth(1);
+	padding: 16px;
+	box-sizing: border-box;
 }

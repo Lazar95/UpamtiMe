@@ -29,7 +29,7 @@ namespace UpamtiMe.Controllers
                 {
                     Login = new LoginTransporterDTO {Username = "masa", Password = "plavusha", RememberMe = true}
                 });
-                return RedirectToAction("Profile", "Courses", new {id = 1});
+                return RedirectToAction("Index", "Users", new {id = 1});
             }
             return View();
         }

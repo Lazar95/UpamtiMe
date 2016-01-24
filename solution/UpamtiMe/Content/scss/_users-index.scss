@@ -1,0 +1,87 @@
+main#users-index {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  & > * { flex-grow: 0; position: relative; }
+
+  @at-root #user-stats, #user-leaderboard {
+    padding: 24px;
+    @include force-height(400px);
+    .full-screen {
+      display: none;
+    }
+
+    li.more {
+      position: absolute;
+      top:   12px;
+      right: 12px;
+      color: palette($blue-grey, 500);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .1s ease;
+
+      &:hover {
+        transform: scale(1.2);
+        color: palette($blue-grey, 300);
+      }
+    }
+  }
+
+  @at-root #user-stats {
+    width: 80%;
+
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    li:not(.more):not(.full-screen) {
+      background-color: palette($blue-grey, 200);
+      width: 48%;
+      margin: 1%;
+    }
+  }
+
+  @at-root #user-leaderboard {
+    width: 18.5%;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    li:not(.more):not(.full-screen) {
+      flex-grow: 0;
+      margin: 1%;
+      width: 98%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      dl { width: 100%; }
+    }
+  }
+
+  @at-root #user-courses {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    button#load-more-courses {
+      width: 100%;
+    }
+
+    li {
+      background-color: tomato;
+      width: 20%;
+    }
+
+    li:nth-of-type(1), li:nth-of-type(2), li:nth-of-type(3) {
+      background-color: green;
+      width: 33.3333%;
+    }
+  }
+}

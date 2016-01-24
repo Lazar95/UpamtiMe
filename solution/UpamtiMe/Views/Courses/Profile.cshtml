@@ -84,7 +84,7 @@
                                     <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
                                     <div class="pie-ring-outer">
                                         <div class="pie-ring-inner">
-                                            @if (user != null)
+                                            @if (user != null && Model.Levels[index].LearningStatistics != null)  // maso pogledaj ovo
                                             {
                                                 int t = Model.Levels[index].LearningStatistics.Total;
                                                 t = t == 0 ? 1 : t;

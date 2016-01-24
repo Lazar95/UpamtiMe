@@ -45,16 +45,18 @@ namespace UpamtiMe.Controllers
 
             List<CourseDTO> allCourses = UserSession.GetSearchCourses();
             List<CourseDTO> courses;
-            int limit = initBlockSize + BlockSize * BlockNumber + BlockSize;
+
+            int baseNo = initBlockSize + BlockSize*BlockNumber;
+            int limit = baseNo + BlockSize;
             if (limit >= allCourses.Count)
             {
                 jsonModel.NoMoreData = true;
-                courses = allCourses.GetRange(initBlockSize + BlockSize * BlockNumber, allCourses.Count - (initBlockSize + BlockSize * BlockNumber));
+                courses = allCourses.GetRange(baseNo, allCourses.Count - baseNo);
             }
             else
             {
                 jsonModel.NoMoreData = false;
-                courses = allCourses.GetRange(initBlockSize + BlockSize * BlockNumber, BlockSize);
+                courses = allCourses.GetRange(baseNo, BlockSize);
 
             }
 

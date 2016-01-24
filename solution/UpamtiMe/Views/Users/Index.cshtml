@@ -5,56 +5,91 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<div>
-    <h4>UserIndexModel</h4>
-    <hr/>
+<main id="users-index">
 
-    <div id="leaderbord">
-        <p>All Time</p>
+    @*<ul id="user-stats">
+            <li id="user-stats-always">
+                <ul>
+                    <li>stats1</li>
+                    <li>stats2</li>
+                </ul>
+            </li>
+            <li id="user-stats-more">
+                <ul>
+                    <li>stats3 (nevidljiv)</li>
+                    <li>stats4 (nevidljiv)</li>
+                    <li>stats5 (nevidljiv)</li>
+                    <li>stats6 (nevidljiv)</li>
+                </ul>
+            </li>
+            <li class="more"></li>
+        </ul>*@
 
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
-        {
-            <span>Username: @lde.Username</span>
-            <span>AllTimeScore: @lde.AllTimeScore</span>
-        }
+    <ul id="user-coruses">
+        <li id="user-courses-always">
+            <ul>
+                <li>1. kurs</li>
+                <li>2. kurs</li>
+                <li>3. kurs</li>
+                <li>4. kurs</li>
+                <li>5. kurs</li>
+                <li>6. kurs</li>
+                <li>7. kurs</li>
+                <li>8. kurs</li>
+            </ul>
+        </li>
+        <li class="more"><button>MORE</button></li>
+    </ul>
 
-        <p>This Week</p>
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
-        {
-            <span>Username: @lde.Username</span>
-            <span>WeekScore: @lde.WeekScore</span>
-        }
+</main>
 
-        <p>This Month</p>
-        @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
-        {
-            <span>Username: @lde.Username</span>
-            <span>MonthScore: @lde.MonthScore</span>
-        }
-    </div>
+@*
+    <div>
 
-    <div id="courses">
-        @foreach (UserCourseDTO ucd in Model.Courses)
-        {
-            <span>@ucd.Name</span>
-            <span>@Enum.GetName(typeof (Enumerations.Categories), ucd.CategoryID)</span>
-            if (ucd.SubcategoryID != null)
+        <div id="leaderbord">
+            <p>All Time</p>
+
+            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
             {
-                //ovo treba da se izmeni, da bude string direktno u modelu
-                <span>@Courses.getSubcategoryName((int) ucd.SubcategoryID)</span>
+                <span>Username: @lde.Username</span>
+                <span>AllTimeScore: @lde.AllTimeScore</span>
             }
-            <br/>
-            <span>Statistics: Learned/Total/Review</span>
-            <span>@ucd.LearningStatistics.Learned</span>
-            <span>@ucd.LearningStatistics.Review</span>
-            <span>@ucd.LearningStatistics.Total</span>
-        }
+
+            <p>This Week</p>
+            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
+            {
+                <span>Username: @lde.Username</span>
+                <span>WeekScore: @lde.WeekScore</span>
+            }
+
+            <p>This Month</p>
+            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
+            {
+                <span>Username: @lde.Username</span>
+                <span>MonthScore: @lde.MonthScore</span>
+            }
+        </div>
+
+        <div id="courses">
+            @foreach (UserCourseDTO ucd in Model.Courses)
+            {
+                <span>@ucd.Name</span>
+                <span>@Enum.GetName(typeof (Enumerations.Categories), ucd.CategoryID)</span>
+                if (ucd.SubcategoryID != null)
+                {
+                    //ovo treba da se izmeni, da bude string direktno u modelu
+                    <span>@Courses.getSubcategoryName((int) ucd.SubcategoryID)</span>
+                }
+                <br/>
+                <span>Statistics: Learned/Total/Review</span>
+                <span>@ucd.LearningStatistics.Learned</span>
+                <span>@ucd.LearningStatistics.Review</span>
+                <span>@ucd.LearningStatistics.Total</span>
+            }
+        </div>
+
+        // dugmici: view profile, edit profile, napravi kurs (mozemo i ko na memrajzu da imamo posebnu stranicu za kurseve) nzm sta jos
+
     </div>
-
-    @* dugmici: view profile, edit profile, napravi kurs (mozemo i ko na memrajzu da imamo posebnu stranicu za kurseve) nzm sta jos *@
-
-</div>
-
-  
+*@

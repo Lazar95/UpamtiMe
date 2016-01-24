@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class CoursesDTO
+    public class CourseDTO
     {
         public int CourseID { get; set; }
         public string Name { get; set; }
         public int CategoryID { get; set; }
+        public string CategoryName { get; set; }
         public int SubcategoryID { get; set; }
+        public string SubcategoryName { get; set; }
         public int ParticipantCount { get; set; }
+        public int NumberOfCards { get; set; }
         public int CreatorID { get; set; }
-        public List<Data.LevelsDTO> Levels { get; set; }
+        public string CreatorName { get; set; }
+        public int Rating { get; set; }
+        //description nema 
+        public byte[] Image { get; set; }
     }
 }

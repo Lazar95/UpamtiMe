@@ -15,7 +15,6 @@ namespace UpamtiMe.Models
         public int CategoryID { get; set; }
         public int SubcategoryID { get; set; }
         public int NumberOfCards { get; set; }
-        public int CreatorID { get; set; }
         public List<Subcategory> AllSubcategories { get; set; } 
 
         public CreateNewCourseModel()

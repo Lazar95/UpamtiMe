@@ -53,7 +53,8 @@ namespace UpamtiMe.Controllers
         {
             if (ModelState.IsValid)
             {
-                Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, model.CreatorID);
+                LoginDTO user = UserSession.GetUser();
+                Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, user.UserID);
                 return RedirectToAction("EditCourse", new {id = c.courseID });
             }
             else

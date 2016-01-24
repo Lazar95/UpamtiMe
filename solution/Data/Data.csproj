@@ -53,6 +53,7 @@
     <Compile Include="DTOs\LoginTransporterDTO.cs" />
     <Compile Include="DTOs\RegisterTransporterDTO.cs" />
     <Compile Include="DTOs\SimpleLevelDTO.cs" />
+    <Compile Include="DTOs\StatisctisByDays.cs" />
     <Compile Include="DTOs\UserCardSessionInfo.cs" />
     <Compile Include="DTOs\UserCourseDTO.cs" />
     <Compile Include="Entities\Cards.cs" />

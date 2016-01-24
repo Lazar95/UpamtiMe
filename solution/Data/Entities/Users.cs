@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -232,6 +233,59 @@ namespace Data
                 user.thisMonthScore = last30days;
             }
             dc.SubmitChanges();
+        }
+         
+
+        public static List<int> getUserCourses(int userID, int? courseID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return
+                (from a in dc.UsersCourses
+                    where a.userID == userID && (courseID == null || a.courseID == courseID)
+                    select a.usersCoursesID).ToList();
+        } 
+
+        public static StatisctisByDays GetStatisctisByDays(int userID, int? courseID)
+        {
+            return GetStatisctisByDays(getUserCourses(userID, courseID));
+        }
+
+
+        public static StatisctisByDays GetStatisctisByDays(List<int> userCourseID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            StatisctisByDays returnValue = new StatisctisByDays();
+
+            DateTime prev = DateTime.Now.Subtract(TimeSpan.FromDays(30));
+
+            List<UserCourseStatistic> stats =
+                (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date > prev select a).OrderBy(a=>a.date).ToList();
+
+            
+
+            foreach (UserCourseStatistic stat in stats)
+            {
+                int zeroDays = stat.date.Subtract(prev).Days;
+               
+                for (int i = 0; i < zeroDays; i++)
+                {
+                        returnValue.AddValues(0,0,0,0,0,0,0,0,0);
+                }
+
+                returnValue.AddValues(stat.score, stat.learnedCards, stat.reviewedCards, stat.sessionNo, stat.timeSpent, stat.learnedCorrectAnswers, stat.learnedWrongAnswers, stat.reviewCorrectAnswers, stat.reviewWrongAnswers);
+                
+                prev = stat.date;
+            }
+
+            int zeroDaysAfter = DateTime.Now.Subtract(prev).Days;
+            for (int i = 0; i < zeroDaysAfter; i++)
+            {
+                returnValue.AddValues(0, 0, 0, 0, 0, 0, 0, 0, 0);
+            }
+
+
+            return returnValue;
         }
 
     }

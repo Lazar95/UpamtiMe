@@ -9,6 +9,8 @@ namespace UpamtiMe.Tests
         [TestMethod]
         public void TestMethod1()
         {
+            Data.DTOs.StatisctisByDays statisctis = Data.Users.GetStatisctisByDays(2, 1);
+            int a = 5;
         }
     }
 }

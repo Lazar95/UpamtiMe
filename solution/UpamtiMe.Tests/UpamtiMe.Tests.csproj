@@ -52,6 +52,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{a56047a6-ed33-4245-9351-72dc413cbd79}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UpamtiMe\UpamtiMe.csproj">
       <Project>{0F7F96FF-6825-425D-B9B4-09A28066A503}</Project>
       <Name>UpamtiMe</Name>

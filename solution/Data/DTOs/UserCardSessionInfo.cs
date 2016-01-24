@@ -10,8 +10,10 @@ namespace Data.DTOs
     {
         public int UserCardID { get; set; }
         public int CardID { get; set; }
+        //ova dva kao datumi lazi nisu potrebni, vidi na kraju pa obrisi
         public DateTime? LastSeen { get; set; }
         public DateTime? NextSee { get; set; }
+        public int LastSeenMinutes { get; set; }
         public int NextSeeMinutes { get; set; }
         public int Combo { get; set; }
         public int CorrectAnswers { get; set; }

@@ -28,6 +28,51 @@ var _qa = [
   { "question" : "trinaest",       "answer" : "dreizehn"      , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
 ]
 
+// JSON za pitanja i odgovore
+var parseTableOfGod = function() {
+  table = $('#table-of-god');
+  numberOfEntries = table.children('tbody').children('tr').length;
+
+  for ( var i = 1; i <= numberOfEntries; i++ ) {
+    var curr = table.children('tbody').children('tr:nth-child(' + i + ')');
+    console.log(curr);
+    _qa.push( {
+      "status": -1,
+      //TODO svasta nesto gledaj dole
+      //"cardID": curr.children('[data-type="card-id"]').text().trim(), // novo
+	  //UserCardID ovako treba da se zove, a ne cardID
+      "question" : curr.children('[data-type="question"]').text().trim(),
+      "answer" : curr.children('[data-type="answer"]').text().trim(),
+      "description": curr.children('[data-type="description"]').text().trim(),
+	  "lastSeenMinutes" : 0,//nesto
+      "nextSeeMinutes": 0, // nije isto ako si u startu reko da znas rec
+      "correctAnswers": 0, // uvek 0, vracam samo nov broj, odnosno akrtice radjene tokom ove sesije
+      "wrongAnswers": 0, // uvek 0
+      "combo": 0,
+      "goodness": 0, // ja treba da sracunam goodness
+    } );
+  }
+
+  console.log(_qa);
+}
+
+var _qa = [];
+
+$(window).bind('load', function() {
+  parseTableOfGod();  
+
+  resetTimer();
+  _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
+  displayCardData(_currentQuestion);
+  displayProgress();
+  displayQuestionAndPrompt();
+  updateCurrentSessionInfo();
+  $('input#type-answer').focus();
+  
+  
+
+});
+
 var UNOPENED = -1;
 var CORRECT = 0;
 var ONE_MISTAKE = 1;
@@ -459,12 +504,3 @@ $('input').keyup(function(e){
   }
 });
 
-$(document).ready(function() {
-  resetTimer();
-  _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
-  displayCardData(_currentQuestion);
-  displayProgress();
-  displayQuestionAndPrompt();
-  updateCurrentSessionInfo();
-  $('input#type-answer').focus();
-});

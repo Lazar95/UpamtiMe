@@ -236,13 +236,13 @@ namespace UpamtiMe.Controllers
                 return RedirectToAction("Error", "Home");
                 // neka baci neki bolji exception
             }
-            return View("SessionTest", model);
+            return View("Review", model);
         }
 
         public ActionResult Linky(int courseID, int? levelID, int? numberOfCards)
         {
             SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
-            return View("SessionTest", model);
+            return View("Linky", model);
         }
 
 

@@ -15,5 +15,6 @@ namespace Data.DTOs
         public double AllTimeScore { get; set; }
         public double WeekScore { get; set; }
         public double MonthScore { get; set; }
+        public double Number { get; set; }
     }
 }

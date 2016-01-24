@@ -102,18 +102,18 @@ namespace Data
             }
 
             return (from a in friendIDs
-                           join b in dc.Users
-                               on a equals b.userID
-                           select new LeaderboardEntryDTO()
-                           {
-                               UserID = b.userID,
-                               Username = b.username,
-                               FristName = b.name,
-                               LastName = b.surname,
-                               WeekScore = b.thisWeekScore,
-                               MonthScore = b.thisMonthScore,
-                               AllTimeScore = b.score
-                           }).ToList();
+                    from  b in dc.Users
+                    where a == b.userID
+                        select new LeaderboardEntryDTO()
+                        {
+                            UserID = b.userID,
+                            Username = b.username,
+                            FristName = b.name,
+                            LastName = b.surname,
+                            WeekScore = b.thisWeekScore,
+                            MonthScore = b.thisMonthScore,
+                            AllTimeScore = b.score,
+                        }).ToList();
 
         }
 

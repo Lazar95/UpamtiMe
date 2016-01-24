@@ -44,40 +44,11 @@ namespace UpamtiMe.Models
                         Question = c.question,
                         Answer = c.answer,
                         Description = c.description,
-                        Image = c.image.ToArray(),
+                        Image = c.image == null ? null : c.image.ToArray(),
                         Number = c.number,
                     }
                 }).OrderBy(a=>a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
-
-            //foreach (CardSessionDTO card in sm.Cards)
-            //{
-            //    var query =
-            //        (from a in dc.UsersCards where a.userID == userID && a.cardID == card.BasicInfo.CardID select a);
-            //    card.UserCardInfo = new UserCardSessionInfo();
-
-            //    if (query.Any())
-            //    {
-            //        card.UserCardInfo.UserCardID = query.First().usersCardID;
-            //    }
-            //    else
-            //    {
-            //        UsersCard usrcard = new UsersCard()
-            //        {
-            //            cardID = card.BasicInfo.CardID,
-            //            userID = userID,
-            //            ignore = false,
-            //            lastSeen = null,
-            //            cardCombo = 0,
-            //            nextSee = null,
-            //            correctAnswers = 0,
-            //            wrongAnswers = 0,
-            //            goodness = 0
-            //        };
-            //        dc.UsersCards.InsertOnSubmit(usrcard);
-            //        dc.SubmitChanges();                    
-            //        card.UserCardInfo.UserCardID = usrcard.usersCardID;
-            //    }
-            //}
+          
             return sm;
         }
 
@@ -93,7 +64,7 @@ namespace UpamtiMe.Models
                 levelID = (from c in dc.Cards
                            from l in dc.Levels
                            from u in dc.UsersCards
-                           where u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
+                           where u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee < DateTime.Now 
                            select new { id = l.levelID, no = l.number }).OrderBy(a => a.no).First().id;
             }
 
@@ -101,7 +72,7 @@ namespace UpamtiMe.Models
 
             sm.Cards = (from c in dc.Cards 
                         from u in dc.UsersCards
-                        where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
+                        where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now 
                         select new CardSessionDTO
                         {
                             UserCardInfo = new UserCardSessionInfo
@@ -110,7 +81,9 @@ namespace UpamtiMe.Models
                                 CorrectAnswers = u.correctAnswers,
                                 WrongAnswers = u.wrongAnswers,
                                 LastSeen = u.lastSeen,
+                                LastSeenMinutes = DateTime.Now.Subtract(u.lastSeen).Minutes,
                                 NextSee = u.nextSee,
+                                NextSeeMinutes = DateTime.Now.Subtract(u.nextSee.Value).Minutes,
                                 UserCardID = u.usersCardID,
                             },
                             BasicInfo = new CardDTO
@@ -118,10 +91,10 @@ namespace UpamtiMe.Models
                                 Question = c.question,
                                 Answer = c.answer,
                                 Description = c.description,
-                                Image = c.image.ToArray(),
+                                Image = c.image == null ? null : c.image.ToArray(),
                                 Number = c.number,
                             }
-                        }).OrderBy(a => a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
+                        }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
 
             return sm;
         }
@@ -141,7 +114,7 @@ namespace UpamtiMe.Models
             {
                 sm.Cards = (from c in dc.Cards
                             from u in dc.UsersCards
-                            where u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
+                            where u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee > DateTime.Now 
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardDTO
@@ -159,7 +132,7 @@ namespace UpamtiMe.Models
             {
                 sm.Cards = (from c in dc.Cards
                             from u in dc.UsersCards
-                            where u.cardID == c.cardID &&  u.ignore == false && (u.nextSee < DateTime.Now || u.nextSee == null)
+                            where u.cardID == c.cardID &&  u.ignore == false && u.nextSee > DateTime.Now 
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardDTO
@@ -170,7 +143,7 @@ namespace UpamtiMe.Models
                                 }
                             }).Take(numberOfCards.Value).ToList();
 
-                if (sm.Cards.Count < 5)
+                if (sm.Cards.Count < linkyLimit)
                     return null; //ovde bi mogo i da se baci odgovarajuci exception
             }
             

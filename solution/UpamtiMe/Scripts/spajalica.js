@@ -29,13 +29,13 @@ function getRandomArbitrary(min, max) {
 
 // JSON za pitanja i odgovore
 var _qa = [
-  { "question" : "ja",        "answer" : "da" },
+  /*{ "question" : "ja",        "answer" : "da" },
   { "question" : "nein",      "answer" : "ne" },
   { "question" : "danke",     "answer" : "hvala" },
   { "question" : "leben",     "answer" : "živeti" },
   { "question" : "was",       "answer" : "šta" },
   { "question" : "wer",       "answer" : "ko" },
-  /*{ "question" : "wo",        "answer" : "gde" },
+  { "question" : "wo",        "answer" : "gde" },
   { "question" : "wie",       "answer" : "kako" },
   { "question" : "warum",     "answer" : "zašto" },
   { "question" : "die Katze",     "answer" : "mačka" },
@@ -58,7 +58,64 @@ var _qa = [
  * Ovaj niz mora da se filtrira tako da se izbaci sve sto je duplikat ili po
  * pitanju ili po odgovoru.
  */
+ 
+ $(window).bind('load', function() {
+  parseTableOfGod();
+  LENGTH = _qa.length;
+ 
+  shuffleArray(_qa);
 
+  var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  shuffleArray(nums);
+  putNew(0, 'q', nums[0]);
+  putNew(1, 'q', nums[1]);
+  putNew(2, 'q', nums[2]);
+  putNew(3, 'q', nums[3]);
+  putNew(4, 'q', nums[4]);
+  putNew(5, 'q', nums[5]);
+  putNew(0, 'a', nums[6]);
+  putNew(1, 'a', nums[7]);
+  putNew(2, 'a', nums[8]);
+
+  _nextChip = 6;
+
+  _stack.push(3);
+  _stack.push(4);
+  _stack.push(5);
+
+  _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
+
+});
+ 
+ 
+ // JSON za pitanja i odgovore
+var parseTableOfGod = function() {
+  table = $('#table-of-god');
+  numberOfEntries = table.children('tbody').children('tr').length;
+
+  for ( var i = 1; i <= numberOfEntries; i++ ) {
+    var curr = table.children('tbody').children('tr:nth-child(' + i + ')');
+    console.log(curr);
+    _qa.push( {
+      "status": -1,
+      //TODO svasta nesto gledaj dole
+      //"cardID": curr.children('[data-type="card-id"]').text().trim(), // novo
+      "question" : curr.children('[data-type="question"]').text().trim(),
+      "answer" : curr.children('[data-type="answer"]').text().trim(),
+      //"description": curr.children('[data-type="description"]').text().trim(),
+      //"nextSeeMinutes": 0, // nije isto ako si u startu reko da znas rec
+      //"correctAnswers": 0, // uvek 0, vracam samo nov broj, odnosno akrtice radjene tokom ove sesije
+      //"wrongAnswers": 0, // uvek 0
+      //"combo": 0,
+      //"goodness": 0, // ja treba da sracunam goodness
+    } );
+  }
+
+  console.log(_qa);
+}
+
+ 
+ 
 var LENGTH = _qa.length;
 var ALLOW_GAME = true;
 
@@ -385,28 +442,4 @@ var dump = function() {
  * Prikaz summary na kraju
  */
 
-$(document).ready(function() {
 
-  shuffleArray(_qa);
-
-  var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  shuffleArray(nums);
-  putNew(0, 'q', nums[0]);
-  putNew(1, 'q', nums[1]);
-  putNew(2, 'q', nums[2]);
-  putNew(3, 'q', nums[3]);
-  putNew(4, 'q', nums[4]);
-  putNew(5, 'q', nums[5]);
-  putNew(0, 'a', nums[6]);
-  putNew(1, 'a', nums[7]);
-  putNew(2, 'a', nums[8]);
-
-  _nextChip = 6;
-
-  _stack.push(3);
-  _stack.push(4);
-  _stack.push(5);
-
-  _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
-
-});

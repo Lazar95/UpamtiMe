@@ -152,6 +152,8 @@
     <Content Include="Views\Users\UserIndexCoursesChunk.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Courses\GetCoursesChunk.cshtml" />
+    <Content Include="Views\Courses\Review.cshtml" />
+    <Content Include="Views\Courses\Linky.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

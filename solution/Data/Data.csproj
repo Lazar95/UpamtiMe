@@ -58,7 +58,7 @@
     <Compile Include="Entities\Cards.cs" />
     <Compile Include="DTOs\CardDTO.cs" />
     <Compile Include="Entities\Courses.cs" />
-    <Compile Include="DTOs\CoursesDTO.cs" />
+    <Compile Include="DTOs\CourseDTO.cs" />
     <Compile Include="DataClasses1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

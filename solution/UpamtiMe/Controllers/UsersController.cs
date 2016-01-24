@@ -96,6 +96,55 @@ namespace UpamtiMe.Controllers
             
             return RedirectToAction("Profile", "Users", new { id = userID});
         }
-        
+
+        [ChildActionOnly]
+        public ActionResult UserIndexCoursesChunk(List<int> Model)
+        {
+            Model = new List<int>();
+            for(int i=0; i < 8; i++)
+                Model.Add(i);
+            return PartialView(Model);
+        }
+
+        [HttpPost]
+        public ActionResult InfinateScroll(int BlockNumber)
+        {
+            int BlockSize = 8;
+
+            List<int> brojke = new List<int>();
+            for (int i = 0; i < BlockSize; i++)
+                brojke.Add(i + BlockNumber*10);
+
+            JsonModel jsonModel = new JsonModel();
+            jsonModel.NoMoreData = brojke.Count < BlockSize;
+            jsonModel.HTMLString = RenderPartialViewToString("UserIndexCoursesChunk", brojke);
+            return Json(jsonModel);
+        }
+
+        public class JsonModel
+        {
+            public string HTMLString { get; set; }
+            public bool NoMoreData { get; set; }
+        }
+
+        protected string RenderPartialViewToString(string viewName, object model)
+        {
+            if (string.IsNullOrEmpty(viewName))
+                viewName = ControllerContext.RouteData.GetRequiredString("action");
+
+            ViewData.Model = model;
+
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewEngineResult viewResult =
+                ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                ViewContext viewContext = new ViewContext
+                (ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
     }
 }

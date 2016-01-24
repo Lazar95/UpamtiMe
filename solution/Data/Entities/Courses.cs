@@ -119,6 +119,8 @@ namespace Data
             return returnValue;
         }
 
+
+        //ovo nista ne valja, trebaju ti podaci kao sto je lastPlayed za kurs
         public static List<UserCourseDTO> getCoursesOf(int userID, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();

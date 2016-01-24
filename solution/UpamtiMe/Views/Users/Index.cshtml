@@ -44,6 +44,32 @@
 
 </main>
 
+<script type="text/javascript">
+    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+
+    
+    $('.more > button').click(function () {
+        if (!inProgress) {
+
+            inProgress = true;
+
+            $.post("@Url.Action("InfinateScroll",
+            "Users")", { "BlockNumber": BlockNumber },
+                    function (data) {
+
+                        BlockNumber = BlockNumber + 1;
+                        NoMoreData = data.NoMoreData;
+                        $('#user-courses-always > ul').append(data.HTMLString);
+                        //$("#bookListDiv").append(data.HTMLString);
+                       // $("#loadingDiv").hide();
+                        inProgress = false;
+                    });
+        }
+    });
+</script>
+
 @*
     <div>
 

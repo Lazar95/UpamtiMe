@@ -124,6 +124,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CourseIndexModel.cs" />
     <Compile Include="Models\CourseProfileModel.cs" />
     <Compile Include="Models\CreateNewCourseModel.cs" />
     <Compile Include="Models\EditCourseModel.cs" />
@@ -147,6 +148,7 @@
     <Content Include="Views\Courses\Profile.cshtml" />
     <Content Include="Views\Courses\SessionTest.cshtml" />
     <Content Include="Views\Courses\Learn.cshtml" />
+    <Content Include="Views\Users\UserIndexCoursesChunk.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

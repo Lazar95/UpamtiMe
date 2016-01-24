@@ -6,6 +6,7 @@ main#users-index {
   & > * { flex-grow: 0; position: relative; }
 
   #user-stats, #user-leaderboard {
+    //display: none!important;
     padding: 16px;
     @include force-height(400px);
     .full-screen {
@@ -102,25 +103,151 @@ main#users-index {
   }
 
   #user-courses {
+    padding: 0;
     width: 100%;
     flex-grow: 1;
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
 
     button#load-more-courses {
       width: 100%;
+      order: 9999;
     }
 
     li {
-      background-color: tomato;
-      width: 20%;
+      width: 19%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 14px;
+
+      .wrapper {
+        background-color: palette($blue-grey, 100);
+        @include z-depth(1);
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 5%;
+        position: relative;
+
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-content: space-between;
+        flex-wrap: wrap;
+
+        & > .course-name {
+          width: 100%;
+          font-size: 20px;
+          font-weight: bold;
+          margin-bottom: 6px;
+        }
+
+        & > .course-picture {
+          background-color: palette($blue-grey, 300);
+          width:  100px;
+          height: 100px;
+        }
+
+        & > .course-buttons {
+          order: 1;
+          flex-grow: 1;
+          height: 100px;
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          justify-content: space-between;
+          margin-bottom: 8px;
+
+          .button-rect {
+            width:  50%;
+            height: 50%;
+          }
+        }
+
+        & > .course-points-graph-wrapper {
+          display: none;
+          width: 224px;
+
+          .line-legend {
+            display: none;
+          }
+        }
+
+        & > .course-total-breakdown-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-grow: 1;
+
+          canvas {
+            width: 80%;
+            height: auto;
+          }
+        }
+      }
     }
 
     li:nth-of-type(1), li:nth-of-type(2), li:nth-of-type(3) {
-      background-color: green;
-      width: 33.3333%;
+      //display: none!important;
+      width: 32.5%;
+      height: 500px;
+
+      .wrapper {
+        display: flex;
+        flex-flow: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-content: space-around;
+
+        & > .course-name {
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        & > .course-picture {
+          @include  force-width(224px);
+          @include force-height(224px);
+          padding-bottom: 0; // override
+          margin-bottom: 8px;
+        }
+
+        & > .course-buttons {
+          order: 0;
+          flex-grow: 1;
+          margin-left: 15px;
+          @include force-height(224px);
+          width: auto; // overwrituje 100%
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-bottom: 8px;
+
+          .button-rect {
+            width: 100%;
+            height: 20%;
+          }
+        }
+
+        & > .course-points-graph-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 224px;
+
+          .line-legend {
+            display: none;
+          }
+        }
+
+        & > .course-total-breakdown-wrapper {
+          margin-left: 15px;
+        }
+      }
     }
   }
 }

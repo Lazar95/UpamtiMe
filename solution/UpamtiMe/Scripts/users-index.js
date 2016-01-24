@@ -190,7 +190,8 @@ var ColorBlueGrey300 = "#90a4ae";
 var statsLearningHistoryMonth;
 var statsCardsBreakdown;
 
-// Get the context of the canvas element we want to select
+
+
 var loadStatsLearningHistoryMonth = function() {
   var element = document.getElementById('stats-learning-history-month');
   var dataLearned = element.getAttribute('data-learned').split('|');
@@ -228,6 +229,35 @@ var loadStatsLearningHistoryMonth = function() {
   $('#stats-learning-history-month-wrapper').append(legend);
 }
 
+// Grafik uz svaki kurs (poeni)
+var loadStatsCoursePointsGraph = function() {
+  var elements = $('.course-points-graph');
+  elements.each(function() {
+    var dataPoints = $(this).attr('data-points').split('|');
+    var numberOfPiecesOfData = dataPoints.length;
+    var dateLabels = [];
+    for (var i = 0 ; i <= numberOfPiecesOfData-1; i++) { dateLabels[numberOfPiecesOfData-1-i] = i.toString(); }
+    var data = {
+      labels: dateLabels,
+      datasets: [
+        {
+          label: "Poeni",
+          fillColor: colorBlueGrey700Transp,
+          strokeColor: colorBlueGrey700,
+          pointColor: colorBlueGrey700,
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: colorBlueGrey700,
+          data: dataPoints,
+        }
+      ]
+    }
+    var statsCourseTotalBreakdown = new Chart($(this).get(0).getContext('2d')).Line(data);
+    var legend = statsCourseTotalBreakdown.generateLegend();
+    $(this).parent().append(legend);
+  });
+}
+
 var loadStatsCardsBreakdown = function() {
   var element = document.getElementById('stats-cards-breakdown');
   var learn = element.getAttribute('data-learned');
@@ -257,6 +287,38 @@ var loadStatsCardsBreakdown = function() {
     animationEasing: "easeOutQuart",
   }
   statsCardsBreakdown = new Chart(element.getContext('2d')).Pie(data, options);
+}
+
+var loadStatsCourseTotalBreakdown = function() {
+  $('.course-total-breakdown').each(function() {
+    var learn = $(this).attr('data-learned');
+    var review = $(this).attr('data-review');
+    var unseen = $(this).attr('data-unseen');
+    var data = [
+      {
+        value: learn,
+        color: colorPink,
+        highlight: "#FFF",
+        label: "Naučene",
+      },
+      {
+        value: review,
+        color: colorPink200,
+        highlight: "#FFF",
+        label: "Za obnavljanje",
+      },
+      {
+        value: unseen,
+        color: colorBlueGrey700,
+        highlight: "#FFF",
+        label: "Nevidjene",
+      },
+    ];
+    var options = {
+      animationEasing: "easeOutQuart",
+    }
+    statsCardsBreakdown = new Chart($(this).get(0).getContext('2d')).Pie(data, options);
+  });
 }
 
 var loadStatsPoints = function() {
@@ -312,8 +374,13 @@ var loadStatsTime = function() {
 }
 
 $(document).ready(function() {
+  // za korisnika
   loadStatsLearningHistoryMonth();
   loadStatsCardsBreakdown();
   loadStatsPoints();
   loadStatsTime();
+
+  // za svaki  kurs
+  loadStatsCourseTotalBreakdown();
+  loadStatsCoursePointsGraph();
 });

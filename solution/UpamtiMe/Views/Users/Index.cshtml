@@ -9,10 +9,24 @@
 <main id="users-index">
 
     <ul id="user-stats" class="big-container">
-        <li>stats1</li>
-        <li>stats2</li>
-        <li>stats3</li>
-        <li>stats4</li>
+        <li id="stats-learning-history-month-wrapper">
+            <canvas id="stats-learning-history-month" width="950" height="190"
+                data-learned= "20|10|13|32|54|34|84|0|6|34|0|76|54|65|0|0|75|12|11|23|43|45|65|23|45|23|65|34|34|34"
+                data-reviewed="12|23|4|2|65|34|97|99|54|50|21|32|43|12|32|63|12|73|10|19|13|54|0|0|12|0|0|12|34|0"
+            ></canvas>
+        </li>
+        <li id="stats-cards-breakdown-wrapper">
+            <canvas id="stats-cards-breakdown" width="140" height="140" data-learned="301" data-review="905" data-unseen="849"></canvas>
+        </li>
+        <li id="stats-points-week-wrapper">
+            <canvas id="stats-points-week" width="340" height="140"
+                data-points= "200.5|1671.75|9442.10|6844.2|754.2|0|3954.5"
+            ></canvas>
+        </li>
+        <li id="stats-time-week-wrapper">
+            <canvas id="stats-time-week" width="340" height="140"
+                    data-time="200.5|1671.75|9442.10|6844.2|754.2|0|3954.5"></canvas>
+        </li>
         <li class="more"><i class="fa fa-arrows-alt"></i></li>
         <li class="full-screen">
             <ul>
@@ -64,7 +78,11 @@
 
     <ul id="user-courses" class="big-container">
         <button id="load-more-courses">More</button>
-        <li><div>1. kurs</div></li>
+        <li>
+            <div>
+
+            </div>
+        </li>
         <li><div>2. kurs</div></li>
         <li><div>3. kurs</div></li>
         <li><div>4. kurs</div></li>
@@ -82,22 +100,21 @@
     var inProgress = false;
 
     
-    $('.more > button').click(function () {
+    $('#load-more-courses').click(function () {
         if (!inProgress) {
 
             inProgress = true;
 
-            $.post("@Url.Action("InfinateScroll",
-            "Users")", { "BlockNumber": BlockNumber },
-                    function (data) {
-
-                        BlockNumber = BlockNumber + 1;
-                        NoMoreData = data.NoMoreData;
-                        $('#user-courses > ul').append(data.HTMLString);
-                        //$("#bookListDiv").append(data.HTMLString);
-                        //$("#loadingDiv").hide();
-                        inProgress = false;
-                    });
+            $.post("@Url.Action("InfinateScroll", "Users")",
+                { "BlockNumber": BlockNumber },
+                function (data) {
+                    BlockNumber = BlockNumber + 1;
+                    NoMoreData = data.NoMoreData;
+                    $('#user-courses').append(data.HTMLString);
+                    //$("#bookListDiv").append(data.HTMLString);
+                    //$("#loadingDiv").hide();
+                    inProgress = false;
+                });
         }
     });
 </script>

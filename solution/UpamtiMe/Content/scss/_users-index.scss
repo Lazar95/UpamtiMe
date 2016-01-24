@@ -5,8 +5,8 @@ main#users-index {
   justify-content: space-between;
   & > * { flex-grow: 0; position: relative; }
 
-  @at-root #user-stats, #user-leaderboard {
-    padding: 24px;
+  #user-stats, #user-leaderboard {
+    padding: 16px;
     @include force-height(400px);
     .full-screen {
       display: none;
@@ -28,21 +28,60 @@ main#users-index {
     }
   }
 
-  @at-root #user-stats {
+  #user-stats {
     width: 80%;
 
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 
-    li:not(.more):not(.full-screen) {
-      background-color: palette($blue-grey, 200);
-      width: 48%;
+    & > li:not(.more):not(.full-screen) {
+      flex-grow: 1;
       margin: 1%;
+      position: relative;
+    }
+
+    #learning-history-month-wrapper {
+      width: 100%;
+    }
+
+    .line-legend {
+      opacity: 0.3;
+      transition: opacity .2s ease;
+      cursor: default;
+      position: absolute;
+      top:  20px;
+      left: 40px;
+      background-color: palette($blue-grey, 900);
+      padding: 8px 12px;
+      border-radius: 5px;
+      color: palette($blue-grey, 100);
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: left;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      .legend-color {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        box-shadow: 0 0 0 1px rgba(white, .5) inset;
+      }
+
+      .legend-name {
+        display: inline-block;
+        height: 12px;
+        font-size: 12px;
+      }
     }
   }
 
-  @at-root #user-leaderboard {
+  #user-leaderboard {
     width: 18.5%;
 
     display: flex;
@@ -62,7 +101,7 @@ main#users-index {
     }
   }
 
-  @at-root #user-courses {
+  #user-courses {
     width: 100%;
     flex-grow: 1;
     display: flex;

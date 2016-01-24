@@ -4,7 +4,7 @@
 {
     <tr>
         <td>@Html.DisplayFor(a => course.CourseID)</td>
-        <td>@Html.DisplayFor(a => course.Name)</td>
+        <td><a href="@Url.Action("Profile", "Courses", new {id = @course.CourseID })">@Html.DisplayFor(a => course.Name)</a></td>
         <td>@Html.DisplayFor(a => course.CategoryID)</td>
         <td>@Html.DisplayFor(a => course.CategoryName)</td>
         <td>@Html.DisplayFor(a => course.SubcategoryID)</td>

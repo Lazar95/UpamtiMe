@@ -337,7 +337,7 @@ namespace Data
                     CreatorUsername = Users.getUsername(a.creatorID),
                     Rating = a.rating,
                     Image = a.image == null ? null : a.image.ToArray()
-                }).OrderBy(m => m.Rating).OrderBy(m => m.ParticipantCount).ToList();
+                }).OrderByDescending(m => m.Rating).OrderByDescending(m => m.ParticipantCount).ToList();
         }
 
     }

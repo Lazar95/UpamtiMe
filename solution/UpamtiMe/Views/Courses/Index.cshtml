@@ -57,7 +57,7 @@
         {
             <tr>
                 <td>@Html.DisplayFor(a => course.CourseID)</td>
-                <td>@Html.DisplayFor(a => course.Name)</td>
+                <td><a href="@Url.Action("Profile", "Courses", new {id = @course.CourseID })">@Html.DisplayFor(a => course.Name)</a></td>
                 <td>@Html.DisplayFor(a => course.CategoryID)</td>
                 <td>@Html.DisplayFor(a => course.CategoryName)</td>
                 <td>@Html.DisplayFor(a => course.SubcategoryID)</td>
@@ -84,7 +84,7 @@
 
                         }
 
-<div class="more"><button>MORE</button></div>
+<div class="more"><button @(Model.More == false ? "disabled" : "")>MORE</button></div>
 
 <script type="text/javascript">
     var BlockNumber = 0; //ne => //Infinate Scroll starts from second block

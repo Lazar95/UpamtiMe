@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,13 +43,31 @@ namespace Data.DTOs
 
         public void SetDates(DateTime startDate)
         {
-            foreach (DateTime day in EachDay(startDate, startDate.AddDays(30)))
+            foreach (DateTime day in EachDay(startDate, startDate.AddDays(29)))
             {
                 this.Dates += day.Day;
                 this.Dates += "|";
             }
-            this.Dates.Remove(this.Dates.Count() - 1);
         }
-       
+
+        public void SetZeros(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                this.AddValues(0, 0, 0, 0, 0, 0, 0, 0, 0);
+            }
+        }
+
+        public void TrimStrings()
+        {
+            PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                string pom = (string)property.GetValue(this, null);
+                pom = pom.removeExtraSeparator();
+                property.SetValue(this, pom);
+            }
+        }
+
     }
 }

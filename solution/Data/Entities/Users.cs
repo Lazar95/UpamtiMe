@@ -236,7 +236,7 @@ namespace Data
         }
          
 
-        public static List<int> getUserCourses(int userID, int? courseID)
+        public static List<int> getUserCourses(int userID, int? courseID = null)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return
@@ -245,7 +245,7 @@ namespace Data
                     select a.usersCoursesID).ToList();
         } 
 
-        public static StatisctisByDays GetStatisctisByDays(int userID, int? courseID)
+        public static StatisctisByDays GetStatisctisByDays(int userID, int? courseID = null)
         {
             return GetStatisctisByDays(getUserCourses(userID, courseID));
         }
@@ -258,6 +258,7 @@ namespace Data
             StatisctisByDays returnValue = new StatisctisByDays();
 
             DateTime prev = DateTime.Now.Subtract(TimeSpan.FromDays(30));
+            returnValue.SetDates(prev.AddDays(1));
 
             List<UserCourseStatistic> stats =
                 (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date > prev select a).OrderBy(a=>a.date).ToList();
@@ -266,12 +267,8 @@ namespace Data
 
             foreach (UserCourseStatistic stat in stats)
             {
-                int zeroDays = stat.date.Subtract(prev).Days;
-               
-                for (int i = 0; i < zeroDays; i++)
-                {
-                        returnValue.AddValues(0,0,0,0,0,0,0,0,0);
-                }
+                int zeroDays = stat.date.Subtract(prev).Days - 1;
+                returnValue.SetZeros(zeroDays);
 
                 returnValue.AddValues(stat.score, stat.learnedCards, stat.reviewedCards, stat.sessionNo, stat.timeSpent, stat.learnedCorrectAnswers, stat.learnedWrongAnswers, stat.reviewCorrectAnswers, stat.reviewWrongAnswers);
                 
@@ -279,10 +276,9 @@ namespace Data
             }
 
             int zeroDaysAfter = DateTime.Now.Subtract(prev).Days;
-            for (int i = 0; i < zeroDaysAfter; i++)
-            {
-                returnValue.AddValues(0, 0, 0, 0, 0, 0, 0, 0, 0);
-            }
+            returnValue.SetZeros(zeroDaysAfter);
+
+            returnValue.TrimStrings();
 
 
             return returnValue;

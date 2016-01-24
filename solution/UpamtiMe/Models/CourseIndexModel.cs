@@ -20,10 +20,15 @@ namespace UpamtiMe.Models
 
         public static CourseIndexModel Load(string search, int? categoryID = null, int? subcategoryID = null)
         {
+            LoginDTO user = UserSession.GetUser();
+            int? userID = null;
+            if (user != null)
+                userID = user.UserID;
+
             CourseIndexModel cim = new CourseIndexModel();
 
             //upise u model prvih 20
-            List<CourseDTO> allCourses = Data.Courses.Search(search, categoryID, subcategoryID);
+            List<CourseDTO> allCourses = Data.Courses.Search(search, categoryID, subcategoryID, userID);
             cim.Courses = allCourses.Take(brojKursevaKojiSePrikazuUStartu).ToList();
 
             if (brojKursevaKojiSePrikazuUStartu >= allCourses.Count)

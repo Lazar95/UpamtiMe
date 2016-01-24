@@ -21,5 +21,6 @@ namespace Data.DTOs
         public int? Rating { get; set; }
         //description nema 
         public byte[] Image { get; set; }
+        public bool Erolled { get; set; }
     }
 }

@@ -314,7 +314,7 @@ namespace Data
         }
        
 
-        public static List<CourseDTO> Search(string name, int? categoryID = null, int? subcategoryID = null,
+        public static List<CourseDTO> Search(string name, int? categoryID = null, int? subcategoryID = null, int? userID = null,
             DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
@@ -336,7 +336,8 @@ namespace Data
                     CreatorID = a.creatorID,
                     CreatorUsername = Users.getUsername(a.creatorID),
                     Rating = a.rating,
-                    Image = a.image == null ? null : a.image.ToArray()
+                    Image = a.image == null ? null : a.image.ToArray(),
+                    Erolled = userID == null ? false : Users.enrolled(userID.Value, a.courseID)
                 }).OrderByDescending(m => m.Rating).OrderByDescending(m => m.ParticipantCount).ToList();
         }
 

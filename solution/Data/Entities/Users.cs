@@ -138,6 +138,9 @@ namespace Data
                 thisMonthScore = 0
             };
 
+            Course c = Courses.getCourse(courseID, dc);
+            c.participantCount++;
+
             dc.UsersCourses.InsertOnSubmit(uc);
             dc.SubmitChanges();
 

@@ -52,7 +52,7 @@ namespace Data
             return (from a in dc.Cards
                     from b in dc.Levels
                     from c in dc.Courses
-                    where  a.levelID == b.levelID && b.courseID == c.courseID  && a.question == question
+                    where  c.courseID == courseID && a.levelID == b.levelID && b.courseID == c.courseID  && a.question == question 
                     select a).Any();
         }
 

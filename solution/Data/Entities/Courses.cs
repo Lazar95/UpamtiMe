@@ -39,14 +39,13 @@ namespace Data
                 name = name,
                 categoryID = categoryID,
                 subcategoryID = subcategoryID,
-                participantCount = 1, // creator is the only participant
+                participantCount = 0, 
                 numberOfCards = numberOfCards,
                 creatorID = creatorID,
             };
-
             dc.Courses.InsertOnSubmit(course);
             dc.SubmitChanges();
-
+            Users.enroll(creatorID, course.courseID);
             return course;
         }
 

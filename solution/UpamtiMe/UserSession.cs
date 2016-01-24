@@ -22,5 +22,15 @@ namespace UpamtiMe
         {
             return (DateTime) HttpContext.Current.Session["timeSpent"];
         }
+
+        public static void SetSearchCourses(List<CourseDTO> list)
+        {
+            HttpContext.Current.Session["searchCourses"] = list;
+        }
+
+        public static List<CourseDTO> GetSearchCourses()
+        {
+            return (List<CourseDTO>) HttpContext.Current.Session["searchCourses"];
+        }
     }
 }

@@ -8,7 +8,7 @@ using UpamtiMe.Models;
 
 namespace UpamtiMe.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : InfinateScroll
     {
         // GET: Users
         public ActionResult Index(int id)
@@ -121,30 +121,7 @@ namespace UpamtiMe.Controllers
             return Json(jsonModel);
         }
 
-        public class JsonModel
-        {
-            public string HTMLString { get; set; }
-            public bool NoMoreData { get; set; }
-        }
-
-        protected string RenderPartialViewToString(string viewName, object model)
-        {
-            if (string.IsNullOrEmpty(viewName))
-                viewName = ControllerContext.RouteData.GetRequiredString("action");
-
-            ViewData.Model = model;
-
-            using (StringWriter sw = new StringWriter())
-            {
-                ViewEngineResult viewResult =
-                ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
-                ViewContext viewContext = new ViewContext
-                (ControllerContext, viewResult.View, ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-
-                return sw.GetStringBuilder().ToString();
-            }
-        }
+       
 
     }
 }

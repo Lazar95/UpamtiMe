@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Data.DTOs;
 
@@ -30,7 +31,7 @@ namespace Data
         }
 
 
-        public static Course addCourse( string name, int categoryID, int? subcategoryID, int numberOfCards, int creatorID)
+        public static Course addCourse(string name, int categoryID, int? subcategoryID, int numberOfCards, int creatorID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
@@ -39,7 +40,7 @@ namespace Data
                 name = name,
                 categoryID = categoryID,
                 subcategoryID = subcategoryID,
-                participantCount = 0, 
+                participantCount = 0,
                 numberOfCards = numberOfCards,
                 creatorID = creatorID,
             };
@@ -57,12 +58,14 @@ namespace Data
         /// <param name="numberOfCards">broj kartica u tom kursu, sluzi samo da ne bih pristupala bazi opet zbog te informacije</param>
         /// <param name="dc"></param>
         /// <returns></returns>
-        public static CourseUsersStatisticsDTO getUserCourseStatistics(int courseID, int userID, int numberOfCards, DataClasses1DataContext dc = null)
+        public static CourseUsersStatisticsDTO getUserCourseStatistics(int courseID, int userID, int numberOfCards,
+            DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
             CourseUsersStatisticsDTO cus = new CourseUsersStatisticsDTO();
             cus.LearningStatistics = getUserLearningStatistics(courseID, userID, numberOfCards);
-            UsersCourse uc = (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).First();
+            UsersCourse uc =
+                (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).First();
             cus.LastPlayed = uc.lastPlayed;
             cus.StartDate = uc.startDate;
 
@@ -77,21 +80,24 @@ namespace Data
         /// <param name="numberOfCards">broj kartica u tom kursu, sluzi samo da ne bih pristupala bazi opet zbog te informacije</param>
         /// <param name="dc"></param>
         /// <returns></returns>
-        public static LearningStatisticsDTO getUserLearningStatistics(int courseID, int userID, int numberOfCards, DataClasses1DataContext dc = null)
+        public static LearningStatisticsDTO getUserLearningStatistics(int courseID, int userID, int numberOfCards,
+            DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
 
             var lastNext = (from c in dc.Cards
-                             from l in dc.Levels
-                             from co in dc.Courses
-                             from u in dc.UsersCards
-                            where c.levelID == l.levelID && l.courseID == co.courseID && u.cardID == c.cardID && u.ignore == false && co.courseID == courseID && u.userID == userID
-                             select new
-                             {
-                                 last = u.lastSeen,
-                                 next = u.nextSee,
+                from l in dc.Levels
+                from co in dc.Courses
+                from u in dc.UsersCards
+                where
+                    c.levelID == l.levelID && l.courseID == co.courseID && u.cardID == c.cardID && u.ignore == false &&
+                    co.courseID == courseID && u.userID == userID
+                select new
+                {
+                    last = u.lastSeen,
+                    next = u.nextSee,
 
-                             }).ToList();
+                }).ToList();
 
             LearningStatisticsDTO returnValue = new LearningStatisticsDTO();
 
@@ -127,10 +133,10 @@ namespace Data
 
             List<UserCourseDTO> retrunValue = new List<UserCourseDTO>();
 
-            List<Course> courses = (from a in dc.UsersCourses 
-                                    from b in dc.Courses
-                                    where a.userID == userID && a.courseID == b.courseID
-                                    select b).ToList();
+            List<Course> courses = (from a in dc.UsersCourses
+                from b in dc.Courses
+                where a.userID == userID && a.courseID == b.courseID
+                select b).ToList();
 
             foreach (Course course in courses)
             {
@@ -173,27 +179,28 @@ namespace Data
 
         public static List<LeaderboardEntryDTO> getLeaderboard(int courseID, DataClasses1DataContext dc = null)
         {
-             dc = dc ?? new DataClasses1DataContext();
+            dc = dc ?? new DataClasses1DataContext();
 
             List<int> usersList = (from a in dc.UsersCourses where a.courseID == courseID select a.userID).ToList();
 
             return (from a in usersList
-                    join b in dc.Users
-                        on a equals b.userID
-                    select new LeaderboardEntryDTO()
-                    {
-                        UserID = b.userID,
-                        Username = b.username,
-                        FristName = b.name,
-                        LastName = b.surname,
-                        WeekScore = b.thisWeekScore,
-                        MonthScore = b.thisMonthScore,
-                        AllTimeScore = b.score
-                    }).ToList();
+                join b in dc.Users
+                    on a equals b.userID
+                select new LeaderboardEntryDTO()
+                {
+                    UserID = b.userID,
+                    Username = b.username,
+                    FristName = b.name,
+                    LastName = b.surname,
+                    WeekScore = b.thisWeekScore,
+                    MonthScore = b.thisMonthScore,
+                    AllTimeScore = b.score
+                }).ToList();
 
         }
 
-        public static Course updateCourseInfo(int courseID, string name, int catID, int subID, int numCards, string description)
+        public static Course updateCourseInfo(int courseID, string name, int catID, int subID, int numCards,
+            string description)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             Course course = (from a in dc.Courses where a.courseID == courseID select a).First();
@@ -205,7 +212,7 @@ namespace Data
             dc.SubmitChanges();
             return course;
         }
-       
+
 
         public static int getCardNuber(int courseID)
         {
@@ -220,12 +227,13 @@ namespace Data
             c.image = new System.Data.Linq.Binary(file);
             dc.SubmitChanges();
         }
-        
+
 
         public static int updateUserCourse(int courseID, int userID, float score)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            UsersCourse uc = (from a in dc.UsersCourses where a.courseID == courseID && a.userID == userID select a).First();
+            UsersCourse uc =
+                (from a in dc.UsersCourses where a.courseID == courseID && a.userID == userID select a).First();
             uc.score += score;
 
             if (uc.lastPlayed == null)
@@ -244,7 +252,8 @@ namespace Data
             return uc.usersCoursesID;
         }
 
-        public static UserCourseStatistic findStatistics(int userCourseID, DateTime date, DataClasses1DataContext dc = null)
+        public static UserCourseStatistic findStatistics(int userCourseID, DateTime date,
+            DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
             var query =
@@ -257,7 +266,8 @@ namespace Data
 
         //vraca bool koji govori da li treba da se uveca streak ili ne
         public static bool updateStatistics(int courseID, int userID, float score, int learnedCards, int reviewedCards,
-            int learnedCorrectAnswers, int learnedWrongAnswers, int reviewCorrectAnswers, int reviewWrongAnswers, int timeSpent)
+            int learnedCorrectAnswers, int learnedWrongAnswers, int reviewCorrectAnswers, int reviewWrongAnswers,
+            int timeSpent)
         {
             bool streak;
             DataClasses1DataContext dc = new DataClasses1DataContext();
@@ -282,7 +292,7 @@ namespace Data
                     reviewWrongAnswers = reviewWrongAnswers
                 };
                 dc.UserCourseStatistics.InsertOnSubmit(newStat);
-                
+
             }
             else
             {
@@ -302,8 +312,33 @@ namespace Data
 
             return streak;
         }
+       
+
+        public static List<CourseDTO> Search(string name, int? categoryID = null, int? subcategoryID = null,
+            DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+
+            return (from a in dc.Courses
+                where // v lazo ovde je poredjenje stringova kad se pretrazuje kurs
+                    (name == null || a.name.Contains(name)) && (categoryID == null || a.categoryID == categoryID) &&
+                    (subcategoryID == null || a.subcategoryID == subcategoryID)
+                select new CourseDTO
+                {
+                    CourseID = a.courseID,
+                    Name = a.name,
+                    CategoryID = a.categoryID,
+                    CategoryName = getCategoryName(a.categoryID),
+                    SubcategoryID = a.subcategoryID,
+                    SubcategoryName = a.subcategoryID == null ? null : getSubcategoryName(a.subcategoryID.Value),
+                    ParticipantCount = a.participantCount,
+                    NumberOfCards = a.numberOfCards,
+                    CreatorID = a.creatorID,
+                    CreatorUsername = Users.getUsername(a.creatorID),
+                    Rating = a.rating,
+                    Image = a.image == null ? null : a.image.ToArray()
+                }).OrderBy(m => m.Rating).OrderBy(m => m.ParticipantCount).ToList();
+        }
 
     }
-
-    
 }

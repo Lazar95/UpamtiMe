@@ -12,12 +12,54 @@ using UpamtiMe.Models;
 
 namespace UpamtiMe.Controllers
 {
-    public class CoursesController : Controller
+    public class CoursesController : InfinateScroll
     {
         // GET: Courses
         public ActionResult Index()
         {
-            return View();
+            CourseIndexModel model = CourseIndexModel.Load(null, null, null);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(CourseIndexModel model)
+        {
+            CourseIndexModel newModel = CourseIndexModel.Load(model.Search, model.CategoryID, model.SubcategoryID);
+            return View(newModel);
+        }
+
+        [ChildActionOnly]
+        public ActionResult GetCoursesChunk(List<CourseDTO> list)
+        {
+            return PartialView(list);
+        }
+
+        [HttpPost]
+        public ActionResult InfinateScroll(int BlockNumber)
+        {
+            int initBlockSize = Models.CourseIndexModel.brojKursevaKojiSePrikazuUStartu;
+            int BlockSize = 2;
+
+
+            JsonModel jsonModel = new JsonModel();
+
+            List<CourseDTO> allCourses = UserSession.GetSearchCourses();
+            List<CourseDTO> courses;
+            int limit = initBlockSize + BlockSize * BlockNumber + BlockSize;
+            if (limit >= allCourses.Count)
+            {
+                jsonModel.NoMoreData = true;
+                courses = allCourses.GetRange(initBlockSize + BlockSize * BlockNumber, allCourses.Count - (initBlockSize + BlockSize * BlockNumber));
+            }
+            else
+            {
+                jsonModel.NoMoreData = false;
+                courses = allCourses.GetRange(initBlockSize + BlockSize * BlockNumber, BlockSize);
+
+            }
+
+            jsonModel.HTMLString = RenderPartialViewToString("GetCoursesChunk", courses);
+            return Json(jsonModel);
         }
 
         public ActionResult Profile(int id)
@@ -200,6 +242,8 @@ namespace UpamtiMe.Controllers
             SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
             return View("SessionTest", model);
         }
+
+
 
     }
 }

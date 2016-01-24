@@ -1,0 +1,28 @@
+﻿@model List<Data.DTOs.CourseDTO>
+
+@foreach (Data.DTOs.CourseDTO course in @Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(a => course.CourseID)</td>
+        <td>@Html.DisplayFor(a => course.Name)</td>
+        <td>@Html.DisplayFor(a => course.CategoryID)</td>
+        <td>@Html.DisplayFor(a => course.CategoryName)</td>
+        <td>@Html.DisplayFor(a => course.SubcategoryID)</td>
+        <td>@Html.DisplayFor(a => course.SubcategoryName)</td>
+        <td>@Html.DisplayFor(a => course.ParticipantCount)</td>
+        <td>@Html.DisplayFor(a => course.NumberOfCards)</td>
+        <td>@Html.DisplayFor(a => course.CreatorID)</td>
+        <td>@Html.DisplayFor(a => course.CreatorUsername)</td>
+        <td>@Html.DisplayFor(a => course.Rating)</td>
+        <td class="picture">
+            @{
+                if (course.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(course.Image.ToArray());
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src="@imgSrc" width="50px" height="50px" />
+                }
+            }
+        </td>
+    </tr>
+}

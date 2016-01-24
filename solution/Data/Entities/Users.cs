@@ -245,20 +245,20 @@ namespace Data
                     select a.usersCoursesID).ToList();
         } 
 
-        public static StatisctisByDays GetStatisctisByDays(int userID, int? courseID = null)
+        public static StatisctisByDays GetStatisctisByDays(int userID, int? courseID = null, int timeSpan = 30)
         {
-            return GetStatisctisByDays(getUserCourses(userID, courseID));
+            return GetStatisctisByDays(getUserCourses(userID, courseID), timeSpan);
         }
 
 
-        public static StatisctisByDays GetStatisctisByDays(List<int> userCourseID)
+        public static StatisctisByDays GetStatisctisByDays(List<int> userCourseID, int timeSpan = 30)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
             StatisctisByDays returnValue = new StatisctisByDays();
 
-            DateTime prev = DateTime.Now.Subtract(TimeSpan.FromDays(30));
-            returnValue.SetDates(prev.AddDays(1));
+            DateTime prev = DateTime.Now.Subtract(TimeSpan.FromDays(timeSpan));
+            returnValue.SetDates(prev.AddDays(1), timeSpan);
 
             List<UserCourseStatistic> stats =
                 (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date > prev select a).OrderBy(a=>a.date).ToList();

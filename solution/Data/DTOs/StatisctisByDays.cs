@@ -41,9 +41,9 @@ namespace Data.DTOs
                 yield return day;
         }
 
-        public void SetDates(DateTime startDate)
+        public void SetDates(DateTime startDate, int timeSpan)
         {
-            foreach (DateTime day in EachDay(startDate, startDate.AddDays(29)))
+            foreach (DateTime day in EachDay(startDate, startDate.AddDays(timeSpan-1)))
             {
                 this.Dates += day.Day;
                 this.Dates += "|";

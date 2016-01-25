@@ -134,14 +134,17 @@ var addLevel = function() {
 
 var addCard = function(level) {
 
+  var $level = $('#course > li:nth-child(' + level + ')');
+  var $levelNewCard = $level.find('.new-card');
+
   _lastFakeCardID--;
 
   var newCard = {
     "cardID": _lastFakeCardID.toString(),
     "number": (_course[level - 1].cards.length + 1).toString(),
-    "question": $('#course > li:nth-child(' + level + ') .new-card input.question').val(),
-    "answer": $('#course > li:nth-child(' + level + ') .new-card input.answer').val(),
-    "description": $('#course > li:nth-child(' + level + ') .new-card input.description').val(),
+    "question": $levelNewCard.find('input.question').val(),
+    "answer": $levelNewCard.find('input.answer').val(),
+    "description": $levelNewCard.find('input.description').val(),
     "levelID": _course[level - 1].levelID.toString(),
     "status": NEW,
   }
@@ -164,9 +167,19 @@ var addCard = function(level) {
     string += '</div>';
   string += '</li>';
 
-  $('#course > li:nth-of-type(' + level + ') ul > li:last-of-type').before(string);
+  $level.find('ul > li:last-of-type').before(string);
 
+  $levelNewCard.find('input').val('');
+  $levelNewCard.find('.inner-wrapper > div:first-child input').focus();
 }
+
+// addCard se zove kada se pritisne enter u bilo kom od tri inputa za dodavanje nove kartice u nivo
+$('.new-card input[type="text"]').keyup(function(e){
+  if(e.keyCode == 13)
+  {
+    addCard($(this).parent().parent().parent().parent().attr('data-level-number'));
+  }
+});
 
 /******************************/
 /******************************/
@@ -727,10 +740,11 @@ $('#course').on('click', '.new-card .add-button', function() {
     $(this)
       .parent().removeClass('collapsed')
     .end().attr('data-function', 'add');
+    $(this).parent().find('.inner-wrapper > div:first-child input').focus();
   } else {
     // data-function = "add"
     var index = $(this).parent().parent().parent().index();
-    addCard(index+1);
+    addCard(index + 1);
     showInitialButtons();
   }
 });

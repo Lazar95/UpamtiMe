@@ -5,37 +5,14 @@
  */
 
 // JSON za pitanja i odgovore
-var _qa = [
-  { "question" : "da",             "answer" : "ja"            , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "ne",             "answer" : "nein"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "hvala",          "answer" : "danke"         , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "nema na čemu",   "answer" : "bitte schön"   , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "dobro jutro",    "answer" : "Guten Morgen"  , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "dobar dan",      "answer" : "Guten Tag"     , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "dobro veče",     "answer" : "Guten Abend"   , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "jedan",          "answer" : "eins"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "dva",            "answer" : "zwei"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "tri",            "answer" : "drei"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "četiri",         "answer" : "vier"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "pet",            "answer" : "fünf"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "šest",           "answer" : "sechs"         , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "sedam",          "answer" : "sieben"        , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "osam",           "answer" : "acht"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "devet",          "answer" : "neun"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "deset",          "answer" : "zehn"          , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "jedanaest",      "answer" : "elf"           , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "dvanaest",       "answer" : "zwölf"         , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-  { "question" : "trinaest",       "answer" : "dreizehn"      , "status" : -1, "minutesSinceLastSeen" : 600, "timesCorrect" : 2, "timesIncorrect" : 0, "correctCombo" : 2, "nextSee": 0},
-]
+var _qa = [];
 
-// JSON za pitanja i odgovore
 var parseTableOfGod = function() {
   table = $('#table-of-god');
   numberOfEntries = table.children('tbody').children('tr').length;
 
   for ( var i = 1; i <= numberOfEntries; i++ ) {
     var curr = table.children('tbody').children('tr:nth-child(' + i + ')');
-    console.log(curr);
     _qa.push( {
       "status": -1,
       //TODO svasta nesto gledaj dole
@@ -44,33 +21,36 @@ var parseTableOfGod = function() {
       "question" : curr.children('[data-type="question"]').text().trim(),
       "answer" : curr.children('[data-type="answer"]').text().trim(),
       "description": curr.children('[data-type="description"]').text().trim(),
-	  "lastSeenMinutes" : 0,//nesto
-      "nextSeeMinutes": 0, // nije isto ako si u startu reko da znas rec
-      "correctAnswers": 0, // uvek 0, vracam samo nov broj, odnosno akrtice radjene tokom ove sesije
-      "wrongAnswers": 0, // uvek 0
+      "lastSeenMinutes" : parseInt(curr.children('[data-type="last-seen-minutes"]').text().trim()),
+      "nextSeeMinutes": parseInt(curr.children('[data-type="next-see-minutes"]').text().trim()),
+      "correctAnswers": parseInt(curr.children('[data-type="correct-answers"]').text().trim()),
+      "wrongAnswers": parseInt(curr.children('[data-type="wrong-answers"]').text().trim()),
       "combo": 0,
-      "goodness": 0, // ja treba da sracunam goodness
+      "goodness": 0,
     } );
   }
 
-  console.log(_qa);
+  console.table(_qa);
 }
 
 var _qa = [];
 
 $(window).bind('load', function() {
-  parseTableOfGod();  
+  parseTableOfGod();
 
   resetTimer();
   _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
+
+  // na osnovu broja pitanja napraviti kruzice dole
+  var progress = '';
+  for (var i = 0; i < _qa.length; i++) progress += '<li class="unopened"></li>';
+  $('.progress-bar > ul').html(progress);
+
   displayCardData(_currentQuestion);
   displayProgress();
   displayQuestionAndPrompt();
   updateCurrentSessionInfo();
   $('input#type-answer').focus();
-  
-  
-
 });
 
 var UNOPENED = -1;
@@ -87,9 +67,6 @@ var _currentPoints = 0;
 var _lastPoints = 0;
 var _currentCombo = 0;
 var _maxComboReached = 0;
-
-// Za pisanje izvestaja
-var _footer = $('footer');
 
 // Za tajmer
 var _maxTimeRemaining = 20000;
@@ -146,6 +123,28 @@ var displayFinalMessage = function() {
   $('.current-card').html('');
   $('.next-card').css('flex-grow', '0.000000001').html('');
   $('.cards').css('flex-grow', '0.001');
+
+  console.table(_qa);
+
+  var dataToSend = {
+    "qaInfo": _qa,
+    "score": _currentPoints,
+	   "courseID" : $('#table-of-god').attr('data-course-id'),
+  };
+  console.log(dataToSend);
+
+  $.ajax({
+    url: "/Courses/Review", // /kontroler/akcija (klasa/funkcija u klasi)
+    method: "POST",
+    data: dataToSend,
+    success: function (res) {
+      if (res.success) {
+        $('body').append('Waai uspesno!');
+      } else {
+        $('body').append('Nije uspelo!');
+      }
+    }
+  });
 }
 
 /**
@@ -260,7 +259,7 @@ var givenAnswerWas = function(STATE) {
  * @return {boolean}            Vraca true ako je odgovor prihvacen, inace false.
  */
 var answerAccepted = function(typedAnswer, realAnswer) {
-  return typedAnswer.toLowerCase() == realAnswer.toLowerCase();
+  return typedAnswer.trim().toLowerCase() == realAnswer.trim().toLowerCase();
 }
 
 var calculateBaseScore = function(minutes) {
@@ -333,13 +332,10 @@ var calculateLevelCardComboMultiplier = function(cardComboMultiplier) {
 
 
 var evaluateAnswer = function(answer) {
-  // Kartica je svakako upravo vidjena, nezavisno od ishoda odgovora
-  _qa[_currentQuestion].minutesSinceLastSeen = 0;
-
   // Inicijalno, minuti za koliko cemo sledeci put da vidimo karticu
   // postavljaju se na isto onoliko koliko je proslo od kada smo je poslednji
   // put videli.
-  _qa[_currentQuestion].nextSee = _qa[_currentQuestion].minutesSinceLastSeen;
+  _qa[_currentQuestion].nextSeeMinutes = _qa[_currentQuestion].lastSeenMinutes;
 
   // JSON struktura koja se vraca
   var eval = {
@@ -351,13 +347,13 @@ var evaluateAnswer = function(answer) {
 
   // Cuvamo da bismo mogli i da oduzmemo poene sa multiplierom (kad se pogresi).
   tempSessionComboMultiplier = _currentCombo;
-  tempCardComboMultiplier = _qa[_currentQuestion].correctCombo;
+  tempCardComboMultiplier = _qa[_currentQuestion].combo;
 
   if (!answerAccepted(answer, _qa[_currentQuestion].answer)) {
     // Dat je pogresan odgovor:
     // Lomi se kombo
-    _qa[_currentQuestion].timesIncorrect++;
-    _qa[_currentQuestion].correctCombo = 0; // combo na kartici
+    _qa[_currentQuestion].wrongAnswers++;
+    _qa[_currentQuestion].combo = 0; // combo na kartici
     _currentCombo = 0; // combo na sesiji
 
     // Postavljamo odgovarajuci status u zavisnosti od toga da li je prvi put
@@ -366,22 +362,22 @@ var evaluateAnswer = function(answer) {
     // obelezava kao odlozena (sa THREE na SKIPPED).
     if (_qa[_currentQuestion].status == UNOPENED) {
       _qa[_currentQuestion].status = ONE_MISTAKE;
-      _qa[_currentQuestion].nextSee *= 0.33;
+      _qa[_currentQuestion].nextSeeMinutes *= 0.33;
       console.log("Pitanje #" + _currentQuestion + ": Nacinjena prva greska.");
     }
     else if (_qa[_currentQuestion].status == ONE_MISTAKE) {
       _qa[_currentQuestion].status = TWO_MISTAKE;
-      _qa[_currentQuestion].nextSee *= 0.33;
+      _qa[_currentQuestion].nextSeeMinutes *= 0.33;
       console.log("Pitanje #" + _currentQuestion + ": Nacinjena druga greska. Moraces dvaput da odgovoris tacno da bi ga zavrsio.");
     }
     else if (_qa[_currentQuestion].status == TWO_MISTAKE) {
       _qa[_currentQuestion].status = THREE_MISTAKE;
-      _qa[_currentQuestion].nextSee *= 0.33;
+      _qa[_currentQuestion].nextSeeMinutes *= 0.33;
       console.log("Pitanje #" + _currentQuestion + ": Nacinjena treca greska. Moraces triput da odgovoris tacno da bi ga zavrsio. Ako opet pogresis, kartica se odlaze.");
     }
     else if (_qa[_currentQuestion].status == THREE_MISTAKE) {
       _qa[_currentQuestion].status = SKIPPED;
-      _qa[_currentQuestion].nextSee = 360; // 360min = 6h
+      _qa[_currentQuestion].nextSeeMinutes *= 360; // 360min = 6h
       console.log("Pitanje #" + _currentQuestion + ": Nacinjena cetvrta greska. Kartica odlozena za 6h.");
     }
 
@@ -393,15 +389,15 @@ var evaluateAnswer = function(answer) {
 
   } else {
     // Tacan odgovor:
-    _qa[_currentQuestion].timesCorrect++;
-    _qa[_currentQuestion].correctCombo++; // combo nad karticom
+    _qa[_currentQuestion].correctAnswers++;
+    _qa[_currentQuestion].combo++; // combo nad karticom
     _currentCombo++; // combo nad sesijom
     // Proveravamo da li je nadmasen najbolji kombo u sesiji: TODO nzm sto ne radi
     // _maxComboReached = (_currentCombo > _maxComboReached) : _currentCombo ? _maxComboReached;
 
     if (_qa[_currentQuestion].status == UNOPENED) {
       _qa[_currentQuestion].status = CORRECT;
-      _qa[_currentQuestion].nextSee *= 1.5;
+      _qa[_currentQuestion].nextSeeMinutes *= 1.5;
       console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno isprve.");
     }
     else if (_qa[_currentQuestion].status == ONE_MISTAKE) {
@@ -417,10 +413,10 @@ var evaluateAnswer = function(answer) {
       console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno nakon tri greske, moras jos dvaput.");
     }
 
-    eval.baseScore = calculateBaseScore(_qa[_currentQuestion].minutesSinceLastSeen);
+    eval.baseScore = calculateBaseScore(_qa[_currentQuestion].lastSeenMinutes);
     eval.timeMultiplier = calculateTimeMultiplier(_maxTimeRemaining - _timeRemaining);
     eval.sessionComboMultiplier = calculateSessionComboMultiplier(_currentCombo);
-    eval.cardComboMultiplier = calculateCardComboMultiplier(_qa[_currentQuestion].correctCombo);
+    eval.cardComboMultiplier = calculateCardComboMultiplier(_qa[_currentQuestion].combo);
 
   }
 
@@ -441,8 +437,8 @@ var updateCurrentSessionInfo = function() {
 }
 
 var updateCurrentCardInfo = function() {
-  $('.card-info #card-last-seen').html('pre ' + _qa[_currentQuestion].minutesSinceLastSeen + ' minuta');
-  $('.card-info #card-combo').html(_qa[_currentQuestion].correctCombo);
+  $('.card-info #card-last-seen').html('pre ' + _qa[_currentQuestion].lastSeenMinutes + ' minuta');
+  $('.card-info #card-combo').html(_qa[_currentQuestion].combo);
 }
 
 var displayScoreBreakdown = function(eval) {
@@ -503,4 +499,3 @@ $('input').keyup(function(e){
     $(this).trigger("enterKey");
   }
 });
-

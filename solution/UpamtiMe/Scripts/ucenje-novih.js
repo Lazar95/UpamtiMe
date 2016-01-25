@@ -878,7 +878,7 @@ var sessionCompleted = function() {
   var dataToSend = {
     "qaInfo": _qa,
     "score": _currentPoints,
-	"courseID" : $('#table-of-god').attr('data-course-id'),
+	  "courseID" : $('#table-of-god').attr('data-course-id'),
   };
   console.log(dataToSend);
 

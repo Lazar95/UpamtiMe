@@ -37,29 +37,26 @@
                 <div class="inputs">
 
                     <div id="new-course-name">
-                        <span class="ime">Ime kursa</span>
                         @Html.EditorFor(m => m.Name)
                     </div>
 
                     <div id="new-course-category">
-                        <span class="ime">Izaberi kategoriju</span>
-                        @Html.DropDownListFor(m => m.CategoryID, categories, "Choose a category")
+                        @Html.DropDownListFor(m => m.CategoryID, categories, "Izaberi kategoriju")
                     </div>
 
                     <div id="new-course-subcategory">
-                        <span class="ime">Izaberi podkategoriju</span>
                         <select id="@Html.NameFor(m => m.SubcategoryID)" name ="@Html.NameFor(m=>m.SubcategoryID)">
-                            <option value>nista</option>
+                            <option value="0">Izaberi podkategoriju</option>
                             @foreach (var subcat in Model.AllSubcategories)
                             {
-                                <option value="@subcat.subcategoryID" data-catID="@subcat.categoryID">@subcat.name</option>
+                                <option hidden value="@subcat.subcategoryID" data-catID="@subcat.categoryID">@subcat.name</option>
                             }
                         </select>
                     </div>
 
                 </div>
 
-                <input type="submit" value="Kreiraj" />
+                <input id="create-new-course-button" type="submit" value="Kreiraj" />
             }
         </div>
     </aside>

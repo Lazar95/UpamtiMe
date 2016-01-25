@@ -319,8 +319,8 @@ namespace Data
         {
             dc = dc ?? new DataClasses1DataContext();
 
-            return (from a in dc.Courses
-                where // v lazo ovde je poredjenje stringova kad se pretrazuje kurs
+            return (from a in dc.Courses.AsEnumerable() //
+                    where // v lazo ovde je poredjenje stringova kad se pretrazuje kurs
                     (name == null || a.name.Contains(name)) && (categoryID == null || a.categoryID == categoryID) &&
                     (subcategoryID == null || a.subcategoryID == subcategoryID)
                 select new CourseDTO
@@ -337,8 +337,8 @@ namespace Data
                     CreatorUsername = Users.getUsername(a.creatorID),
                     Rating = a.rating,
                     Image = a.image == null ? null : a.image.ToArray(),
-                    Erolled = userID == null ? false : (from aa in dc.UsersCourses where aa.userID == userID && aa.courseID == a.courseID select a).Any()
-        }).OrderByDescending(m => m.Rating).OrderByDescending(m => m.ParticipantCount).ToList();
+                    Erolled = userID == null ? false : Users.enrolled(userID.Value, a.courseID),
+                }).OrderByDescending(m => m.Rating).OrderByDescending(m => m.ParticipantCount).ToList();
         }
 
     }

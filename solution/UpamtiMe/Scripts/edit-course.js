@@ -716,7 +716,9 @@ $('#course').on('click', '#new-level .add-button', function() {
     .end().attr('data-function', 'add');
   } else {
     // data-function = "add"
-    addLevel();
+    if ($('#new-level input[type="text"]').val() != "")
+      addLevel();
+    alert('Nivo mora da ima ime!'); //TODO validacija
   }
 });
 

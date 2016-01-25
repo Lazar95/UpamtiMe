@@ -101,6 +101,7 @@ namespace Data.DTOs
             }
 
             StatisctisByDays returnValue = new StatisctisByDays();
+            returnValue.Dates = this.Dates;// ovo treba da se sredi
 
             PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
             foreach (PropertyInfo property in properties)
@@ -125,6 +126,8 @@ namespace Data.DTOs
                     double a = Double.Parse(array1[i]) + double.Parse(array2[i]);
                     concat += a.ToString() + "|";
                 }
+
+                concat = concat.Remove(concat.Length - 1);
                
                 property.SetValue(returnValue, concat);
             }

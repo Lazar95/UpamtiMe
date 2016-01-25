@@ -71,6 +71,8 @@ namespace Data.DTOs
 
         public StatisctisByDays Add(StatisctisByDays stat)
         {
+            StatisctisByDays returnValue = new StatisctisByDays();
+
             PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
             foreach (PropertyInfo property in properties)
             {
@@ -80,7 +82,7 @@ namespace Data.DTOs
                 string[] array1 = prop1.Split('|');
                 string[] array2 = prop2.Split('|');
 
-                string returnValue = "";
+                string concat = "";
 
                 if (array1.Length != array2.Length)
                     return null;//baci neki bolji excepion
@@ -88,13 +90,13 @@ namespace Data.DTOs
                 for (int i = 0; i < array1.Length; i++)
                 {
                     double a = Double.Parse(array1[i]) + double.Parse(array2[i]);
-                       
+                    concat += a.ToString() + "|";
                 }
-
-
                
-                property.SetValue(this, returnValue);
+                property.SetValue(returnValue, concat);
             }
+
+            return returnValue;
         }
 
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Data.DTOs;
 
 namespace UpamtiMe.Models
 {
@@ -10,14 +11,25 @@ namespace UpamtiMe.Models
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public List<Data.DTOs.UserCourseDTO> Courses { get; set; }
         public Data.DTOs.StatisctisByDays Statistics { get; set; }
-        //LeaningStatiscs opsti za sve ukupono(samo saberi sve...)
+        public LearningStatisticsDTO LearningStatistics { get; set; }
+        
 
         public static UserIndexModel Load(int userID)
         {
             UserIndexModel uim = new UserIndexModel();
             uim.Leaderboard = Data.Users.getLeaderboard(userID);
             uim.Courses = Data.Courses.getCoursesOf(userID);
-            uim.Statistics = Data.Users.GetStatisctisByDays(userID);
+
+            //moze ovako ali je brze ako se samo sabere
+            //uim.Statistics = Data.Users.GetStatisctisByDays(userID);
+
+            uim.Statistics = new StatisctisByDays();
+            uim.LearningStatistics = new LearningStatisticsDTO();
+            foreach (UserCourseDTO course in uim.Courses)
+            {
+                uim.Statistics = uim.Statistics.Add(course.StatisctisByDays);
+                uim.LearningStatistics = uim.LearningStatistics.Add(course.LearningStatistics);
+            }
 
             return uim;
         }

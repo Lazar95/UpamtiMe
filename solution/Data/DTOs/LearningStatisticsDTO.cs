@@ -12,5 +12,18 @@ namespace Data.DTOs
         public int Learned { get; set; }
         public int Review { get; set; }
         public int Unseen { get; set; }
+
+        public LearningStatisticsDTO Add(LearningStatisticsDTO ls)
+        {
+            return new LearningStatisticsDTO
+            {
+                Total = this.Total + ls.Total,
+                Review = this.Review + ls.Review,
+                Learned = this.Learned + ls.Learned,
+                Unseen = this.Unseen + ls.Unseen
+            };
+        }
     }
+
+    
 }

@@ -190,8 +190,6 @@ var ColorBlueGrey300 = "#90a4ae";
 var statsLearningHistoryMonth;
 var statsCardsBreakdown;
 
-
-
 var loadStatsLearningHistoryMonth = function() {
   var element = document.getElementById('stats-learning-history-month');
   var dataLearned = element.getAttribute('data-learned').split('|');

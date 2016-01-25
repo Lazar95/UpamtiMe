@@ -36,26 +36,23 @@
             {
                 <div class="inputs">
 
-                    <div>
+                    <div id="new-course-name">
                         <span class="ime">Ime kursa</span>
                         @Html.EditorFor(m => m.Name)
                     </div>
 
-                    <div>
+                    <div id="new-course-category">
                         <span class="ime">Izaberi kategoriju</span>
                         @Html.DropDownListFor(m => m.CategoryID, categories, "Choose a category")
                     </div>
 
-                    <div>
+                    <div id="new-course-subcategory">
                         <span class="ime">Izaberi podkategoriju</span>
                         <select id="@Html.NameFor(m => m.SubcategoryID)" name ="@Html.NameFor(m=>m.SubcategoryID)">
                             <option value>nista</option>
                             @foreach (var subcat in Model.AllSubcategories)
                             {
-                                <option value="@subcat.subcategoryID"
-                                        data-catID="@subcat.categoryID">
-                                    @subcat.name
-                                </option>
+                                <option value="@subcat.subcategoryID" data-catID="@subcat.categoryID">@subcat.name</option>
                             }
                         </select>
                     </div>
@@ -69,5 +66,5 @@
 </main>
 
 
-
+<script src="~/Scripts/create-new-course.js"></script>
 

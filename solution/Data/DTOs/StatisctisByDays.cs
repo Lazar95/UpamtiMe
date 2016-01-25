@@ -21,6 +21,18 @@ namespace Data.DTOs
 
         public string Dates { get; set; }
 
+        //public StatisctisByDays(int timespan = 30)
+        //{
+        //    PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
+        //    foreach (PropertyInfo property in properties)
+        //    {
+        //        property.SetValue(this, "");
+        //    }
+        //    this.Dates = "";
+
+        //    this.SetZeros(timespan);
+        //}
+
         public void AddValues(double score, int learned, int reviewed, int sessions, int times, int learnCorrect,
             int learnWrong, int ReviewCorrect, int reviewWrong)
         {
@@ -71,11 +83,32 @@ namespace Data.DTOs
 
         public StatisctisByDays Add(StatisctisByDays stat)
         {
+            if (this.Dates == null) //ovim pretpostavljam da je ceo objekat prazan
+            {
+                return new StatisctisByDays
+                {
+                    Learned = stat.Learned,
+                    Dates = stat.Dates,
+                    Scores = stat.Scores,
+                    Reviewed = stat.Reviewed,
+                    LearnCorrect = stat.LearnCorrect,
+                    LearnwWrong = stat.LearnwWrong,
+                    ReviewCorrect = stat.ReviewCorrect,
+                    ReviewWrong = stat.ReviewWrong,
+                    Sessions = stat.Sessions,
+                    Times = stat.Times
+                };
+            }
+
             StatisctisByDays returnValue = new StatisctisByDays();
 
             PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
             foreach (PropertyInfo property in properties)
             {
+                //da ne bi sabirao i datume
+                if(property == properties[properties.Length-1])
+                    continue;
+                
                 string prop1 = (string)property.GetValue(this, null);
                 string prop2 = (string) property.GetValue(stat, null);
 

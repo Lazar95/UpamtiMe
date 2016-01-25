@@ -257,17 +257,17 @@ namespace Data
 
             StatisctisByDays returnValue = new StatisctisByDays();
 
-            DateTime prev = DateTime.Now.Subtract(TimeSpan.FromDays(timeSpan));
+            DateTime prev = DateTime.Today.Subtract(TimeSpan.FromDays(timeSpan));
             returnValue.SetDates(prev.AddDays(1), timeSpan);
 
             List<UserCourseStatistic> stats =
-                (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date >= prev select a).OrderBy(a=>a.date).ToList();
+                (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date > prev select a).OrderBy(a=>a.date).ToList();
 
-            
+           
 
             foreach (UserCourseStatistic stat in stats)
             {
-                int zeroDays = stat.date.Subtract(prev).Days - 1;
+                int zeroDays = stat.date.Subtract(prev).Days -1;
                 returnValue.SetZeros(zeroDays);
 
                 returnValue.AddValues(stat.score, stat.learnedCards, stat.reviewedCards, stat.sessionNo, stat.timeSpent, stat.learnedCorrectAnswers, stat.learnedWrongAnswers, stat.reviewCorrectAnswers, stat.reviewWrongAnswers);

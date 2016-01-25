@@ -1,0 +1,163 @@
+<body>
+  <input type="text" id="answer0"><br/>
+  <input type="text" id="answer1"><br/>
+  <input type="text" id="answer2"><br />
+  <input type="text" id="answer3"><br />
+  <button id="mark">Make 'em!</button> <br/> <br/>
+</body>
+
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+
+<script>
+
+var generateWrongAnswers = function (correct) {
+    var words = correct.split(" ");
+    var indexLongest = words.indexOf(longestWord(correct)); // nalazi indeks najduze reci
+    var numOfCandidates = 0; // koliko reci je kandida thttp://prntscr.com/9pr8hiza neko cackanje
+    var candidateIndexes = []; // indeksi kandidata za zamenu (indeksi u nizu words)
+    var minimumLength = 5; // samo reci od ovoliko SLOVA ili vise su kandidati za zamenu
+    var finalArray = []; // krajnji niz koji ce da sadrzi correct + 3 wrong odgovora
+    finalArray.push(correct);
+
+    // prvo da se prebroji koliko ima reci duzih od minimumLength, tj reci koje su kandidati za modifikaciju
+    for (var i = 0; i < words.length; i++)
+    {
+        if (words[i].length < minimumLength)
+            continue;
+        if (words[i].length == minimumLength && (words[i][minimumLength - 1] == '.' || words[i][minimumLength - 1] == ',' || words[i][minimumLength - 1] == '!' || words[i][minimumLength - 1] == '?'))
+            continue;
+        numOfCandidates++; // ako je rec duzine minimumLength SLOVA (ne bilo kojih karaktera) ili duza, kandidat je za zamenu
+        candidateIndexes.push(i); // index reci koja je kandidat za zamenu u nizu svih reci odgovora
+    }
+
+    for (var i = 0; i < 3; i++) // treba da napravimo 3 pogresna odgovora
+    {
+        // najcesce ce da bude samo jedna rec kao kandidat za izmenu, eventualno dve
+        // ako je kandidat samo 1 rec, 100% se menja ona i samo ona
+        // ako imamo dva kandidata, onda se 80% menja jedna samo, a 20% da se promene obe reci
+        // ako imamo tri kandidata, onda se 72% menja jedna samo, a 28% da se promene dve reci
+        // ako imamo cetiri kandidata, onda se 65% menja jedna samo, a 35% da se promene dve reci
+        var modificationsNum = (Math.floor((Math.random() * (1 + numOfCandidates * 0.13)) + 1));
+
+        var newAnswer = correct.split(" "); // niz reci koji cemo da koristimo za pravljenje novog odgovora
+        var modifiedWordsIndexes = []; // indeksi reci koje su izmenjene
+        var indexWordToModify; // indeks reci koju modifikujemo trenutno
+        var modificationType; // nacin na koji ce da se modifikuje rec
+        // 1 - dupliciraj neko slovo
+        // 2 - ukloni slovo
+        // 3 - zameni dva slova
+
+        var currentCandidateNum = numOfCandidates; // pomocna
+        var currentCandidates = []; // indeksi TRENUTNE reci koje su kandidati za zamenu
+        // kopiramo indekse kandidata u jos jedan niz, da imamo sa njim da radimo
+        for (var z = 0; z < numOfCandidates; z++)
+            currentCandidates[z] = candidateIndexes[z];
+
+        var newAnswerString; // string gde ce da pamtimo rec nakon sto je modifikujemo
+        // odavde pocinjemo da generisemo odgovor
+        for (var k = 0; k < modificationsNum; k++)
+        {
+            if (modificationsNum == 1) // ako treba samo jednu rec da izmenimo, onda cemo najduzu
+            {
+                indexWordToModify = indexLongest;
+            }
+            else // ako treba vise njih, onda sa vecom verovatnocom najduzu i sa manjim verovatnocama neku drugu
+            {
+                var randValue = Math.floor(Math.random() * 10 + 1);
+                if (randValue <= 8 && modifiedWordsIndexes.indexOf(indexLongest) == -1) // ovaj drugi uslov je da vidi da nije najduza rec mozda vec izmenjena
+                {
+                    indexWordToModify = indexLongest; // 80% da izmenimo najduzu rec
+                }
+                else
+                {
+                    do {
+                        var tmp = Math.floor(Math.random() * currentCandidateNum);
+                        indexWordToModify = currentCandidates[tmp];
+                    } while (modifiedWordsIndexes.indexOf(indexWordToModify) != -1)
+                }
+            }
+            currentCandidateNum--; // izabrali smo neku rec za zamenu, znaci smanjujemo broj kandidata
+            currentCandidates.splice(currentCandidates.indexOf(indexWordToModify), 1); // i odabranu rec za menjanje sad sklanjamo iz liste
+            modifiedWordsIndexes.push(indexWordToModify); // i stavljamo je u listu modifikovanih (indeks njen)
+
+
+            var charIndex = Math.floor((Math.random() * (newAnswer[indexWordToModify].length - 2)) + 1); //index karaktera oko kog cemo neku izmenu da napravimo
+            modificationType = Math.floor(Math.random() * 3 + 1);
+            switch (modificationType)
+            {
+                case 1: // duplira neko slovo (izbegavajuci prvi i poslednji karakter)
+                    {
+                        newAnswer[indexWordToModify] = [newAnswer[indexWordToModify].slice(0, charIndex), newAnswer[indexWordToModify][charIndex], newAnswer[indexWordToModify].slice(charIndex)].join('');
+                        newAnswerString = newAnswer.join(" ");
+                        break;
+                    }
+                case 2: // ukloni neko slovo (izbegavajuci prvi i poslednji karakter)
+                    {
+                        newAnswer[indexWordToModify] = [newAnswer[indexWordToModify].slice(0, charIndex), newAnswer[indexWordToModify].slice(charIndex + 1)].join('');
+                        newAnswerString = newAnswer.join(" ");
+                        break;
+                    }
+                case 3: // zameni dva slova, charindex i charindex+1
+                    {
+                        if (charIndex == 0) // ipak da ne menjamo nulti karakter sa prvim...
+                            charIndex = 1;
+                        newAnswer[indexWordToModify] = [newAnswer[indexWordToModify].slice(0, charIndex), newAnswer[indexWordToModify][charIndex + 1], newAnswer[indexWordToModify][charIndex], newAnswer[indexWordToModify].slice(charIndex+2)].join('');
+                        newAnswerString = newAnswer.join(" ");
+                        break;
+                    }
+            }
+        }
+        finalArray.push(newAnswerString);
+    }
+
+    // krajnja provera da nema dva tacna odgovora
+    var correctCount = 0;
+    for (var i = 0; i < finalArray.length; i++)
+    {
+        if (correct == finalArray[i])
+            correctCount++;
+    }
+    if (correctCount != 1)
+        return generateWrongAnswers(correct); // pozovi opet funkciju, ovo bi trebalo mnogo retko, skoro nikad
+    else
+    {
+        shuffleArray(finalArray);
+        return finalArray; // vraca niz od 4 odgovora sa izmesanim redosledima
+    }
+}
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+
+function longestWord(string) {
+    var str = string.split(" ");
+    var longest = 0;
+    var word = null;
+    for (var i = 0; i < str.length; i++) {
+        if (longest < str[i].length) {
+            longest = str[i].length;
+            word = str[i];
+        }
+    }
+    return word;
+}
+
+// Kad se klikne na #mark, da se u #resenje upise ovo sto ti radi f-ja
+$('#mark').click(function () {
+    var answerArray = generateWrongAnswers('Grosse Versicherung!');
+    for (var i = 0; i < 4; i++)
+        $('#answer' + i).val(answerArray[i]);
+});
+
+// Ova funckija se zove kad dokument bude spreman
+$(document).ready(function() {
+
+});
+</script>

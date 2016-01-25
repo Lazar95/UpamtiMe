@@ -109,6 +109,7 @@ var addLevel = function() {
     string += '<div class="level-info">';
       string += '<div class="level-name">';
         string += '<div class="toggle-button"><i class="fa fa-plus"></i></div>';
+        string += '<div class="icon-picker-button icon" data-icon-id="1" data-color-id="1"><span></span></div>';
         string += '<span>' + newLevel.name + '</span>';
       string += '</div>';
       string += '<div class="buttons">';
@@ -119,9 +120,9 @@ var addLevel = function() {
     string += '<ul class="level" data-level-id="' + newLevel.levelID + '" data-level-number="' + newLevel.number + '" data-level-type="' + newLevel.type + '">';
       string += '<li class="new-card collapsed">';
         string += '<div class="inner-wrapper">';
-          string += '<div><span>Pitanje:</span> <input class="question" type="text" /></div>';
-  	      string += '<div><span>Odgovor:</span> <input class="answer" type="text" /></div>';
-  		    string += '<div><span>Opis:</span> <input class="description" type="text" /></div>';
+          string += '<div class="new-card-question"><span>Pitanje:</span> <input class="question" type="text" /></div>';
+  	      string += '<div class="new-card-answer"><span>Odgovor:</span> <input class="answer" type="text" /></div>';
+  		    string += '<div class="new-card-description"><span>Opis:</span> <input class="description" type="text" /></div>';
         string += '</div>';
   			string += '<div class="add-button" data-function="expand"><i class="fa fa-plus"></i></div>';
       string += '</li>';
@@ -136,6 +137,15 @@ var addCard = function(level) {
 
   var $level = $('#course > li:nth-child(' + level + ')');
   var $levelNewCard = $level.find('.new-card');
+
+  //TODO validacija
+  var error = "";
+  if ($levelNewCard.find('.question').val().trim() == "") error += 'Kartica mora da ima pitanje! ';
+  if ($levelNewCard.find('.answer').val().trim() == "") error += 'Kartica mora da ima odgovor!';
+  if (error != "") {
+    alert(error);
+    return false;
+  }
 
   _lastFakeCardID--;
 
@@ -170,7 +180,7 @@ var addCard = function(level) {
   $level.find('ul > li:last-of-type').before(string);
 
   $levelNewCard.find('input').val('');
-  $levelNewCard.find('.inner-wrapper > div:first-child input').focus();
+  $levelNewCard.find('.question').focus();
 }
 
 // addCard se zove kada se pritisne enter u bilo kom od tri inputa za dodavanje nove kartice u nivo

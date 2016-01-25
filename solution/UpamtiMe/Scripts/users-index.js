@@ -180,58 +180,56 @@ Chart.defaults.Line =  {
 };
 
 // Boje
-var colorPink = "rgb(233, 30, 99)";
+var colorPink = "rgba(233, 30, 99, 1)";
 var colorPinkTransp = "rgba(233, 30, 99, .3)";
-var colorPink200 = "#f48fb1";
-var colorBlueGrey700 = "rgb(69, 90, 100)";
+var colorPink200 = "rgba(244, 143, 177, 1)";
+var colorBlueGrey700 = "rgba(69, 90, 100, 1)";
 var colorBlueGrey700Transp = "rgba(69, 90, 100, .3)";
 var ColorBlueGrey300 = "#90a4ae";
 
 var statsLearningHistoryMonth;
 var statsCardsBreakdown;
 
-// Line - user
-var loadStatsLearningHistoryMonth = function() {
-  var element = document.getElementById('stats-learning-history-month');
-  var dataLearned = element.getAttribute('data-learned').split('|').reverse();
-  var dataReviewed = element.getAttribute('data-reviewed').split('|').reverse();
-  var dateLabels = element.getAttribute('data-dates').split('|').reverse();
-  var numberOfPiecesOfData = Math.min(dataLearned.length, dataReviewed.length, dateLabels.length, 30);
-  dataLearned = dataLearned.splice(0, numberOfPiecesOfData);
-  dataReviewed = dataReviewed.splice(0, numberOfPiecesOfData);
-  dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
-  var dataLearned = dataLearned.reverse();
-  var dataReviewed = dataReviewed.reverse();
-  var dateLabels = dateLabels.reverse();
-  var data = {
-    labels: dateLabels,
-    datasets: [
-      {
-        label: "Učeno",
-        fillColor: "rgba(233, 30, 99, .3)",
-        strokeColor: "rgba(233, 30, 99, 1)",
-        pointColor: "rgba(233, 30, 99, 1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(233, 30, 99, 1)",
-        data: dataLearned,
-      },
-      {
-        label: "Obnovljeno",
-        fillColor: "rgba(69, 90, 100, .3)",
-        strokeColor: "rgba(69, 90, 100, 1)",
-        pointColor: "rgba(69, 90, 100, 1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(69, 90, 100, 1)",
-        data: dataReviewed,
-      }
-    ]
+var loadGraphLine = function($canvas, dataInfo, len) {
+  // prosledjeno:
+  var dataAttr = [];
+  var dataAttrLength = [];
+  for (var i = 0; i < dataInfo.length; i++) {
+    dataAttr[i] = $canvas.attr(dataInfo[i].dataName).split('|').reverse();
+    dataAttrLength[i] = dataAttr[i].length;
   }
-  statsLearningHistoryMonth = new Chart(element.getContext('2d')).Line(data);
-  var legend = statsLearningHistoryMonth.generateLegend();
-  $('#stats-learning-history-month-wrapper').append(legend);
+  var numberOfPiecesOfData = Math.min(Math.min.apply(null, dataAttrLength), len);
+  for (var i = 0; i < dataAttr.length; i++) {
+    dataAttr[i] = dataAttr[i].splice(0, numberOfPiecesOfData).reverse();
+  }
+
+  // formiranje dataseta (ds)
+  var ds = [];
+  for (var i = 1; i < dataAttr.length; i++) {
+    var temp = {
+      label: dataInfo[i].label,
+      fillColor: dataInfo[i].color.replace('1)', '.3)'),
+      strokeColor: dataInfo[i].color,
+      pointColor: dataInfo[i].color,
+      pointStrokeColor: "#fff",
+      pointHighlightFill: "#fff",
+      pointHighlightStroke: dataInfo[i].color,
+      data: dataAttr[i],
+    };
+    ds.push(temp);
+  }
+
+  var data = {
+    labels: dataAttr[0],
+    datasets: ds,
+  }
+
+  // bibliotecki pozivi
+  var chart = new Chart($canvas.get(0).getContext('2d')).Line(data);
+  var legend = chart.generateLegend();
+  $canvas.append(legend);
 }
+
 
 // Line - course
 var loadStatsCoursePointsGraph = function() {
@@ -331,76 +329,35 @@ var loadStatsCourseTotalBreakdown = function() {
   });
 }
 
-// Line - user
-var loadStatsPoints = function() {
-  var element = document.getElementById('stats-points-week');
-  var dataPoints = element.getAttribute('data-points').split('|').reverse();
-  var dateLabels = element.getAttribute('data-dates').split('|').reverse();
-  var numberOfPiecesOfData = Math.min(dataPoints.length, dateLabels.length, 7);
-  dataPoints = dataPoints.splice(0, numberOfPiecesOfData);
-  dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
-  dataPoints = dataPoints.reverse();
-  dateLabels = dateLabels.reverse();
-
-  var data = {
-    labels: dateLabels,
-    datasets: [
-      {
-        label: "Poeni",
-        fillColor: colorPinkTransp,
-        strokeColor: colorPink,
-        pointColor: colorPink,
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: colorPink,
-        data: dataPoints,
-      }
-    ]
-  }
-  statsPoints = new Chart(element.getContext('2d')).Line(data);
-  var legend = statsPoints.generateLegend();
-  $('#stats-points-week-wrapper').append(legend);
-}
-
-// Line - user
-var loadStatsTime = function() {
-  var element = document.getElementById('stats-time-week');
-  var dataTime = element.getAttribute('data-time').split('|').reverse();
-  var dateLabels = element.getAttribute('data-dates').split('|').reverse();
-  var numberOfPiecesOfData = Math.min(dataTime.length, dateLabels.length, 7);
-  dataTime = dataTime.splice(0, numberOfPiecesOfData);
-  dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
-  dataTime = dataTime.reverse();
-  dateLabels = dateLabels.reverse();
-
-  var data = {
-    labels: dateLabels,
-    datasets: [
-      {
-        label: "Vreme",
-        fillColor: colorBlueGrey700Transp,
-        strokeColor: colorBlueGrey700,
-        pointColor: colorBlueGrey700,
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: colorBlueGrey700,
-        data: dataTime,
-      }
-    ]
-  }
-  statsPoints = new Chart(element.getContext('2d')).Line(data);
-  var legend = statsPoints.generateLegend();
-  $('#stats-time-week-wrapper').append(legend);
-}
-
 $(document).ready(function() {
   // za korisnika
-  loadStatsLearningHistoryMonth();
+  var temp = [
+    { dataName: 'data-dates',    color: "",               label: "",              },
+    { dataName: 'data-learned',  color: colorPink,        label: 'Naučeno',       },
+    { dataName: 'data-reviewed', color: colorBlueGrey700, label: 'Obnovljeno',    }
+  ];
+  loadGraphLine($('#stats-learning-history-month'), temp, 30);
+  var temp = [
+    { dataName: 'data-dates',    color: "",               label: "",              },
+    { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
+  ];
+  loadGraphLine($('#stats-points-week'), temp, 7);
+  var temp = [
+    { dataName: 'data-dates',    color: "",               label: "",              },
+    { dataName: 'data-time',     color: colorBlueGrey700, label: 'Vreme',         }
+  ];
+  loadGraphLine($('#stats-time-week'), temp, 7);
+
   loadStatsCardsBreakdown();
-  loadStatsPoints();
-  loadStatsTime();
 
   // za svaki  kurs
+  var temp = [
+    { dataName: 'data-dates',    color: "",               label: "",              },
+    { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
+  ];
+  var elements = $('.course-points-graph:lt(3)'); // uzima samo prva tri jer se za njih vide grafici
+  elements.each(function() {
+    loadGraphLine($(this), temp, 7);
+  });
   loadStatsCourseTotalBreakdown();
-  loadStatsCoursePointsGraph();
 });

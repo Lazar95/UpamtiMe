@@ -190,13 +190,19 @@ var ColorBlueGrey300 = "#90a4ae";
 var statsLearningHistoryMonth;
 var statsCardsBreakdown;
 
+// Line - user
 var loadStatsLearningHistoryMonth = function() {
   var element = document.getElementById('stats-learning-history-month');
-  var dataLearned = element.getAttribute('data-learned').split('|');
-  var dataReviewed = element.getAttribute('data-reviewed').split('|');
-  var numberOfPiecesOfData = Math.min(dataLearned.length, dataReviewed.length);
-  var dateLabels = [];
-  for (var i = 0 ; i <= numberOfPiecesOfData-1; i++) { dateLabels[numberOfPiecesOfData-1-i] = i.toString(); }
+  var dataLearned = element.getAttribute('data-learned').split('|').reverse();
+  var dataReviewed = element.getAttribute('data-reviewed').split('|').reverse();
+  var dateLabels = element.getAttribute('data-dates').split('|').reverse();
+  var numberOfPiecesOfData = Math.min(dataLearned.length, dataReviewed.length, dateLabels.length, 30);
+  dataLearned = dataLearned.splice(0, numberOfPiecesOfData);
+  dataReviewed = dataReviewed.splice(0, numberOfPiecesOfData);
+  dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
+  var dataLearned = dataLearned.reverse();
+  var dataReviewed = dataReviewed.reverse();
+  var dateLabels = dateLabels.reverse();
   var data = {
     labels: dateLabels,
     datasets: [
@@ -227,14 +233,18 @@ var loadStatsLearningHistoryMonth = function() {
   $('#stats-learning-history-month-wrapper').append(legend);
 }
 
-// Grafik uz svaki kurs (poeni)
+// Line - course
 var loadStatsCoursePointsGraph = function() {
   var elements = $('.course-points-graph');
   elements.each(function() {
-    var dataPoints = $(this).attr('data-points').split('|');
-    var numberOfPiecesOfData = dataPoints.length;
-    var dateLabels = [];
-    for (var i = 0 ; i <= numberOfPiecesOfData-1; i++) { dateLabels[numberOfPiecesOfData-1-i] = i.toString(); }
+    var dataPoints = $(this).attr('data-points').split('|').reverse();
+    var dateLabels = $(this).attr('data-dates').split('|').reverse();
+    var numberOfPiecesOfData = Math.min(dataPoints.length, dateLabels.length, 7);
+    dataPoints = dataPoints.splice(0, numberOfPiecesOfData);
+    dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
+    dataPoints = dataPoints.reverse();
+    dateLabels = dateLabels.reverse();
+
     var data = {
       labels: dateLabels,
       datasets: [
@@ -256,6 +266,7 @@ var loadStatsCoursePointsGraph = function() {
   });
 }
 
+// Pie - user
 var loadStatsCardsBreakdown = function() {
   var element = document.getElementById('stats-cards-breakdown');
   var learn = element.getAttribute('data-learned');
@@ -287,6 +298,7 @@ var loadStatsCardsBreakdown = function() {
   statsCardsBreakdown = new Chart(element.getContext('2d')).Pie(data, options);
 }
 
+// Pie - user
 var loadStatsCourseTotalBreakdown = function() {
   $('.course-total-breakdown').each(function() {
     var learn = $(this).attr('data-learned');
@@ -319,12 +331,17 @@ var loadStatsCourseTotalBreakdown = function() {
   });
 }
 
+// Line - user
 var loadStatsPoints = function() {
   var element = document.getElementById('stats-points-week');
-  var dataPoints = element.getAttribute('data-points').split('|');
-  var numberOfPiecesOfData = dataPoints.length;
-  var dateLabels = [];
-  for (var i = 0 ; i <= numberOfPiecesOfData-1; i++) { dateLabels[numberOfPiecesOfData-1-i] = i.toString(); }
+  var dataPoints = element.getAttribute('data-points').split('|').reverse();
+  var dateLabels = element.getAttribute('data-dates').split('|').reverse();
+  var numberOfPiecesOfData = Math.min(dataPoints.length, dateLabels.length, 7);
+  dataPoints = dataPoints.splice(0, numberOfPiecesOfData);
+  dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
+  dataPoints = dataPoints.reverse();
+  dateLabels = dateLabels.reverse();
+
   var data = {
     labels: dateLabels,
     datasets: [
@@ -345,12 +362,17 @@ var loadStatsPoints = function() {
   $('#stats-points-week-wrapper').append(legend);
 }
 
+// Line - user
 var loadStatsTime = function() {
   var element = document.getElementById('stats-time-week');
-  var dataPoints = element.getAttribute('data-time').split('|');
-  var numberOfPiecesOfData = dataPoints.length;
-  var dateLabels = [];
-  for (var i = 0 ; i <= numberOfPiecesOfData-1; i++) { dateLabels[numberOfPiecesOfData-1-i] = i.toString(); }
+  var dataTime = element.getAttribute('data-time').split('|').reverse();
+  var dateLabels = element.getAttribute('data-dates').split('|').reverse();
+  var numberOfPiecesOfData = Math.min(dataTime.length, dateLabels.length, 7);
+  dataTime = dataTime.splice(0, numberOfPiecesOfData);
+  dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
+  dataTime = dataTime.reverse();
+  dateLabels = dateLabels.reverse();
+
   var data = {
     labels: dateLabels,
     datasets: [
@@ -362,7 +384,7 @@ var loadStatsTime = function() {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: colorBlueGrey700,
-        data: dataPoints,
+        data: dataTime,
       }
     ]
   }

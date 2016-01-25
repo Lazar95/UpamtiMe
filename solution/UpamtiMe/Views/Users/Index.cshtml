@@ -11,21 +11,19 @@
     <ul id="user-stats" class="big-container">
         <li id="stats-learning-history-month-wrapper">
             <canvas id="stats-learning-history-month" width="950" height="190"
-                data-learned= "20|10|13|32|54|34|84|0|6|34|0|76|54|65|0|0|75|12|11|23|43|45|65|23|45|23|65|34|34|34"
-                data-reviewed="12|23|4|2|65|34|97|99|54|50|21|32|43|12|32|63|12|73|10|19|13|54|0|0|12|0|0|12|34|0"
+                data-learned= "@Model.Statistics.Learned"
+                data-reviewed="@Model.Statistics.Reviewed"
+                data-dates="@Model.Statistics.Dates"
             ></canvas>
         </li>
         <li id="stats-cards-breakdown-wrapper">
-            <canvas id="stats-cards-breakdown" width="140" height="140" data-learned="301" data-review="905" data-unseen="849"></canvas>
+            <canvas id="stats-cards-breakdown" width="140" height="140" data-learned="@Model.LearningStatistics.Learned" data-review="@Model.LearningStatistics.Review" data-unseen="@Model.LearningStatistics.Unseen"></canvas>
         </li>
         <li id="stats-points-week-wrapper">
-            <canvas id="stats-points-week" width="340" height="140"
-                data-points= "200.5|1671.75|9442.10|6844.2|754.2|0|3954.5"
-            ></canvas>
+            <canvas id="stats-points-week" width="340" height="140" data-points= "@Model.Statistics.Scores" data-dates="@Model.Statistics.Dates"></canvas>
         </li>
         <li id="stats-time-week-wrapper">
-            <canvas id="stats-time-week" width="340" height="140"
-                    data-time="200.5|1671.75|9442.10|6844.2|754.2|0|3954.5"></canvas>
+            <canvas id="stats-time-week" width="340" height="140" data-time="@Model.Statistics.Times" data-dates="@Model.Statistics.Dates"></canvas>
         </li>
         <li class="more"><i class="fa fa-arrows-alt"></i></li>
         <li class="full-screen">
@@ -78,224 +76,41 @@
 
     <ul id="user-courses">
         <button id="load-more-courses">More</button>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
+        @foreach (Data.DTOs.UserCourseDTO course in Model.Courses)
+        {
+            <li data-course-id=@course.CourseID>
+                <div class="wrapper">
+                    <div class="course-name">@(course.Name)</div>
+                    <div class="course-picture"></div>
+                    <div class="course-buttons">
+                        <div class="button button-rect learn-button">
+                            <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
+                        </div>
+                        <div class="button button-rect review-button">
+                            <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
+                        </div>
+                        <div class="button button-rect linky-button">
+                            <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
+                        </div>
+                        <div class="button button-rect list-button">
+                            <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
+                        </div>
                     </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
+                    <div class="course-points-graph-wrapper">
+                        <canvas class="course-points-graph" width="224" height="135"
+                                data-points="@Model.Statistics.Scores"
+                                data-dates="@Model.Statistics.Dates"></canvas>
                     </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
-                    </div>
-                </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"
-                    ></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
+                    <div class="course-total-breakdown-wrapper">
+                        <canvas class="course-total-breakdown" width="118" height="118"
+                                data-learned="@course.LearningStatistics.Learned"
+                                data-review="@course.LearningStatistics.Review"
+                                data-unseen="@course.LearningStatistics.Unseen"
+                        ></canvas>
                     </div>
                 </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
-                    </div>
-                </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"
-                    ></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
-                    </div>
-                </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
-                    </div>
-                </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
-                    </div>
-                </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
-                    </div>
-                </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="wrapper">
-                <div class="course-name">Qwert Yuiop</div>
-                <div class="course-picture"></div>
-                <div class="course-buttons">
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect linky-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                    </div>
-                    <div class="button button-rect list-button">
-                        <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
-                    </div>
-                </div>
-                <div class="course-points-graph-wrapper">
-                    <canvas class="course-points-graph" width="224" height="135"
-                            data-points="23|45|23|65|34|34|34"></canvas>
-                </div>
-                <div class="course-total-breakdown-wrapper">
-                    <canvas class="course-total-breakdown" width="118" height="118" data-learned="20" data-review="14" data-unseen="67"></canvas>
-                </div>
-            </div>
-        </li>
+            </li>
+        }
     </ul>
 
 </main>

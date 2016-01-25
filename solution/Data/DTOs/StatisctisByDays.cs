@@ -69,5 +69,33 @@ namespace Data.DTOs
             }
         }
 
+        public StatisctisByDays Add(StatisctisByDays stat)
+        {
+            PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                string prop1 = (string)property.GetValue(this, null);
+                string prop2 = (string) property.GetValue(stat, null);
+
+                string[] array1 = prop1.Split('|');
+                string[] array2 = prop2.Split('|');
+
+                string returnValue = "";
+
+                if (array1.Length != array2.Length)
+                    return null;//baci neki bolji excepion
+
+                for (int i = 0; i < array1.Length; i++)
+                {
+                    double a = Double.Parse(array1[i]) + double.Parse(array2[i]);
+                       
+                }
+
+
+               
+                property.SetValue(this, returnValue);
+            }
+        }
+
     }
 }

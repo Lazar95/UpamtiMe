@@ -249,7 +249,7 @@ namespace Data
         {
             return GetStatisctisByDays(getUserCourses(userID, courseID), timeSpan);
         }
-
+      
 
         public static StatisctisByDays GetStatisctisByDays(List<int> userCourseID, int timeSpan = 30)
         {
@@ -261,7 +261,7 @@ namespace Data
             returnValue.SetDates(prev.AddDays(1), timeSpan);
 
             List<UserCourseStatistic> stats =
-                (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date > prev select a).OrderBy(a=>a.date).ToList();
+                (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date >= prev select a).OrderBy(a=>a.date).ToList();
 
             
 

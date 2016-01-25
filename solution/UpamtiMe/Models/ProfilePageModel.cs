@@ -37,7 +37,7 @@ namespace UpamtiMe.Models
                 DateRegistered = u.dateRegistered,
                 totalCardsSeen = u.totalCardsSeen,
                 Streak = u.streak,
-                Image = u.avatar == null ? null : u.avatar.ToArray(),
+                Image = u.avatar?.ToArray(),
                 Achievements = null
             };
         }

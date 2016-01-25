@@ -148,7 +148,9 @@ namespace Data
                     CategoryID = course.categoryID,
                     SubcategoryID = course.subcategoryID,
                     Name = course.name,
-                    LearningStatistics = cus.LearningStatistics
+                    Image = course.image?.ToArray(),
+                    LearningStatistics = cus.LearningStatistics,
+                    StatisctisByDays = Users.GetStatisctisByDays(userID, course.courseID)
                 };
 
                 retrunValue.Add(ucd);
@@ -336,9 +338,9 @@ namespace Data
                     CreatorID = a.creatorID,
                     CreatorUsername = Users.getUsername(a.creatorID),
                     Rating = a.rating,
-                    Image = a.image == null ? null : a.image.ToArray(),
-                    Erolled = userID == null ? false : Users.enrolled(userID.Value, a.courseID),
-                }).OrderByDescending(m => m.Rating).OrderByDescending(m => m.ParticipantCount).ToList();
+                    Image = a.image?.ToArray(),
+                    Erolled = userID != null && Users.enrolled(userID.Value, a.courseID),
+                }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ToList();
         }
 
     }

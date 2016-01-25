@@ -392,3 +392,25 @@ dl.stats-horizontal {
 	padding: 16px;
 	box-sizing: border-box;
 }
+
+/**
+ * Tooltipovi
+ */
+.tooltip {
+	background-color: rgba(palette($blue-grey, 900), .9);
+	color: white;
+	padding: 8px 12px;
+	position: fixed;
+	border-radius: 3px;
+	z-index: 9000;
+	animation: tooltip-appear .2s ease;
+
+	@keyframes tooltip-appear {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+}

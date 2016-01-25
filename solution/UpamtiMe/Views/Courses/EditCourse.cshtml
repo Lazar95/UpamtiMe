@@ -56,16 +56,16 @@
                     @ViewBag.Message
                 }
             </div>
-           
+
         </div>
 
 
-      
-        
+
+
 
         <div class="description">
-        <span>@Model.Description</span>
-    </div>
+            <span>@Model.Description</span>
+        </div>
 
         <div class="cat-subcat">
             <select id="category">
@@ -76,19 +76,19 @@
             </select>
 
 
-            
-            <select id="subcategory" data-subcat ="@Model.SubcategoryID">
+
+            <select id="subcategory" data-subcat="@Model.SubcategoryID">
                 @foreach (var subcat in Model.AllSubcategories)
                 {
                     <option value="@subcat.subcategoryID" data-catID="@subcat.categoryID"> @subcat.name </option>
                 }
             </select>
-        
-       </div>
+
+        </div>
 
 
 
-     </div>
+    </div>
 
     <ul id="course" data-course-id=@Model.CourseID>
         @foreach (LevelsDTO level in Model.Levels)
@@ -97,11 +97,11 @@
                 <div class="level-info">
                     <div class="level-name">
                         <div class="toggle-button"><i class="fa fa-plus"></i></div>
-                        <div class="icon-picker-button icon" data-icon-id="@(level.Icon == 0 ? 1 : level.Icon)" data-color-id="@(level.Color == 0 ? 1 : level.Color)"><span></span></div>
+                        <div class="icon-picker-button icon tooltippable" data-tooltip-text="Izaberi ikonicu" data-icon-id="@(level.Icon == 0 ? 1 : level.Icon)" data-color-id="@(level.Color == 0 ? 1 : level.Color)"><span></span></div>
                         <span>@level.Name</span>
                     </div>
                     <div class="buttons">
-                        <div class="options-button"><i class="fa fa-cog"></i></div>
+                        <div class="options-button tooltippable" data-tooltip-text="Opcije"><i class="fa fa-cog"></i></div>
                     </div>
                 </div>
                 <ul class="level" data-level-id=@level.LevelID data-level-number=@level.Number data-level-type=@level.Type>
@@ -125,11 +125,11 @@
                                 <span class="description">@card.Description</span>
                             </div>
                             <div class="buttons">
-                                <div class="change-button"><i class="fa fa-pencil"></i></div>
-                                <div class="remove-button"><i class="fa fa-trash"></i></div>
-                                <div class="accept-button"><i class="fa fa-check"></i></div>
-                                <div class="discard-button"><i class="fa fa-times"></i></div>
-                                <div class="undo-button"><i class="fa fa-undo"></i></div>
+                                <div class="change-button tooltippable" data-tooltip-text="Izmeni karticu"><i class="fa fa-pencil"></i></div>
+                                <div class="remove-button tooltippable" data-tooltip-text="Obriši karticu"><i class="fa fa-trash"></i></div>
+                                <div class="accept-button tooltippable" data-tooltip-text="Prihvati promene"><i class="fa fa-check"></i></div>
+                                <div class="discard-button tooltippable" data-tooltip-text="Odbaci promene"><i class="fa fa-times"></i></div>
+                                <div class="undo-button tooltippable" data-tooltip-text="Opovrgni brisanje"><i class="fa fa-undo"></i></div>
                             </div>
                         </li>
                     }

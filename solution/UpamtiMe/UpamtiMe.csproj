@@ -155,6 +155,7 @@
     <Content Include="Views\Courses\GetCoursesChunk.cshtml" />
     <Content Include="Views\Courses\Review.cshtml" />
     <Content Include="Views\Courses\Linky.cshtml" />
+    <Content Include="Views\Partials\Sidebar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

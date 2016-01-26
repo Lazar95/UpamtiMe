@@ -133,7 +133,9 @@ aside#sidebar {
 		#sidebar-picture {
 			@include force-height(70px);
 			@include force-width(70px);
-			background-color: rgba(white, .3);
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
 		}
 
 		#sidebar-names {
@@ -190,9 +192,36 @@ aside#sidebar {
 		}
 	}
 
+	#sidebar-leaderboard {
+		height: 124px;
+	}
+
 	#sidebar-favorite-courses {
 		flex-grow: 1;
 		background-color: rgba(white, .1);
+		display: flex;
+
+		ul.acordeon {
+			flex-grow: 2;
+			height: 100%;
+			width: 100%;
+			display: flex;
+			flex-flow: column;
+
+			li {
+				flex-grow: 1;
+			}
+
+			.acordeon-title {
+				flex-grow: 1;
+				background-color: palette($green);
+			}
+
+			.acordeon-content {
+				flex-grow: 0.001;
+				background-color: palette($blue);
+			}
+		}
 	}
 
 	#sidebar-graph {

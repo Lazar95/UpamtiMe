@@ -1,0 +1,108 @@
+﻿@model UpamtiMe.Models.UserIndexPartialModel
+
+<aside id="sidebar">
+    <div id="sidebar-basic-info">
+        @{
+            if (Model.Avatar != null)
+            {
+                var base64 = Convert.ToBase64String(Model.Avatar.ToArray());
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                <div id="sidebar-picture" style="background-image: url(@imgSrc)"></div>
+            }
+        }
+        <div id="sidebar-names">
+            <span>@Model.Name</span>
+            <span><a href="@Url.Action("Profile", "Users", new { id = Model.UserID })">&#64;@Model.Username</a></span>
+        </div>
+    </div>
+    <div id="sidebar-stats-info">
+        <ul>
+            <li><dl><dd><i class="fa fa-fire"></i></dd><dt>@Model.Streak</dt></dl></li>
+            <li><dl><dd><i class="fa fa-line-chart"></i></dd><dt>@Model.Score</dt></dl></li>
+            <li><dl><dd><i class="fa fa-dashboard"></i></dd><dt>@Model.TotalCardsSeen</dt></dl></li>
+            <li><dl><dd><i class="fa fa-file"></i></dd><dt>@Model.LearningStatistics.Learned</dt></dl></li>
+        </ul>
+    </div>
+    <div id="sidebar-leaderboard">
+
+    </div>
+    <div id="sidebar-favorite-courses">
+        <ul class="acordeon">
+            <li>
+                <div class="acordeon-title">
+                    <div class="sidebar-course-picture">O</div>
+                    <div class="sidebar-course-name">ime tralala</div>
+                </div>
+                <div class="acordeon-content">
+                    <div class="sidebar-course-session-buttons">
+                        <div class="sidebar-course-session-button">a</div>
+                        <div class="sidebar-course-session-button">b</div>
+                        <div class="sidebar-course-session-button">c</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="acordeon-title">
+                    <div class="sidebar-course-picture">X</div>
+                    <div class="sidebar-course-name">ime lololo</div>
+                </div>
+                <div class="acordeon-content">
+                    <div class="sidebar-course-session-buttons">
+                        <div class="sidebar-course-session-button">a</div>
+                        <div class="sidebar-course-session-button">b</div>
+                        <div class="sidebar-course-session-button">c</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="acordeon-title">
+                    <div class="sidebar-course-picture">K</div>
+                    <div class="sidebar-course-name">lorem ipsum</div>
+                </div>
+                <div class="acordeon-content">
+                    <div class="sidebar-course-session-buttons">
+                        <div class="sidebar-course-session-button">a</div>
+                        <div class="sidebar-course-session-button">b</div>
+                        <div class="sidebar-course-session-button">c</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="acordeon-title">
+                    <div class="sidebar-course-picture">Š</div>
+                    <div class="sidebar-course-name">ÄÅÉËÞ</div>
+                </div>
+                <div class="acordeon-content">
+                    <div class="sidebar-course-session-buttons">
+                        <div class="sidebar-course-session-button">a</div>
+                        <div class="sidebar-course-session-button">b</div>
+                        <div class="sidebar-course-session-button">c</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="sidebar-graph">
+        <canvas id="sidebar-graph-points" width="200" height="100" data-points="@Model.Statistics.Scores" data-dates="@Model.Statistics.Dates"></canvas>
+    </div>
+    <div id="sidebar-buttons">
+        <div class="sidebar-button">
+            <div class="button-icon"><i class="fa fa-question"></i></div>
+            <div class="button-text">Halp</div>
+        </div>
+        <div class="sidebar-button">
+            <div class="button-icon"><i class="fa fa-bell"></i></div>
+            <div class="button-text">Bell</div>
+        </div>
+        <div class="sidebar-button">
+            <div class="button-icon"><i class="fa fa-envelope"></i></div>
+            <div class="button-text">Koverta</div>
+        </div>
+        <div class="sidebar-button">
+            <div class="button-icon"><i class="fa fa-eye"></i></div>
+            <div class="button-text">Oko!</div>
+        </div>
+    </div>
+</aside>
+
+<script src="~/Scripts/sidebar.js"></script>

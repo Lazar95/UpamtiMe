@@ -22,10 +22,12 @@ var parseTableOfGod = function() {
       "description": curr.children('[data-type="description"]').text().trim(),
       "lastSeenMinutes" : parseInt(curr.children('[data-type="last-seen-minutes"]').text().trim()),
       "nextSeeMinutes": parseInt(curr.children('[data-type="next-see-minutes"]').text().trim()),
-      "correctAnswers": parseInt(curr.children('[data-type="correct-answers"]').text().trim()),
-      "wrongAnswers": parseInt(curr.children('[data-type="wrong-answers"]').text().trim()),
-      "combo": 0,
-      "goodness": 0,
+      "totalCorrectAnswers": parseInt(curr.children('[data-type="correct-answers"]').text().trim()),
+      "totalWrongAnswers": parseInt(curr.children('[data-type="wrong-answers"]').text().trim()),
+      "correctAnswers": 0,
+      "wrongAnswers": 0,
+      "combo": parseInt(curr.children('[data-type="combo"]').text().trim()),
+      "goodness": parseInt(curr.children('[data-type="goodness"]').text().trim()),
     } );
   }
 
@@ -352,6 +354,7 @@ var evaluateAnswer = function(answer) {
     // Dat je pogresan odgovor:
     // Lomi se kombo
     _qa[_currentQuestion].wrongAnswers++;
+    _qa[_currentQuestion].totalWrongAnswers++;
     _qa[_currentQuestion].combo = 0; // combo na kartici
     _currentCombo = 0; // combo na sesiji
 
@@ -380,7 +383,6 @@ var evaluateAnswer = function(answer) {
       console.log("Pitanje #" + _currentQuestion + ": Nacinjena cetvrta greska. Kartica odlozena za 6h.");
     }
 
-
     eval.baseScore = -1;
     eval.timeMultiplier = 1;
     eval.sessionComboMultiplier = calculateSessionComboMultiplier(tempSessionComboMultiplier + 1);
@@ -389,6 +391,7 @@ var evaluateAnswer = function(answer) {
   } else {
     // Tacan odgovor:
     _qa[_currentQuestion].correctAnswers++;
+    _qa[_currentQuestion].totalCorrectAnswers++;
     _qa[_currentQuestion].combo++; // combo nad karticom
     _currentCombo++; // combo nad sesijom
     // Proveravamo da li je nadmasen najbolji kombo u sesiji: TODO nzm sto ne radi
@@ -418,6 +421,8 @@ var evaluateAnswer = function(answer) {
     eval.cardComboMultiplier = calculateCardComboMultiplier(_qa[_currentQuestion].combo);
 
   }
+
+  _qa[_currentQuestion].goodness = _qa[_currentQuestion].goodness * 0.3 + 0.7;
 
   _lastPoints = eval.baseScore * eval.timeMultiplier * eval.sessionComboMultiplier * eval.cardComboMultiplier;
   _currentPoints += _lastPoints;

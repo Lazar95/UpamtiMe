@@ -8,16 +8,16 @@ namespace UpamtiMe.Models
 {
  public class UserIndexModel
     {
-        public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
+        public UserIndexPartialModel Partial { get; set; }
+
         public List<Data.DTOs.UserCourseDTO> Courses { get; set; }
         public Data.DTOs.StatisctisByDays Statistics { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
-        
+
 
         public static UserIndexModel Load(int userID)
         {
             UserIndexModel uim = new UserIndexModel();
-            uim.Leaderboard = Data.Users.getLeaderboard(userID);
             uim.Courses = Data.Courses.getCoursesOf(userID);
 
             //moze ovako ali je brze ako se samo sabere
@@ -30,6 +30,8 @@ namespace UpamtiMe.Models
                 uim.Statistics = uim.Statistics.Add(course.StatisctisByDays);
                 uim.LearningStatistics = uim.LearningStatistics.Add(course.LearningStatistics);
             }
+
+            uim.Partial = UserIndexPartialModel.Load(userID, uim.LearningStatistics);
 
             return uim;
         }

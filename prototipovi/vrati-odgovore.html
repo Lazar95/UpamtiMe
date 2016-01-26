@@ -99,6 +99,7 @@ var generateWrongAnswers = function (correct) {
                     }
                 case 3: // zameni dva slova, charindex i charindex+1
                     {
+                        charIndex -= 1;
                         if (charIndex == 0) // ipak da ne menjamo nulti karakter sa prvim...
                             charIndex = 1;
                         newAnswer[indexWordToModify] = [newAnswer[indexWordToModify].slice(0, charIndex), newAnswer[indexWordToModify][charIndex + 1], newAnswer[indexWordToModify][charIndex], newAnswer[indexWordToModify].slice(charIndex+2)].join('');

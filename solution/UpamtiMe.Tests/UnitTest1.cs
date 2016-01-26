@@ -10,6 +10,8 @@ namespace UpamtiMe.Tests
         [TestMethod]
         public void TestMethod1()
         {
+            Users.resetStatisticsForAllUsers();
+
             Data.DTOs.StatisctisByDays statisctis1 = Data.Users.GetStatisctisByDays(2, 1,5);
             Data.DTOs.StatisctisByDays statisctis7 = Data.Users.GetStatisctisByDays(2, 7,5);
             Data.DTOs.StatisctisByDays statisctisTotal = Data.Users.GetStatisctisByDays(2,5);

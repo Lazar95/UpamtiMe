@@ -224,7 +224,7 @@ namespace Data
             return cw;
         }
 
-        public static CorrectWrong UpdateUserCard(List<UserCardSessionInfo> cards, int userCardID)
+        public static CorrectWrong UpdateUserCards(List<UserCardSessionInfo> cards)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             CorrectWrong cw = new CorrectWrong();
@@ -234,7 +234,7 @@ namespace Data
             {
                 cw.Correct += card.CorrectAnswers;
                 cw.Wrong += card.WrongAnswers;
-                UsersCard uc = (from a in dc.UsersCards where a.usersCardID == userCardID select a).First();
+                UsersCard uc = (from a in dc.UsersCards where a.usersCardID == card.UserCardID select a).First();
 
                 uc.cardCombo = card.Combo;
                 uc.lastSeen = DateTime.Now;

@@ -250,7 +250,7 @@ namespace UpamtiMe.Controllers
             int timeSpent = DateTime.Now.Subtract(UserSession.GetTime()).Minutes + 1;
 
             //upisi u usercard
-            Data.DTOs.CorrectWrong cw = Data.Cards.UpdateUserCard(qaInfo, usr.UserID);
+            Data.DTOs.CorrectWrong cw = Data.Cards.UpdateUserCards(qaInfo);
 
             //upisi u tabelu sa statistikama i userCourses
             bool streak = Data.Courses.updateStatistics(courseID, usr.UserID, score, 0, qaInfo.Count, 0, 0, cw.Correct, cw.Wrong, 

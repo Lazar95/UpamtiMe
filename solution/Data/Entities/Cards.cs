@@ -62,18 +62,18 @@ namespace Data
             return checkJustQustion(card.question, getCourseOfCard(card.cardID));
         }
 
-        public static bool checkJustQustion(CardDTO card)
+        public static bool checkJustQustion(CardBasicDTO cardBasic)
         {
-            return checkJustQustion(card.Question, getCourseOfCard(card.CardID));
+            return checkJustQustion(cardBasic.Question, getCourseOfCard(cardBasic.CardID));
         }
 
-        public static bool checkQustion(CardDTO card)
+        public static bool checkQustion(CardBasicDTO cardBasic)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Cards
                     from b in dc.Levels
                     from c in dc.Courses
-                    where a.levelID == b.levelID && b.courseID == c.courseID && a.question == card.Question && a.cardID != card.CardID
+                    where a.levelID == b.levelID && b.courseID == c.courseID && a.question == cardBasic.Question && a.cardID != cardBasic.CardID
                     select a).Any();
         }
 
@@ -82,16 +82,16 @@ namespace Data
             return ((card.question == String.Empty && card.image == null) || card.answer == String.Empty);
         }
 
-        public static bool checkEmptyFields(CardDTO card)
+        public static bool checkEmptyFields(CardBasicDTO cardBasic)
         {
-            return ((card.Question == String.Empty && card.Image == null) || card.Answer == String.Empty);
+            return ((cardBasic.Question == String.Empty && cardBasic.Image == null) || cardBasic.Answer == String.Empty);
         }
 
-        public static void editCards(List<CardDTO> cards)
+        public static void editCards(List<CardBasicDTO> cards)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             
-            foreach (CardDTO card in cards)
+            foreach (CardBasicDTO card in cards)
             {
                 if(checkQustion(card))
                     continue;
@@ -109,11 +109,11 @@ namespace Data
             }
         }
 
-        public static void addCards(List<CardDTO> cards)
+        public static void addCards(List<CardBasicDTO> cards)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
-            foreach (CardDTO card in cards)
+            foreach (CardBasicDTO card in cards)
             {
                 if (checkJustQustion(card.Question, Levels.getCourse(card.LevelID)))
                     continue;
@@ -134,12 +134,12 @@ namespace Data
             }
         }
 
-        public static List<Data.CardDTO> getCardsFor(int levelID, DataClasses1DataContext dc = null)
+        public static List<Data.CardBasicDTO> getCardsFor(int levelID, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
             return (from a in dc.Cards
                     where a.levelID == levelID
-                    select new CardDTO()
+                    select new CardBasicDTO()
                     {
                         CardID = a.cardID,
                         Question = a.question,
@@ -157,8 +157,8 @@ namespace Data
 
             if (userID == null)
             {
-                List<CardDTO> l = getCardsFor(levelID, dc);
-                foreach (CardDTO card in l)
+                List<CardBasicDTO> l = getCardsFor(levelID, dc);
+                foreach (CardBasicDTO card in l)
                 {
                     returnValue.Add(new CardCourseProfileDTO {BasicInfo = card});
                 }
@@ -171,7 +171,7 @@ namespace Data
                     where c.levelID == levelID && u.userID == userID.Value
                     select new CardCourseProfileDTO
                     {
-                        BasicInfo = new CardDTO()
+                        BasicInfo = new CardBasicDTO()
                         {
                             CardID = c.cardID,
                             Question = c.question,
@@ -181,7 +181,7 @@ namespace Data
                             Image = c.image == null ? null : c.image.ToArray(),
                         },
                         Ignore = u.ignore,
-                        UserCard = new UserCardSessionInfo
+                        UserCardInfo = new CardUserDTO
                         {
                             UserCardID = u.usersCardID,
                             CorrectAnswers = u.correctAnswers,
@@ -197,13 +197,13 @@ namespace Data
             return returnValue;
         }
 
-        public static CorrectWrong CreateUserCard(List<UserCardSessionInfo> cards, int userID)
+        public static CorrectWrong CreateUserCard(List<CardUserDTO> cards, int userID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             CorrectWrong cw = new CorrectWrong();
             cw.Correct = 0;
             cw.Wrong = 0;
-            foreach (UserCardSessionInfo card in cards)
+            foreach (CardUserDTO card in cards)
             {
                 cw.Correct += card.CorrectAnswers;
                 cw.Wrong += card.WrongAnswers;
@@ -224,13 +224,13 @@ namespace Data
             return cw;
         }
 
-        public static CorrectWrong UpdateUserCards(List<UserCardSessionInfo> cards)
+        public static CorrectWrong UpdateUserCards(List<CardUserDTO> cards)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             CorrectWrong cw = new CorrectWrong();
             cw.Correct = 0;
             cw.Wrong = 0;
-            foreach (UserCardSessionInfo card in cards)
+            foreach (CardUserDTO card in cards)
             {
                 cw.Correct += card.CorrectAnswers;
                 cw.Wrong += card.WrongAnswers;

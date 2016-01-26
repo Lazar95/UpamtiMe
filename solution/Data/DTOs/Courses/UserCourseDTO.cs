@@ -16,6 +16,5 @@ namespace Data.DTOs
         public int? SubcategoryID { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
         public StatisctisByDays StatisctisByDays { get; set; }
-
     }
 }

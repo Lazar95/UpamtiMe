@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class CardDTO
+    public class CardBasicDTO
     {
         public int CardID { get; set; }
         public string Question { get; set; }

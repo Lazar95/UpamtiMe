@@ -52,7 +52,7 @@ namespace Data
             return checkName(level.name, level.courseID, level.levelID);
         }
 
-        public static void addLevel(int courseID, LevelsDTO level)
+        public static void addLevel(int courseID, LevelWithCardsDTO level)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
@@ -75,7 +75,7 @@ namespace Data
             dc.SubmitChanges();
             
 
-            foreach (CardDTO card in level.Cards)
+            foreach (CardBasicDTO card in level.Cards)
                 card.LevelID = newLevel.levelID;
 
             Cards.addCards(level.Cards);
@@ -83,21 +83,21 @@ namespace Data
             
         }
 
-        public static void addLevels(int courseID, List<LevelsDTO> levels)
+        public static void addLevels(int courseID, List<LevelWithCardsDTO> levels)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
-            foreach (LevelsDTO level in levels)
+            foreach (LevelWithCardsDTO level in levels)
             {
                 addLevel(courseID, level);
             }
         }
 
-        public static void editLevels(int courseID, List<EditLevelDTO> levels)
+        public static void editLevels(int courseID, List<LevelBasicDTO> levels)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
-            foreach (EditLevelDTO level in levels)
+            foreach (LevelBasicDTO level in levels)
             {
                 if (checkName(level.Name, courseID, level.LevelID))
                     continue;
@@ -168,13 +168,13 @@ namespace Data
         }
        
 
-        public static List<SimpleLevelDTO> getLevels(int courseID, int? userID)
+        public static List<LevelWithStatisticsDTO> getLevels(int courseID, int? userID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            List<SimpleLevelDTO> returnValue = (
+            List<LevelWithStatisticsDTO> returnValue = (
                     from l in dc.Levels
                     where l.courseID == courseID
-                    select new SimpleLevelDTO
+                    select new LevelWithStatisticsDTO
                     {
                         LevelID = l.levelID,
                         Name = l.name,
@@ -188,7 +188,7 @@ namespace Data
 
             if (userID != null)
             {
-                foreach (SimpleLevelDTO level in returnValue)
+                foreach (LevelWithStatisticsDTO level in returnValue)
                 {
                     level.LearningStatistics = getLevelStatistics(level.LevelID, userID.Value, dc);
                 }
@@ -198,12 +198,12 @@ namespace Data
             return returnValue;
         } 
 
-        public static List<Data.LevelsDTO> getLevelsAndCardsFor(int courseID)
+        public static List<Data.LevelWithCardsDTO> getLevelsAndCardsFor(int courseID)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            List<Data.LevelsDTO> returnValue = (from a in dc.Levels
+            List<Data.LevelWithCardsDTO> returnValue = (from a in dc.Levels
                                                 where a.courseID == courseID
-                                                select new LevelsDTO()
+                                                select new LevelWithCardsDTO()
                                                 {
                                                     LevelID = a.levelID,
                                                     Type = a.type,
@@ -214,7 +214,7 @@ namespace Data
                                                 }).OrderBy(a=>a.Number).ToList();
 
             // Za svaki preuzeti nivo preuzmi sve kartice za taj nivo
-            foreach (Data.LevelsDTO level in returnValue)
+            foreach (Data.LevelWithCardsDTO level in returnValue)
             {
                 level.Cards = Data.Cards.getCardsFor(level.LevelID, dc);
             }

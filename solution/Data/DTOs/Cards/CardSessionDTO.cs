@@ -8,7 +8,7 @@ namespace Data.DTOs
 {
     public class CardSessionDTO 
     {
-       public CardDTO BasicInfo { get; set; }
-        public UserCardSessionInfo UserCardInfo { get; set; }
+       public CardBasicDTO BasicInfo { get; set; }
+       public CardUserDTO UserCardInfo { get; set; }
     }
 }

@@ -33,6 +33,7 @@ namespace Data.DTOs
         //    this.SetZeros(timespan);
         //}
 
+
         public void AddValues(double score, int learned, int reviewed, int sessions, int times, int learnCorrect,
             int learnWrong, int ReviewCorrect, int reviewWrong)
         {

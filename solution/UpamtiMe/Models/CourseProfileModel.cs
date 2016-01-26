@@ -19,7 +19,7 @@ namespace UpamtiMe.Models
         public string Description { get; set; }
         public byte[] Image { get; set; }
         public int LevelNumber { get; set; }
-        public List<Data.DTOs.SimpleLevelDTO> Levels { get; set; }
+        public List<Data.DTOs.LevelWithStatisticsDTO> Levels { get; set; }
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public Data.DTOs.CourseUsersStatisticsDTO Statistics { get; set; }
 

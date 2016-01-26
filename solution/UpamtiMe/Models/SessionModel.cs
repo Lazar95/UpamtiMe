@@ -38,7 +38,7 @@ namespace UpamtiMe.Models
                     !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
                 select new CardSessionDTO
                 {
-                    BasicInfo = new CardDTO
+                    BasicInfo = new CardBasicDTO
                     {
                         CardID = c.cardID,
                         Question = c.question,
@@ -75,7 +75,7 @@ namespace UpamtiMe.Models
                         where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now 
                         select new CardSessionDTO
                         {
-                            UserCardInfo = new UserCardSessionInfo
+                            UserCardInfo = new CardUserDTO()
                             {
                                 Combo = u.cardCombo,
                                 CorrectAnswers = u.correctAnswers,
@@ -86,7 +86,7 @@ namespace UpamtiMe.Models
                                 NextSeeMinutes = DateTime.Now.Subtract(u.nextSee.Value).Minutes,
                                 UserCardID = u.usersCardID,
                             },
-                            BasicInfo = new CardDTO
+                            BasicInfo = new CardBasicDTO
                             {
                                 Question = c.question,
                                 Answer = c.answer,
@@ -117,7 +117,7 @@ namespace UpamtiMe.Models
                             where u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee > DateTime.Now 
                             select new CardSessionDTO
                             {
-                                BasicInfo = new CardDTO
+                                BasicInfo = new CardBasicDTO
                                 {
                                     Question = c.question,
                                     Answer = c.answer,
@@ -135,7 +135,7 @@ namespace UpamtiMe.Models
                             where u.cardID == c.cardID &&  u.ignore == false && u.nextSee > DateTime.Now 
                             select new CardSessionDTO
                             {
-                                BasicInfo = new CardDTO
+                                BasicInfo = new CardBasicDTO
                                 {
                                     Question = c.question,
                                     Answer = c.answer,

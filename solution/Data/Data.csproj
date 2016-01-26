@@ -42,25 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\CardCourseProfileDTO.cs" />
-    <Compile Include="DTOs\CardSessionDTO.cs" />
+    <Compile Include="DTOs\Cards\CardCourseProfileDTO.cs" />
+    <Compile Include="DTOs\Cards\CardSessionDTO.cs" />
     <Compile Include="DTOs\CorrectWrong.cs" />
-    <Compile Include="DTOs\CourseUsersStatisticsDTO.cs" />
+    <Compile Include="DTOs\Courses\CourseUsersStatisticsDTO.cs" />
     <Compile Include="DTOs\EditCourseLevelsCards.cs" />
-    <Compile Include="DTOs\EditLevelDTO.cs" />
+    <Compile Include="DTOs\Levels\LevelBasicDTO.cs" />
     <Compile Include="DTOs\LeaderboardEntryDTO.cs" />
     <Compile Include="DTOs\LearningStatisticsDTO.cs" />
-    <Compile Include="DTOs\LoginDTO.cs" />
-    <Compile Include="DTOs\LoginTransporterDTO.cs" />
-    <Compile Include="DTOs\RegisterTransporterDTO.cs" />
-    <Compile Include="DTOs\SimpleLevelDTO.cs" />
+    <Compile Include="DTOs\Login\LoginDTO.cs" />
+    <Compile Include="DTOs\Login\LoginTransporterDTO.cs" />
+    <Compile Include="DTOs\Login\RegisterTransporterDTO.cs" />
+    <Compile Include="DTOs\Levels\LevelWithStatisticsDTO.cs" />
     <Compile Include="DTOs\StatisctisByDays.cs" />
-    <Compile Include="DTOs\UserCardSessionInfo.cs" />
-    <Compile Include="DTOs\UserCourseDTO.cs" />
+    <Compile Include="DTOs\Cards\CardUserDTO.cs" />
+    <Compile Include="DTOs\Courses\UserCourseDTO.cs" />
     <Compile Include="Entities\Cards.cs" />
-    <Compile Include="DTOs\CardDTO.cs" />
+    <Compile Include="DTOs\Cards\CardBasicDTO.cs" />
     <Compile Include="Entities\Courses.cs" />
-    <Compile Include="DTOs\CourseDTO.cs" />
+    <Compile Include="DTOs\Courses\CourseDTO.cs" />
     <Compile Include="DataClasses1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -69,7 +69,7 @@
     <Compile Include="Entities\Login.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Entities\Levels.cs" />
-    <Compile Include="DTOs\LevelsDTO.cs" />
+    <Compile Include="DTOs\Levels\LevelWithCardsDTO.cs" />
     <Compile Include="Extentions.cs" />
     <Compile Include="InvalidCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

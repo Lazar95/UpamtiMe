@@ -14,15 +14,16 @@ namespace Data.DTOs
         public int SubcategoryID { get; set; }
         public int NumberOfCards { get; set; }
         public string Description { get; set; }
+
         public List<int> DeletedCards { get; set; }  
         public List<int> DeletedLevels { get; set; }
 
         //kada je ID kartice/nivoa 0 to znci da je to nova kartica
         //mmsm da ovo ^ vise ne vazi 
-        public List<CardDTO> EditedCards { get; set; }   
-        public List<EditLevelDTO> EditedLevels { get; set; }
+        public List<CardBasicDTO> EditedCards { get; set; }   
+        public List<LevelBasicDTO> EditedLevels { get; set; }
 
-        public List<CardDTO> AddedCards { get; set; }
-        public List<LevelsDTO> AddedLevels { get; set; }
+        public List<CardBasicDTO> AddedCards { get; set; }
+        public List<LevelWithCardsDTO> AddedLevels { get; set; }
     }
 }

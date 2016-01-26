@@ -15,7 +15,7 @@ namespace UpamtiMe.Models
         public int NumberOfCards { get; set; }
         public string Description { get; set; }
         public byte[] Image { get; set; }
-        public List<Data.LevelsDTO> Levels { get; set; }
+        public List<Data.LevelWithCardsDTO> Levels { get; set; }
         public List<Subcategory> AllSubcategories { get; set; }
 
         public static EditCourseModel Load(int courseID)

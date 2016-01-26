@@ -91,7 +91,7 @@
     </div>
 
     <ul id="course" data-course-id=@Model.CourseID>
-        @foreach (LevelsDTO level in Model.Levels)
+        @foreach (LevelWithCardsDTO level in Model.Levels)
         {
             <li>
                 <div class="level-info">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <ul class="level" data-level-id=@level.LevelID data-level-number=@level.Number data-level-type=@level.Type>
-                    @foreach (CardDTO card in level.Cards)
+                    @foreach (CardBasicDTO card in level.Cards)
                     {
                         <li data-card-id=@card.CardID data-card-number=@card.Number>
                             <div class="card-info">

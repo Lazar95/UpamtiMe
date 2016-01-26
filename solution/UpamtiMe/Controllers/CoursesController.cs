@@ -153,7 +153,7 @@ namespace UpamtiMe.Controllers
                 if (model.AddedLevels != null)
                 {
                     Levels.addLevels(model.CourseID, model.AddedLevels);
-                    foreach (LevelsDTO level in model.AddedLevels)
+                    foreach (LevelWithCardsDTO level in model.AddedLevels)
                     {
                         if (level.Cards == null)
                             continue;
@@ -205,7 +205,7 @@ namespace UpamtiMe.Controllers
         }
 
         [HttpPost]
-        public ActionResult Learn(List<UserCardSessionInfo> qaInfo , float score, int courseID)
+        public ActionResult Learn(List<CardUserDTO> qaInfo , float score, int courseID)
         {
             LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
 
@@ -242,7 +242,7 @@ namespace UpamtiMe.Controllers
         }
 
         [HttpPost]
-        public ActionResult Review(List<UserCardSessionInfo> qaInfo, float score, int courseID)
+        public ActionResult Review(List<CardUserDTO> qaInfo, float score, int courseID)
         {
             LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
 

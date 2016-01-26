@@ -58,12 +58,19 @@ namespace Data
         /// <param name="numberOfCards">broj kartica u tom kursu, sluzi samo da ne bih pristupala bazi opet zbog te informacije</param>
         /// <param name="dc"></param>
         /// <returns></returns>
-        public static CourseUsersStatisticsDTO getUserCourseStatistics(int courseID, int userID, int numberOfCards,
+        public static CourseUsersStatisticsDTO getUserCourseStatistics(int courseID, int userID, int numberOfCards = -1,
             DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
             CourseUsersStatisticsDTO cus = new CourseUsersStatisticsDTO();
-            cus.LearningStatistics = getUserLearningStatistics(courseID, userID, numberOfCards);
+
+
+            if (numberOfCards == -1)
+            {
+                numberOfCards = Courses.getCardNuber(courseID);
+            }
+           
+            cus.LearningStatistics = getUserLearningStatisticsForCourse(userID, courseID, numberOfCards);
             UsersCourse uc =
                 (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).First();
             cus.LastPlayed = uc.lastPlayed;
@@ -80,10 +87,17 @@ namespace Data
         /// <param name="numberOfCards">broj kartica u tom kursu, sluzi samo da ne bih pristupala bazi opet zbog te informacije</param>
         /// <param name="dc"></param>
         /// <returns></returns>
-        public static LearningStatisticsDTO getUserLearningStatistics(int courseID, int userID, int numberOfCards,
+        public static LearningStatisticsDTO getUserLearningStatisticsForCourse(int userID, int courseID, int numberOfCards = -1,
             DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
+
+
+            if (numberOfCards == -1)
+            {
+                numberOfCards = Courses.getCardNuber(courseID);
+            }
+
 
             var lastNext = (from c in dc.Cards
                 from l in dc.Levels
@@ -125,6 +139,20 @@ namespace Data
             return returnValue;
         }
 
+
+        public static LearningStatisticsDTO getUserLearningStatistics(int userID, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+
+            List<int> courses = (from a in dc.UsersCourses where a.userID == userID select a.courseID).ToList();
+            LearningStatisticsDTO returnValue = new LearningStatisticsDTO();
+            foreach (int course in courses)
+            {
+                returnValue  = returnValue.Add(getUserLearningStatisticsForCourse(userID, course, dc:dc));
+            }
+
+            return returnValue;
+        }
 
         //ovo nista ne valja, trebaju ti podaci kao sto je lastPlayed za kurs
         public static List<UserCourseDTO> getCoursesOf(int userID, DataClasses1DataContext dc = null)

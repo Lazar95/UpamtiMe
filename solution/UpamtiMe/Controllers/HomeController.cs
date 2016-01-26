@@ -19,11 +19,12 @@ namespace UpamtiMe.Controllers
             {
                 Session["user"] = null;
             }
+
             if (Session["user"] != null)
             {
                 return RedirectToAction("Profile", "Users", new { id = UserSession.GetUser().UserID });
             }
-            else
+            else if(!logOut)
             {
                 Login(new HomeIndexModel
                 {

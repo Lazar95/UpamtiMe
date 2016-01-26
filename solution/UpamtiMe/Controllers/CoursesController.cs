@@ -238,7 +238,7 @@ namespace UpamtiMe.Controllers
                 // neka baci neki bolji exception
             }
             UserSession.SetTime();
-            return View("Review", model);
+            return View("SessionTest", model);
         }
 
         [HttpPost]
@@ -267,7 +267,26 @@ namespace UpamtiMe.Controllers
         public ActionResult Linky(int courseID, int? levelID, int? numberOfCards)
         {
             SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            UserSession.SetTime();
             return View("Linky", model);
+        }
+
+        [HttpPost]
+        public ActionResult Linky(float score, int courseID)
+        {
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+
+            int timeSpent = DateTime.Now.Subtract(UserSession.GetTime()).Minutes + 1;
+            
+            //upisi u tabelu sa statistikama i userCourses
+            bool streak = Data.Courses.updateStatistics(courseID, usr.UserID, score, 0, 0, 0, 0, 0, 0, timeSpent);
+
+            //upisi u user-a
+            Data.Users.updateStatisctics(usr.UserID, score, 0, streak);
+
+            UserSession.ReloadSidebar();
+
+            return Json(new { success = true });
         }
 
 

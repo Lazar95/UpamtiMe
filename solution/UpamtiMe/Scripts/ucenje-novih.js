@@ -834,7 +834,7 @@ var realDealCheckAnswer = function() {
       _qa[_currentQuestion()].status = CORRECT_SECOND;
 
       // I sad upisujemo sve zivo:
-      _qa[_currentQuestion()].nextSeeMinutes = 240; // 4h
+      _qa[_currentQuestion()].nextSeeMinutes = 5; // 4h //TODO PAZI
       _qa[_currentQuestion()].correctAnswers = 1;
       _qa[_currentQuestion()].wrongAnswers = 0;
       _qa[_currentQuestion()].combo = 1;

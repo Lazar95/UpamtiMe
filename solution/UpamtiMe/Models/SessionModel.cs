@@ -73,7 +73,7 @@ namespace UpamtiMe.Models
             sm.CourseID = courseID;
             sm.Cards = (from c in dc.Cards 
                         from u in dc.UsersCards
-                        where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now 
+                        where u.userID == userID && u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now 
                         select new CardSessionDTO
                         {
                             UserCardInfo = new CardUserDTO()

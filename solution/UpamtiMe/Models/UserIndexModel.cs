@@ -21,13 +21,15 @@ namespace UpamtiMe.Models
             //moze ovako ali je brze ako se samo sabere
             //uim.Statistics = Data.Users.GetStatisctisByDays(userID);
 
-            uim.Statistics = new StatisctisByDays();
+            uim.Statistics = new StatisctisByDays().AllZeros();
             uim.LearningStatistics = new LearningStatisticsDTO();
             foreach (UserCourseDTO course in uim.Courses)
             {
                 uim.Statistics = uim.Statistics.Add(course.StatisctisByDays);
                 uim.LearningStatistics = uim.LearningStatistics.Add(course.LearningStatistics);
             }
+
+            
 
             return uim;
         }

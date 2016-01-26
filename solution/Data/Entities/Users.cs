@@ -267,7 +267,7 @@ namespace Data
             StatisctisByDays returnValue = new StatisctisByDays();
 
             DateTime prev = DateTime.Today.Subtract(TimeSpan.FromDays(timeSpan));
-            returnValue.SetDates(prev.AddDays(1), timeSpan);
+            returnValue.SetDates(timeSpan);
 
             List<UserCourseStatistic> stats =
                 (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date > prev select a).OrderBy(a=>a.date).ToList();
@@ -284,11 +284,10 @@ namespace Data
                 prev = stat.date;
             }
 
-            int zeroDaysAfter = DateTime.Now.Subtract(prev).Days;
+            int zeroDaysAfter = DateTime.Today.Subtract(prev).Days;
             returnValue.SetZeros(zeroDaysAfter);
-
+          
             returnValue.TrimStrings();
-
 
             return returnValue;
         }

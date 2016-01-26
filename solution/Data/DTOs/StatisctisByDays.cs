@@ -21,17 +21,21 @@ namespace Data.DTOs
 
         public string Dates { get; set; }
 
-        //public StatisctisByDays(int timespan = 30)
-        //{
-        //    PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
-        //    foreach (PropertyInfo property in properties)
-        //    {
-        //        property.SetValue(this, "");
-        //    }
-        //    this.Dates = "";
+        public StatisctisByDays AllZeros(int timespan = 30)
+        {
+            PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                property.SetValue(this, "");
+            }
 
-        //    this.SetZeros(timespan);
-        //}
+            this.SetDates(timespan);
+
+            this.SetZeros(timespan);
+            this.TrimStrings();
+
+            return this;
+        }
 
 
         public void AddValues(double score, int learned, int reviewed, int sessions, int times, int learnCorrect,
@@ -61,6 +65,12 @@ namespace Data.DTOs
                 this.Dates += day.Day;
                 this.Dates += "|";
             }
+        }
+
+        public void SetDates(int timespan = 30)
+        {
+            DateTime prev = DateTime.Today.Subtract(TimeSpan.FromDays(timespan));
+            this.SetDates(prev.AddDays(1), timespan);
         }
 
         public void SetZeros(int count)

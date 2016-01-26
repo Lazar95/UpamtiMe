@@ -49,7 +49,9 @@ namespace UpamtiMe.Controllers
 
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.Successful)
             {
-                Session["user"] = ld;
+                UserSession.SetUser(ld);
+                UserSession.ReloadSidebar();
+
                 return RedirectToAction("Profile", "Users", new { id = ld.UserID });
             }
 

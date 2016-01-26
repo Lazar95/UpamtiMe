@@ -25,6 +25,8 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 
+    @{ Html.RenderPartial("~/Views/Partials/Sidebar.cshtml", UserSession.GetSidebar()); }
+
     @RenderBody()
 
 </body>

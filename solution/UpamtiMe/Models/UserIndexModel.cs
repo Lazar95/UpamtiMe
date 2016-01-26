@@ -8,8 +8,6 @@ namespace UpamtiMe.Models
 {
  public class UserIndexModel
     {
-        public UserIndexPartialModel Partial { get; set; }
-
         public List<Data.DTOs.UserCourseDTO> Courses { get; set; }
         public Data.DTOs.StatisctisByDays Statistics { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
@@ -30,8 +28,6 @@ namespace UpamtiMe.Models
                 uim.Statistics = uim.Statistics.Add(course.StatisctisByDays);
                 uim.LearningStatistics = uim.LearningStatistics.Add(course.LearningStatistics);
             }
-
-            uim.Partial = UserIndexPartialModel.Load(userID, uim.LearningStatistics);
 
             return uim;
         }

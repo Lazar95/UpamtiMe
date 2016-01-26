@@ -8,7 +8,7 @@ using Data.DTOs;
 
 namespace UpamtiMe.Models
 {
-    public class UserIndexPartialModel
+    public class PartialModel
     {
         //avatar, username, name, leaderboard, streak, learning statistics, score, totalCardsSeen,  poslednjih sedam dana ukupnih poena 
 
@@ -26,9 +26,9 @@ namespace UpamtiMe.Models
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
 
-        public static UserIndexPartialModel Load(int userID, LearningStatisticsDTO learningStatistics = null)
+        public static PartialModel Load(int userID, LearningStatisticsDTO learningStatistics = null)
         {
-            UserIndexPartialModel returnValue = new UserIndexPartialModel();
+            PartialModel returnValue = new PartialModel();
             User usr = Data.Users.GetUser(userID);
 
             returnValue.UserID = usr.userID;

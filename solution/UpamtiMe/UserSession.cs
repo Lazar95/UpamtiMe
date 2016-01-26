@@ -13,6 +13,11 @@ namespace UpamtiMe
             return (LoginDTO) HttpContext.Current.Session["user"];
         }
 
+        public static void SetUser(LoginDTO u)
+        {
+            HttpContext.Current.Session["user"] = u;
+        }
+
         public static void SetTime()
         {
             HttpContext.Current.Session["timeSpent"] = DateTime.Now;
@@ -32,5 +37,16 @@ namespace UpamtiMe
         {
             return (List<CourseDTO>) HttpContext.Current.Session["searchCourses"];
         }
+
+        public static void ReloadSidebar()
+        {
+            HttpContext.Current.Session["sidebar"] = Models.PartialModel.Load(GetUser().UserID);
+        }
+
+        public static Models.PartialModel GetSidebar()
+        {
+            return (Models.PartialModel) HttpContext.Current.Session["sidebar"];
+        }
+
     }
 }

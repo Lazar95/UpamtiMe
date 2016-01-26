@@ -222,6 +222,7 @@ namespace UpamtiMe.Controllers
             //upisi u user-a
             Data.Users.updateStatisctics(usr.UserID, score, qaInfo.Count, streak);
 
+            UserSession.ReloadSidebar();
 
             return Json(new { success = true});
         }

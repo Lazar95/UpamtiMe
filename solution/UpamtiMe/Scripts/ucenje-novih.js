@@ -838,7 +838,7 @@ var realDealCheckAnswer = function() {
       _qa[_currentQuestion()].correctAnswers = 1;
       _qa[_currentQuestion()].wrongAnswers = 0;
       _qa[_currentQuestion()].combo = 1;
-      _qa[_currentQuestion()].goodness = 0;
+      _qa[_currentQuestion()].goodness = 0.6; // jer eto
     }
     $('.card-content .next').show().focus();
   } else {

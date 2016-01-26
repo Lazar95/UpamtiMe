@@ -20,5 +20,21 @@ namespace UpamtiMe.Tests
             Data.DTOs.StatisctisByDays bIc = statisctis7.Add(statisctisTotal);
             int a = 5;
         }
+
+        [TestMethod]
+        public void Beautify()
+        {
+            float a = 15.151235f;
+            string aS = a.beautify();
+
+            float b = 12151.785165f;
+            string bS = b.beautify();
+
+            float c = 1234567328.2125f;
+            string cS = c.beautify();
+
+            float d = float.MaxValue;
+
+        }
     }
 }

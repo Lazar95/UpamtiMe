@@ -238,7 +238,7 @@ namespace UpamtiMe.Controllers
                 // neka baci neki bolji exception
             }
             UserSession.SetTime();
-            return View("SessionTest", model);
+            return View("Review", model);
         }
 
         [HttpPost]

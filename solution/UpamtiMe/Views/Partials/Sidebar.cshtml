@@ -1,4 +1,5 @@
-﻿@model UpamtiMe.Models.PartialModel
+﻿@using Data
+@model UpamtiMe.Models.PartialModel
 
 @if (Model.UserID > 0)
 {
@@ -20,7 +21,7 @@
         <div id="sidebar-stats-info">
             <ul>
                 <li><dl><dd><i class="fa fa-fire"></i></dd><dt>@Model.Streak</dt></dl></li>
-                <li><dl><dd><i class="fa fa-line-chart"></i></dd><dt>@Model.Score</dt></dl></li>
+                <li><dl><dd><i class="fa fa-line-chart"></i></dd><dt>@Model.Score.beautify()</dt></dl></li>
                 <li><dl><dd><i class="fa fa-dashboard"></i></dd><dt>@Model.TotalCardsSeen</dt></dl></li>
                 <li><dl><dd><i class="fa fa-file"></i></dd><dt>@Model.LearningStatistics.Learned</dt></dl></li>
             </ul>

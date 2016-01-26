@@ -10,9 +10,9 @@
 <main id="course-profile">
 
     <div class="banner">
-        @if(user != null && user.UserID == Model.CreatorID)
+        @if (user != null && user.UserID == Model.CreatorID)
         {
-            <a href="@Url.Action("EditCourse", "Courses", new {id = @Model.CourseID})">Edit</a>
+            <a href="@Url.Action("EditCourse", "Courses", new { id = @Model.CourseID })">Edit</a>
         }
 
 
@@ -30,9 +30,9 @@
         <div class="basic-info">
             <div class="course-name">@Model.Name</div>
             <div class="course-cat-subcat">
-                <span class="cat" data-cat-id=@Model.CategoryID>@Model.CategoryName</span>
+                <span class="cat" data-cat-id=@Model.CategoryID><a href="@Url.Action("Index", "Courses", new { categoryID = Model.CategoryID })">@Model.CategoryName</a></span>
                 <i class="fa fa-caret-right"></i>
-                <span class="subcat" data-subcat-id=@Model.SubcategoryID>@Model.SubcategoryName</span>
+                <span class="subcat" data-subcat-id=@Model.SubcategoryID><a href="@Url.Action("Index", "Courses", new { subcategoryID = Model.SubcategoryID })">@Model.SubcategoryName</a></span>
             </div>
             <div class="course-description">@Model.Description</div>
 

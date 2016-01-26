@@ -16,8 +16,7 @@ var parseTableOfGod = function() {
     _qa.push( {
       "status": -1,
       //TODO svasta nesto gledaj dole
-      //"cardID": curr.children('[data-type="card-id"]').text().trim(), // novo
-	  //UserCardID ovako treba da se zove, a ne cardID
+      "userCardID": curr.children('[data-type="user-card-id"]').text().trim(), // novo
       "question" : curr.children('[data-type="question"]').text().trim(),
       "answer" : curr.children('[data-type="answer"]').text().trim(),
       "description": curr.children('[data-type="description"]').text().trim(),

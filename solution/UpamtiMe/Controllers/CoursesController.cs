@@ -38,7 +38,7 @@ namespace UpamtiMe.Controllers
         public ActionResult InfinateScroll(int BlockNumber)
         {
             int initBlockSize = Models.CourseIndexModel.brojKursevaKojiSePrikazuUStartu;
-            int BlockSize = 2;
+            int BlockSize = ConfigurationParameters.CoursesSearchInfiniteScrollBlockSize;
 
 
             JsonModel jsonModel = new JsonModel();

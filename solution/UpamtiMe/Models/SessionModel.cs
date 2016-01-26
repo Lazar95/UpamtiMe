@@ -17,8 +17,9 @@ namespace UpamtiMe.Models
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
+            //ovo je zapravo defaultna vrenost, mora ovako jer inace mora da bude compile-time constant
             if (numberOfCards == null)
-                numberOfCards = 6;
+                numberOfCards = ConfigurationParameters.LearningSessionCardNumber;
 
             if (levelID == null)
             {
@@ -57,7 +58,7 @@ namespace UpamtiMe.Models
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
             if (numberOfCards == null)
-                numberOfCards = 20;
+                numberOfCards = ConfigurationParameters.ReviewSessionCardNumber;
 
             if (levelID == null)
             {
@@ -102,11 +103,12 @@ namespace UpamtiMe.Models
         
         public static SessionModel LoadLinkySession(int userID, int courseID, int? levelID, int? numberOfCards)
         {
-            int linkyLimit = 5;
+            int linkyLimit = ConfigurationParameters.LinkyLimit;
+
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
             if (numberOfCards == null)
-                numberOfCards = 500;
+                numberOfCards = ConfigurationParameters.LinkySessionCardNumber;
 
             SessionModel sm = new SessionModel();
 

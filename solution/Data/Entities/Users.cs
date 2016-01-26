@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Linq.SqlClient;
 using System.Data.Objects;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,8 @@ namespace Data
 {
     public class Users
     {
-        //TODO pazi ne setujemo avatar
         public static User addUser(string name, string username, string password, string email, string bio = null,
-            string location = null, string surname = null)
+            string location = null, string surname = null, byte[] avatar = null)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
@@ -29,7 +29,7 @@ namespace Data
                 location = location,
                 surname = surname,
                 score = 0,
-                avatar = null,
+                avatar = avatar?.ToArray(),
                 lastLogin = DateTime.Now,
                 dateRegistered = DateTime.Now,
                 totalCardsSeen = 0,
@@ -175,6 +175,7 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Friendships where a.user1ID == aID && a.user2ID == bID select a).Any();
         }
+       
 
         public static void editAvatar(int userID, byte[] file)
         {

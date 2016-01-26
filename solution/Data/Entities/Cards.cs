@@ -241,7 +241,7 @@ namespace Data
                 uc.nextSee = DateTime.Now.AddMinutes(card.NextSeeMinutes);
                 uc.correctAnswers += card.CorrectAnswers;
                 uc.wrongAnswers += card.WrongAnswers;
-                uc.goodness = card.Goodness; //treba da se sracuna
+                uc.goodness = card.Goodness; //trenutno laza racuna to
             }
             dc.SubmitChanges();
             return cw;

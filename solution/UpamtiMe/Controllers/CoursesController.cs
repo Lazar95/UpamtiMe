@@ -237,6 +237,7 @@ namespace UpamtiMe.Controllers
                 return RedirectToAction("Error", "Home");
                 // neka baci neki bolji exception
             }
+            UserSession.SetTime();
             return View("Review", model);
         }
 

@@ -58,11 +58,11 @@ var _qa = [
  * Ovaj niz mora da se filtrira tako da se izbaci sve sto je duplikat ili po
  * pitanju ili po odgovoru.
  */
- 
+
  $(window).bind('load', function() {
   parseTableOfGod();
   LENGTH = _qa.length;
- 
+
   shuffleArray(_qa);
 
   var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -86,8 +86,8 @@ var _qa = [
   _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
 
 });
- 
- 
+
+
  // JSON za pitanja i odgovore
 var parseTableOfGod = function() {
   table = $('#table-of-god');
@@ -114,8 +114,8 @@ var parseTableOfGod = function() {
   console.log(_qa);
 }
 
- 
- 
+
+
 var LENGTH = _qa.length;
 var ALLOW_GAME = true;
 
@@ -205,7 +205,23 @@ var gameOver = function() {
 
   $('#cover').addClass('show');
 
+  var dataToSend = {
+    "score": _score,
+	  "courseID" : $('#table-of-god').attr('data-course-id'),
+  };
 
+  $.ajax({
+    url: "/Courses/Review", // /kontroler/akcija (klasa/funkcija u klasi)
+    method: "POST",
+    data: dataToSend,
+    success: function (res) {
+      if (res.success) {
+        $('body').append('Waai uspesno!');
+      } else {
+        $('body').append('Nije uspelo!');
+      }
+    }
+  });
 }
 
 /**
@@ -441,5 +457,3 @@ var dump = function() {
 /**
  * Prikaz summary na kraju
  */
-
-

@@ -10,8 +10,6 @@ namespace UpamtiMe.Models
 {
     public class PartialModel
     {
-        //avatar, username, name, leaderboard, streak, learning statistics, score, totalCardsSeen,  poslednjih sedam dana ukupnih poena 
-
         public int UserID { get; set; }
         public string Username { get; set; }
         public string Name { get; set; }
@@ -19,8 +17,7 @@ namespace UpamtiMe.Models
         public int Streak { get; set; }
         public float Score { get; set; }
         public int TotalCardsSeen { get; set; }
-        //izbaci jedno od ova dva
-        public string ScoreLast7Days { get; set; }
+       
         public Data.DTOs.StatisctisByDays Statistics { get; set; }
 
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
@@ -38,10 +35,8 @@ namespace UpamtiMe.Models
             returnValue.Streak = usr.streak;
             returnValue.Score = usr.score;
             returnValue.TotalCardsSeen = usr.totalCardsSeen;
-
-            //izbaci jedno od ova dva
+           
             returnValue.Statistics = Data.Users.GetStatisctisByDays(userID, timeSpan: 7);
-            returnValue.ScoreLast7Days = Data.Users.GetStatisctisByDays(userID, timeSpan: 7).Scores;
 
             returnValue.Leaderboard = Data.Users.getLeaderboard(userID);
             if(learningStatistics == null)

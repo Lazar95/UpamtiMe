@@ -1,4 +1,6 @@
-﻿@using Data.DTOs
+﻿@using System.Web.Mvc.Html
+@using Data.DTOs
+@using UpamtiMe.Models
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,9 +27,11 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 
-    @{ Html.RenderPartial("~/Views/Partials/Sidebar.cshtml", UserSession.GetSidebar()); }
+    
+    @{ Html.RenderPartial("~/Views/Partials/Sidebar.cshtml", user == null ? new PartialModel {UserID = -1} : UserSession.GetSidebar()); }
 
-    @RenderBody()
+
+              @RenderBody()
 
 </body>
 </html>

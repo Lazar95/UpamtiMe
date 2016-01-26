@@ -25,6 +25,69 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 
+
+    @* Ovo pomeri u partial view kad dodje masa *@
+    <aside id="sidebar">
+        <div id="sidebar-basic-info">
+            <div id="sidebar-picture"></div>
+            <div id="sidebar-names">
+                <span>Nepoznata Osoba</span>
+                <span>&#64;nepoznata_osoba</span>
+            </div>
+        </div>
+        <div id="sidebar-stats-info">
+            <ul>
+                <li><dl><dd><i class="fa fa-fire"></i></dd><dt>23</dt></dl></li>
+                <li><dl><dd><i class="fa fa-star"></i></dd><dt>89</dt></dl></li>
+                <li><dl><dd><i class="fa fa-th-large"></i></dd><dt>135</dt></dl></li>
+                <li><dl><dd><i class="fa fa-file"></i></dd><dt>3k</dt></dl></li>
+            </ul>
+        </div>
+        <div id="sidebar-favorite-courses">
+            <ul class="acordeon">
+                <li>
+                    <div class="acordeon-title"></div>
+                    <div class="acordeon-content"></div>
+                </li>
+                <li>
+                    <div class="acordeon-title"></div>
+                    <div class="acordeon-content"></div>
+                </li>
+                <li>
+                    <div class="acordeon-title"></div>
+                    <div class="acordeon-content"></div>
+                </li>
+                <li>
+                    <div class="acordeon-title"></div>
+                    <div class="acordeon-content"></div>
+                </li>
+            </ul>
+        </div>
+        <div id="sidebar-graph">
+                <canvas id="sidebar-graph-points" width="200" height="100" data-points="100|200|100|650|200|0|30" data-dates="1|2|3|4|5|6|7"></canvas>
+        </div>
+        <div id="sidebar-buttons">
+            <div class="sidebar-button">
+                <div class="button-icon"><i class="fa fa-question"></i></div>
+                <div class="button-text">Halp</div>
+            </div>
+            <div class="sidebar-button">
+                <div class="button-icon"><i class="fa fa-bell"></i></div>
+                <div class="button-text">Bell</div>
+            </div>
+            <div class="sidebar-button">
+                <div class="button-icon"><i class="fa fa-envelope"></i></div>
+                <div class="button-text">Koverta</div>
+            </div>
+            <div class="sidebar-button">
+                <div class="button-icon"><i class="fa fa-eye"></i></div>
+                <div class="button-text">Oko!</div>
+            </div>
+        </div>
+    </aside>
+
+    <script src="~/Scripts/sidebar.js"></script>
+
     @RenderBody()
 
 </body>

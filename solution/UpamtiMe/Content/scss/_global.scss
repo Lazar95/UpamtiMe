@@ -81,30 +81,158 @@ button, input[type="submit"] {
  	transition: flex-grow .66s ease;
  }
 
- body {
-	 min-height: 100vh;
-   display: flex;
-   flex-direction: column;
-   justify-content: flex-start;
-   font-family: $font-stack;
- 	 background-color: palette($blue-grey, 700);
- }
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	font-family: $font-stack;
+	background-color: palette($blue-grey, 700);
+}
 
- header {
-   background-color: palette($blue-grey, 200);
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 10px;
- 	height: 48px;
-   z-index: 10;
-   @include z-depth(2);
- }
+header {
+	background-color: palette($blue-grey, 200);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	height: 48px;
+	z-index: 100;
+	@include z-depth(2);
+}
 
- main {
-	 @include force-width(1280px);
-	 margin: 20px auto 0;
- }
+
+aside#sidebar {
+	background-color: palette($blue-grey, 900);
+	position: fixed;
+	@include z-depth(2);
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 224px;
+	z-index: 10;
+	overflow: hidden;
+	color: palette($blue-grey, 200);
+
+	display: flex;
+	flex-direction: column;
+
+	& > * {
+		flex-grow: 0;
+		padding: 8px;
+	}
+
+	& > *:first-child {
+		margin-top: 68px; // ukupna visina hedera
+	}
+
+	#sidebar-basic-info {
+		display: flex;
+		justify-content: space-between;
+
+		#sidebar-picture {
+			@include force-height(70px);
+			@include force-width(70px);
+			background-color: rgba(white, .3);
+		}
+
+		#sidebar-names {
+			padding-left: 8px;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+
+			span { display: block; }
+
+			span:first-child {
+				font-weight: bold;
+				font-size: 20px;
+			}
+		}
+	}
+
+	#sidebar-stats-info {
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+
+			li {
+				width: 50%;
+				display: flex;
+				justify-content: center;
+
+				dl {
+					display: flex;
+					width: 100%;
+					justify-content: center;
+
+					& > * {
+						width: 50%;
+						font-size: 18px;
+						text-align: center;
+						margin: 0 5px;
+					}
+
+					dd {
+						text-align: right;
+					}
+
+					dt {
+						text-align: left;
+					}
+				}
+
+				&:nth-child(1), &:nth-child(2) {
+					margin-bottom: 8px;
+				}
+			}
+		}
+	}
+
+	#sidebar-favorite-courses {
+		flex-grow: 1;
+		background-color: rgba(white, .1);
+	}
+
+	#sidebar-graph {
+	}
+
+	#sidebar-buttons {
+		padding: 0;
+		display: flex;
+
+		.sidebar-button {
+			background-color: rgba(black, .3);
+			flex-grow: 1;
+			width: 25%;
+			height: 48px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 0 0 0 1px rgba(white, .05) inset, 0 0 0 1px rgba(white, .05);
+			cursor: pointer;
+
+			&:hover, &:focus {
+				background-color: rgba(black, .1);
+				.button-icon { color: palette($blue-grey, 50); }
+			}
+
+			.button-icon {
+				color: palette($blue-grey, 200);
+				text-align: center;
+				font-size: 24px;
+			}
+
+			.button-text { display: none; }
+		}
+	}
+}
+
+main {
+	@include force-width(1280px);
+	margin: 20px auto 0;
+}
 
 /**
  * FAB

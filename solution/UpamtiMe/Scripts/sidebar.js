@@ -1,4 +1,6 @@
-// Boje
+/**
+ * Grafici
+ */
 var colorPink = "rgba(233, 30, 99, 1)";
 var colorPinkTransp = "rgba(233, 30, 99, .3)";
 var colorPink200 = "rgba(244, 143, 177, 1)";
@@ -48,6 +50,14 @@ var loadGraphLine = function($canvas, dataInfo, len) {
   var legend = chart.generateLegend();
   $canvas.append(legend);
 }
+
+/**
+ * Expandovanje favorites
+ */
+$('.acordeon-title').click(function() {
+  $(this).parent().parent().children().removeClass('expanded');
+  $(this).parent().addClass('expanded');
+});
 
  $(window).bind('load', function() {
   var temp = [

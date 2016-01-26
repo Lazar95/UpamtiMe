@@ -198,8 +198,8 @@ aside#sidebar {
 
 	#sidebar-favorite-courses {
 		flex-grow: 1;
-		background-color: rgba(white, .1);
 		display: flex;
+		flex-flow: column;
 
 		ul.acordeon {
 			flex-grow: 2;
@@ -209,17 +209,29 @@ aside#sidebar {
 			flex-flow: column;
 
 			li {
-				flex-grow: 1;
-			}
+				flex-grow: 0;
+				display: flex;
+				flex-flow: column;
 
-			.acordeon-title {
-				flex-grow: 1;
-				background-color: palette($green);
-			}
+				.acordeon-title {
+					flex-grow: 0.0001;
+					background-color: palette($blue-grey, 600);
+				}
 
-			.acordeon-content {
-				flex-grow: 0.001;
-				background-color: palette($blue);
+				.acordeon-content {
+					flex-grow: 1;
+					overflow: hidden;
+					background-color: palette($blue-grey, 800);
+					@include force-height(0);
+				}
+
+				&.expanded {
+					.acordeon-content {
+						flex-grow: 0;
+						@include force-height(auto);
+						max-height: 100vh;
+					}
+				}
 			}
 		}
 	}

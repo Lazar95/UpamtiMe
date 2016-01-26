@@ -211,7 +211,7 @@ var gameOver = function() {
   };
 
   $.ajax({
-    url: "/Courses/Review", // /kontroler/akcija (klasa/funkcija u klasi)
+    url: "/Courses/Linky", // /kontroler/akcija (klasa/funkcija u klasi)
     method: "POST",
     data: dataToSend,
     success: function (res) {

@@ -14,5 +14,21 @@ namespace Data
                 s=s.Remove(s.Length - 1);
             return s;
         }
+
+        public static string beautify(this float a)
+        {
+            if (a > 1000000)
+            {
+               return (a/ 1000000).ToString("0.00") + "m";
+            }
+            else if (a > 1000)
+            {
+                return (a / 1000).ToString("0.00") + "k";
+            }
+            else
+            {
+                return a.ToString("0.00");
+            }
+        }
     }
 }

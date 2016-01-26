@@ -101,7 +101,10 @@ namespace Data.DTOs
             }
 
             StatisctisByDays returnValue = new StatisctisByDays();
-            returnValue.Dates = this.Dates;// ovo treba da se sredi
+
+            if (this.Dates != stat.Dates)
+                return null;
+            returnValue.Dates = this.Dates;
 
             PropertyInfo[] properties = typeof(StatisctisByDays).GetProperties();
             foreach (PropertyInfo property in properties)

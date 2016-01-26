@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Data.DTOs;
@@ -222,5 +223,29 @@ namespace Data
             dc.SubmitChanges();
             return cw;
         }
+
+        public static CorrectWrong UpdateUserCard(List<UserCardSessionInfo> cards, int userCardID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            CorrectWrong cw = new CorrectWrong();
+            cw.Correct = 0;
+            cw.Wrong = 0;
+            foreach (UserCardSessionInfo card in cards)
+            {
+                cw.Correct += card.CorrectAnswers;
+                cw.Wrong += card.WrongAnswers;
+                UsersCard uc = (from a in dc.UsersCards where a.usersCardID == userCardID select a).First();
+
+                uc.cardCombo = card.Combo;
+                uc.lastSeen = DateTime.Now;
+                uc.nextSee = DateTime.Now.AddMinutes(card.NextSeeMinutes);
+                uc.correctAnswers += card.CorrectAnswers;
+                uc.wrongAnswers += card.WrongAnswers;
+                uc.goodness = card.Goodness; //treba da se sracuna
+            }
+            dc.SubmitChanges();
+            return cw;
+        }
+
     }
 }

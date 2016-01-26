@@ -240,6 +240,29 @@ namespace UpamtiMe.Controllers
             return View("Review", model);
         }
 
+        [HttpPost]
+        public ActionResult Review(List<UserCardSessionInfo> qaInfo, float score, int courseID)
+        {
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+
+
+            int timeSpent = DateTime.Now.Subtract(UserSession.GetTime()).Minutes + 1;
+
+            //upisi u usercard
+            Data.DTOs.CorrectWrong cw = Data.Cards.UpdateUserCard(qaInfo, usr.UserID);
+
+            //upisi u tabelu sa statistikama i userCourses
+            bool streak = Data.Courses.updateStatistics(courseID, usr.UserID, score, 0, qaInfo.Count, 0, 0, cw.Correct, cw.Wrong, 
+                timeSpent);
+
+            //upisi u user-a
+            Data.Users.updateStatisctics(usr.UserID, score, 0, streak);
+
+            UserSession.ReloadSidebar();
+
+            return Json(new { success = true });
+        }
+
         public ActionResult Linky(int courseID, int? levelID, int? numberOfCards)
         {
             SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);

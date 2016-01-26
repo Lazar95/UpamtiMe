@@ -69,7 +69,7 @@ namespace UpamtiMe.Models
             }
 
             SessionModel sm = new SessionModel();
-
+            sm.CourseID = courseID;
             sm.Cards = (from c in dc.Cards 
                         from u in dc.UsersCards
                         where u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now 

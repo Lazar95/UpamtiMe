@@ -23,14 +23,14 @@ namespace UpamtiMe.Controllers
             {
                 return RedirectToAction("Profile", "Users", new { id = UserSession.GetUser().UserID });
             }
-            //else
-            //{
-            //    Login(new HomeIndexModel
-            //    {
-            //        Login = new LoginTransporterDTO {Username = "masa", Password = "plavusha", RememberMe = true}
-            //    });
-            //    return RedirectToAction("Index", "Users", new {id = 1});
-            //}
+            else
+            {
+                Login(new HomeIndexModel
+                {
+                    Login = new LoginTransporterDTO { Username = "masa", Password = "plavusha", RememberMe = true }
+                });
+                return RedirectToAction("Index", "Users", new { id = 1 });
+            }
             return View();
         }
 

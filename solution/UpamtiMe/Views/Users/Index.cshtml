@@ -80,20 +80,17 @@
         {
             <li data-course-id=@course.CourseID>
                 <div class="wrapper">
-                    <div class="course-name">@(course.Name)</div>
+                    <div class="course-name"><a href="@Url.Action("Profile", "Courses", new { id = course.CourseID } )">@course.Name</a></div>
                     @Helper.Image(course.Image, "class", "course-picture")
                     <div class="course-buttons">
                         <div class="button button-rect learn-button">
-                            <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>
+                            <div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", "Courses", new { courseID = course.CourseID } )">Uči</a></span>
                         </div>
                         <div class="button button-rect review-button">
-                            <div class="btn-icon icon-id-review"><span></span></div><span><a href="#!">Obnovi</a></span>
+                            <div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", "Courses", new { courseID = course.CourseID } )">Obnovi</a></span>
                         </div>
                         <div class="button button-rect linky-button">
-                            <div class="btn-icon icon-id-linky"><span></span></div><span><a href="#!">Spajalica</a></span>
-                        </div>
-                        <div class="button button-rect list-button">
-                            <div class="btn-icon icon-id-list"><span></span></div><span><a href="#!">Spisak</a></span>
+                            <div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", "Courses", new { courseID = course.CourseID } )">Spajalica</a></span>
                         </div>
                     </div>
                     <div class="course-points-graph-wrapper">

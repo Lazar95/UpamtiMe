@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Linq.SqlClient;
+using System.Data.Objects;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -202,21 +204,27 @@ namespace Data
 
             foreach (User user in dc.Users)
             {
-                int last7days = 0;
-                int last30days = 0;
+                float last7days = 0;
+                float last30days = 0;
                 bool streak = true;
 
                 foreach (UsersCourse uc in (from a in dc.UsersCourses where a.userID == user.userID select a))
                 {
-                    var query = (from a in dc.UserCourseStatistics
-                        where a.userCourseID == uc.usersCoursesID && DateTime.Now.Subtract(a.date).Days < 30
-                        select a.date);
 
-                    if ((from a in query where DateTime.Now.Subtract(a).Days == 0 select a).Any())
+                    DateTime thirtyDaysAgo = DateTime.Today.AddDays(-30);
+
+                    var query = (from a in dc.UserCourseStatistics
+                        where a.userCourseID == uc.usersCoursesID && a.date > thirtyDaysAgo
+                        select new {date = a.date, score = a.score}).ToList();
+
+                    
+                    if (!(from a in query where DateTime.Today == a.date select a).Any())
                         streak = false;
 
-                    int week = (from a in query where DateTime.Now.Subtract(a).Days < 7 select a).Count();
-                    int month = query.Count();
+                    DateTime sevenDaysAgo = DateTime.Today.AddDays(-7);
+
+                    float week = (from a in query where a.date > sevenDaysAgo select a.score).Sum();
+                    float month = (from a in query select a.score).Sum();
 
                     uc.thisWeekScore = week;
                     uc.thisMonthScore = month;

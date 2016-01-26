@@ -81,7 +81,7 @@
             <li data-course-id=@course.CourseID>
                 <div class="wrapper">
                     <div class="course-name">@(course.Name)</div>
-                    <div class="course-picture"></div>
+                    @Helper.Image(course.Image, "class", "course-picture")
                     <div class="course-buttons">
                         <div class="button button-rect learn-button">
                             <div class="btn-icon icon-id-learn"><span></span></div><span><a href="#!">Uči</a></span>

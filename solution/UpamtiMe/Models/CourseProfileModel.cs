@@ -19,7 +19,7 @@ namespace UpamtiMe.Models
         public string Description { get; set; }
         public byte[] Image { get; set; }
         public int LevelNumber { get; set; }
-        public bool Favorite { get; set; }
+        public int? Favorite { get; set; }
         public List<Data.DTOs.LevelWithStatisticsDTO> Levels { get; set; }
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public Data.DTOs.CourseUsersStatisticsDTO Statistics { get; set; }
@@ -53,7 +53,7 @@ namespace UpamtiMe.Models
             if (userID != null)
             {
                 cim.Statistics = Data.Courses.getUserCourseStatistics(courseID, userID.Value, course.numberOfCards);
-               // cim.Favorite = 
+                cim.Favorite = Data.Courses.getFavorite(courseID, userID.Value);
             }
 
             return cim;

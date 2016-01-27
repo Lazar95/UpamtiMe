@@ -19,6 +19,7 @@
       <Column Name="lastPlayed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="thisWeekScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="thisMonthScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="favorite" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="UsersCourse_UserCourseStatistic" Member="UserCourseStatistics" ThisKey="usersCoursesID" OtherKey="userCourseID" Type="UserCourseStatistic" />
       <Association Name="Course_UsersCourse" Member="Course" ThisKey="courseID" OtherKey="courseID" Type="Course" IsForeignKey="true" />
       <Association Name="User_UsersCourse" Member="User" ThisKey="userID" OtherKey="userID" Type="User" IsForeignKey="true" />
@@ -58,7 +59,6 @@
       <Column Name="description" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Column Name="image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Course_UsersCourse" Member="UsersCourses" ThisKey="courseID" OtherKey="courseID" Type="UsersCourse" />
-      <Association Name="Course_Favorite" Member="Favorites" ThisKey="courseID" OtherKey="courseID" Type="Favorite" />
       <Association Name="Course_Level" Member="Levels" ThisKey="courseID" OtherKey="courseID" Type="Level" />
       <Association Name="Category_Course" Member="Category" ThisKey="categoryID" OtherKey="categoryID" Type="Category" IsForeignKey="true" />
       <Association Name="Subcategory_Course" Member="Subcategory" ThisKey="subcategoryID" OtherKey="subcategoryID" Type="Subcategory" IsForeignKey="true" />
@@ -69,8 +69,6 @@
       <Column Name="favoritesID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="courseID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Course_Favorite" Member="Course" ThisKey="courseID" OtherKey="courseID" Type="Course" IsForeignKey="true" />
-      <Association Name="User_Favorite" Member="User" ThisKey="userID" OtherKey="userID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Friendships" Member="Friendships">
@@ -141,7 +139,6 @@
       <Column Name="thisWeekScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="thisMonthScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Association Name="User_UsersCourse" Member="UsersCourses" ThisKey="userID" OtherKey="userID" Type="UsersCourse" />
-      <Association Name="User_Favorite" Member="Favorites" ThisKey="userID" OtherKey="userID" Type="Favorite" />
       <Association Name="User_Friendship" Member="Friendships" ThisKey="userID" OtherKey="user1ID" Type="Friendship" />
       <Association Name="User_Friendship1" Member="Friendships1" ThisKey="userID" OtherKey="user2ID" Type="Friendship" />
       <Association Name="User_UsersAchievement" Member="UsersAchievements" ThisKey="userID" OtherKey="userID" Type="UsersAchievement" />

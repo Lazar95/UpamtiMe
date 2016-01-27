@@ -250,3 +250,5 @@ _Pvt_Extensions
 .fake/
 solution/UpamtiMe/Content/main.css.map
 *.map
+solution/Data/DataClasses1.dbml
+solution/Data/DataClasses1.designer.cs

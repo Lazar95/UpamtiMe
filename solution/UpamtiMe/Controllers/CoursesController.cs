@@ -282,6 +282,20 @@ namespace UpamtiMe.Controllers
             return Json(new { success = true });
         }
 
+        public ActionResult Favorite(int courseID)
+        {
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+            Data.Courses.setFavorite(courseID, usr.UserID, 1);
+            return RedirectToAction("Profile", new {id = courseID});
+        }
+
+        public ActionResult UnFavorite(int courseID)
+        {
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+            Data.Courses.setFavorite(courseID, usr.UserID, null);
+            return RedirectToAction("Profile", new { id = courseID });
+        }
+
 
 
     }

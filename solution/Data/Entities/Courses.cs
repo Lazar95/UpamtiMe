@@ -371,9 +371,24 @@ namespace Data
                 }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ToList();
         }
 
-        public static bool CheckIfFavorite(int courseID, int userID)
+        public static UsersCourse GetUserssCourse(int courseID, int userID, DataClasses1DataContext dc = null)
         {
-            return true;
+            dc = dc ?? new DataClasses1DataContext();
+            return (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a).First();
+        }
+
+        public static int? getFavorite(int courseID, int userID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return GetUserssCourse(courseID, userID, dc).favorite;
+        }
+
+        public static void setFavorite(int courseID, int userID, int? favorite)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            UsersCourse uc = GetUserssCourse(courseID, userID, dc);
+            uc.favorite = favorite;
+            dc.SubmitChanges();
         }
 
     }

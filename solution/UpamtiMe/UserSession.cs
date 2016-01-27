@@ -10,6 +10,7 @@ namespace UpamtiMe
     {
         public static LoginDTO GetUser()
         {
+            //mozda bi ovde mogla da bacis exception ako nije ulogovan
             return (LoginDTO) HttpContext.Current.Session["user"];
         }
 

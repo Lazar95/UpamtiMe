@@ -1,0 +1,61 @@
+<body>
+    <input type="text" id="totalToLearn" /> Ucenje (ukupno)<br /> 
+    <input type="text" id="optionsForLearn" /> Ponudjene opcije<br /> 
+
+    <input type="text" id="totalToReview" /> Obnavljanje (ukupno)<br />
+    <input type="text" id="optionsForReview" /> Ponudjene opcije<br /> 
+    <button id="mark">Test</button> <br /><br /> 
+</body>
+
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+
+<script>
+
+    var cardOptions = function (totalCards, optionNum, firstOption, step) {
+        var options = []; // niz opcija koji ce funkcija da vrati
+        var maxOptionsNum = optionNum; // vracamo najvise 4 opcije
+        var temp = totalCards;
+        var i;
+        var minimumCards = firstOption; // prva opcija, nikad ne sme manje od ovoga da ostane, samo ako ih nije ni bilo u nivou
+        var stepSize = step; // uvecava se za ovoliko po opciji
+        for (i = 0; i < maxOptionsNum && temp >= minimumCards; i++) {
+            options[i] = minimumCards + i * stepSize;
+            if (i == 0)
+                temp -= minimumCards;
+            else
+                temp -= stepSize;
+        }
+        if (i > 0) {
+            if (temp <= minimumCards) {
+                options[i - 1] += temp;
+            }
+        }
+        else {
+            options[i] = temp;
+        }
+        return options;
+    }
+
+    var learnCardsOptions = function (totalForLearning)
+    {
+        return cardOptions(totalForLearning, 4, 3, 3); // parametri (broj nenaucenih kartica u nivou, broj opcija u dropdown, prva opcija, korak)
+    }
+
+    var reviewCardsOptions = function (totalForReview)
+    {
+        return cardOptions(totalForReview, 4, 10, 5); // parametri (broj neobnovljenih kartica u nivou, broj opcija u dropdown, prva opcija, korak)
+    }
+
+    $('#mark').click(function () {
+        $('#optionsForLearn').val('');
+        var opts = learnCardsOptions($('#totalToLearn').val());
+        for (var i = 0; i < opts.length; i++)
+            $('#optionsForLearn').val($('#optionsForLearn').val() + opts[i] + ' ');
+
+        $('#optionsForReview').val('');
+        var opts2 = reviewCardsOptions($('#totalToReview').val());
+        for (var i = 0; i < opts2.length; i++)
+            $('#optionsForReview').val($('#optionsForReview').val() + opts2[i] + ' ');
+    });
+
+</script>

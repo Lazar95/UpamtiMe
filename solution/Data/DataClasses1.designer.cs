@@ -387,6 +387,8 @@ namespace Data
 		
 		private float _thisMonthScore;
 		
+		private System.Nullable<int> _favorite;
+		
 		private EntitySet<UserCourseStatistic> _UserCourseStatistics;
 		
 		private EntityRef<Course> _Course;
@@ -413,6 +415,8 @@ namespace Data
     partial void OnthisWeekScoreChanged();
     partial void OnthisMonthScoreChanging(float value);
     partial void OnthisMonthScoreChanged();
+    partial void OnfavoriteChanging(System.Nullable<int> value);
+    partial void OnfavoriteChanged();
     #endregion
 		
 		public UsersCourse()
@@ -587,6 +591,26 @@ namespace Data
 					this._thisMonthScore = value;
 					this.SendPropertyChanged("thisMonthScore");
 					this.OnthisMonthScoreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_favorite", DbType="Int")]
+		public System.Nullable<int> favorite
+		{
+			get
+			{
+				return this._favorite;
+			}
+			set
+			{
+				if ((this._favorite != value))
+				{
+					this.OnfavoriteChanging(value);
+					this.SendPropertyChanging();
+					this._favorite = value;
+					this.SendPropertyChanged("favorite");
+					this.OnfavoriteChanged();
 				}
 			}
 		}

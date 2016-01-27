@@ -1,9 +1,16 @@
-var _course = []; // niz nivoa
+const UNTOUCHED = 0;
+const CHANGED = 1;
+const NEW = 2;
+const DELETED = 3;
 
-var UNTOUCHED = 0;
-var CHANGED = 1;
-var NEW = 2;
-var DELETED = 3;
+var _course = []; // niz nivoa
+var _courseInfo = {
+  "name": $('#course-name > span').html().trim(),
+  "categoryID": $('select#category > option:selected').val(),
+  "subcategoryID": $('select#subcategory').attr('data-subcat'),
+  "description": $('#course-description > span').html().trim(),
+  "status": UNTOUCHED,
+}
 
 var viewToData = function() {
 
@@ -766,12 +773,6 @@ var dump = function() {
   console.log(_dataToSend);
 }
 
-$(document).ready(function() {
-  viewToData();
-  // Inicijalno sklanjane nepotrebnih dugmadi za editovanje kartice.
-  showInitialButtons();
-});
-
 /**
  * Dizajn
  */
@@ -805,6 +806,115 @@ var hideAllButtons = function(here) {
   here.children('.discard-button').hide();
   here.children('.undo-button').hide();
 }
+
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+/*** Globalno za ceo kurs ****/
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+
+// Ime
+$('.banner').on('click', '#course-name span', function() {
+  var oldName = $(this).html().trim();
+  $(this).parent().append('<input type="text" id="course-name-edit" value="' + oldName + '" data-old-name="' + oldName + '">');
+  $(this).hide();
+});
+$('.banner').on('keyup', '#course-name-edit', function(e) {
+  if (e.keyCode == 13 || e.keyCode == 27) { // Enter ili Escape
+    var span = $(this).parent().children('span');
+    var newName = '';
+    var oldName = $(this).attr('data-old-name');
+
+    if (e.keyCode == 13) { newName = $(this).val(); }
+    else if (e.keyCode == 27) { var newName = oldName; }
+
+    $(this).remove();
+    span.html(newName);
+    span.show();
+
+    if (_courseInfo.status == UNTOUCHED && newName != oldName) {
+      _courseInfo.name = newName;
+      _courseInfo.status = CHANGED;
+    }
+    console.log(_courseInfo);
+  }
+});
+
+// Cat/subcat
+var hideCategories = function(cat, subcat) { //TODO refaktorisi
+  var catID = cat.children('option:selected').val();
+  subcat.children().removeAttr('hidden');
+  subcat.children(':not([data-catid="' + catID + '"])').attr('hidden', '');
+}
+$('#category').change(function() {
+  $('#subcategory').children('[value="0"]').attr('selected', '');
+  hideCategories($(this), $('#subcategory'));
+  _courseInfo.categoryID = $(this).children(':selected').val();
+  _courseInfo.status = CHANGED;
+});
+
+// Description
+var hideCourseDescriptionEditButtons = function() {
+}
+$('.banner').on('click', '#btn-course-description-edit', function() {
+  var oldDesc = $('#course-description > span').text().trim();
+  $('#course-description').append('<textarea value="' + oldDesc + '" data-old-desc="' + oldDesc + '">');
+  $('textarea').val(oldDesc);
+  $('#course-description > span').hide();
+  $('#btn-course-description-edit').hide();
+  $('#btn-course-description-accept').show();
+  $('#btn-course-description-discard').show();
+});
+$('.banner').on('click', '#btn-course-description-accept', function(e) {
+  var newDesc = $('textarea').val();
+  var oldDesc = $('textarea').attr('data-old-desc');
+  if (_courseInfo.status == UNTOUCHED && newDesc != oldDesc) {
+    _courseInfo.desc = newDesc;
+    _courseInfo.status = CHANGED;
+  }
+  $('textarea').remove();
+  $('#course-description > span').text(newDesc).show();
+  $('#btn-course-description-edit').show();
+  $('#btn-course-description-accept').hide();
+  $('#btn-course-description-discard').hide();
+});
+$('.banner').on('click', '#btn-course-description-discard', function(e) {
+  var oldDesc = $('textarea').attr('data-old-desc');
+  $('textarea').remove();
+  $('#course-description > span').text(oldDesc).show();
+  $('#btn-course-description-edit').show();
+  $('#btn-course-description-accept').hide();
+  $('#btn-course-description-discard').hide();
+});
+
+// Image
+$('#image-upload-prompt').click(function() {
+  $('#image-upload').show();
+});
+$('#btn-image-upload').click(function() {
+  $(this).hide();
+});
+
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+/******* Dokjument redi ******/
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+
+$(document).ready(function() {
+  hideCategories($('#category'), $('#subcategory'));
+  viewToData();
+  // Inicijalno sklanjane nepotrebnih dugmadi za editovanje kartice.
+  showInitialButtons();
+});
 
 /**
  * Tooltipovi //TODO refaktorisi da se vidi svuda

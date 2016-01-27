@@ -63,35 +63,70 @@ namespace UpamtiMe.Models
 
             SessionModel sm = new SessionModel();
             sm.CourseID = courseID;
-          
-            sm.Cards = (from c in dc.Cards
-                        from u in dc.UsersCards
-                        where u.userID == userID && u.cardID == c.cardID && (levelID == null || c.levelID == levelID.Value) && u.ignore == false && u.nextSee < DateTime.Now
-                        select new CardSessionDTO
-                        {
-                            UserCardInfo = new CardUserDTO()
+
+            if (levelID != null)
+            {
+                sm.Cards = (from c in dc.Cards
+                            from u in dc.UsersCards
+                            where u.userID == userID && u.cardID == c.cardID &&  c.levelID == levelID && u.ignore == false && u.nextSee < DateTime.Now
+                            select new CardSessionDTO
                             {
-                                Combo = u.cardCombo,
-                                CorrectAnswers = u.correctAnswers,
-                                WrongAnswers = u.wrongAnswers,
-                                LastSeen = u.lastSeen,
-                                LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
-                                NextSee = u.nextSee,
-                                NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
-                                UserCardID = u.usersCardID,
-                            },
-                            BasicInfo = new CardBasicDTO
+                                UserCardInfo = new CardUserDTO()
+                                {
+                                    Combo = u.cardCombo,
+                                    CorrectAnswers = u.correctAnswers,
+                                    WrongAnswers = u.wrongAnswers,
+                                    LastSeen = u.lastSeen,
+                                    LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
+                                    NextSee = u.nextSee,
+                                    NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
+                                    UserCardID = u.usersCardID,
+                                },
+                                BasicInfo = new CardBasicDTO
+                                {
+                                    Question = c.question,
+                                    Answer = c.answer,
+                                    Description = c.description,
+                                    Image = c.image == null ? null : c.image.ToArray(),
+                                    Number = c.number,
+                                }
+                            }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
+
+            }
+            else
+            {
+                sm.Cards = (from c in dc.Cards
+                            from l in dc.Levels
+                            from u in dc.UsersCards
+                            where u.userID == userID && u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee < DateTime.Now
+                            select new CardSessionDTO
                             {
-                                Question = c.question,
-                                Answer = c.answer,
-                                Description = c.description,
-                                Image = c.image == null ? null : c.image.ToArray(),
-                                Number = c.number,
-                            }
-                        }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
-            
-            
-            
+                                UserCardInfo = new CardUserDTO()
+                                {
+                                    Combo = u.cardCombo,
+                                    CorrectAnswers = u.correctAnswers,
+                                    WrongAnswers = u.wrongAnswers,
+                                    LastSeen = u.lastSeen,
+                                    LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
+                                    NextSee = u.nextSee,
+                                    NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
+                                    UserCardID = u.usersCardID,
+                                },
+                                BasicInfo = new CardBasicDTO
+                                {
+                                    Question = c.question,
+                                    Answer = c.answer,
+                                    Description = c.description,
+                                    Image = c.image == null ? null : c.image.ToArray(),
+                                    Number = c.number,
+                                }
+                            }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
+
+            }
+
+
+
+
 
             return sm;
         }
@@ -129,8 +164,9 @@ namespace UpamtiMe.Models
             else
             {
                 sm.Cards = (from c in dc.Cards
+                            from l in dc.Levels
                             from u in dc.UsersCards
-                            where u.userID == userID && u.cardID == c.cardID &&  u.ignore == false && u.nextSee > DateTime.Now 
+                            where u.userID == userID && u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee > DateTime.Now 
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardBasicDTO

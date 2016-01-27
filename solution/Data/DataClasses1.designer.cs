@@ -138,6 +138,14 @@ namespace Data
 			}
 		}
 		
+		public System.Data.Linq.Table<Favorite> Favorites
+		{
+			get
+			{
+				return this.GetTable<Favorite>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Friendship> Friendships
 		{
 			get
@@ -1530,6 +1538,69 @@ namespace Data
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Favorites")]
+	public partial class Favorite
+	{
+		
+		private int _favoritesID;
+		
+		private int _courseID;
+		
+		private int _userID;
+		
+		public Favorite()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_favoritesID", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
+		public int favoritesID
+		{
+			get
+			{
+				return this._favoritesID;
+			}
+			set
+			{
+				if ((this._favoritesID != value))
+				{
+					this._favoritesID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_courseID", DbType="Int NOT NULL")]
+		public int courseID
+		{
+			get
+			{
+				return this._courseID;
+			}
+			set
+			{
+				if ((this._courseID != value))
+				{
+					this._courseID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userID", DbType="Int NOT NULL")]
+		public int userID
+		{
+			get
+			{
+				return this._userID;
+			}
+			set
+			{
+				if ((this._userID != value))
+				{
+					this._userID = value;
+				}
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Friendships")]
 	public partial class Friendship : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2575,6 +2646,8 @@ namespace Data
 		
 		private int _streak;
 		
+		private bool _doneToday;
+		
 		private string _location;
 		
 		private float _thisWeekScore;
@@ -2621,6 +2694,8 @@ namespace Data
     partial void OnbioChanged();
     partial void OnstreakChanging(int value);
     partial void OnstreakChanged();
+    partial void OndoneTodayChanging(bool value);
+    partial void OndoneTodayChanged();
     partial void OnlocationChanging(string value);
     partial void OnlocationChanged();
     partial void OnthisWeekScoreChanging(float value);
@@ -2895,6 +2970,26 @@ namespace Data
 					this._streak = value;
 					this.SendPropertyChanged("streak");
 					this.OnstreakChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_doneToday", DbType="Bit NOT NULL")]
+		public bool doneToday
+		{
+			get
+			{
+				return this._doneToday;
+			}
+			set
+			{
+				if ((this._doneToday != value))
+				{
+					this.OndoneTodayChanging(value);
+					this.SendPropertyChanging();
+					this._doneToday = value;
+					this.SendPropertyChanged("doneToday");
+					this.OndoneTodayChanged();
 				}
 			}
 		}
@@ -3315,7 +3410,7 @@ namespace Data
 		
 		private int _cardCombo;
 		
-		private System.Nullable<System.DateTime> _nextSee;
+		private System.DateTime _nextSee;
 		
 		private int _correctAnswers;
 		
@@ -3343,7 +3438,7 @@ namespace Data
     partial void OnlastSeenChanged();
     partial void OncardComboChanging(int value);
     partial void OncardComboChanged();
-    partial void OnnextSeeChanging(System.Nullable<System.DateTime> value);
+    partial void OnnextSeeChanging(System.DateTime value);
     partial void OnnextSeeChanged();
     partial void OncorrectAnswersChanging(int value);
     partial void OncorrectAnswersChanged();
@@ -3488,8 +3583,8 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nextSee", DbType="DateTime")]
-		public System.Nullable<System.DateTime> nextSee
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nextSee", DbType="DateTime NOT NULL")]
+		public System.DateTime nextSee
 		{
 			get
 			{

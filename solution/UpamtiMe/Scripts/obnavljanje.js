@@ -163,6 +163,7 @@ var displayCardData = function(questionNumber) {
 
   $('.question span').html(_qa[questionNumber].question);
   $('.correct-answer span').html(_qa[questionNumber].answer);
+  displayCurrentCardInfo();
 
   // Za prikazivanje sledeceg pitanja, virnemo sta ce da bude sledece pitanje
   temp = _currentQuestion; // cuvamo trenutno pitanje
@@ -441,7 +442,7 @@ var updateCurrentSessionInfo = function() {
   else $('#last-score').html(_lastPoints.toFixed(2));
 }
 
-var updateCurrentCardInfo = function() {
+var displayCurrentCardInfo = function() {
   $('.card-info #card-last-seen').html('pre ' + _qa[_currentQuestion].lastSeenMinutes + ' minuta');
   $('.card-info #card-combo').html(_qa[_currentQuestion].combo);
 }
@@ -457,7 +458,7 @@ var displayAll = function() {
   displayCardData(_currentQuestion);
   displayProgress();
   updateCurrentSessionInfo();
-  updateCurrentCardInfo();
+  displayCurrentCardInfo();
   resetTimer();
 }
 

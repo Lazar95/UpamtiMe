@@ -1,4 +1,5 @@
 main#review-session, main#learn-session, main#spajalica {
+	@include force-width(1280px);
 	position: relative;
   flex-grow: 1;
   display: flex;

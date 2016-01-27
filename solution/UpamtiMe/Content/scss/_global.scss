@@ -73,13 +73,23 @@ button, input[type="submit"] {
 	font: inherit;
 }
 
+a {
+	color: palette($pink, 700);
+	text-decoration: none;
+}
+
+a:hover {
+	//text-decoration: underline;
+	box-shadow: 0 1px 0 0 palette($pink, 700);
+}
+
 /**
  * Global
  */
 
- * {
- 	transition: flex-grow .66s ease;
- }
+* {
+	transition: flex-grow .66s ease;
+}
 
 body {
 	min-height: 100vh;
@@ -282,8 +292,12 @@ aside#sidebar {
 }
 
 main {
-	@include force-width(1280px);
-	margin: 20px auto 0;
+	position: relative;
+	//width: 1280px;
+	max-width: 1280px;
+	margin: 0 auto;
+	left: (224px/2);
+	padding: 24px;
 }
 
 /**

@@ -80,6 +80,7 @@ main#create-new {
  */
 
 main#edit-course {
+	@include force-width(100%);
 	padding-bottom: 200px;
 
 	.basic-info {

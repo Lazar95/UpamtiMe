@@ -25,9 +25,8 @@ namespace UpamtiMe
         private static void SetTimer()
         {
             DateTime tomorow = DateTime.Now.AddDays(1);
-            DateTime midnight = new DateTime(tomorow.Year, tomorow.Month, tomorow.Day, 4, 0, 0);
+            DateTime midnight = new DateTime(tomorow.Year, tomorow.Month, tomorow.Day, 0, 0, 0);
             TimeSpan d = midnight - DateTime.Now;
-
            
             sTimer.Enabled = true;
             sTimer.Interval = d.TotalMilliseconds;

@@ -9,42 +9,36 @@
 
 <main id="course-profile">
 
-    <div class="banner">
-        @if (user != null && user.UserID == Model.CreatorID)
-        {
-            <a href="@Url.Action("EditCourse", "Courses", new { id = @Model.CourseID })">Edit</a>
-        }
+    <div class="course-banner">
+        @Helper.Image(Model.Image, "class", "avatar")
 
-
-        <div class="picture">
-                @{
-                    if (Model.Image != null)
-                    {
-                        var base64 = Convert.ToBase64String(Model.Image.ToArray());
-                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                        <img src="@imgSrc" width="208px" height="208px" />
-                    }
-                }
-
-        </div>
         <div class="basic-info">
-            <div class="course-name">@Model.Name</div>
-            <div class="course-cat-subcat">
+            <h1 id="course-name"><span>@Model.Name</span></h1>
+            <div class="cat-subcat">
                 <span class="cat" data-cat-id=@Model.CategoryID><a href="@Url.Action("Index", "Courses", new { categoryID = Model.CategoryID })">@Model.CategoryName</a></span>
                 <i class="fa fa-caret-right"></i>
                 <span class="subcat" data-subcat-id=@Model.SubcategoryID><a href="@Url.Action("Index", "Courses", new { subcategoryID = Model.SubcategoryID })">@Model.SubcategoryName</a></span>
             </div>
-            <div class="course-description">@Model.Description</div>
 
-            @if (Model.Favorite == null)
-            {
-                <a href="@Url.Action("Favorite", new {courseID = @Model.CourseID})"><i class="fa fa-star-o"></i></a>
-            }
-            else
-            {
-                <a href="@Url.Action("UnFavorite", new {courseID = @Model.CourseID})"><i class="fa fa-star"></i></a>
-            }
-          
+            <div id="course-description">
+                <span>@Model.Description</span>
+            </div>
+
+            <div id="course-actions">
+                @if (user != null && user.UserID == Model.CreatorID)
+                {
+                    <a class="button-link" href="@Url.Action("EditCourse", "Courses", new { id = @Model.CourseID })"><div class="button"><i class="fa fa-pencil"></i></div></a>
+                }
+
+                @if (Model.Favorite == null)
+                {
+                    <a class="button-link" href="@Url.Action("Favorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-star-o"></i></div></a>
+                }
+                else
+                {
+                    <a class="button-link" href="@Url.Action("UnFavorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-star"></i></div></a>
+                }
+            </div>
         </div>
     </div>
 

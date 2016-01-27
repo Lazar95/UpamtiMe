@@ -64,6 +64,7 @@ namespace UpamtiMe.Models
             SessionModel sm = new SessionModel();
             sm.CourseID = courseID;
 
+
             if (levelID != null)
             {
                 sm.Cards = (from c in dc.Cards

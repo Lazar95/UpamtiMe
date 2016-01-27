@@ -24,8 +24,8 @@ namespace UpamtiMe
 
         private static void SetTimer()
         {
-            DateTime midnight = Extentions.MyToday().AddDays(1);
-            
+            DateTime tomorow = DateTime.Now.AddDays(1);
+            DateTime midnight = new DateTime(tomorow.Year, tomorow.Month, tomorow.Day, 4, 0, 0);
             TimeSpan d = midnight - DateTime.Now;
 
            

@@ -13,7 +13,6 @@ namespace UpamtiMe
         public static int ReviewSessionCardNumber = 20;
         public static int LinkySessionCardNumber = 100;
         public static int LinkyLimit = 5;
-        public static int MidnightHours = 4;
 
 
         //ovo nisam stavila da ne bih prenatrpavala kod, tesko da ce ikad da se promeni

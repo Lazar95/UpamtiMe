@@ -222,13 +222,13 @@ namespace Data
                 foreach (UsersCourse uc in (from a in dc.UsersCourses where a.userID == user.userID select a))
                 {
 
-                    DateTime thirtyDaysAgo = Extentions.MyToday().AddDays(-30);
+                    DateTime thirtyDaysAgo = DateTime.Today.AddDays(-30);
 
                     var query = (from a in dc.UserCourseStatistics
                         where a.userCourseID == uc.usersCoursesID && a.date > thirtyDaysAgo
                         select new {date = a.date, score = a.score}).ToList();
 
-                    DateTime sevenDaysAgo = Extentions.MyToday().AddDays(-7);
+                    DateTime sevenDaysAgo = DateTime.Today.AddDays(-7);
 
                     float week = (from a in query where a.date > sevenDaysAgo select a.score).Sum();
                     float month = (from a in query select a.score).Sum();
@@ -273,7 +273,7 @@ namespace Data
 
             StatisctisByDays returnValue = new StatisctisByDays();
 
-            DateTime prev = Extentions.MyToday().Subtract(TimeSpan.FromDays(timeSpan));
+            DateTime prev = DateTime.Today.Subtract(TimeSpan.FromDays(timeSpan));
             returnValue.SetDates(timeSpan);
 
             List<UserCourseStatistic> stats =
@@ -291,7 +291,7 @@ namespace Data
                 prev = stat.date;
             }
 
-            int zeroDaysAfter = Extentions.MyToday().Subtract(prev).Days;
+            int zeroDaysAfter = DateTime.Today.Subtract(prev).Days;
             returnValue.SetZeros(zeroDaysAfter);
           
             returnValue.TrimStrings();

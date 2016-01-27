@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,13 +30,5 @@ namespace Data
                 return a.ToString("0.00");
             }
         }
-
-         
-        public static DateTime MyToday()
-        {
-            //int h = ConfigurationParameters.MidnightHours;
-            return new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 4, 0, 0);
-        }
-
     }
 }

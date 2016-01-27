@@ -1,13 +1,15 @@
-var hideCategories = function(cat, subcat) {
+var hideCategories = function(cat, subcat) { //TODO refaktorisi
   var catID = cat.children('option:selected').val();
   subcat.children().removeAttr('hidden');
   subcat.children(':not([data-catid="' + catID + '"])').attr('hidden', '');
 }
 
 $('#new-course-category > select').change(function() {
+  $('#new-course-subcategory > select').children('[value="0"]').attr('selected', '');
   hideCategories($(this), $('#new-course-subcategory > select'));
 });
 
+// Validacija za kreiranje novog kursa
 $('#create-new-course-button').click(function() {
   var name = $('#new-course-name').val();
   var cat = $('#new-course-category > select').children(':selected').val();

@@ -443,7 +443,13 @@ var updateCurrentSessionInfo = function() {
 }
 
 var displayCurrentCardInfo = function() {
-  $('.card-info #card-last-seen').html('pre ' + _qa[_currentQuestion].lastSeenMinutes + ' minuta');
+  var n = _qa[_currentQuestion].lastSeenMinutes;
+  var t = '';
+  if (n < 60) { t = 'minuta'; }
+  else if (n < 1440) { n = Math.round(n/60); t = 'sati'; }
+  else if (n < 10080) { n = Math.round(n/(60*24)); t = 'dana'; }
+  else { n = Math.round(n/(60*24*30)); t = 'meseci'; }
+  $('.card-info #card-last-seen').html('pre ' + n + ' ' + t);
   $('.card-info #card-combo').html(_qa[_currentQuestion].combo);
 }
 

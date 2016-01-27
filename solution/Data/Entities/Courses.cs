@@ -302,7 +302,7 @@ namespace Data
             bool streak;
             DataClasses1DataContext dc = new DataClasses1DataContext();
             int userCourseID = updateUserCourse(courseID, userID, score);
-            UserCourseStatistic ucs = findStatistics(userCourseID, DateTime.Today.Date, dc);
+            UserCourseStatistic ucs = findStatistics(userCourseID, Extentions.MyToday().Date, dc);
             if (ucs == null)
             {
                 streak = true;
@@ -310,7 +310,7 @@ namespace Data
                 UserCourseStatistic newStat = new UserCourseStatistic
                 {
                     userCourseID = userCourseID,
-                    date = DateTime.Today.Date,
+                    date = Extentions.MyToday().Date,
                     score = score,
                     learnedCards = learnedCards,
                     reviewedCards = reviewedCards,

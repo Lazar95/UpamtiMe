@@ -15,19 +15,12 @@ namespace UpamtiMe.Controllers
     public class CoursesController : InfinateScroll
     {
         // GET: Courses
-        public ActionResult Index(string search = null, int? category = null, int? subcategory = null)
+        public ActionResult Index(string search = null, int? categoryID = null, int? subcategoryID = null)
         {
-            CourseIndexModel model = CourseIndexModel.Load(search, category, subcategory);
+            CourseIndexModel model = CourseIndexModel.Load(search, categoryID, subcategoryID);
             return View(model);
         }
-
-        [HttpPost]
-        public ActionResult Index(CourseIndexModel model)
-        {
-            CourseIndexModel newModel = CourseIndexModel.Load(model.Search, model.CategoryID, model.SubcategoryID);
-            return View(newModel);
-        }
-
+      
         [ChildActionOnly]
         public ActionResult GetCoursesChunk(List<CourseDTO> list)
         {

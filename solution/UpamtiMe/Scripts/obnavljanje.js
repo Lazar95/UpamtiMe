@@ -379,7 +379,7 @@ var evaluateAnswer = function(answer) {
     }
     else if (_qa[_currentQuestion].status == THREE_MISTAKE) {
       _qa[_currentQuestion].status = SKIPPED;
-      _qa[_currentQuestion].nextSeeMinutes *= 360; // 360min = 6h
+      _qa[_currentQuestion].nextSeeMinutes *= 240; // 4h
       console.log("Pitanje #" + _currentQuestion + ": Nacinjena cetvrta greska. Kartica odlozena za 6h.");
     }
 
@@ -422,6 +422,7 @@ var evaluateAnswer = function(answer) {
 
   }
 
+  _qa[_currentQuestion].nextSeeMinutes = Math.ceil(_qa[_currentQuestion].nextSeeMinutes);
   _qa[_currentQuestion].goodness = _qa[_currentQuestion].goodness * 0.3 + 0.7;
 
   _lastPoints = eval.baseScore * eval.timeMultiplier * eval.sessionComboMultiplier * eval.cardComboMultiplier;

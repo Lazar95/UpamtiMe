@@ -371,5 +371,10 @@ namespace Data
                 }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ToList();
         }
 
+        public static bool CheckIfFavorite(int courseID, int userID)
+        {
+            return true;
+        }
+
     }
 }

@@ -73,7 +73,7 @@ namespace UpamtiMe.Models
             sm.CourseID = courseID;
             sm.Cards = (from c in dc.Cards 
                         from u in dc.UsersCards
-                        where u.userID == userID && u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now 
+                        where u.userID == userID && u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now
                         select new CardSessionDTO
                         {
                             UserCardInfo = new CardUserDTO()
@@ -82,9 +82,9 @@ namespace UpamtiMe.Models
                                 CorrectAnswers = u.correctAnswers,
                                 WrongAnswers = u.wrongAnswers,
                                 LastSeen = u.lastSeen,
-                                LastSeenMinutes = DateTime.Now.Subtract(u.lastSeen).Minutes,
+                                LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
                                 NextSee = u.nextSee,
-                                NextSeeMinutes = DateTime.Now.Subtract(u.nextSee.Value).Minutes,
+                                NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
                                 UserCardID = u.usersCardID,
                             },
                             BasicInfo = new CardBasicDTO

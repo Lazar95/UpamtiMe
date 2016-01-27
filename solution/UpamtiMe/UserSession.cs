@@ -28,6 +28,11 @@ namespace UpamtiMe
             return (DateTime) HttpContext.Current.Session["timeSpent"];
         }
 
+        public static int GetTimeSpent()
+        {
+            return (int)DateTime.Now.Subtract(GetTime()).TotalMinutes + 1;
+        }
+
         public static void SetSearchCourses(List<CourseDTO> list)
         {
             HttpContext.Current.Session["searchCourses"] = list;

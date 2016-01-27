@@ -36,7 +36,15 @@
             </div>
             <div class="course-description">@Model.Description</div>
 
-            <a href="#"><i class="fa fa-star-o"></i></a>
+            @if (Model.Favorite == null)
+            {
+                <a href="@Url.Action("Favorite", new {courseID = @Model.CourseID})"><i class="fa fa-star-o"></i></a>
+            }
+            else
+            {
+                <a href="@Url.Action("UnFavorite", new {courseID = @Model.CourseID})"><i class="fa fa-star"></i></a>
+            }
+          
         </div>
     </div>
 

@@ -66,7 +66,7 @@ namespace UpamtiMe.Models
           
             sm.Cards = (from c in dc.Cards
                         from u in dc.UsersCards
-                        where u.userID == userID && u.cardID == c.cardID && (levelID == null || c.levelID == levelID.Value) && u.ignore == false && u.nextSee < DateTime.Now
+                        where u.userID == userID && u.cardID == c.cardID && (levelID == null || c.levelID == levelID) && u.ignore == false && u.nextSee < DateTime.Now
                         select new CardSessionDTO
                         {
                             UserCardInfo = new CardUserDTO()

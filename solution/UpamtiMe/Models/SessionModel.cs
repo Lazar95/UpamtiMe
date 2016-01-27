@@ -60,20 +60,13 @@ namespace UpamtiMe.Models
             if (numberOfCards == null)
                 numberOfCards = ConfigurationParameters.ReviewSessionCardNumber;
 
-            if (levelID == null)
-            {
-                levelID = (from c in dc.Cards
-                           from l in dc.Levels
-                           from u in dc.UsersCards
-                           where u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee < DateTime.Now 
-                           select new { id = l.levelID, no = l.number }).OrderBy(a => a.no).First().id;
-            }
 
             SessionModel sm = new SessionModel();
             sm.CourseID = courseID;
-            sm.Cards = (from c in dc.Cards 
+          
+            sm.Cards = (from c in dc.Cards
                         from u in dc.UsersCards
-                        where u.userID == userID && u.cardID == c.cardID && c.levelID == levelID.Value && u.ignore == false && u.nextSee < DateTime.Now
+                        where u.userID == userID && u.cardID == c.cardID && (levelID == null || c.levelID == levelID.Value) && u.ignore == false && u.nextSee < DateTime.Now
                         select new CardSessionDTO
                         {
                             UserCardInfo = new CardUserDTO()
@@ -96,6 +89,9 @@ namespace UpamtiMe.Models
                                 Number = c.number,
                             }
                         }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
+            
+            
+            
 
             return sm;
         }
@@ -116,7 +112,7 @@ namespace UpamtiMe.Models
             {
                 sm.Cards = (from c in dc.Cards
                             from u in dc.UsersCards
-                            where u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee > DateTime.Now 
+                            where u.userID == userID &&  u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee > DateTime.Now 
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardBasicDTO
@@ -134,7 +130,7 @@ namespace UpamtiMe.Models
             {
                 sm.Cards = (from c in dc.Cards
                             from u in dc.UsersCards
-                            where u.cardID == c.cardID &&  u.ignore == false && u.nextSee > DateTime.Now 
+                            where u.userID == userID && u.cardID == c.cardID &&  u.ignore == false && u.nextSee > DateTime.Now 
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardBasicDTO

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.Web.UI.WebControls;
 using Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -24,6 +26,12 @@ namespace UpamtiMe.Tests
         [TestMethod]
         public void Beautify()
         {
+            double dsfa = 3.7;
+            int sada = (int) dsfa;
+
+            int sad = int.MaxValue;
+            long lonssad = long.MaxValue;
+            
             float a = 15.151235f;
             string aS = a.beautify();
 

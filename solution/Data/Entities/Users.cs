@@ -185,7 +185,14 @@ namespace Data
             dc.SubmitChanges();
         }
 
-        public static void updateStatisctics(int userID, float score, int cardsLearned, bool streak)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="score"></param>
+        /// <param name="cardsLearned"></param>
+        /// <param name="firstSession">Oznacava da li je potrebno uvecati streak, odnosno da li je to prva sesija danas</param>
+        public static void updateStatisctics(int userID, float score, int cardsLearned, bool firstSession)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             User usr = GetUser(userID, dc);
@@ -194,8 +201,12 @@ namespace Data
             usr.thisMonthScore += score;
             usr.totalCardsSeen += cardsLearned;
 
-            if (streak)
+            if (firstSession)
+            {
                 usr.streak++;
+                usr.doneToday = true;
+            }
+                
             dc.SubmitChanges();
         }
 
@@ -207,22 +218,17 @@ namespace Data
             {
                 float last7days = 0;
                 float last30days = 0;
-                bool streak = true;
 
                 foreach (UsersCourse uc in (from a in dc.UsersCourses where a.userID == user.userID select a))
                 {
 
-                    DateTime thirtyDaysAgo = DateTime.Today.AddDays(-30);
+                    DateTime thirtyDaysAgo = Extentions.MyToday().AddDays(-30);
 
                     var query = (from a in dc.UserCourseStatistics
                         where a.userCourseID == uc.usersCoursesID && a.date > thirtyDaysAgo
                         select new {date = a.date, score = a.score}).ToList();
 
-                    
-                    if (!(from a in query where DateTime.Today == a.date select a).Any())
-                        streak = false;
-
-                    DateTime sevenDaysAgo = DateTime.Today.AddDays(-7);
+                    DateTime sevenDaysAgo = Extentions.MyToday().AddDays(-7);
 
                     float week = (from a in query where a.date > sevenDaysAgo select a.score).Sum();
                     float month = (from a in query select a.score).Sum();
@@ -235,9 +241,10 @@ namespace Data
 
                 }
 
-                if (streak)
+                if (!user.doneToday)
                     user.streak = 0;
 
+                user.doneToday = false;
                 user.thisWeekScore = last7days;
                 user.thisMonthScore = last30days;
             }
@@ -266,7 +273,7 @@ namespace Data
 
             StatisctisByDays returnValue = new StatisctisByDays();
 
-            DateTime prev = DateTime.Today.Subtract(TimeSpan.FromDays(timeSpan));
+            DateTime prev = Extentions.MyToday().Subtract(TimeSpan.FromDays(timeSpan));
             returnValue.SetDates(timeSpan);
 
             List<UserCourseStatistic> stats =
@@ -284,7 +291,7 @@ namespace Data
                 prev = stat.date;
             }
 
-            int zeroDaysAfter = DateTime.Today.Subtract(prev).Days;
+            int zeroDaysAfter = Extentions.MyToday().Subtract(prev).Days;
             returnValue.SetZeros(zeroDaysAfter);
           
             returnValue.TrimStrings();

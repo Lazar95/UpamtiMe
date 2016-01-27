@@ -69,6 +69,7 @@ namespace Data.DTOs
 
         public void SetDates(int timespan = 30)
         {
+           
             DateTime prev = DateTime.Today.Subtract(TimeSpan.FromDays(timespan));
             this.SetDates(prev.AddDays(1), timespan);
         }

@@ -299,18 +299,18 @@ namespace Data
             int learnedCorrectAnswers, int learnedWrongAnswers, int reviewCorrectAnswers, int reviewWrongAnswers,
             int timeSpent)
         {
-            bool streak;
+            bool firstSession;
             DataClasses1DataContext dc = new DataClasses1DataContext();
             int userCourseID = updateUserCourse(courseID, userID, score);
-            UserCourseStatistic ucs = findStatistics(userCourseID, DateTime.Today.Date, dc);
+            UserCourseStatistic ucs = findStatistics(userCourseID, Extentions.MyToday().Date, dc);
             if (ucs == null)
             {
-                streak = true;
+                firstSession = true;
 
                 UserCourseStatistic newStat = new UserCourseStatistic
                 {
                     userCourseID = userCourseID,
-                    date = DateTime.Today.Date,
+                    date = Extentions.MyToday().Date,
                     score = score,
                     learnedCards = learnedCards,
                     reviewedCards = reviewedCards,
@@ -326,7 +326,7 @@ namespace Data
             }
             else
             {
-                streak = false;
+                firstSession = false;
 
                 ucs.score += score;
                 ucs.learnedCards += learnedCards;
@@ -340,7 +340,7 @@ namespace Data
             }
             dc.SubmitChanges();
 
-            return streak;
+            return firstSession;
         }
        
 
@@ -349,7 +349,7 @@ namespace Data
         {
             dc = dc ?? new DataClasses1DataContext();
 
-            return (from a in dc.Courses.AsEnumerable() //
+            return (from a in dc.Courses.AsEnumerable() 
                     where // v lazo ovde je poredjenje stringova kad se pretrazuje kurs
                     (name == null || a.name.Contains(name)) && (categoryID == null || a.categoryID == categoryID) &&
                     (subcategoryID == null || a.subcategoryID == subcategoryID)

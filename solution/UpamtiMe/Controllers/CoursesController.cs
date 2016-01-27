@@ -202,18 +202,18 @@ namespace UpamtiMe.Controllers
         {
             LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
 
-          
-            int timeSpent = DateTime.Now.Subtract(UserSession.GetTime()).Minutes + 1;
+
+            int timeSpent = UserSession.GetTimeSpent();
 
             //upisi u usercard
             Data.DTOs.CorrectWrong cw = Data.Cards.CreateUserCard(qaInfo, usr.UserID);
 
             //upisi u tabelu sa statistikama i userCourses
-            bool streak = Data.Courses.updateStatistics(courseID, usr.UserID, score, qaInfo.Count, 0, cw.Correct, cw.Wrong, 0, 0,
+            bool firstSession = Data.Courses.updateStatistics(courseID, usr.UserID, score, qaInfo.Count, 0, cw.Correct, cw.Wrong, 0, 0,
                 timeSpent);
 
             //upisi u user-a
-            Data.Users.updateStatisctics(usr.UserID, score, qaInfo.Count, streak);
+            Data.Users.updateStatisctics(usr.UserID, score, qaInfo.Count, firstSession);
 
             UserSession.ReloadSidebar();
 

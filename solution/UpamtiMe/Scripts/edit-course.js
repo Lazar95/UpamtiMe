@@ -717,8 +717,7 @@ var save = function() {
     }
   }
 
-
-  console.log(_dataToSend)
+  console.log(_dataToSend);
 
   $.ajax({
       url: "/Courses/EditCourse", // /kontroler/akcija (klasa/funkcija u klasi)
@@ -836,7 +835,7 @@ $('.course-banner').on('keyup', '#course-name-edit', function(e) {
     span.html(newName);
     span.show();
 
-    if (_courseInfo.status == UNTOUCHED && newName != oldName) {
+    if (newName != oldName) {
       _courseInfo.name = newName;
       _courseInfo.status = CHANGED;
     }
@@ -857,6 +856,10 @@ $('#category').change(function() {
   _courseInfo.subcategoryID = $('#subcategory').children(':selected').val();
   _courseInfo.status = CHANGED;
 });
+$('#subcategory').change(function() {
+  _courseInfo.subcategoryID = $(this).children(':selected').val();
+  _courseInfo.status = CHANGED;
+});
 
 // Description
 $('.course-banner').on('click', '#btn-course-description-edit', function() {
@@ -871,12 +874,13 @@ $('.course-banner').on('click', '#btn-course-description-edit', function() {
 $('.course-banner').on('click', '#btn-course-description-accept', function(e) {
   var newDesc = $('textarea').val();
   var oldDesc = $('textarea').attr('data-old-desc');
-  if (_courseInfo.status == UNTOUCHED && newDesc != oldDesc) {
+  if (newDesc != oldDesc) {
     _courseInfo.desc = newDesc;
     _courseInfo.status = CHANGED;
   }
   $('textarea').remove();
-  $('#course-description > span').text(newDesc).show();
+  $('#course-description > span').text(newDesc);
+  $('#course-description > span').show();
   $('#btn-course-description-edit').show();
   $('#btn-course-description-accept').hide();
   $('#btn-course-description-discard').hide();

@@ -14,7 +14,12 @@
 <body>
 <header>
     @{ LoginDTO user = UserSession.GetUser();}
-    <span>Upamti.Me</span>
+
+    @if (user != null)
+    {
+        <span><a href="@Url.Action("Index", "Users", new { id = user.UserID })">Upamti.Me</a></span>
+    }
+
     @if (user != null)
     {
         <span>@user.Username</span>

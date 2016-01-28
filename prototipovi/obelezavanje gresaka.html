@@ -1,0 +1,201 @@
+﻿<style>
+    .markMissingCharacter {
+        color: green;
+    }
+</style>
+<style>
+    .markWrongCharacter {
+        color: darkorange;
+    }
+</style>
+<style>
+    .markExtraCharacter {
+        color: red;
+    }
+</style>
+<style>
+    .markAccentMistake {
+        color: aqua;
+    }
+</style>
+
+<body>
+    <input type="text" id="correctWord"> correct <br />
+    <input type="text" id="typedWord"> typed <br />
+    <button id="mark">just do it</button> <br /> <br />
+    <span id="resenje"></span>
+</body>
+
+
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+
+<script>
+var compareAndMarkDifference = function(correct, typed) {
+    var marked; // ovde cemo da cuvamo obelezenu
+    var beginMissingChar = '<span class="markMissingCharacter">';
+    var beginWrongChar = '<span class="markWrongCharacter">';
+    var beginExtraChar = '<span class="markExtraCharacter">';
+    var beginAccentChar = '<span class="markAccentMistake">';
+    var endColor = '</span>';
+
+    var allowedForA = "aàáâãäå";
+    var allowedForE = "eèéêë";
+    var allowedForI = "iìíîï";
+    var allowedForO = "oòóôõö";
+    var allowedForU = "uùúûü";
+    var mistakeThreshold = 2; // ono sto je ukucao ce da se obelezi/oboji samo ako odgovor ima <= mistakeThreshold gresaka
+
+    var rows = typed.length + 1;
+    var columns = correct.length + 1;
+
+    var mat = [];
+    for (var i = 0; i < rows; i++)
+    {
+        mat[i] = [];
+        for (var j = 0; j < columns; j++) {
+            mat[i][j] = 0;
+        }
+    }
+
+    var insertedCharacters = []; // ovde smestamo samo indekse visak karaktera iz typed reci
+    var removedCharacters = []; // ovde smestamo u parovima, indeks karaktera iz typed reci koji nije napisan, i indeks karaktera iz correct reci koji treba tu da dodje
+    var changedCharacters = []; // ovde smestamo u parovima, indeks karaktera iz typed reci koji je pogresen, i indeks karaktera iz correct reci koji treba umesto pogresnog
+
+    var mistakeType = []; // tipovi gresaka od kraja do pocetka stringa (znaci unazad), 1 - inserted, 2 - removed, 3 - changed
+
+    // correct je source po Levenshtein algoritmu, a typed je target (cudno malo al logicnije se poklopi posle)
+    // popunjavamo prvu kolonu brojevima od 0 do correct.length
+    for (var i = 1; i < rows; i++)
+        mat[i][0] = i;
+    // popunjavamo prvu vrstu brojevima od 0 do typed.length
+    for (var j = 1; j < columns; j++)
+        mat[0][j] = j;
+    for (var j = 1; j < columns; j++)
+    {
+        for (var i = 1; i < rows; i++)
+        {
+            if (typed.charAt(i-1) == correct.charAt(j-1))
+                mat[i][j] = mat[i - 1][j - 1];                // isti karakter, upisujemo istu vrednost
+            else
+                mat[i][j] = Math.min(mat[i - 1][j] + 1,       // brisanje karaktera
+                                     mat[i][j - 1] + 1,       // ubacivanje karaktera
+                                     mat[i - 1][j - 1] + 1);  // zamena karaktera
+        }
+    }
+
+    var i = rows - 1;
+    var j = columns - 1;
+
+    var typeIndex = 0;
+
+    // prolazimo kroz matricu od dole-desno ka gore-levo i trazimo greske u otkucanom odgovoru
+    while (i > 0 && j > 0)
+    {
+        if (mat[i - 1][j - 1] <= mat[i][j - 1]) {
+            if (mat[i - 1][j - 1] <= mat[i - 1][j]) {
+                if (mat[i - 1][j - 1] < mat[i][j]) // zamena, mat[i-1][j-1] je najmanje
+                {
+                    mistakeType[typeIndex++] = 3;
+                    changedCharacters.push(i - 1); // na kom mestu u typed reci je omasio karakter
+                    changedCharacters.push(j - 1); // koji karakter (po indeksu) iz correct reci treba umesto omasenog
+                }
+                i--;
+                j--;
+            }
+            else { // mat[i-1][j] je najmanje
+                mistakeType[typeIndex++] = 1;
+                insertedCharacters.push(i - 1);
+                i--;
+            }
+        }
+        else
+        {
+            if (mat[i][j-1] <= mat[i-1][j])
+            {
+                mistakeType[typeIndex++] = 2;
+                removedCharacters.push(i); // na kom mestu u typed reci treba da se posle umetne nesto
+                removedCharacters.push(j - 1); // koji karakter (po indeksu) iz correct reci treba tu da se ubaci
+                j--;
+            }
+            else
+            {
+                mistakeType[typeIndex++] = 1;
+                insertedCharacters.push(i - 1);
+                i--;
+            }
+        }
+    }
+    while (i > 0)
+    {
+        insertedCharacters.push(i - 1);
+        mistakeType[typeIndex++] = 1;
+        i--;
+    }
+
+    while (j > 0)
+    {
+        removedCharacters.push(i); // na kom mestu u typed reci treba da se posle umetne nesto
+        removedCharacters.push(j - 1); // koji karakter (po indeksu) iz correct reci treba tu da se umetne
+        mistakeType[typeIndex++] = 2;
+        j--;
+    }
+
+    marked = typed;
+    if (mistakeType.length > 0 && mistakeType.length <= mistakeThreshold) // ako ima gresaka nekih uopste, i ako ih <= mistakeThreshold
+    {
+        var i1 = 0; // indeks za kretanje kroz insertedCharacters niz
+        var i2 = 0; // indeks za kretanje kroz removedCharacters niz
+        var i3 = 0; // indeks za kretanje kroz changedCharacters niz
+        for (var k = 0; k < mistakeType.length; k++)
+        {
+            switch (mistakeType[k])
+            {
+                case 1: // ovo znaci da je otkucao neko slovo vise, koje ce da mu se oboji samo
+                    {
+                        marked = marked.substring(0, insertedCharacters[i1]) + beginExtraChar + marked.substring(insertedCharacters[i1], insertedCharacters[i1] + 1) + endColor + marked.substring(insertedCharacters[i1] + 1, marked.length);
+                        i1++;
+                        break;
+                    }
+                case 2: // ovo znaci da je izostavio neko slovo, koje ce da mu se ubaci u nekoj boji
+                    {
+                        marked = marked.substring(0, removedCharacters[i2]) + beginMissingChar + correct.substring(removedCharacters[i2 + 1], removedCharacters[i2 + 1] + 1) + endColor + marked.substring(removedCharacters[i2], marked.length);
+                        i2 += 2;
+                        break;
+                    }
+                case 3: // ovo znaci da je zamenio jedno slovo drugim, obojicemo slovo koje je zeznuo
+                    {
+                        var wrong = marked[changedCharacters[i3]]; // pogresan karakter
+                        var right = correct[changedCharacters[i3 + 1]]; // dobar karakter sa kojim treba da se ispravi pogresan
+                        if ((allowedForA.indexOf(wrong) >= 0 && allowedForA.indexOf(right) >= 0) || // proveravamo ako je pogodio slovo ali nije akcenat
+                            (allowedForE.indexOf(wrong) >= 0 && allowedForE.indexOf(right) >= 0) ||
+                            (allowedForI.indexOf(wrong) >= 0 && allowedForI.indexOf(right) >= 0) ||
+                            (allowedForO.indexOf(wrong) >= 0 && allowedForO.indexOf(right) >= 0) ||
+                            (allowedForU.indexOf(wrong) >= 0 && allowedForU.indexOf(right) >= 0))
+                        {
+                            marked = marked.substring(0, changedCharacters[i3]) + beginAccentChar + wrong + endColor + marked.substring(changedCharacters[i3] + 1, marked.length);
+                        }
+                        else // ako program dodje do ovde i ne radi se o gresci u akcentu, onda je definitivno pogresen karakter
+                        {
+                            marked = marked.substring(0, changedCharacters[i3]) + beginWrongChar + wrong + endColor + marked.substring(changedCharacters[i3] + 1, marked.length);
+                        }
+                        i3 += 2;
+                        break;
+                    }
+            }
+        }
+    }
+    return marked; // vratimo oznacenu rec
+}
+
+// Kad se klikne na #mark, da se u #resenje upise ovo sto ti radi f-ja
+$('#mark').click(function() {
+    $('#resenje').html(compareAndMarkDifference($('#correctWord').val(), $('#typedWord').val()));
+});
+
+// Ova funckija se zove kad dokument bude spreman
+$(document).ready(function() {
+    $('#correctWord').val('Saturday');
+    $('#typedWord').val('Saaturdy');
+
+});
+</script>

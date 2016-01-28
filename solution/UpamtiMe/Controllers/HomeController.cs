@@ -60,6 +60,7 @@ namespace UpamtiMe.Controllers
         {
             UserSession.SetUser(ld);
             UserSession.ReloadSidebar();
+            Session.Timeout = ld.RememberMe ? 525600 : 20;
 
             return RedirectToAction("Profile", "Users", new { id = ld.UserID });
         }
@@ -76,8 +77,7 @@ namespace UpamtiMe.Controllers
             {
                 return Json(new { success = false, message = "email exists" });
             }
-
-            Session.Timeout = ld.RememberMe ? 525600 : 20;
+           
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.Successful)
             {
                 return SetSessionAndRedirect(ld);

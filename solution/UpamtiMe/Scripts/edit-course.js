@@ -685,7 +685,7 @@ var save = function() {
   _dataToSend.name =          _courseInfo.name;
   _dataToSend.categoryID =    _courseInfo.categoryID;
   _dataToSend.subcategoryID = _courseInfo.subcategoryID;
-  _dataToSend.description =   _courseInfo.description;
+  _dataToSend.description =   _courseInfo.desc;
 
   // Celi nivoi:
   for (var i = 0; i < _course.length; i++) {
@@ -859,8 +859,6 @@ $('#category').change(function() {
 });
 
 // Description
-var hideCourseDescriptionEditButtons = function() {
-}
 $('.course-banner').on('click', '#btn-course-description-edit', function() {
   var oldDesc = $('#course-description > span').text().trim();
   $('#course-description').append('<textarea value="' + oldDesc + '" data-old-desc="' + oldDesc + '">');

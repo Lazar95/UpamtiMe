@@ -26,18 +26,12 @@
 
             <div id="course-actions">
                 @if (user != null && user.UserID == Model.CreatorID)
-                {
-                    <a class="button-link" href="@Url.Action("EditCourse", "Courses", new { id = @Model.CourseID })"><div class="button"><i class="fa fa-pencil"></i></div></a>
-                }
+                { <a id="button-edit-course" class="button-link" href="@Url.Action("EditCourse", "Courses", new { id = @Model.CourseID })"><div class="button"><i class="fa fa-pencil"></i></div></a> }
 
                 @if (Model.Favorite == null)
-                {
-                    <a class="button-link" href="@Url.Action("Favorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-star-o"></i></div></a>
-                }
+                { <a id="button-favorite" class="button-link" href="@Url.Action("Favorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-heart-o"></i></div></a> }
                 else
-                {
-                    <a class="button-link" href="@Url.Action("UnFavorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-star"></i></div></a>
-                }
+                { <a id="button-unfavorite" class="button-link" href="@Url.Action("UnFavorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-heart"></i></div></a> }
             </div>
         </div>
     </div>
@@ -49,31 +43,25 @@
                 if (Model.Statistics == null)
                 {
                     <div class="enroll-button">
-                        @Html.ActionLink("Enroll", "Enroll", "Courses", new { id = Model.CourseID }, null)
+                        <a id="button-enroll" class="button-link" href=@Url.Action("Enroll", new { id = Model.CourseID })>@Helper.Button("rect", "", "unlock", "Uči")</a>
                     </div>
                 }
                 else
                 {
                     var learnLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Unseen > 0 select new { id = a.LevelID, no = a.Number });
                     int learnLevel = learnLevelQuery.Any() ? learnLevelQuery.OrderBy(a => a.no).First().id : 0;
-                    var reviewLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Review > 0 select new {id = a.LevelID, no = a.Number});
+                    var reviewLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Review > 0 select new { id = a.LevelID, no = a.Number });
                     int reviewLevel = reviewLevelQuery.Any() ? reviewLevelQuery.OrderBy(a => a.no).First().id : 0;
 
-                    <div class="button button-rect learn-button">
-                        <div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new {courseID = Model.CourseID, levelID = @learnLevel})">Uči</a></span>
-                    </div>
-                    <div class="button button-rect review-button">
-                        <div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", new {courseID = Model.CourseID, levelID = @reviewLevel})">Obnovi</a></span>
-                    </div>
-                    <div class="button button-rect overreview-button">
-                        <div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", new { courseID = Model.CourseID })">Spajalica</a></span>
-                    </div>
+                    <a id="button-learn" class="button-link" href=@Url.Action("Learn", new {courseID = Model.CourseID, levelID = @learnLevel})>@Helper.Button("rect", "", "graduation-cap", "Uči")</a>
+                    <a id="button-review" class="button-link" href=@Url.Action("Review", new {courseID = Model.CourseID, levelID = @reviewLevel})>@Helper.Button("rect", "", "flask", "Obnovi")</a>
+                    <a id="button-linky" class="button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID })>@Helper.Button("rect", "", "chain", "Spajalica")</a>
                 }
             }
         </div>
 
         @{int index = -1;
-        <ul class="levels">
+        <ul class="levels big-container">
             @for (int i = 0; i <= 2 * Model.Levels.Count / 9; i++)
             {
                 <li class="level-group">
@@ -109,10 +97,10 @@
                                     <div class="more-info-inner">
 
                                         <div class="session-buttons">
-                                            <div class="button button-rect learn-button"><div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Uči</a></span></div>
-                                            <div class="button button-rect review-button"><div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Obnovi</a></span></div>
-                                            <div class="button button-rect overreview-button"><div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})">Spajalica</a></span></div>
-                                            <div class="button button-rect show-words-button"><div class="btn-icon icon-id-list"><span></span></div><span>Spisak</span></div>
+                                            <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "graduation-cap", "Uči")</a>
+                                            <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "flask", "Obnovi")</a>
+                                            <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "chain", "Spajalica")</a>
+                                            <a class="button-level-linky button-link" href="#!">@Helper.Button("rect", "", "list", "Spisak")</a>
                                         </div>
 
                                         <div class="level-info">

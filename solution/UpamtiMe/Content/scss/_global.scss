@@ -326,67 +326,6 @@ main {
 }
 
 /**
- * Pravougaoni dugmici
- */
-
-.button-rect {
-	background-color: palette($blue-grey, 200);
-	position: relative;
-	//border-radius: 5px;
-	cursor: pointer;
-	overflow: hidden;
-
-	.btn-icon {
-		background-color: palette($blue-grey, 300);
-		width: 15%;
-		transition: all .1s ease;
-		height: 100%;
-		position: absolute;
-
-		& > span {
-			transition: transform .1s ease;
-			position: absolute;
-			$s: 36px;
-			width: $s;
-			height: $s;
-			line-height: $s;
-			font-size: 0.5 * $s;
-			right: - $s/2;
-			top: 0;
-			bottom: 0;
-			margin: auto;
-			background-color: palette($blue-grey, 50);
-			border-radius: 50%;
-			text-align: center;
-			color: palette($pink);
-		}
-	}
-
-	& > span {
-		position: absolute;
-		height: 16px;
-		font-size: 16px;
-		font-weight: bold;
-		top: 0;
-		bottom: 0;
-		right: 16px;
-		margin: auto;
-	}
-
-	// Kada se dugme hoveruje
-	&:hover {
-		.btn-icon {
-			background-color: palette($blue-grey, 400);
-			width: 18%;
-
-			& > span {
-				transform: scale(1);
-			}
-		}
-	}
-}
-
-/**
  * Ikoncie, TODO
  */
 .icon-id-x {
@@ -477,9 +416,17 @@ main {
  */
 
 @mixin level-color($color, $lighter: 300, $darker: 600, $icon: 500) {
+	// Boja ikonice
 	.icon { color: palette($color, $icon); }
+	// Svetlija nijansa ikonice za hover
  	.icon:hover { color:palette($color, $lighter); }
+	// Boja pozadine kruga kada se selektira nivo
  	&.active { .icon {background-color: palette($color, $darker)!important; } }
+	// Boja dugmadi za sesije
+	.session-buttons > a > div { background-color: palette($color, $darker)!important; }
+	// Boja statistike
+	.statistics dd { color: palette($color, $darker)!important; }
+	// Pita:
  	.pie:nth-of-type(1)::after, .pie:nth-of-type(1)::before { background-color:palette($color, $darker)!important; }
  	.pie:nth-of-type(2)::after, .pie:nth-of-type(2)::before { background-color:palette($color, $lighter)!important; }
  	.pie:nth-of-type(3)::after, .pie:nth-of-type(3)::before { background-color:palette($blue-grey, 700)!important; }
@@ -617,13 +564,12 @@ dl.stats-horizontal {
  * Course-banner
  */
 
-
 .course-banner {
 	width: 100%;
 	margin: 24px auto;
 	padding: 24px;
 	box-sizing: border-box;
-	background-color: palette($blue-grey, 200);
+	background-color: palette($blue-grey, 100); // ista kao za big-container
 	@include z-depth(1);
 	height: 360px;
 	overflow: hidden; // da ne zdrakne senka slike
@@ -767,7 +713,7 @@ dl.stats-horizontal {
 		#course-description {
 			flex-grow: 1;
 			padding: 24px;
-			background-color: palette($blue-grey, 100);
+			background-color: palette($blue-grey, 200); //TODO skloni kad dodje opis
 			position: relative;
 			display: flex;
 			flex-flow: row;
@@ -831,23 +777,50 @@ dl.stats-horizontal {
 
 // Fiktivna klasa
 .button-sqr-rect {
-	background-color: palette($blue-grey, 600);
-	margin: 16px;
 	display: flex;
-	flex-flow: column;
 	justify-content: center;
 	align-items: center;
 	border-radius: 2px;
 	cursor: pointer;
 	position: relative;
 	@include z-depth(1);
+	transition: all .2s ease;
 
-	&:hover { background-color: palette($blue-grey, 500); }
+	div:nth-child(2) {
+		text-transform: uppercase;
+	}
 
+	&:hover {
+		@include z-depth(1.5);
+	}
+}
+
+.button-rect {
+	@extend .button-sqr-rect;
+	flex-flow: row;
+
+	div:nth-child(1) {
+		margin-right: 8px;
+		font-size: 2em;
+		transition: all .2s ease;
+	}
+
+	div:nth-child(2) {
+		font-size: 1em;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+	&:hover {
+		div:nth-child(1) {
+			margin-right: 12px;
+		}
+	}
 }
 
 .button-sqr {
 	@extend .button-sqr-rect;
+	flex-flow: column;
 	width: 100px;
 	height: 100px;
 

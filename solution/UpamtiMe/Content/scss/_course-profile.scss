@@ -9,46 +9,6 @@ main#course-profile {
   flex-wrap: wrap;
   justify-content: space-between;
 
-  .banner {
-    background-color: palette($blue-grey, 100);
-    @include z-depth(1);
-    width: 100%;
-    margin-bottom: 24px;
-    padding: 18px;
-    display: flex;
-    height: 192px;
-
-    .picture {
-      width:  192px;
-      height: 192px;
-      background-color: palette($blue-grey, 500);
-      margin-right: 18px; // isto kao padding
-    }
-
-    .basic-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      color: palette($blue-grey, 900);
-      & > * { flex-grow: 0; margin-top: 16px; }
-
-      .course-name {
-        font-size: 48px;
-        font-weight: bold;
-      }
-
-      .course-cat-subcat {
-        font-size: 24px;
-      }
-
-      .course-description {
-        color: palette($blue-grey, 700);
-        margin-top: 24px;
-        font-size: 18px;
-      }
-    }
-  }
-
   aside {
     width: 20%;
 
@@ -150,28 +110,34 @@ main#course-profile {
   }
 
   .main-content {
-    width: 77%;
+    width: 78.5%;
 
     .buttons {
       display: flex;
       justify-content: space-between;
 
-      // Fiktivna klasa
-      .button {
-        width: 30%;
+      // a-ovi
+      #button-learn, #button-review, #button-linky, #button-enroll {
+        display: block;
+        width: 32%;
         height: 72px;
-        position: relative;
-        @include z-depth(1);
-        transition: all .2s ease;
 
-        &:hover { @include z-depth(1.5); }
+        .button-rect {
+          height: 100%;
+          width: 100%;
+          background-color: palette($blue-grey, 50);
+
+          div:nth-child(1) {
+            color: palette($pink, 500);
+          }
+
+          div:nth-child(2) {
+            color: palette($blue-grey, 900);
+          }
+        }
       }
 
-      .learn-button, .review-button, .overreview-button, .enroll-button {
-        @extend .button;
-      }
-
-      .enroll-button {
+      #button-enroll {
         width: 100%;
       }
     }
@@ -180,9 +146,10 @@ main#course-profile {
       display: flex;
       flex-flow: column;
       width: 100%;
-      @include z-depth(1);
       margin-top: 20px;
-      background-color: palette($blue-grey, 200);
+      // Ono cudo koje iskoci kad se klikne na nivo ima negativnu donju marginu, pa za poslednji nivo
+      // ode van ovoga. Zato mora:
+      padding-bottom: 45px;
 
       // Lista od pet nivoa
       & > li.level-group > ul {
@@ -210,7 +177,7 @@ main#course-profile {
             .icon {
               transition: all .5s ease;
               border-radius: 50%;
-              background-color: palette($blue-grey, 50);
+              background-color: white;
               position: absolute;
               $ratio: 0.84;
               width: $ratio * $lvl-circ;
@@ -321,9 +288,10 @@ main#course-profile {
 
           .more-info-outer {
             transition: all .5s ease;
-            margin-top: 72px;
+            margin-top: 84px;
             @include force-height(0);
             opacity: 0;
+            margin-bottom: -30px;
           }
 
           .more-info-inner {
@@ -331,10 +299,12 @@ main#course-profile {
             position: absolute;
             left: 0;
             height: 240px;
-            background-color: palette($blue-grey, 100);
+            background-color: palette($blue-grey, 50);
             padding: 24px;
             box-sizing: border-box;
             z-index: 100;
+            margin: 0 auto;
+            border-radius: 10px;
 
             display: flex;
             flex-flow: column;
@@ -349,10 +319,19 @@ main#course-profile {
               margin-right: 16px 0;
               width: 100%;
 
-              & > .button {
+              & > a {
+                display: block;
                 width: 100%;
                 height: 56px;
-                margin: 6px;
+                margin: 8px;
+
+                & > div {
+                  background-color: palette($pink, 500);
+                  color: rgba(white, 0.9);
+                  width: 100%;
+                  height: 100%;
+                  font-size: 14px;
+                }
               }
             }
 
@@ -368,6 +347,10 @@ main#course-profile {
                 display: flex;
                 flex-direction: row-reverse;
                 justify-content: space-around;
+
+                dl {
+                  width: 20%;
+                }
               }
 
               .list-of-cards {
@@ -377,15 +360,31 @@ main#course-profile {
             }
           }
 
+          // Trouglic koji pokazuje na nivo iz koga je info expandovan
+          .circle-display::after {
+            opacity: 0;
+            transition: all .5s ease;
+            content: "";
+            background-color: transparent;
+            position: absolute;
+            width: 0; height: 0;
+            bottom: 0;
+            left: 0; right: 0;
+            margin: 0 auto;
+            margin-bottom: -84px; // isto kao gornja margina celog sranja
+            border: 24px solid palette($blue-grey, 50);
+            border-top: 24px solid transparent;
+            border-left:  18px solid transparent;
+            border-right: 18px solid transparent;
+          }
 
           // level
           &.active {
 
-            // Mora ">" jer inace gadja i .icon iz button-rect
             .circle-display > .icon {
               background-color: palette($pink, 600);
-              color: palette($blue-grey, 50);
-              box-shadow: 0px 0px 0px 4px palette($blue-grey, 50) inset;
+              color: white;
+              box-shadow: 0px 0px 0px 4px white inset;
             }
 
             .pie-ring-inner {
@@ -395,19 +394,6 @@ main#course-profile {
             // Trouglic koji pokazuje na nivo iz koga je info expandovan
             .circle-display::after {
               opacity: 1;
-              transition: all .2s ease;
-              content: "";
-              background-color: transparent;
-              position: absolute;
-              width: 0; height: 0;
-              bottom: 0;
-              left: 0; right: 0;
-              margin: 0 auto;
-              margin-bottom: -72px;
-              border: 24px solid palette($blue-grey, 100);
-              border-top: 24px solid transparent;
-              border-left:  18px solid transparent;
-              border-right: 18px solid transparent;
             }
 
             .more-info-outer {

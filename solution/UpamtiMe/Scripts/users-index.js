@@ -230,40 +230,6 @@ var loadGraphLine = function($canvas, dataInfo, len) {
   $canvas.append(legend);
 }
 
-
-// Line - course
-var loadStatsCoursePointsGraph = function() {
-  var elements = $('.course-points-graph');
-  elements.each(function() {
-    var dataPoints = $(this).attr('data-points').split('|').reverse();
-    var dateLabels = $(this).attr('data-dates').split('|').reverse();
-    var numberOfPiecesOfData = Math.min(dataPoints.length, dateLabels.length, 7);
-    dataPoints = dataPoints.splice(0, numberOfPiecesOfData);
-    dateLabels = dateLabels.splice(0, numberOfPiecesOfData);
-    dataPoints = dataPoints.reverse();
-    dateLabels = dateLabels.reverse();
-
-    var data = {
-      labels: dateLabels,
-      datasets: [
-        {
-          label: "Poeni",
-          fillColor: colorBlueGrey700Transp,
-          strokeColor: colorBlueGrey700,
-          pointColor: colorBlueGrey700,
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: colorBlueGrey700,
-          data: dataPoints,
-        }
-      ]
-    }
-    var statsCourseTotalBreakdown = new Chart($(this).get(0).getContext('2d')).Line(data);
-    var legend = statsCourseTotalBreakdown.generateLegend();
-    $(this).parent().append(legend);
-  });
-}
-
 // Pie - user
 var loadStatsCardsBreakdown = function() {
   var element = document.getElementById('stats-cards-breakdown');
@@ -297,36 +263,34 @@ var loadStatsCardsBreakdown = function() {
 }
 
 // Pie - user
-var loadStatsCourseTotalBreakdown = function() {
-  $('.course-total-breakdown').each(function() {
-    var learn = $(this).attr('data-learned');
-    var review = $(this).attr('data-review');
-    var unseen = $(this).attr('data-unseen');
-    var data = [
-      {
-        value: learn,
-        color: colorPink,
-        highlight: "#FFF",
-        label: "Naučene",
-      },
-      {
-        value: review,
-        color: colorPink200,
-        highlight: "#FFF",
-        label: "Za obnavljanje",
-      },
-      {
-        value: unseen,
-        color: colorBlueGrey700,
-        highlight: "#FFF",
-        label: "Nevidjene",
-      },
-    ];
-    var options = {
-      animationEasing: "easeOutQuart",
-    }
-    statsCardsBreakdown = new Chart($(this).get(0).getContext('2d')).Pie(data, options);
-  });
+var loadStatsCourseTotalBreakdown = function($element) {
+  var learn = $element.attr('data-learned');
+  var review = $element.attr('data-review');
+  var unseen = $element.attr('data-unseen');
+  var data = [
+    {
+      value: learn,
+      color: colorPink,
+      highlight: "#FFF",
+      label: "Naučene",
+    },
+    {
+      value: review,
+      color: colorPink200,
+      highlight: "#FFF",
+      label: "Za obnavljanje",
+    },
+    {
+      value: unseen,
+      color: colorBlueGrey700,
+      highlight: "#FFF",
+      label: "Nevidjene",
+    },
+  ];
+  var options = {
+    animationEasing: "easeOutQuart",
+  }
+  statsCardsBreakdown = new Chart($element.get(0).getContext('2d')).Pie(data, options);
 }
 
 $(document).ready(function() {
@@ -355,9 +319,12 @@ $(document).ready(function() {
     { dataName: 'data-dates',    color: "",               label: "",              },
     { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
   ];
-  var elements = $('.course-points-graph:lt(3)'); // uzima samo prva tri jer se za njih vide grafici
+  var elements = $('.course-points-graph:lt(3)'); // uzima samo prva tri jer se za njih vide grafici //TODO promeni
   elements.each(function() {
     loadGraphLine($(this), temp, 7);
   });
-  loadStatsCourseTotalBreakdown();
+
+  $('.course-total-breakdown').each(function() {
+    loadStatsCourseTotalBreakdown($(this));
+  });
 });

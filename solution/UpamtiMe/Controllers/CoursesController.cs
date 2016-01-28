@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -286,6 +287,8 @@ namespace UpamtiMe.Controllers
         {
             LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
             Data.Courses.setFavorite(courseID, usr.UserID, 1);
+
+            UserSession.ReloadSidebar();
             return RedirectToAction("Profile", new {id = courseID});
         }
 
@@ -293,6 +296,8 @@ namespace UpamtiMe.Controllers
         {
             LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
             Data.Courses.setFavorite(courseID, usr.UserID, null);
+
+            UserSession.ReloadSidebar();
             return RedirectToAction("Profile", new { id = courseID });
         }
 

@@ -93,6 +93,9 @@ namespace UpamtiMe.Controllers
 
             }
             
+            //da bi se promenila slika u sidebaru
+            UserSession.ReloadSidebar();
+
             return RedirectToAction("Profile", "Users", new { id = userID});
         }
 

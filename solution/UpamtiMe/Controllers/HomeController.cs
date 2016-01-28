@@ -24,7 +24,7 @@ namespace UpamtiMe.Controllers
             {
                 return RedirectToAction("Profile", "Users", new { id = UserSession.GetUser().UserID });
             }
-            else if(!logOut)
+            else if (!logOut)
             {
                 Login(new HomeIndexModel
                 {
@@ -50,13 +50,18 @@ namespace UpamtiMe.Controllers
 
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.Successful)
             {
-                UserSession.SetUser(ld);
-                UserSession.ReloadSidebar();
-
-                return RedirectToAction("Profile", "Users", new { id = ld.UserID });
+                return SetSessionAndRedirect(ld);
             }
 
             return RedirectToAction("Error");
+        }
+
+        public ActionResult SetSessionAndRedirect(LoginDTO ld)
+        {
+            UserSession.SetUser(ld);
+            UserSession.ReloadSidebar();
+
+            return RedirectToAction("Profile", "Users", new { id = ld.UserID });
         }
 
         [HttpPost]
@@ -75,10 +80,7 @@ namespace UpamtiMe.Controllers
             Session.Timeout = ld.RememberMe ? 525600 : 20;
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.Successful)
             {
-                Session["user"] = ld;
-                
-
-                return RedirectToAction("Profile", "Users", new {id = ld.UserID});
+                return SetSessionAndRedirect(ld);
             }
 
             return RedirectToAction("Error");

@@ -173,9 +173,9 @@
                 <li id="leaderboard-tabs-week">Nedelja</li>
                 <li id="leaderboard-tabs-month">Mesec</li>
             </ul>
-            @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 20, true)
-            @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 20, false)
-            @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 20, false)
+            @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 20, Url ,true)
+            @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 20, Url, false)
+            @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 20, Url, false)
         </div>
     </aside>
 

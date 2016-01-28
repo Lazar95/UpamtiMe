@@ -1,4 +1,5 @@
-﻿@helper Image(byte[] image, string m_type, string m_name)
+﻿@using System.Web.Mvc
+@helper Image(byte[] image, string m_type, string m_name)
 {
     if (image != null)
     {
@@ -17,29 +18,29 @@
     <div class="@("button-" + type)" id=@id><div class="@("fa fa-"+icon)"></div><div>@text</div></div>
 }
 
-@helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted)
+@helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted, UrlHelper url)
 {
     <li class="@( isHighlighted ? " highlight" : "")">
         <div class="order">@order</div>
         <div class="avatar">
             <i class="fa fa-refresh"></i>
         </div>
-        <div class="username"><a href="#!">@username</a></div>
+        <div class="username"><a href="@url.Action("Profile", "Users", new {id = userID})">@username</a></div>
         <div class="score">@score</div>
     </li>
 }
 
-@helper LeaderboardEntryGeneral(int redniBr, Data.DTOs.LeaderboardEntryDTO lde, int? myUserID, string type)
+@helper LeaderboardEntryGeneral(int redniBr, Data.DTOs.LeaderboardEntryDTO lde, int? myUserID, string type, UrlHelper url)
 {
     switch (type)
     {
-        case "all-time-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.AllTimeScore, lde.UserID, myUserID != null && lde.UserID == myUserID); break;
-        case "week-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.WeekScore, lde.UserID, myUserID != null && lde.UserID == myUserID); break;
-        case "month-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.MonthScore, lde.UserID, myUserID != null && lde.UserID == myUserID); break;
+        case "all-time-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.AllTimeScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "week-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.WeekScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "month-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.MonthScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
     }
 }
 
-@helper Leaderboard(string type, List<Data.DTOs.LeaderboardEntryDTO> list, int? userID, int limit, bool current = true)
+@helper Leaderboard(string type, List<Data.DTOs.LeaderboardEntryDTO> list, int? userID, int limit, UrlHelper url, bool current = true)
 {
     <ul id=@("leaderboard-" + type) class="@(current ? "current" : "")">
         @{
@@ -57,16 +58,16 @@
             {
                 foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit))
                 {
-                    @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type)
+                    @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type, url)
                 }
             }
             else
             {
                 foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit - 1))
                 {
-                    @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type)
+                    @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type, url)
                 }
-                @Helper.LeaderboardEntryGeneral(usersIndex, list[usersIndex], userID, type)
+                @Helper.LeaderboardEntryGeneral(usersIndex, list[usersIndex], userID, type, url)
             }
         }
     </ul>

@@ -38,7 +38,7 @@ namespace UpamtiMe
         {
             sTimer.Interval = TimeSpan.FromHours(24).TotalMilliseconds;
             Data.Users.resetStatisticsForAllUsers();
-
+            UserSession.ReloadSidebar();
         }
     }
 }

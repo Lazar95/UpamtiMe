@@ -96,7 +96,6 @@ namespace Data
             else
             {
                 friendIDs = (from a in dc.Friendships
-                             from b in dc.Courses
                              from c in dc.UsersCourses
                              where (a.user1ID == userID || a.user2ID == userID) && ( c.courseID == courseID && c.userID == a.user1ID && c.userID == a.user2ID)
                              select a.user1ID == userID ? a.user2ID : a.user1ID).ToList();

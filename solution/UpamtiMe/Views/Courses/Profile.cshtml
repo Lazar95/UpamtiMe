@@ -59,94 +59,94 @@
         </div>
 
         @{int index = -1;
-        <ul class="levels big-container">
-            @for (int i = 0; i <= 2 * Model.Levels.Count / 9; i++)
+            <ul class="levels big-container">
+                @for (int i = 0; i <= 2 * Model.Levels.Count / 9; i++)
             {
-                <li class="level-group">
-                    <ul>
-                        @for (int j = 0; index + 1 < Model.Levels.Count && j < ((i % 2 == 0) ? 5 : 4); j++)
-                        {
-                            index++;
-                            <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)">
-                                <div class="circle-display">
-                                    <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1: Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
-                                    <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
-                                    <div class="pie-ring-outer">
-                                        <div class="pie-ring-inner">
-                                            @if (Model.Levels[index].LearningStatistics != null)
-                                            {
-                                                int t = Model.Levels[index].LearningStatistics.Total;
-                                                t = t == 0 ? 1 : t;
-                                                double tdeg = 360.0 / t;
-                                                double ldeg = Model.Levels[index].LearningStatistics.Learned * tdeg;
-                                                double rdeg = Model.Levels[index].LearningStatistics.Review * tdeg;
-                                                double udeg = Model.Levels[index].LearningStatistics.Unseen * tdeg;
-                                                int l = (int)Math.Ceiling(ldeg) == 360 ? 361 : (int)Math.Ceiling(ldeg);
-                                                int r = (int)Math.Ceiling(rdeg) == 360 ? 361 : (int)Math.Ceiling(rdeg);
-                                                int u = (int)Math.Ceiling(udeg) == 360 ? 361 : (int)Math.Ceiling(udeg);
-                                                <div class="pie pie-learned @(l > 180 ? "big" : "")" data-start="0" data-value="@l"></div>
-                                                <div class="pie pie-forgotten @(r > 180 ? "big" : "")" data-start="@l" data-value="@r"></div>
-                                                <div class="pie pie-unseen @(u > 180 ? "big" : "")" data-start="@(l+r)" data-value="@u"></div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="more-info-outer">
-                                    <div class="more-info-inner">
-
-                                        <div class="session-buttons">
-                                            <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "graduation-cap", "Uči")</a>
-                                            <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "flask", "Obnovi")</a>
-                                            <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "chain", "Spajalica")</a>
-                                            <a class="button-level-linky button-link" href="#!">@Helper.Button("rect", "", "list", "Spisak")</a>
-                                        </div>
-
-                                        <div class="level-info">
-
-                                            @if (Model.Levels[index].LearningStatistics != null)
-                                            {
-                                            <div class="statistics">
-                                                <dl class="stats stats-vertical level-total-card">
-                                                    <dt>Ukupno</dt>
-                                                    <dd>@Model.Levels[index].CardNumber</dd>
-                                                </dl>
-                                                <dl class="stats stats-vertical  level-learned-cards">
-                                                    <dt>Nauceno</dt>
-                                                    <dd>@Model.Levels[index].LearningStatistics.Learned</dd>
-                                                </dl>
-                                                <dl class="stats stats-vertical  level-review-cards">
-                                                    <dt>Za obnavljanje</dt>
-                                                    <dd>@Model.Levels[index].LearningStatistics.Review</dd>
-                                                </dl>
-                                                <dl class="stats stats-vertical  level-unseen-cards">
-                                                    <dt>Neotvorenih</dt>
-                                                    <dd>@Model.Levels[index].LearningStatistics.Unseen</dd>
-                                                </dl>
-                                            </div>
-
-                                            <div class="words-highlight">
-
-                                            </div>
-                                            }
-                                            
-                                            <ul class="list-of-cards" id=@("list-of-cards-level-id-" + Model.Levels[index].LevelID)>
-                                                @*@for (int c = 0; c < Model.Levels[index].CardNumber; c++)
+                    <li class="level-group">
+                        <ul>
+                            @for (int j = 0; index + 1 < Model.Levels.Count && j < ((i % 2 == 0) ? 5 : 4); j++)
+                            {
+                                index++;
+                                <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)">
+                                    <div class="circle-display">
+                                        <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1: Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
+                                        <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
+                                        <div class="pie-ring-outer">
+                                            <div class="pie-ring-inner">
+                                                @if (Model.Levels[index].LearningStatistics != null)
                                                 {
-                                                    <li>@Model.Levels[index].</li>
-                                                    Gde jke lsita kartica?
-                                                }*@
-                                            </ul>
+                                                    int t = Model.Levels[index].LearningStatistics.Total;
+                                                    t = t == 0 ? 1 : t;
+                                                    double tdeg = 360.0 / t;
+                                                    double ldeg = Model.Levels[index].LearningStatistics.Learned * tdeg;
+                                                    double rdeg = Model.Levels[index].LearningStatistics.Review * tdeg;
+                                                    double udeg = Model.Levels[index].LearningStatistics.Unseen * tdeg;
+                                                    int l = (int)Math.Ceiling(ldeg) == 360 ? 361 : (int)Math.Ceiling(ldeg);
+                                                    int r = (int)Math.Ceiling(rdeg) == 360 ? 361 : (int)Math.Ceiling(rdeg);
+                                                    int u = (int)Math.Ceiling(udeg) == 360 ? 361 : (int)Math.Ceiling(udeg);
+                                                    <div class="pie pie-learned @(l > 180 ? "big" : "")" data-start="0" data-value="@l"></div>
+                                                    <div class="pie pie-forgotten @(r > 180 ? "big" : "")" data-start="@l" data-value="@r"></div>
+                                                    <div class="pie pie-unseen @(u > 180 ? "big" : "")" data-start="@(l+r)" data-value="@u"></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="more-info-outer">
+                                        <div class="more-info-inner">
+
+                                            <div class="session-buttons">
+                                                <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "graduation-cap", "Uči")</a>
+                                                <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "flask", "Obnovi")</a>
+                                                <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "chain", "Spajalica")</a>
+                                                <a class="button-level-linky button-link" href="#!">@Helper.Button("rect", "", "list", "Spisak")</a>
+                                            </div>
+
+                                            <div class="level-info">
+
+                                                @if (Model.Levels[index].LearningStatistics != null)
+                                                {
+                                                    <div class="statistics">
+                                                        <dl class="stats stats-vertical level-total-card">
+                                                            <dt>Ukupno</dt>
+                                                            <dd>@Model.Levels[index].CardNumber</dd>
+                                                        </dl>
+                                                        <dl class="stats stats-vertical  level-learned-cards">
+                                                            <dt>Nauceno</dt>
+                                                            <dd>@Model.Levels[index].LearningStatistics.Learned</dd>
+                                                        </dl>
+                                                        <dl class="stats stats-vertical  level-review-cards">
+                                                            <dt>Za obnavljanje</dt>
+                                                            <dd>@Model.Levels[index].LearningStatistics.Review</dd>
+                                                        </dl>
+                                                        <dl class="stats stats-vertical  level-unseen-cards">
+                                                            <dt>Neotvorenih</dt>
+                                                            <dd>@Model.Levels[index].LearningStatistics.Unseen</dd>
+                                                        </dl>
+                                                    </div>
+
+                                                    <div class="words-highlight">
+
+                                                    </div>
+                                                }
+
+                                                <ul class="list-of-cards" id=@("list-of-cards-level-id-" + Model.Levels[index].LevelID)>
+                                                    @*@for (int c = 0; c < Model.Levels[index].CardNumber; c++)
+                                                        {
+                                                            <li>@Model.Levels[index].</li>
+                                                            Gde jke lsita kartica?
+                                                        }*@
+                                                </ul>
+
+                                            </div>
 
                                         </div>
-
                                     </div>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                </li>
-            }
-        </ul>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
         }
     </div>
 
@@ -159,7 +159,7 @@
                 <dl class="stats stats-horizontal"><dt>Nauceno</dt><dd>@Model.Statistics.LearningStatistics.Learned</dd></dl>
             </div>
         }
-       
+
 
         <div class="course-stats">
             <dl class="stats stats-horizontal"><dt>Broj kartica</dt><dd>@Model.NumberOfCards</dd></dl>
@@ -170,23 +170,72 @@
         <div id="leaderboard">
             <h3>All Time</h3>
             <ul id="leaderboard-all-time">
-                @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
-                {
-                    <li>
-                        <div class="avatar"><i class="fa fa-refresh"></i></div>
-                        <div class="username">@lde.Username</div>
-                        <div class="score">@lde.AllTimeScore</div>
-                    </li>
+                @{
+                    int limit = 20;
+                    int redniBr = 1;
+                    List<LeaderboardEntryDTO> list = Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList();
+
+                    int usersIndex = -1;
+                    if (user != null)
+                    {
+                        usersIndex = list.FindIndex(a => a.UserID == user.UserID);
+                    }
+
+                    if (usersIndex == -1 || usersIndex < limit)
+                    {
+                        foreach (LeaderboardEntryDTO lde in list.Take(limit))
+                        {
+
+                            <li>
+                                <div class="avatar">
+                                    <i class="fa fa-refresh"></i>
+                                </div>
+                                <span>@(redniBr++)</span>
+                                <div class="username" style=@( user != null && lde.UserID ==user.UserID ? "background-color:red" : "")>@lde.Username</div>
+                                <div class="score">@lde.AllTimeScore</div>
+
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        foreach (LeaderboardEntryDTO lde in list.Take(limit - 1))
+                        {
+
+                            <li>
+                                <div class="avatar">
+                                    <i class="fa fa-refresh"></i>
+                                </div>
+                                <span>@redniBr++</span>
+                                <div class="username">@lde.Username</div>
+                                <div class="score">@lde.AllTimeScore</div>
+
+                            </li>
+                        }
+                        <li>
+                            <div class="avatar">
+                                <i class="fa fa-refresh"></i>
+                            </div>
+                            <span>@usersIndex + 1</span>
+                            <div class="username" style="background-color:red" }>@list[usersIndex].Username</div>
+                            <div class="score">@list[usersIndex].AllTimeScore</div>
+
+                        </li>
+                    }
                 }
-                @for (int i = 0; i < 5; i++)
+
+
+                @*@for (int i = 0; i < 5; i++)
                 {
                     // Fiktivni
                     <li>
-                        <div class="avatar"><i class="fa fa-refresh"></i></div>
+                        <div class="avatar">
+                            <i class="fa fa-refresh"></i>
+                        </div>
                         <div class="username">Fiktivni@(i)</div>
                         <div class="score">1.5</div>
                     </li>
-                }
+                }*@
             </ul>
 
             <h3>This Week</h3>
@@ -195,7 +244,7 @@
                 {
                     <span>@lde.Username</span>
                     <span>@lde.WeekScore</span>
-                }   
+                }
             </ul>
 
             <h3>This Month</h3>

@@ -103,6 +103,8 @@ namespace Data
                              select a.userID == b.user1ID ? b.user2ID : b.user1ID).ToList();
             }
 
+            friendIDs.Add(userID);
+
             return (from a in friendIDs
                     from  b in dc.Users
                     where a == b.userID

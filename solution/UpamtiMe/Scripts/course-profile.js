@@ -19,5 +19,23 @@ $('.levels').on('click', '.circle-display', function() {
   }
 });
 
+$('#leaderboard-tabs').on('click', 'li', function() {
+  $(this).siblings().removeClass('active');
+  $(this).addClass('active');
+  if ($(this).attr('id') == 'leaderboard-tabs-all') {
+    $('#leaderboard-all-time-score').addClass('current');
+    $('#leaderboard-week-score').removeClass('current');
+    $('#leaderboard-month-score').removeClass('current');
+  } else if ($(this).attr('id') == 'leaderboard-tabs-week') {
+    $('#leaderboard-all-time-score').removeClass('current');
+    $('#leaderboard-week-score').addClass('current');
+    $('#leaderboard-month-score').removeClass('current');
+  } else if ($(this).attr('id') == 'leaderboard-tabs-month') {
+    $('#leaderboard-all-time-score').removeClass('current');
+    $('#leaderboard-week-score').removeClass('current');
+    $('#leaderboard-month-score').addClass('current');
+  }
+});
+
 $(document).ready(function() {
 });

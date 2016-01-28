@@ -839,3 +839,135 @@ dl.stats-horizontal {
 		color: palette($blue-grey, 200);
 	}
 }
+
+
+/**
+ *
+ * Leaderboard
+ */
+
+#leaderboard {
+
+	#leaderboard-tabs {
+		margin: 12px 0;
+		display: flex;
+		justify-content: space-between;
+
+		li {
+			font-weight: bold;
+			text-transform: uppercase;
+			cursor: pointer;
+			padding: 4px 6px;
+
+			&:hover {
+				color: palette($pink, 400);
+			}
+
+			&.active {
+				color: palette($pink);
+			}
+		}
+	}
+
+	 ul:not(#leaderboard-tabs) {
+	   display: flex;
+	   flex-wrap: wrap;
+
+		 &:not(.current) {
+			 display: none;
+		 }
+
+	   li {
+	     width: 100%;
+	     box-sizing: border-box;;
+	     padding: 6px;
+	     margin-bottom: 6px;
+	     display: flex;
+	     align-items: center;
+	     justify-content: space-between;
+
+	     &.highlight {
+	       color: palette($pink)!important;
+	     }
+
+	     .avatar {
+	       display: none;
+	       background-color: white;
+	       justify-content: center;
+	       align-items: center;
+	       border-radius: 50%;
+	       margin-bottom: 8px;
+
+	       i {
+	         @extend .fa-spin;
+	       }
+	     }
+
+	     .username {
+	       display: inline-block;
+	       font-size: 16px;
+	     }
+
+	     .score {
+	       display: inline-block;
+	       font-size: 18px;
+	       font-weight: bold;
+	     }
+
+	     // Najbolji
+	     &:nth-of-type(1) {
+	       display: flex;
+	       flex-direction: column;
+	       justify-content: center;
+	       align-items: center;
+
+				 .order {
+					 display: none;
+				 }
+
+	       .avatar {
+	         display: flex;
+	         width:  92px;
+	         height: 92px;
+	       }
+
+	       .username {
+	         font-size: 20px;
+	         font-weight: bold;
+	         color: palette($pink, 600);
+	       }
+
+	       .score {
+	         font-size: 24px;
+	       }
+	     }
+
+	     // Prva i druga pratilja
+	     &:nth-of-type(2), &:nth-of-type(3) {
+	       display: flex;
+	       flex-direction: column;
+	       justify-content: center;
+	       align-items: center;
+	       width: 50%;
+
+				 .order {
+					 display: none;
+				 }
+
+	       .avatar {
+	         width: 64px;
+	         height: 64px;
+	         display: flex;
+	       }
+
+	       .username {
+
+	       }
+
+	       .score {
+
+	       }
+	     }
+	   }
+	 }
+}

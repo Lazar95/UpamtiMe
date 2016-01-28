@@ -1,4 +1,5 @@
-﻿@helper Image(byte[] image, string m_type, string m_name) {
+﻿@helper Image(byte[] image, string m_type, string m_name)
+{
     if (image != null)
     {
         var base64 = Convert.ToBase64String(image.ToArray());
@@ -11,6 +12,62 @@
     }
 }
 
-@helper Button(string type, string id, string icon, string text) { 
+@helper Button(string type, string id, string icon, string text)
+{ 
     <div class="@("button-" + type)" id=@id><div class="@("fa fa-"+icon)"></div><div>@text</div></div>
+}
+
+@helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted)
+{
+    <li class="@( isHighlighted ? " highlight" : "")">
+        <div class="order">@order</div>
+        <div class="avatar">
+            <i class="fa fa-refresh"></i>
+        </div>
+        <div class="username"><a href="#!">@username</a></div>
+        <div class="score">@score</div>
+    </li>
+}
+
+@helper LeaderboardEntryGeneral(int redniBr, Data.DTOs.LeaderboardEntryDTO lde, int? myUserID, string type)
+{
+    switch (type)
+    {
+        case "all-time-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.AllTimeScore, lde.UserID, myUserID != null && lde.UserID == myUserID); break;
+        case "week-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.WeekScore, lde.UserID, myUserID != null && lde.UserID == myUserID); break;
+        case "month-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.MonthScore, lde.UserID, myUserID != null && lde.UserID == myUserID); break;
+    }
+}
+
+@helper Leaderboard(string type, List<Data.DTOs.LeaderboardEntryDTO> list, int? userID, int limit, bool current = true)
+{
+    <ul id=@("leaderboard-" + type) class="@(current ? "current" : "")">
+        @{
+            //int limit = 20;
+            int redniBr = 1;
+            //List<LeaderboardEntryDTO> list = Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList();
+
+            int usersIndex = -1;
+            if (userID != null)
+            {
+                usersIndex = list.FindIndex(a => a.UserID == userID);
+            }
+
+            if (usersIndex == -1 || usersIndex < limit)
+            {
+                foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit))
+                {
+                    @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type)
+                }
+            }
+            else
+            {
+                foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit - 1))
+                {
+                    @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type)
+                }
+                @Helper.LeaderboardEntryGeneral(usersIndex, list[usersIndex], userID, type)
+            }
+        }
+    </ul>
 }

@@ -13,7 +13,7 @@ namespace UpamtiMe.Models
         public Data.DTOs.StatisctisByDays Statistics { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
         public bool More { get; set; }
-
+        public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
 
         public static UserIndexModel Load(int userID)
         {
@@ -52,6 +52,8 @@ namespace UpamtiMe.Models
 
             uim.Statistics = UserSession.GetSidebar().Statistics;
             uim.LearningStatistics = UserSession.GetSidebar().LearningStatistics;
+
+            uim.Leaderboard = Data.Users.getLeaderboard(userID);
 
             return uim;
         }

@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Index";
 }
-
+@{ LoginDTO user = UserSession.GetUser();}
 
 <main id="users-index">
 
@@ -38,41 +38,12 @@
         </li>
     </ul>
 
-    <ul id="user-leaderboard" class="big-container">
-        <li><dl class="stats-horizontal"><dt>Username1</dt><dd>69</dd></dl></li>
-        <li class="you"><dl class="stats-horizontal"><dt>Username2</dt><dd>69</dd></dl></li>
-        <li><dl class="stats-horizontal"><dt>Username3</dt><dd>69</dd></dl></li>
-        <li><dl class="stats-horizontal"><dt>Username4</dt><dd>69</dd></dl></li>
-        <li><dl class="stats-horizontal"><dt>Username5</dt><dd>69</dd></dl></li>
-        <li><dl class="stats-horizontal"><dt>Username6</dt><dd>69</dd></dl></li>
-        <li><dl class="stats-horizontal"><dt>Username7</dt><dd>69</dd></dl></li>
-        <li><dl class="stats-horizontal"><dt>Username8</dt><dd>69</dd></dl></li>
-        <li class="more"><i class="fa fa-arrows-alt"></i></li>
-        <li class="full-screen">
-            <ul>
-                <li><dl class="stats-horizontal"><dt>Username1</dt><dd>69</dd></dl></li>
-                <li class="you"><dl class="stats-horizontal"><dt>Username2</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username3</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username4</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username5</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username6</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username7</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username8</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username9</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username10</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username11</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username12</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username13</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username14</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username15</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username16</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username17</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username18</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username19</dt><dd>69</dd></dl></li>
-                <li><dl class="stats-horizontal"><dt>Username20</dt><dd>69</dd></dl></li>
-            </ul>
-        </li>
-    </ul>
+
+    <div id="leaderboard" class="big-container">
+        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 20, true)
+        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 20, false)
+        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 20, false)
+    </div>
 
     <ul id="user-courses">
         <button id="load-more-courses">More</button>
@@ -149,7 +120,10 @@
                         elements.each(function () {
                             loadGraphLine($(this), temp, 7);
                         });
-                        loadStatsCourseTotalBreakdown();
+
+                        $('.course-total-breakdown:gt(' + min + '):lt(' + max + ')').each(function () {
+                            loadStatsCourseTotalBreakdown($(this));
+                        });
 
                        
                         inProgress = false;

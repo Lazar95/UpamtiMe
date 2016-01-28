@@ -156,7 +156,7 @@
             <div class="personal-stats">
                 <dl class="stats stats-horizontal"><dt>Neotvorenih</dt><dd>@Model.Statistics.LearningStatistics.Unseen</dd></dl>
                 <dl class="stats stats-horizontal"><dt>Za obnavljanje</dt><dd>@Model.Statistics.LearningStatistics.Review</dd></dl>
-                <dl class="stats stats-horizontal"><dt>Nauceno</dt><dd>@Model.Statistics.LearningStatistics.Learned</dd></dl>
+                <dl class="stats stats-horizontal"><dt>Naučeno</dt><dd>@Model.Statistics.LearningStatistics.Learned</dd></dl>
             </div>
         }
 
@@ -168,93 +168,14 @@
         </div>
 
         <div id="leaderboard">
-            <h3>All Time</h3>
-            <ul id="leaderboard-all-time">
-                @{
-                    int limit = 2;
-                    int redniBr = 1;
-                    List<LeaderboardEntryDTO> list = Model.Leaderboard.OrderBy(a => a.AllTimeScore).ToList();
-
-                    int usersIndex = -1;
-                    if (user != null)
-                    {
-                        usersIndex = list.FindIndex(a => a.UserID == user.UserID);
-                    }
-
-                    if (usersIndex == -1 || usersIndex < limit)
-                    {
-                        foreach (LeaderboardEntryDTO lde in list.Take(limit))
-                        {
-
-                            <li>
-                                <div class="avatar">
-                                    <i class="fa fa-refresh"></i>
-                                </div>
-                                <span>@(redniBr++)</span>
-                                <div class="username" style=@( user != null && lde.UserID ==user.UserID ? "background-color:red" : "")>@lde.Username</div>
-                                <div class="score">@lde.AllTimeScore</div>
-
-                            </li>
-                        }
-                    }
-                    else
-                    {
-                        foreach (LeaderboardEntryDTO lde in list.Take(limit - 1))
-                        {
-
-                            <li>
-                                <div class="avatar">
-                                    <i class="fa fa-refresh"></i>
-                                </div>
-                                <span>@(redniBr++)</span>
-                                <div class="username">@lde.Username</div>
-                                <div class="score">@lde.AllTimeScore</div>
-
-                            </li>
-                        }
-                        <li>
-                            <div class="avatar">
-                                <i class="fa fa-refresh"></i>
-                            </div>
-                            <span>@(usersIndex + 1)</span>
-                            <div class="username" style="background-color:red" }>@list[usersIndex].Username</div>
-                            <div class="score">@list[usersIndex].AllTimeScore</div>
-
-                        </li>
-                    }
-                }
-
-
-                @*@for (int i = 0; i < 5; i++)
-                {
-                    // Fiktivni
-                    <li>
-                        <div class="avatar">
-                            <i class="fa fa-refresh"></i>
-                        </div>
-                        <div class="username">Fiktivni@(i)</div>
-                        <div class="score">1.5</div>
-                    </li>
-                }*@
+            <ul id="leaderboard-tabs">
+                <li id="leaderboard-tabs-all" class="active">Sve</li>
+                <li id="leaderboard-tabs-week">Nedelja</li>
+                <li id="leaderboard-tabs-month">Mesec</li>
             </ul>
-
-            <h3>This Week</h3>
-            <ul id="leaderboard-this-week">
-                @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
-                {
-                    <span>@lde.Username</span>
-                    <span>@lde.WeekScore</span>
-                }
-            </ul>
-
-            <h3>This Month</h3>
-            <ul id="leaderboard-this-month">
-                @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
-                {
-                    <span>@lde.Username</span>
-                    <span>@lde.MonthScore</span>
-                }
-            </ul>
+            @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 20, true)
+            @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 20, false)
+            @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 20, false)
         </div>
     </aside>
 

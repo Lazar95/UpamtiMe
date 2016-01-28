@@ -171,9 +171,9 @@
             <h3>All Time</h3>
             <ul id="leaderboard-all-time">
                 @{
-                    int limit = 20;
+                    int limit = 2;
                     int redniBr = 1;
-                    List<LeaderboardEntryDTO> list = Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList();
+                    List<LeaderboardEntryDTO> list = Model.Leaderboard.OrderBy(a => a.AllTimeScore).ToList();
 
                     int usersIndex = -1;
                     if (user != null)
@@ -206,7 +206,7 @@
                                 <div class="avatar">
                                     <i class="fa fa-refresh"></i>
                                 </div>
-                                <span>@redniBr++</span>
+                                <span>@(redniBr++)</span>
                                 <div class="username">@lde.Username</div>
                                 <div class="score">@lde.AllTimeScore</div>
 
@@ -216,7 +216,7 @@
                             <div class="avatar">
                                 <i class="fa fa-refresh"></i>
                             </div>
-                            <span>@usersIndex + 1</span>
+                            <span>@(usersIndex + 1)</span>
                             <div class="username" style="background-color:red" }>@list[usersIndex].Username</div>
                             <div class="score">@list[usersIndex].AllTimeScore</div>
 

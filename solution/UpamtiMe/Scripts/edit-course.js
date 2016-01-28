@@ -818,12 +818,12 @@ var hideAllButtons = function(here) {
 /*****************************/
 
 // Ime
-$('.banner').on('click', '#course-name span', function() {
+$('.course-banner').on('click', '#course-name span', function() {
   var oldName = $(this).html().trim();
   $(this).parent().append('<input type="text" id="course-name-edit" value="' + oldName + '" data-old-name="' + oldName + '">');
   $(this).hide();
 });
-$('.banner').on('keyup', '#course-name-edit', function(e) {
+$('.course-banner').on('keyup', '#course-name-edit', function(e) {
   if (e.keyCode == 13 || e.keyCode == 27) { // Enter ili Escape
     var span = $(this).parent().children('span');
     var newName = '';
@@ -860,7 +860,7 @@ $('#category').change(function() {
 // Description
 var hideCourseDescriptionEditButtons = function() {
 }
-$('.banner').on('click', '#btn-course-description-edit', function() {
+$('.course-banner').on('click', '#btn-course-description-edit', function() {
   var oldDesc = $('#course-description > span').text().trim();
   $('#course-description').append('<textarea value="' + oldDesc + '" data-old-desc="' + oldDesc + '">');
   $('textarea').val(oldDesc);
@@ -869,7 +869,7 @@ $('.banner').on('click', '#btn-course-description-edit', function() {
   $('#btn-course-description-accept').show();
   $('#btn-course-description-discard').show();
 });
-$('.banner').on('click', '#btn-course-description-accept', function(e) {
+$('.course-banner').on('click', '#btn-course-description-accept', function(e) {
   var newDesc = $('textarea').val();
   var oldDesc = $('textarea').attr('data-old-desc');
   if (_courseInfo.status == UNTOUCHED && newDesc != oldDesc) {
@@ -882,7 +882,7 @@ $('.banner').on('click', '#btn-course-description-accept', function(e) {
   $('#btn-course-description-accept').hide();
   $('#btn-course-description-discard').hide();
 });
-$('.banner').on('click', '#btn-course-description-discard', function(e) {
+$('.course-banner').on('click', '#btn-course-description-discard', function(e) {
   var oldDesc = $('textarea').attr('data-old-desc');
   $('textarea').remove();
   $('#course-description > span').text(oldDesc).show();

@@ -823,5 +823,46 @@ dl.stats-horizontal {
 			justify-content: space-between;
 		}
 	} // .basic-info
-
 } // .course-banner
+
+/**
+ * Dugmad
+ */
+
+// Fiktivna klasa
+.button-sqr-rect {
+	background-color: palette($blue-grey, 600);
+	margin: 16px;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 2px;
+	cursor: pointer;
+	position: relative;
+	@include z-depth(1);
+
+	&:hover { background-color: palette($blue-grey, 500); }
+
+}
+
+.button-sqr {
+	@extend .button-sqr-rect;
+	width: 100px;
+	height: 100px;
+
+	div:nth-child(1) {
+		$s: 64px;
+		width:       $s;
+		height:      $s;
+		font-size:   $s * 0.8;
+		line-height: $s;
+		text-align: center;
+		color: palette($blue-grey, 50);
+	}
+
+	div:nth-child(2) {
+		font-size: 12px;
+		color: palette($blue-grey, 200);
+	}
+}

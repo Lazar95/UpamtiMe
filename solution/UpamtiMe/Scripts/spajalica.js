@@ -1,7 +1,6 @@
 /**
  * Globalne promenljive pocinju donjom crtom, _camelCase.
- * Globalne promenljive koje u sustini sakrivaju implementaciju su CAPITALS.
- *
+ * Globalne konstante koje u sustini sakrivaju implementaciju su CAPITALS.
  */
 
 /**
@@ -28,41 +27,21 @@ function getRandomArbitrary(min, max) {
 }
 
 // JSON za pitanja i odgovore
-var _qa = [
-  /*{ "question" : "ja",        "answer" : "da" },
-  { "question" : "nein",      "answer" : "ne" },
-  { "question" : "danke",     "answer" : "hvala" },
-  { "question" : "leben",     "answer" : "živeti" },
-  { "question" : "was",       "answer" : "šta" },
-  { "question" : "wer",       "answer" : "ko" },
-  { "question" : "wo",        "answer" : "gde" },
-  { "question" : "wie",       "answer" : "kako" },
-  { "question" : "warum",     "answer" : "zašto" },
-  { "question" : "die Katze",     "answer" : "mačka" },
-  { "question" : "der Hund",     "answer" : "pas" },
-  { "question" : "das Haus",     "answer" : "kuća" },
-  { "question" : "der Stuhl",     "answer" : "stolica" },
-  { "question" : "der Tisch",     "answer" : "sto" },
-  { "question" : "die Versicherung",     "answer" : "osiguranje" },
-  { "question" : "die Krankenersicherung",     "answer" : "zdravstveno osiguranje" },
-  { "question" : "mein",     "answer" : "moje" },
-  { "question" : "dein",     "answer" : "tvoje" },
-  { "question" : "der Spiegel",     "answer" : "ogledalo" },
-  { "question" : "die Kuh",     "answer" : "krava" },
-  { "question" : "die Flasche",     "answer" : "flaša" },*/
-];
+var _qa = [];
+var ALLOW_GAME = true;
 
 /**
- * NAPOMENA
+ * //TODO
  *
  * Ovaj niz mora da se filtrira tako da se izbaci sve sto je duplikat ili po
- * pitanju ili po odgovoru.
+ * pitanju ili po odgovoru, jer se tacnost odredjuje na osnovu ID-ja.
+ * Ali ovo bi moralo da se radi na bekendu zbog broja kartica koje ucestvuju
+ * u igri.
  */
 
- $(window).bind('load', function() {
-  parseTableOfGod();
-  LENGTH = _qa.length;
+$(window).bind('load', function() {
 
+  parseTableOfGod();
   shuffleArray(_qa);
 
   var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -83,7 +62,7 @@ var _qa = [
   _stack.push(4);
   _stack.push(5);
 
-  _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
+  _interval = setInterval( function(){ updateTimer(_timeRemaining); }, _timerUpdateInterval);
 
 });
 
@@ -98,26 +77,14 @@ var parseTableOfGod = function() {
     console.log(curr);
     _qa.push( {
       "status": -1,
-      //TODO svasta nesto gledaj dole
-      //"cardID": curr.children('[data-type="card-id"]').text().trim(), // novo
       "question" : curr.children('[data-type="question"]').text().trim(),
       "answer" : curr.children('[data-type="answer"]').text().trim(),
-      //"description": curr.children('[data-type="description"]').text().trim(),
-      //"nextSeeMinutes": 0, // nije isto ako si u startu reko da znas rec
-      //"correctAnswers": 0, // uvek 0, vracam samo nov broj, odnosno akrtice radjene tokom ove sesije
-      //"wrongAnswers": 0, // uvek 0
-      //"combo": 0,
-      //"goodness": 0, // ja treba da sracunam goodness
     } );
   }
 
   console.log(_qa);
 }
 
-
-
-var LENGTH = _qa.length;
-var ALLOW_GAME = true;
 
 var _nextChip = 1;
 var _stack = [];
@@ -137,9 +104,9 @@ var _bonusCombo = 0;
 var _score = 0;
 
 // Za tajmer
-var _maxTimeRemaining = 9000;
+const _maxTimeRemaining = 8000;
 var _timeRemaining = _maxTimeRemaining;
-var _dangerThreshold = 2000;
+const _dangerThreshold = 2000;
 var _timerUpdateInterval = 10;
 var _interval;
 
@@ -179,7 +146,7 @@ var updateTimer = function(timeRemaining) {
  */
 var isGameOver = function() {
   for(var i = 1; i < _grid.length; i++) { // Da, od jedan, ne pitaj me zasto.
-    if (_grid[i] != LENGTH)
+    if (_grid[i] != _qa.length)
       return false;
   }
   return true;
@@ -193,15 +160,23 @@ var gameOver = function() {
   ALLOW_GAME = false;
   clearInterval(_interval);
 
-  var livesBonus = _lives * 100;
-  var percentage = Math.floor(_correctCount * 100 / (_correctCount + _incorrectCount));
-  var percentageBonus = percentage;
-  var maxComboBonus = _maxCombo;
+  var livesBonusPercentage = (_lives * 10);
+  var correctnessBonusPercentage = ((_correctCount / (_correctCount + _incorrectCount)) * 10).toFixed(1);
+  var comboBonusPercentage = (_maxCombo / 10.0).toFixed(1);
+
+  var livesBonus = Math.ceil(livesBonusPercentage * _score / 100);
+  var correctnessBonus = Math.ceil(correctnessBonusPercentage * _score / 100);
+  var comboBonus = Math.ceil(comboBonusPercentage * _score / 100);
 
   $('#cover .total-score span').html(_score);
-  $('#cover-remaining-lives span').html(livesBonus);
-  $('#cover-correctness span').html(percentageBonus);
-  $('#cover-max-combo span').html(maxComboBonus);
+  $('#cover-remaining-lives span').html('+' + livesBonusPercentage + '%');
+  $('#cover-correctness span').html('+' + correctnessBonusPercentage + '%');
+  $('#cover-max-combo span').html('+' + comboBonusPercentage + '%');
+
+  $('#cover .total-score').attr('data-init-points', _score);
+  $('#cover-remaining-lives').attr('data-points', livesBonus);
+  $('#cover-correctness').attr('data-points', correctnessBonus);
+  $('#cover-max-combo').attr('data-points', comboBonus);
 
   $('#cover').addClass('show');
 
@@ -251,6 +226,42 @@ var goodJob = function() {
   gameOver();
   $('#cover .title').html('Uspešno odigrano!');
   $('#cover .subtitle').html('Svaka čast!');
+
+  var $score = $('#cover .total-score');
+  var $scoreSpan = $score.children('span');
+  var score = parseInt($scoreSpan.text().trim());
+
+  var livesBonus = parseInt($('#cover-remaining-lives').attr('data-points').trim());
+  var correctBonus = parseInt($('#cover-correctness').attr('data-points').trim());
+  var comboBonus = parseInt($('#cover-max-combo').attr('data-points').trim());
+
+  setTimeout( function() { // Cekaj 500 ms pre nego sto krenes sa animacijama, da bi stigo da se pojavi #cover
+    $("#cover .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
+      $score.addClass('boom');
+      setTimeout( function() { // Cekaj 200ms (da se izvrsi animacija za boom; vidi css)
+        $scoreSpan.text(score + livesBonus);
+        $score.removeClass('boom');
+      }, 200);
+      setTimeout(function() { // Kad se prvi dodatni score pomeri, nemoj odmah da kreces dalje. Cekaj 300 ms.
+        $("#cover .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
+          $score.addClass('boom');
+          setTimeout( function() {
+            $scoreSpan.text(score + livesBonus + correctBonus);
+            $score.removeClass('boom');
+          }, 200);
+          setTimeout(function() {
+            $("#cover .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
+              $score.addClass('boom');
+              setTimeout( function() {
+                $scoreSpan.text(score + livesBonus + correctBonus + comboBonus);
+                $score.removeClass('boom');
+              }, 200);
+            });
+          }, 300);
+        });
+      }, 300);
+    });
+  }, 500); // cekanje za #cover
 }
 
 /**
@@ -306,13 +317,13 @@ $('body').keypress(function(e) {
 });
 
 var getChipsLeft = function() {
-  return (LENGTH - _nextChip);
+  return (_qa.length - _nextChip);
 }
 
 var incrementChip = function() {
   _nextChip++;
-  if (_nextChip >= LENGTH)
-    _nextChip = LENGTH;
+  if (_nextChip >= _qa.length)
+    _nextChip = _qa.length;
 }
 
 var pushNextChip = function(pos) {

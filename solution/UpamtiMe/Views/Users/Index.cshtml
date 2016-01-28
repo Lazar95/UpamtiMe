@@ -100,9 +100,9 @@
                     </div>
                     <div class="course-total-breakdown-wrapper">
                         <canvas class="course-total-breakdown" width="118" height="118"
-                                data-learned="@course.LearningStatistics.Learned"
-                                data-review="@course.LearningStatistics.Review"
-                                data-unseen="@course.LearningStatistics.Unseen"
+                                data-learned="@course.LearningStatistics.LearningStatistics.Learned"
+                                data-review="@course.LearningStatistics.LearningStatistics.Review"
+                                data-unseen="@course.LearningStatistics.LearningStatistics.Unseen"
                         ></canvas>
                     </div>
                 </div>
@@ -112,12 +112,13 @@
 
 </main>
 
+
 <script type="text/javascript">
-    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var BlockNumber = 0; //ne => //Infinate Scroll starts from second block
     var NoMoreData = false;
     var inProgress = false;
 
-    
+
     $('#load-more-courses').click(function () {
         if (!inProgress) {
 
@@ -125,14 +126,34 @@
 
             $.post("@Url.Action("InfinateScroll", "Users")",
                 { "BlockNumber": BlockNumber },
-                function (data) {
-                    BlockNumber = BlockNumber + 1;
-                    NoMoreData = data.NoMoreData;
-                    $('#user-courses').append(data.HTMLString);
-                    //$("#bookListDiv").append(data.HTMLString);
-                    //$("#loadingDiv").hide();
-                    inProgress = false;
-                });
+                    function (data) {
+
+                        BlockNumber = BlockNumber + 1;
+                        NoMoreData = data.NoMoreData;
+                        $('#user-courses').append(data.HTMLString);
+                        if (data.NoMoreData) {
+                            $('#load-more-courses').html("NO MORE");
+                            $('#load-more-courses').attr('disabled', "");
+                        }
+
+
+                        // za svaki  kurs
+                        var temp = [
+                          { dataName: 'data-dates', color: "", label: "", },
+                          { dataName: 'data-points', color: colorBlueGrey700, label: 'Poeni', }
+                        ];
+                        var min = data.min - 2;
+                        var max = data.max + 1;
+                        
+                        var elements = $('.course-points-graph:gt('+ min +'):lt(' + max + ')'); // uzima samo prva tri jer se za njih vide grafici
+                        elements.each(function () {
+                            loadGraphLine($(this), temp, 7);
+                        });
+                        loadStatsCourseTotalBreakdown();
+
+                       
+                        inProgress = false;
+                    });
         }
     });
 </script>

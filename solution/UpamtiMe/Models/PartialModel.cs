@@ -35,8 +35,9 @@ namespace UpamtiMe.Models
             returnValue.Streak = usr.streak;
             returnValue.Score = usr.score;
             returnValue.TotalCardsSeen = usr.totalCardsSeen;
-           
-            returnValue.Statistics = Data.Users.GetStatisctisByDays(userID, timeSpan: 7);
+
+            //ne treba mi 30 ali ucitavam zbog User/Index
+            returnValue.Statistics = Data.Users.GetStatisctisByDays(userID, timeSpan: 30);
 
             returnValue.Leaderboard = Data.Users.getLeaderboard(userID);
             if(learningStatistics == null)

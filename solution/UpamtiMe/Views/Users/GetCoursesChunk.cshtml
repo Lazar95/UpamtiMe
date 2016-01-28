@@ -1,0 +1,33 @@
+﻿@model List<Data.DTOs.UserCourseDTO>
+
+@foreach (Data.DTOs.UserCourseDTO course in Model)
+{
+    <li data-course-id=@course.CourseID>
+        <div class="wrapper">
+            <div class="course-name"><a href="@Url.Action("Profile", "Courses", new { id = course.CourseID } )">@course.Name</a></div>
+            @Helper.Image(course.Image, "class", "course-picture")
+            <div class="course-buttons">
+                <div class="button button-rect learn-button">
+                    <div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", "Courses", new { courseID = course.CourseID } )">Uči</a></span>
+                </div>
+                <div class="button button-rect review-button">
+                    <div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", "Courses", new { courseID = course.CourseID } )">Obnovi</a></span>
+                </div>
+                <div class="button button-rect linky-button">
+                    <div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", "Courses", new { courseID = course.CourseID } )">Spajalica</a></span>
+                </div>
+            </div>
+            <div class="course-points-graph-wrapper">
+                <canvas class="course-points-graph" width="224" height="135"
+                        data-points="@course.StatisctisByDays.Scores"
+                        data-dates="@course.StatisctisByDays.Dates"></canvas>
+            </div>
+            <div class="course-total-breakdown-wrapper">
+                <canvas class="course-total-breakdown" width="118" height="118"
+                        data-learned="@course.LearningStatistics.LearningStatistics.Learned"
+                        data-review="@course.LearningStatistics.LearningStatistics.Review"
+                        data-unseen="@course.LearningStatistics.LearningStatistics.Unseen"></canvas>
+            </div>
+        </div>
+    </li>
+}

@@ -12,7 +12,7 @@ namespace UpamtiMe.Models
         public List<CourseDTO> Courses { get; set; }
         public bool More { get; set; }
 
-        public static int brojKursevaKojiSePrikazuUStartu = ConfigurationParameters.CourseIndexStartCourseNumber;
+        
         //search
         public string Search { get; set; }
         public int? CategoryID { get; set; }
@@ -20,6 +20,8 @@ namespace UpamtiMe.Models
 
         public static CourseIndexModel Load(string search, int? categoryID = null, int? subcategoryID = null)
         {
+             int courseStartNo = ConfigurationParameters.CourseIndexStartCourseNumber;
+
             LoginDTO user = UserSession.GetUser();
             int? userID = null;
             if (user != null)
@@ -29,9 +31,9 @@ namespace UpamtiMe.Models
            
             List<CourseDTO> allCourses = Data.Courses.Search(search, categoryID, subcategoryID, userID);
             //upise u model prvih x
-            cim.Courses = allCourses.Take(brojKursevaKojiSePrikazuUStartu).ToList();
+            cim.Courses = allCourses.Take(courseStartNo).ToList();
 
-            if (brojKursevaKojiSePrikazuUStartu >= allCourses.Count)
+            if (courseStartNo >= allCourses.Count)
             {
                 cim.More = false;
             }

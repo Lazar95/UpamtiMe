@@ -9,6 +9,10 @@ namespace UpamtiMe
     {
         public static int CoursesSearchInfiniteScrollBlockSize = 2;
         public static int CourseIndexStartCourseNumber = 1;
+
+        public static int CoursesUserIndexInfiniteScrollBlockSize = 2;
+        public static int UserIndexStartCourseNumber = 1;
+
         public static int LearningSessionCardNumber = 6;
         public static int ReviewSessionCardNumber = 20;
         public static int LinkySessionCardNumber = 100;

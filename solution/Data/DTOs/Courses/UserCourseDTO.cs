@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace Data.DTOs
 {
-    public class UserCourseDTO
+    public class UserCourseDTO : Data.DTOs.CourseDTO
     {
         public int CourseID { get; set; }
-        public string Name { get; set; }
-        public byte[] Image { get; set; }
-        public int CategoryID { get; set; }
-        public int? SubcategoryID { get; set; }
-        public LearningStatisticsDTO LearningStatistics { get; set; }
+      
+        public int? Favorite { get; set; }
+       
+        public CourseUsersStatisticsDTO LearningStatistics { get; set; }
         public StatisctisByDays StatisctisByDays { get; set; }
+
+       
     }
 }

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Data;
+using Data.DTOs;
 using UpamtiMe.Models;
 
 namespace UpamtiMe.Controllers
@@ -36,7 +38,7 @@ namespace UpamtiMe.Controllers
         {
             try
             {
-                Models.ProfilePageModel model = Models.ProfilePageModel.Load(id);
+                Models.UserProfileModel model = Models.UserProfileModel.Load(id);
                 if (UserSession.GetUser() == null)
                 {
                     ViewBag.friends = Data.Enumerations.FollowStatus.NotLoggedIn;
@@ -100,26 +102,44 @@ namespace UpamtiMe.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult UserIndexCoursesChunk(List<int> Model)
+        public ActionResult GetCoursesChunk(List<UserCourseDTO> model)
         {
-            Model = new List<int>();
-            for(int i=0; i < 8; i++)
-                Model.Add(i);
-            return PartialView(Model);
+            return PartialView(model);
         }
 
         [HttpPost]
         public ActionResult InfinateScroll(int BlockNumber)
         {
-            int BlockSize = 8;
-
-            List<int> brojke = new List<int>();
-            for (int i = 0; i < BlockSize; i++)
-                brojke.Add(i + BlockNumber*10);
+            int initBlockSize = ConfigurationParameters.UserIndexStartCourseNumber;
+            int BlockSize = ConfigurationParameters.CoursesUserIndexInfiniteScrollBlockSize;
 
             JsonModel jsonModel = new JsonModel();
-            jsonModel.NoMoreData = brojke.Count < BlockSize;
-            jsonModel.HTMLString = RenderPartialViewToString("UserIndexCoursesChunk", brojke);
+
+            List<Course> allCourses = UserSession.GetUserCourses();
+            List<Course> courses;
+            List<UserCourseDTO> returnValue;
+
+            int baseNo = initBlockSize + BlockSize * BlockNumber;
+            jsonModel.min = baseNo + 1;
+            int limit = baseNo + BlockSize;
+            if (limit >= allCourses.Count)
+            {
+                jsonModel.NoMoreData = true;
+                courses = allCourses.GetRange(baseNo, allCourses.Count - baseNo);
+                jsonModel.max = baseNo + allCourses.Count - baseNo;
+            }
+            else
+            {
+                jsonModel.NoMoreData = false;
+                courses = allCourses.GetRange(baseNo, BlockSize);
+                jsonModel.max = baseNo + BlockSize ;
+            }
+
+
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+
+            returnValue = Data.Courses.CreateUserCourseDTOs(usr.UserID, courses);
+            jsonModel.HTMLString = RenderPartialViewToString("GetCoursesChunk", returnValue);
             return Json(jsonModel);
         }
 

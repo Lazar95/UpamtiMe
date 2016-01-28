@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Data;
 using Data.DTOs;
 
 namespace UpamtiMe
@@ -52,6 +53,16 @@ namespace UpamtiMe
         public static Models.PartialModel GetSidebar()
         {
             return (Models.PartialModel) HttpContext.Current.Session["sidebar"];
+        }
+
+        public static void SetUserCourses(List<Course> list)
+        {
+            HttpContext.Current.Session["userCourses"] = list;
+        }
+
+        public static List<Course> GetUserCourses()
+        {
+            return (List<Course>)HttpContext.Current.Session["userCourses"];
         }
 
     }

@@ -31,7 +31,7 @@ namespace UpamtiMe.Controllers
         [HttpPost]
         public ActionResult InfinateScroll(int BlockNumber)
         {
-            int initBlockSize = Models.CourseIndexModel.brojKursevaKojiSePrikazuUStartu;
+            int initBlockSize = ConfigurationParameters.CourseIndexStartCourseNumber;
             int BlockSize = ConfigurationParameters.CoursesSearchInfiniteScrollBlockSize;
 
 

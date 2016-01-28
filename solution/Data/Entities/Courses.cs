@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -154,37 +155,74 @@ namespace Data
             return returnValue;
         }
 
-        //ovo nista ne valja, trebaju ti podaci kao sto je lastPlayed za kurs
-        public static List<UserCourseDTO> getCoursesOf(int userID, DataClasses1DataContext dc = null)
+        public static List<UserCourseDTO> CreateUserCourseDTOs(int userID ,List<Course> courses, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
 
-            List<UserCourseDTO> retrunValue = new List<UserCourseDTO>();
-
-            List<Course> courses = (from a in dc.UsersCourses
-                from b in dc.Courses
-                where a.userID == userID && a.courseID == b.courseID
-                select b).ToList();
+            List<UserCourseDTO> returnValue = new List<UserCourseDTO>();
 
             foreach (Course course in courses)
             {
+
                 CourseUsersStatisticsDTO cus = getUserCourseStatistics(course.courseID, userID, course.numberOfCards, dc);
 
                 UserCourseDTO ucd = new UserCourseDTO
                 {
                     CourseID = course.courseID,
-                    CategoryID = course.categoryID,
-                    SubcategoryID = course.subcategoryID,
                     Name = course.name,
+                    CategoryID = course.categoryID,
+                    CategoryName = getCategoryName(course.categoryID),
+                    SubcategoryID = course.subcategoryID,
+                    SubcategoryName =
+                        course.subcategoryID == null ? null : getSubcategoryName(course.subcategoryID.Value),
+                    ParticipantCount = course.participantCount,
+                    NumberOfCards = course.numberOfCards,
+                    CreatorID = course.creatorID,
+                    CreatorUsername = Users.getUsername(course.creatorID),
+                    Rating = course.rating,
                     Image = course.image?.ToArray(),
-                    LearningStatistics = cus.LearningStatistics,
+                    Erolled = Users.enrolled(userID, course.courseID),
+
+                    Favorite = Data.Courses.getFavorite(course.courseID, userID),
+                    LearningStatistics = cus,
                     StatisctisByDays = Users.GetStatisctisByDays(userID, course.courseID)
                 };
 
-                retrunValue.Add(ucd);
+                returnValue.Add(ucd);
             }
+            return returnValue;
+        }
 
-            return retrunValue;
+        public static List<Course> getSortedCoursesOf(int userID, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+            var courses = (from a in dc.UsersCourses
+                from b in dc.Courses
+                where a.userID == userID && a.courseID == b.courseID
+                select new {course = b, lastPlayed = a.lastPlayed}).OrderByDescending(a => a.lastPlayed);
+            return (from c in courses select c.course).ToList();
+        }
+
+        public static List<UserCourseDTO> getCoursesOf(int userID, List<Course> courses,
+            DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+            return CreateUserCourseDTOs(userID, courses, dc);
+        }
+
+
+        //vise mi ne trba 
+        public static List<UserCourseDTO> getAllCoursesOf(int userID, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+
+            List<UserCourseDTO> returnValue = new List<UserCourseDTO>();
+
+            List<Course> courses = getSortedCoursesOf(userID, dc);
+
+            returnValue = CreateUserCourseDTOs(userID, courses, dc);
+           
+            return returnValue;
         }
 
 

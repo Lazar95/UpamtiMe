@@ -5,7 +5,7 @@ using System.Web;
 
 namespace UpamtiMe.Models
 {
-    public class ProfilePageModel
+    public class UserProfileModel
     {
         public int UserID { get; set; }
         public string Username { get; set; }
@@ -21,10 +21,10 @@ namespace UpamtiMe.Models
         public byte[] Image { get; set; }
         public List<Data.Achievement> Achievements { get; set; }
 
-        public static ProfilePageModel Load(int userID)
+        public static UserProfileModel Load(int userID)
         {
             Data.User u = Data.Users.GetUser(userID);
-            return new ProfilePageModel
+            return new UserProfileModel
             {
                 UserID = u.userID,
                 Username = u.username,

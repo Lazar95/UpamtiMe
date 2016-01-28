@@ -14,6 +14,8 @@ namespace UpamtiMe
         {
             public string HTMLString { get; set; }
             public bool NoMoreData { get; set; }
+            public int min { get; set; }
+            public int max { get; set; }
         }
 
         protected string RenderPartialViewToString(string viewName, object model)

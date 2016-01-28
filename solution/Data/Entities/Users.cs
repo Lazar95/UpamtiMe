@@ -89,18 +89,17 @@ namespace Data
             List<int> friendIDs;
             if (courseID == null)
             {
-                friendIDs = (from a in dc.Users
-                    from b in dc.Friendships
-                    where a.userID == b.user1ID || a.userID == b.user2ID
-                    select a.userID == b.user1ID ? b.user2ID : b.user1ID).ToList();
+                friendIDs = (from a in dc.Friendships
+                    where a.user1ID == userID || a.user2ID == userID
+                    select a.user1ID == userID ? a.user2ID : a.user1ID).ToList();
             }
             else
             {
-                friendIDs = (from a in dc.Users
-                             from b in dc.Friendships
+                friendIDs = (from a in dc.Friendships
+                             from b in dc.Courses
                              from c in dc.UsersCourses
-                             where (a.userID == b.user1ID || a.userID == b.user2ID) && ( c.courseID == courseID && c.userID == b.user1ID && c.userID == b.user2ID)
-                             select a.userID == b.user1ID ? b.user2ID : b.user1ID).ToList();
+                             where (a.user1ID == userID || a.user2ID == userID) && ( c.courseID == courseID && c.userID == a.user1ID && c.userID == a.user2ID)
+                             select a.user1ID == userID ? a.user2ID : a.user1ID).ToList();
             }
 
             friendIDs.Add(userID);

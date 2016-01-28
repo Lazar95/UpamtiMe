@@ -682,10 +682,10 @@ var save = function() {
 
   // Osnovni podaci o kursu:
   _dataToSend.courseID = $('#course').attr('data-course-id');
-  _dataToSend.name = $('#course-name > span').html();
-  _dataToSend.categoryID = $('.cat-subcat #category option:selected').val();
-  _dataToSend.subcategoryID = $('.cat-subcat #subcategory option:selected').val();
-  _dataToSend.description = $('.basic-info > .description > span').html().trim();
+  _dataToSend.name =          _courseInfo.name;
+  _dataToSend.categoryID =    _courseInfo.categoryID;
+  _dataToSend.subcategoryID = _courseInfo.subcategoryID;
+  _dataToSend.description =   _courseInfo.description;
 
   // Celi nivoi:
   for (var i = 0; i < _course.length; i++) {
@@ -854,6 +854,7 @@ $('#category').change(function() {
   $('#subcategory').children('[value="0"]').attr('selected', '');
   hideCategories($(this), $('#subcategory'));
   _courseInfo.categoryID = $(this).children(':selected').val();
+  _courseInfo.subcategoryID = $('#subcategory').children(':selected').val();
   _courseInfo.status = CHANGED;
 });
 

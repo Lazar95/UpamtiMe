@@ -10,6 +10,11 @@ namespace UpamtiMe.Controllers
     {
         public ActionResult Error(int statusCode, Exception exception)
         {
+            if (exception.Message == "nije ulogovan")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             Response.StatusCode = statusCode;
             ViewBag.StatusCode = statusCode + " Error";
             return View(exception);

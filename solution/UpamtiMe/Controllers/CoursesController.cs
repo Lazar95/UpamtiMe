@@ -294,8 +294,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult UnFavorite(int courseID)
         {
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
-            Data.Courses.setFavorite(courseID, usr.UserID, null);
+            Data.Courses.setFavorite(courseID, UserSession.GetUserID(), null);
 
             UserSession.ReloadSidebar();
             return RedirectToAction("Profile", new { id = courseID });

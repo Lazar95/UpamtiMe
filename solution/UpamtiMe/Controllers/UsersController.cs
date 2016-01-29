@@ -132,25 +132,11 @@ namespace UpamtiMe.Controllers
                 jsonModel.max = baseNo + BlockSize ;
             }
 
+            
 
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
-
-            returnValue = Data.Courses.CreateUserCourseDTOs(usr.UserID, courses);
+            returnValue = Data.Courses.CreateUserCourseDTOs(UserSession.GetUserID(), courses);
             jsonModel.HTMLString = RenderPartialViewToString("GetCoursesChunk", returnValue);
             return Json(jsonModel);
         }
-
-        //protected override void OnException(ExceptionContext filterContext)
-        //{
-        //    filterContext.ExceptionHandled = true;
-
-        //    Exception e  = filterContext.Exception;
-        //    filterContext.Result = RedirectToAction("Error", "Home");
-
-
-        //}
-
-
-
     }
 }

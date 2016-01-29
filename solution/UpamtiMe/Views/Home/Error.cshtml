@@ -1,33 +1,11 @@
-﻿
+﻿@model Exception
 @{
     ViewBag.Title = "Error";
 }
 
 <h2>Error</h2>
-<h3>@ViewBag.bilosta</h3>
-<button>Dugme!</button>
-<span id="blabla"></span>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $('button').click(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: "/Users/TestPage", // /kontroler/akcija (klasa/funkcija u klasi)
-                method: "POST",
-                data: {
-                    a: 42,
-                    lazar: 13
-                },
-                success: function (res) {
-                    if (res.success) {
-                        $('#blabla').html('aaa');
-                    }
-                }
-            })
-        });
-    });
-</script>
+
+
 

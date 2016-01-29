@@ -86,9 +86,9 @@ namespace UpamtiMe.Controllers
             return RedirectToAction("Error");
         }
 
-        public ActionResult Error()
+        public ActionResult Error(Exception e)
         {
-            return View();
+            return View(e);
         }
     }
 }

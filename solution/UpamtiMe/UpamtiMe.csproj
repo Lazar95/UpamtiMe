@@ -117,9 +117,11 @@
     <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ConfigurationParameters.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\ModelStateErrors.cs" />
@@ -158,6 +160,7 @@
     <Content Include="Views\Courses\Linky.cshtml" />
     <Content Include="Views\Partials\Sidebar.cshtml" />
     <Content Include="Views\Users\GetCoursesChunk.cshtml" />
+    <Content Include="Views\ErrorPage\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

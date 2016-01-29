@@ -18,7 +18,9 @@ namespace UpamtiMe.Controllers
             UserIndexModel uim = UserIndexModel.Load(id);
             return View(uim);
         }
+        
 
+        //kad se ovo uopste pozivaa
         [HttpPost]
         public ActionResult Index(Models.UserIndexModel model)
         {
@@ -36,53 +38,52 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Profile(int id)
         {
-            try
+           
+            Models.UserProfileModel model = Models.UserProfileModel.Load(id);
+            if (UserSession.GetUser() == null)
             {
-                Models.UserProfileModel model = Models.UserProfileModel.Load(id);
-                if (UserSession.GetUser() == null)
+                ViewBag.friends = Data.Enumerations.FollowStatus.NotLoggedIn;
+            }
+            else
+            {
+                if (UserSession.GetUser().UserID == id)
                 {
-                    ViewBag.friends = Data.Enumerations.FollowStatus.NotLoggedIn;
+                    ViewBag.friends = Data.Enumerations.FollowStatus.Myself;
+                }
+                else if (Data.Users.follows(UserSession.GetUser().UserID, id))
+                {
+                    ViewBag.friends = Data.Enumerations.FollowStatus.Following;
                 }
                 else
                 {
-                    if (UserSession.GetUser().UserID == id)
-                    {
-                        ViewBag.friends = Data.Enumerations.FollowStatus.Myself;
-                    }
-                    else if (Data.Users.follows(UserSession.GetUser().UserID, id))
-                    {
-                        ViewBag.friends = Data.Enumerations.FollowStatus.Following;
-                    }
-                    else
-                    {
-                        ViewBag.friends = Data.Enumerations.FollowStatus.NotFollowing;
-                    }
-
+                    ViewBag.friends = Data.Enumerations.FollowStatus.NotFollowing;
                 }
-                return View(model);
+
             }
-            catch(Exception e)
-            {
-                return RedirectToAction("Error", "Home");
-            }
+
+            return View(model);
         }
 
         
-        public ActionResult Follow(int firstID, int secondID)
+        public ActionResult Follow(int secondID)
         {
-            Data.Users.follow(firstID, secondID);
+
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+            Data.Users.follow(usr.UserID, secondID);
             return RedirectToAction("Profile", new {id = secondID});
         }
 
-        public ActionResult Unfollow(int firstID, int secondID)
+        public ActionResult Unfollow(int secondID)
         {
-            Data.Users.unfollow(firstID, secondID);
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+            Data.Users.unfollow(usr.UserID, secondID);
             return RedirectToAction("Profile", new { id = secondID });
         }
 
         [HttpPost]
-        public ActionResult UploadAvatar(HttpPostedFileBase file, int userID)
+        public ActionResult UploadAvatar(HttpPostedFileBase file)
         {
+            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
             if (file != null)
             {
                 byte[] array;
@@ -91,14 +92,14 @@ namespace UpamtiMe.Controllers
                     file.InputStream.CopyTo(ms);
                     array = ms.GetBuffer();
                 }
-                Data.Users.editAvatar(userID, array);
+                Data.Users.editAvatar(usr.UserID, array);
 
             }
             
             //da bi se promenila slika u sidebaru
             UserSession.ReloadSidebar();
 
-            return RedirectToAction("Profile", "Users", new { id = userID});
+            return RedirectToAction("Profile", "Users", new { id = usr.UserID});
         }
 
         [ChildActionOnly]
@@ -143,7 +144,17 @@ namespace UpamtiMe.Controllers
             return Json(jsonModel);
         }
 
-       
+        //protected override void OnException(ExceptionContext filterContext)
+        //{
+        //    filterContext.ExceptionHandled = true;
+
+        //    Exception e  = filterContext.Exception;
+        //    filterContext.Result = RedirectToAction("Error", "Home");
+
+
+        //}
+
+
 
     }
 }

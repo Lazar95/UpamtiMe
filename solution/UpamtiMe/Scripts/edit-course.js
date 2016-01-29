@@ -100,7 +100,7 @@ var addLevel = function() {
 
   var newLevelName = $('#new-level input').val().toString();
 
-  if (_course[_course.length - 1].cards.length == 0) {
+  if (_course.length != 0 && _course[_course.length - 1].cards.length == 0) {
     // Ako je poslednji nivo prazan
     alert('Prethodni nivo je prazan! Dodaj kartice prvo u njega.');
     return false;

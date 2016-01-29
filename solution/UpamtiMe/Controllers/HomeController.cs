@@ -22,7 +22,7 @@ namespace UpamtiMe.Controllers
 
             if (Session["user"] != null)
             {
-                return RedirectToAction("Profile", "Users", new { id = UserSession.GetUser().UserID });
+                return RedirectToAction("Index", "Users", new { id = UserSession.GetUserID()});
             }
             else if (!logOut)
             {

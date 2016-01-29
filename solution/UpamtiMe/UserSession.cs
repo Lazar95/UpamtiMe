@@ -15,6 +15,14 @@ namespace UpamtiMe
             return (LoginDTO) HttpContext.Current.Session["user"];
         }
 
+        public static int GetUserID()
+        {
+            LoginDTO usr = GetUser();
+            if(usr == null)
+                throw new Exception("nije ulogovan");
+            return usr.UserID;
+        }
+
         public static void SetUser(LoginDTO u)
         {
             HttpContext.Current.Session["user"] = u;
@@ -47,7 +55,7 @@ namespace UpamtiMe
 
         public static void ReloadSidebar()
         {
-            HttpContext.Current.Session["sidebar"] = Models.PartialModel.Load(GetUser().UserID);
+            HttpContext.Current.Session["sidebar"] = Models.PartialModel.Load(GetUserID());
         }
 
         public static Models.PartialModel GetSidebar()

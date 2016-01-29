@@ -61,9 +61,9 @@ namespace UpamtiMe.Controllers
         public ActionResult Profile(int id)
         {
             CourseProfileModel model;
-            if ( UserSession.GetUser() != null && Users.enrolled(UserSession.GetUser().UserID, id))
+            if ( UserSession.GetUser() != null && Users.enrolled(UserSession.GetUserID(), id))
             {
-                model = CourseProfileModel.Load(id, UserSession.GetUser().UserID);
+                model = CourseProfileModel.Load(id, UserSession.GetUserID());
             }
             else
             {
@@ -75,7 +75,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Enroll(int id)
         {
-            int usrID = UserSession.GetUser().UserID;
+            int usrID = UserSession.GetUserID();
             Users.enroll(usrID, id);
             return RedirectToAction("Profile", new {id = id});
         }
@@ -91,8 +91,8 @@ namespace UpamtiMe.Controllers
         {
             if (ModelState.IsValid)
             {
-                LoginDTO user = UserSession.GetUser();
-                Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, user.UserID);
+                int usrID = UserSession.GetUserID();
+                Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, usrID);
                 return RedirectToAction("EditCourse", new {id = c.courseID });
             }
             else
@@ -188,7 +188,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Learn(int courseID, int? levelID, int? numberOfCards)
         {
-            SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
             {
                 return RedirectToAction("Error", "Home");
@@ -201,20 +201,20 @@ namespace UpamtiMe.Controllers
         [HttpPost]
         public ActionResult Learn(List<CardUserDTO> qaInfo , float score, int courseID)
         {
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+            int userID = UserSession.GetUserID();
 
 
             int timeSpent = UserSession.GetTimeSpent();
 
             //upisi u usercard
-            Data.DTOs.CorrectWrong cw = Data.Cards.CreateUserCard(qaInfo, usr.UserID);
+            Data.DTOs.CorrectWrong cw = Data.Cards.CreateUserCard(qaInfo, userID);
 
             //upisi u tabelu sa statistikama i userCourses
-            bool firstSession = Data.Courses.updateStatistics(courseID, usr.UserID, score, qaInfo.Count, 0, cw.Correct, cw.Wrong, 0, 0,
+            bool firstSession = Data.Courses.updateStatistics(courseID, userID, score, qaInfo.Count, 0, cw.Correct, cw.Wrong, 0, 0,
                 timeSpent);
 
             //upisi u user-a
-            Data.Users.updateStatisctics(usr.UserID, score, qaInfo.Count, firstSession);
+            Data.Users.updateStatisctics(userID, score, qaInfo.Count, firstSession);
 
             UserSession.ReloadSidebar();
 
@@ -225,7 +225,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Review(int courseID, int? levelID, int? numberOfCards)
         {
-            SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
             {
                 return RedirectToAction("Error", "Home");
@@ -238,7 +238,7 @@ namespace UpamtiMe.Controllers
         [HttpPost]
         public ActionResult Review(List<CardUserDTO> qaInfo, float score, int courseID)
         {
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+            int userID = UserSession.GetUserID();
 
 
             int timeSpent = UserSession.GetTimeSpent();
@@ -247,11 +247,11 @@ namespace UpamtiMe.Controllers
             Data.DTOs.CorrectWrong cw = Data.Cards.UpdateUserCards(qaInfo);
 
             //upisi u tabelu sa statistikama i userCourses
-            bool streak = Data.Courses.updateStatistics(courseID, usr.UserID, score, 0, qaInfo.Count, 0, 0, cw.Correct, cw.Wrong, 
+            bool streak = Data.Courses.updateStatistics(courseID, userID, score, 0, qaInfo.Count, 0, 0, cw.Correct, cw.Wrong, 
                 timeSpent);
 
             //upisi u user-a
-            Data.Users.updateStatisctics(usr.UserID, score, 0, streak);
+            Data.Users.updateStatisctics(userID, score, 0, streak);
 
             UserSession.ReloadSidebar();
 
@@ -260,7 +260,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Linky(int courseID, int? levelID, int? numberOfCards)
         {
-            SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUser().UserID, courseID, levelID, numberOfCards);
+            SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             UserSession.SetTime();
             return View("Linky", model);
         }
@@ -268,15 +268,15 @@ namespace UpamtiMe.Controllers
         [HttpPost]
         public ActionResult Linky(float score, int courseID)
         {
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
+            int userID = UserSession.GetUserID();
 
             int timeSpent = UserSession.GetTimeSpent();
 
             //upisi u tabelu sa statistikama i userCourses
-            bool streak = Data.Courses.updateStatistics(courseID, usr.UserID, score, 0, 0, 0, 0, 0, 0, timeSpent);
+            bool streak = Data.Courses.updateStatistics(courseID, userID, score, 0, 0, 0, 0, 0, 0, timeSpent);
 
             //upisi u user-a
-            Data.Users.updateStatisctics(usr.UserID, score, 0, streak);
+            Data.Users.updateStatisctics(userID, score, 0, streak);
 
             UserSession.ReloadSidebar();
 
@@ -285,8 +285,8 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Favorite(int courseID)
         {
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
-            Data.Courses.setFavorite(courseID, usr.UserID, 1);
+            
+            Data.Courses.setFavorite(courseID, UserSession.GetUserID(), 1);
 
             UserSession.ReloadSidebar();
             return RedirectToAction("Profile", new {id = courseID});

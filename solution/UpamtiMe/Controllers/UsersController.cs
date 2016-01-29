@@ -46,11 +46,11 @@ namespace UpamtiMe.Controllers
             }
             else
             {
-                if (UserSession.GetUser().UserID == id)
+                if (UserSession.GetUserID() == id)
                 {
                     ViewBag.friends = Data.Enumerations.FollowStatus.Myself;
                 }
-                else if (Data.Users.follows(UserSession.GetUser().UserID, id))
+                else if (Data.Users.follows(UserSession.GetUserID(), id))
                 {
                     ViewBag.friends = Data.Enumerations.FollowStatus.Following;
                 }
@@ -67,23 +67,19 @@ namespace UpamtiMe.Controllers
         
         public ActionResult Follow(int secondID)
         {
-
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
-            Data.Users.follow(usr.UserID, secondID);
+            Data.Users.follow(UserSession.GetUserID(), secondID);
             return RedirectToAction("Profile", new {id = secondID});
         }
 
         public ActionResult Unfollow(int secondID)
         {
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
-            Data.Users.unfollow(usr.UserID, secondID);
+            Data.Users.unfollow(UserSession.GetUserID(), secondID);
             return RedirectToAction("Profile", new { id = secondID });
         }
 
         [HttpPost]
         public ActionResult UploadAvatar(HttpPostedFileBase file)
         {
-            LoginDTO usr = UserSession.GetUser(); //baci exception ako nije ulogovan
             if (file != null)
             {
                 byte[] array;
@@ -92,14 +88,14 @@ namespace UpamtiMe.Controllers
                     file.InputStream.CopyTo(ms);
                     array = ms.GetBuffer();
                 }
-                Data.Users.editAvatar(usr.UserID, array);
+                Data.Users.editAvatar(UserSession.GetUserID(), array);
 
             }
             
             //da bi se promenila slika u sidebaru
             UserSession.ReloadSidebar();
 
-            return RedirectToAction("Profile", "Users", new { id = usr.UserID});
+            return RedirectToAction("Profile", "Users", new { id = UserSession.GetUserID()});
         }
 
         [ChildActionOnly]

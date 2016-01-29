@@ -90,15 +90,15 @@ namespace Data
             if (courseID == null)
             {
                 friendIDs = (from a in dc.Friendships
-                    where a.user1ID == userID || a.user2ID == userID
-                    select a.user1ID == userID ? a.user2ID : a.user1ID).ToList();
+                    where a.user1ID == userID 
+                    select a.user2ID).ToList();
             }
             else
             {
                 friendIDs = (from a in dc.Friendships
                              from c in dc.UsersCourses
-                             where (a.user1ID == userID || a.user2ID == userID) && ( c.courseID == courseID && c.userID == a.user1ID && c.userID == a.user2ID)
-                             select a.user1ID == userID ? a.user2ID : a.user1ID).ToList();
+                             where a.user1ID == userID && ( c.courseID == courseID && c.userID == a.user1ID && c.userID == a.user2ID)
+                             select a.user2ID ).ToList();
             }
 
             friendIDs.Add(userID);

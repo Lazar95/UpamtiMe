@@ -42,9 +42,9 @@
         <div class="full-screen">
             <div class="less"><i class="fa fa-times"></i></div>
             <div class="full-leaderboard-headings">
-                <h3>Ukupno</h3>
                 <h3>Nedelja</h3>
                 <h3>Mesec</h3>
+                <h3>Ukupno</h3>
             </div>
             @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, null, Url, true)
             @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, null, Url, true)

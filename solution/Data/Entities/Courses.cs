@@ -155,6 +155,27 @@ namespace Data
             return returnValue;
         }
 
+        
+        public static List<LeaderboardEntryDTO> getLeaderboard(int courseID, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+
+            return (from a in dc.UsersCourses
+                    from b in dc.Users
+                    where a.userID == b.userID && a.courseID == courseID
+                    select new LeaderboardEntryDTO()
+                    {
+                        UserID = b.userID,
+                        Username = b.username,
+                        FristName = b.name,
+                        LastName = b.surname,
+                        WeekScore = a.thisWeekScore,
+                        MonthScore = a.thisMonthScore,
+                        AllTimeScore = a.score
+                    }).ToList();
+
+        }
+
         public static List<UserCourseDTO> CreateUserCourseDTOs(int userID ,List<Course> courses, DataClasses1DataContext dc = null)
         {
             dc = dc ?? new DataClasses1DataContext();
@@ -245,27 +266,7 @@ namespace Data
                 (from a in dc.UsersCourses where a.userID == userID && a.courseID == courseID select a.startDate).First();
         }
 
-        public static List<LeaderboardEntryDTO> getLeaderboard(int courseID, DataClasses1DataContext dc = null)
-        {
-            dc = dc ?? new DataClasses1DataContext();
-
-            List<int> usersList = (from a in dc.UsersCourses where a.courseID == courseID select a.userID).ToList();
-
-            return (from a in usersList
-                join b in dc.Users
-                    on a equals b.userID
-                select new LeaderboardEntryDTO()
-                {
-                    UserID = b.userID,
-                    Username = b.username,
-                    FristName = b.name,
-                    LastName = b.surname,
-                    WeekScore = b.thisWeekScore,
-                    MonthScore = b.thisMonthScore,
-                    AllTimeScore = b.score
-                }).ToList();
-
-        }
+       
 
         public static Course updateCourseInfo(int courseID, string name, int catID, int subID, int numCards,
             string description)

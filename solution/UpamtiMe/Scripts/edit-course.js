@@ -97,13 +97,30 @@ var countWhatInWhere = function(STATUS, levelID) {
 /*****************************/
 
 var addLevel = function() {
+
+  var newLevelName = $('#new-level input').val().toString();
+
+  if (_course.length != 0 && _course[_course.length - 1].cards.length == 0) {
+    // Ako je poslednji nivo prazan
+    alert('Prethodni nivo je prazan! Dodaj kartice prvo u njega.');
+    return false;
+  }
+
+  // Proveravamo da li postoji nivo sa tim imenom
+  for (var i = 0; i < _course.length; i++) {
+    if (_course[i].name == newLevelName) {
+      alert('Nivo sa tim imenom vec postoji! Izaberi drugo ime.');
+      return false;
+    }
+  }
+
   _lastFakeLevelID--;
 
   var newLevel = {
     "levelID": _lastFakeLevelID.toString(),
     "number": (_course.length + 1).toString(),
     "type": $('#new-level select option:selected').val(),
-    "name": $('#new-level input').val().toString(),
+    "name": newLevelName,
     "cards": [],
     "status": NEW,
   }
@@ -738,6 +755,7 @@ var save = function() {
 /**
  * Bindovanje funkcija za dugmad
  */
+// Klik na + kod dodavanja novog nivoa (prvo expand pa dodaj)
 $('#course').on('click', '#new-level .add-button', function() {
   if ($(this).attr('data-function') == 'expand') {
     $(this)
@@ -745,10 +763,18 @@ $('#course').on('click', '#new-level .add-button', function() {
     .end().attr('data-function', 'add');
   } else {
     // data-function = "add"
-    if ($('#new-level input[type="text"]').val() != "")
+    var typed = $('#new-level input[type="text"]').val();
+    if (typed != "" && typed != undefined)
       addLevel();
-    alert('Nivo mora da ima ime!'); //TODO validacija
+    else
+      alert('Nivo mora da ima ime!'); //TODO validacija
   }
+});
+
+// addLevel se zove na enter u kucanju imena
+$('#new-level input[type="text"]').keyup(function(e){
+  if(e.keyCode == 13)
+    addLevel();
 });
 
 $('#course').on('click', '.new-card .add-button', function() {

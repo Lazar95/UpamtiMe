@@ -10,7 +10,7 @@ main#course-profile {
   justify-content: space-between;
 
   aside {
-    width: 20%;
+    width: 23.5%;
 
     & > * {
       background-color: palette($blue-grey, 100);
@@ -21,7 +21,7 @@ main#course-profile {
   }
 
   .main-content {
-    width: 78.5%;
+    width: 75%;
 
     .buttons {
       display: flex;

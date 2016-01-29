@@ -34,19 +34,22 @@
 {
     switch (type)
     {
-        case "all-time-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.AllTimeScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
-        case "week-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.WeekScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
-        case "month-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.MonthScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "all-time-score": case "all-time-score-full": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.AllTimeScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "week-score": case "week-score-full": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.WeekScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "month-score": case "month-score-full": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.MonthScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
     }
 }
 
-@helper Leaderboard(string type, List<Data.DTOs.LeaderboardEntryDTO> list, int? userID, int limit, UrlHelper url, bool current = true)
+@helper Leaderboard(string type, List<Data.DTOs.LeaderboardEntryDTO> list, int? userID, int? limit, UrlHelper url, bool current = true)
 {
     <ul id=@("leaderboard-" + type) class="@(current ? "current" : "")">
         @{
-            //int limit = 20;
+            if (limit == null)
+            {
+                limit = list.Count;
+            }
+
             int redniBr = 1;
-            //List<LeaderboardEntryDTO> list = Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList();
 
             int usersIndex = -1;
             if (userID != null)
@@ -56,19 +59,28 @@
 
             if (usersIndex == -1 || usersIndex < limit)
             {
-                foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit))
+                foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit.Value))
                 {
                     @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type, url)
                 }
             }
             else
             {
-                foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit - 1))
+                foreach (Data.DTOs.LeaderboardEntryDTO lde in list.Take(limit.Value - 1))
                 {
                     @Helper.LeaderboardEntryGeneral(redniBr++, lde, userID, type, url)
                 }
                 @Helper.LeaderboardEntryGeneral(usersIndex, list[usersIndex], userID, type, url)
             }
         }
+    </ul>
+}
+
+@helper LeaderboardTabs()
+{
+    <ul id="leaderboard-tabs">
+        <li id="leaderboard-tabs-week" class="active">Nedelja</li>
+        <li id="leaderboard-tabs-month">Mesec</li>
+        <li id="leaderboard-tabs-all">Ukupno</li>
     </ul>
 }

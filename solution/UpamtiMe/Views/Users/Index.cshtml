@@ -8,41 +8,48 @@
 
 <main id="users-index">
 
-    <ul id="user-stats" class="big-container">
-        <li id="stats-learning-history-month-wrapper">
+    <div id="user-stats" class="big-container">
+        <div id="stats-learning-history-month-wrapper">
             <canvas id="stats-learning-history-month" width="950" height="190"
                 data-learned= "@Model.Statistics.Learned"
                 data-reviewed="@Model.Statistics.Reviewed"
                 data-dates="@Model.Statistics.Dates"
             ></canvas>
-        </li>
-        <li id="stats-cards-breakdown-wrapper">
+        </div>
+        <div id="stats-cards-breakdown-wrapper">
             <canvas id="stats-cards-breakdown" width="140" height="140" data-learned="@Model.LearningStatistics.Learned" data-review="@Model.LearningStatistics.Review" data-unseen="@Model.LearningStatistics.Unseen"></canvas>
-        </li>
-        <li id="stats-points-week-wrapper">
+        </div>
+        <div id="stats-points-week-wrapper">
             <canvas id="stats-points-week" width="340" height="140" data-points= "@Model.Statistics.Scores" data-dates="@Model.Statistics.Dates"></canvas>
-        </li>
-        <li id="stats-time-week-wrapper">
+        </div>
+        <div id="stats-time-week-wrapper">
             <canvas id="stats-time-week" width="340" height="140" data-time="@Model.Statistics.Times" data-dates="@Model.Statistics.Dates"></canvas>
-        </li>
-        <li class="more"><i class="fa fa-arrows-alt"></i></li>
-        <li class="full-screen">
-            <ul>
-                <li>stats1</li>
-                <li>stats2</li>
-                <li>stats3</li>
-                <li>stats4</li>
-                <li>stats5</li>
-                <li>stats6</li>
-            </ul>
-        </li>
-    </ul>
+        </div>
+        <div class="more"><i class="fa fa-arrows-alt"></i></div>
+        <div class="full-screen">
+            <div class="less"><i class="fa fa-times"></i></div>
+            user-stas
+        </div>
+    </div>
 
 
     <div id="leaderboard" class="big-container">
-        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 20, Url, true)
-        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 20, Url, false)
-        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 20, Url, false)
+        @Helper.LeaderboardTabs()
+        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 10, Url, true)
+        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 10, Url, false)
+        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 10, Url, false)
+        <div class="more"><i class="fa fa-arrows-alt"></i></div>
+        <div class="full-screen">
+            <div class="less"><i class="fa fa-times"></i></div>
+            <div class="full-leaderboard-headings">
+                <h3>Nedelja</h3>
+                <h3>Mesec</h3>
+                <h3>Ukupno</h3>
+            </div>
+            @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, null, Url, true)
+            @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, null, Url, true)
+            @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, null, Url, true)
+        </div>
     </div>
 
     <ul id="user-courses">

@@ -35,9 +35,9 @@
 
     <div id="leaderboard" class="big-container">
         @Helper.LeaderboardTabs()
-        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 10, Url, true)
-        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 10, Url, false)
+        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 10, Url, true)
         @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 10, Url, false)
+        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 10, Url, false)
         <div class="more"><i class="fa fa-arrows-alt"></i></div>
         <div class="full-screen">
             <div class="less"><i class="fa fa-times"></i></div>
@@ -46,9 +46,9 @@
                 <h3>Nedelja</h3>
                 <h3>Mesec</h3>
             </div>
-            @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, null, Url, true)
             @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, null, Url, true)
             @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, null, Url, true)
+            @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, null, Url, true)
         </div>
     </div>
 

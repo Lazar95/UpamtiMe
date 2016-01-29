@@ -11,9 +11,9 @@ $('#new-course-category > select').change(function() {
 
 // Validacija za kreiranje novog kursa
 $('#create-new-course-button').click(function() {
-  var name = $('#new-course-name').val();
-  var cat = $('#new-course-category > select').children(':selected').val();
-  var subcat = $('#new-course-subcategory > select').children(':selected').val();
+  var name = $('#new-course-name > input').val();
+  var cat = $('#new-course-category > select > :selected').val();
+  var subcat = $('#new-course-subcategory > select > :selected').val();
   var error = "";
   if (name == "" || name == undefined)                      error += 'Kurs mora imati ime! ';
   if (cat == "0" || cat == "" || cat === undefined)         error += 'Kurs mora pripadati nekoj kategoriji! ';

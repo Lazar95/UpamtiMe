@@ -407,6 +407,7 @@ namespace Data
                     Rating = a.rating,
                     Image = a.image?.ToArray(),
                     Erolled = userID != null && Users.enrolled(userID.Value, a.courseID),
+                    Description = a.description
                 }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ToList();
         }
 

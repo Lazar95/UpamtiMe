@@ -19,7 +19,7 @@ namespace Data.DTOs
         public int CreatorID { get; set; }
         public string CreatorUsername { get; set; }
         public int? Rating { get; set; }
-        //description nema 
+        public string Description { get; set; }
         public byte[] Image { get; set; }
         public bool Erolled { get; set; }
     }

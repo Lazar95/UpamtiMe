@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 using Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -43,6 +44,15 @@ namespace UpamtiMe.Tests
 
             float d = float.MaxValue;
 
+        }
+
+        [TestMethod]
+        public void RegexTest()
+        {
+            bool a =
+                Regex.IsMatch(
+                    "A public action method 'ksndkjasn' was not found on controller 'UpamtiMe.Controllers.UsersController'.",
+                    @"A public action method .+ was not found on controller .+");
         }
     }
 }

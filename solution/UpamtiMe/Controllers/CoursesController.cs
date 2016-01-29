@@ -103,15 +103,8 @@ namespace UpamtiMe.Controllers
 
         public ActionResult EditCourse(int id)
         {
-            try
-            {
-                Models.EditCourseModel model = Models.EditCourseModel.Load(id);
-                return View(model);
-            }
-            catch(Exception e)
-            {
-                return RedirectToAction("Error", "Home");
-            }
+            Models.EditCourseModel model = Models.EditCourseModel.Load(id);
+            return View(model);
         }
 
         [HttpPost]
@@ -188,6 +181,9 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Learn(int courseID, int? levelID, int? numberOfCards)
         {
+            if(!Data.Users.enrolled(UserSession.GetUserID(), courseID))
+                throw new Exception("nije enrollovan");
+
             SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
             {
@@ -225,6 +221,9 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Review(int courseID, int? levelID, int? numberOfCards)
         {
+            if (!Data.Users.enrolled(UserSession.GetUserID(), courseID))
+                throw new Exception("nije enrollovan");
+
             SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
             {
@@ -260,6 +259,9 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Linky(int courseID, int? levelID, int? numberOfCards)
         {
+            if (!Data.Users.enrolled(UserSession.GetUserID(), courseID))
+                throw new Exception("nije enrollovan");
+
             SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             UserSession.SetTime();
             return View("Linky", model);

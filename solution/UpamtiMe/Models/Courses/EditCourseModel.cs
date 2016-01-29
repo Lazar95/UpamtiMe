@@ -21,6 +21,10 @@ namespace UpamtiMe.Models
         public static EditCourseModel Load(int courseID)
         {
             Data.Course course = Data.Courses.getCourse(courseID);
+
+            if(course.creatorID != UserSession.GetUserID())
+                throw new Exception("nije on kreator");
+
             return new EditCourseModel
             {
                 CategoryID = course.categoryID,
@@ -28,7 +32,7 @@ namespace UpamtiMe.Models
                 Name = course.name,
                 NumberOfCards = course.numberOfCards,
                 Description = course.description,
-                Image = course.image == null ? null : course.image.ToArray(),
+                Image = course.image?.ToArray(),
                 SubcategoryID = course.subcategoryID ?? 0,
                 Levels = Data.Levels.getLevelsAndCardsFor(courseID),
                 AllSubcategories = Data.Courses.GetAllSubcategories()

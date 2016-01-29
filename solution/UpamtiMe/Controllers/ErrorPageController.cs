@@ -15,9 +15,20 @@ namespace UpamtiMe.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            if (exception.Message == "nije on kreator")
+            {
+                ViewBag.Message = "Nisi kreator kursa, ne mozes da ga editujes";
+            }
+
             if (exception.Message == "Sequence contains no elements")
             {
                 ViewBag.Message = "Trazis nesto sto ne postoji";
+            }
+
+            if (exception.Message == "nije enrollovan")
+            {
+                ViewBag.Message = "Nisi prijavljen na kurs!";
             }
 
             if (Regex.IsMatch(exception.Message,

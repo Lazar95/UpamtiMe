@@ -22,7 +22,7 @@ namespace UpamtiMe.Controllers
 
             if (Session["user"] != null)
             {
-                return RedirectToAction("Index", "Users", new { id = UserSession.GetUserID()});
+                return RedirectToAction("Index", "Users");
             }
             else if (!logOut)
             {
@@ -30,7 +30,7 @@ namespace UpamtiMe.Controllers
                 {
                     Login = new LoginTransporterDTO { Username = "masa", Password = "plavusha", RememberMe = true }
                 });
-                return RedirectToAction("Index", "Users", new { id = 2 });
+                return RedirectToAction("Index", "Users");
             }
             return View();
         }
@@ -62,7 +62,7 @@ namespace UpamtiMe.Controllers
             UserSession.ReloadSidebar();
             Session.Timeout = ld.RememberMe ? 525600 : 20;
 
-            return RedirectToAction("Index", "Users", new { id = ld.UserID });
+            return RedirectToAction("Index", "Users");
         }
 
         [HttpPost]

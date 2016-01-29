@@ -14,6 +14,20 @@ namespace UpamtiMe.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            if (exception.Message == "Sequence contains no elements")
+            {
+                ViewBag.Message = "Trazis nesto sto ne postoji";
+            }
+
+            if (exception.Message ==
+                "The controller for path '/sdsada' was not found or does not implement IController."
+                ||
+                exception.Message ==
+                "A public action method 'dfasd' was not found on controller 'UpamtiMe.Controllers.UsersController'.")
+            {
+                
+            }
+            
 
             Response.StatusCode = statusCode;
             ViewBag.StatusCode = statusCode + " Error";

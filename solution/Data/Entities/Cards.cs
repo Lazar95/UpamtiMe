@@ -93,9 +93,9 @@ namespace Data
             
             foreach (CardBasicDTO card in cards)
             {
-                if(checkQustion(card))
+                if (checkJustQustion(card.Question, Levels.getCourse(card.LevelID)))
                     continue;
-                if(checkEmptyFields(card))
+                if (checkEmptyFields(card))
                     continue;
 
                 //ovo deluje besmislneno ali mislim da bez ovog nece da radi

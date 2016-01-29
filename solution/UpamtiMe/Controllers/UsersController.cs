@@ -13,9 +13,9 @@ namespace UpamtiMe.Controllers
     public class UsersController : InfinateScroll
     {
         // GET: Users
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-            UserIndexModel uim = UserIndexModel.Load(id);
+            UserIndexModel uim = UserIndexModel.Load(UserSession.GetUserID());
             return View(uim);
         }
         

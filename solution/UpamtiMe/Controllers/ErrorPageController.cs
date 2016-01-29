@@ -39,6 +39,7 @@ namespace UpamtiMe.Controllers
                 ViewBag.Message = "Ta stranica ne postoji";
             }
            
+            //ako nije ni jedna od prethodnih poruka, posalji gresku meni na mail
 
             Response.StatusCode = statusCode;
             ViewBag.StatusCode = statusCode + " Error";

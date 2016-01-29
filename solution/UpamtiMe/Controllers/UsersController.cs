@@ -18,23 +18,7 @@ namespace UpamtiMe.Controllers
             UserIndexModel uim = UserIndexModel.Load(UserSession.GetUserID());
             return View(uim);
         }
-        
-
-        //kad se ovo uopste pozivaa
-        [HttpPost]
-        public ActionResult Index(Models.UserIndexModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                return View(model);
-            }
-            else
-            {
-                // TODO redirect
-            }
-
-            return View(model);
-        }
+      
 
         public ActionResult Profile(int id)
         {
@@ -137,6 +121,13 @@ namespace UpamtiMe.Controllers
             returnValue = Data.Courses.CreateUserCourseDTOs(UserSession.GetUserID(), courses);
             jsonModel.HTMLString = RenderPartialViewToString("GetCoursesChunk", returnValue);
             return Json(jsonModel);
+        }
+
+
+        public ActionResult GetAvatar(int id)
+        {
+            byte[] image = Data.Users.GetUser(id).avatar.ToArray();
+            return File(image, "image/jpg");
         }
     }
 }

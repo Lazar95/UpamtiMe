@@ -408,7 +408,7 @@ namespace Data
                     Image = a.image?.ToArray(),
                     Erolled = userID != null && Users.enrolled(userID.Value, a.courseID),
                     Description = a.description
-                }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ToList();
+                }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ThenByDescending(a=>a.Image).ToList();
         }
 
         public static UsersCourse GetUserssCourse(int courseID, int userID, DataClasses1DataContext dc = null)

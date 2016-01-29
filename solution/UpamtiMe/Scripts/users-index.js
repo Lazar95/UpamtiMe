@@ -352,3 +352,15 @@ $('#leaderboard-tabs').on('click', 'li', function() {
     $('#leaderboard-month-score').addClass('current');
   }
 });
+
+/**
+ * MORE => FULL SCREEN
+ */
+
+$('.more').click(function() {
+  $(this).siblings('.full-screen').addClass('visible');
+});
+
+$('.less').click(function() {
+  $(this).parent().removeClass('visible');
+})

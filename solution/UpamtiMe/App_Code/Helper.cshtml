@@ -34,9 +34,9 @@
 {
     switch (type)
     {
-        case "all-time-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.AllTimeScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
-        case "week-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.WeekScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
-        case "month-score": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.MonthScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "all-time-score": case "all-time-score-full": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.AllTimeScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "week-score": case "week-score-full": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.WeekScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
+        case "month-score": case "month-score-full": @Helper.LeaderboardEntry(redniBr++, lde.Username, lde.MonthScore, lde.UserID, myUserID != null && lde.UserID == myUserID, url); break;
     }
 }
 

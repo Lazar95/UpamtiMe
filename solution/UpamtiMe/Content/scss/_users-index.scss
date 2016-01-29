@@ -6,14 +6,10 @@ main#users-index {
   & > * { flex-grow: 0; position: relative; }
 
   #user-stats, #leaderboard {
-    //display: none!important;
     padding: 16px;
     @include force-height(400px);
-    .full-screen {
-      display: none;
-    }
 
-    div.more {
+    .more, .less {
       position: absolute;
       top:   12px;
       right: 12px;
@@ -25,6 +21,51 @@ main#users-index {
       &:hover {
         transform: scale(1.2);
         color: palette($blue-grey, 300);
+      }
+    }
+
+    .full-screen {
+
+      &.visible {
+        display: flex;
+      }
+
+      display: none;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-content: flex-start;
+      align-items: flex-start;
+      @include z-depth(4);
+      position: fixed;
+      top: 100px + 68px; //TODO visina headera sa sve sranjima
+      left: 224px + 100px; //TODO refaktorisi, 224 je sirina sidebara
+      right: 100px;
+      bottom: 100px;
+      z-index: 100;
+      background-color: palette($blue-grey, 200);
+      box-sizing: border-box;
+      padding: 24px;
+
+      .full-leaderboard-headings {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        margin: 24px 0;
+
+        h3 {
+          display: block;
+          text-align: center;
+          width: 25%; // mora isto kao dole
+          text-transform: uppercase;
+          font-weight: bold;
+          font-size: 2.2em;
+        }
+      }
+
+      ul {
+        display: flex;
+        flex-flow: column;
+        width: 25%; // mora isto kao gore
       }
     }
   }

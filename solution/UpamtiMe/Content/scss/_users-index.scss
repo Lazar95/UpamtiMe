@@ -5,7 +5,7 @@ main#users-index {
   justify-content: space-between;
   & > * { flex-grow: 0; position: relative; }
 
-  #user-stats, #user-leaderboard {
+  #user-stats, #leaderboard {
     //display: none!important;
     padding: 16px;
     @include force-height(400px);
@@ -13,7 +13,7 @@ main#users-index {
       display: none;
     }
 
-    li.more {
+    div.more {
       position: absolute;
       top:   12px;
       right: 12px;
@@ -30,13 +30,13 @@ main#users-index {
   }
 
   #user-stats {
-    width: 80%;
+    width: 75%;
 
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 
-    & > li:not(.more):not(.full-screen) {
+    & > div:not(.more):not(.full-screen) {
       flex-grow: 1;
       margin: 1%;
       position: relative;
@@ -82,24 +82,8 @@ main#users-index {
     }
   }
 
-  #user-leaderboard {
-    width: 18.5%;
-
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
-    flex-wrap: wrap;
-
-    li:not(.more):not(.full-screen) {
-      flex-grow: 0;
-      margin: 1%;
-      width: 98%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      align-content: center;
-      dl { width: 100%; }
-    }
+  #leaderboard {
+    width: 23.5%;
   }
 
   #user-courses {

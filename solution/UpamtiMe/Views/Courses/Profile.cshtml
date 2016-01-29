@@ -167,12 +167,8 @@
             <dl class="stats stats-horizontal"><dt>Kreator</dt><dd><a href="@Url.Action(@Model.CreatorUsername, "Profile", new { id = @Model.CreatorID })">@Model.CreatorUsername</a></dd></dl>
         </div>
 
-        <div id="leaderboard">
-            <ul id="leaderboard-tabs">
-                <li id="leaderboard-tabs-all" class="active">Sve</li>
-                <li id="leaderboard-tabs-week">Nedelja</li>
-                <li id="leaderboard-tabs-month">Mesec</li>
-            </ul>
+        <div id="leaderboard" class="leaderboard-emphasized-top">
+            @Helper.LeaderboardTabs()
             @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 20, Url ,true)
             @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 20, Url, false)
             @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 20, Url, false)

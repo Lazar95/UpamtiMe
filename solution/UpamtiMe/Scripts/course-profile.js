@@ -19,6 +19,12 @@ $('.levels').on('click', '.circle-display', function() {
   }
 });
 
+//TODO Refaktorisi
+// npr. moze da se doda data-attr u #leaderboard-tabs
+// i da se na osnovu toga gadja koji da se otvori
+//TODO Refaktorisi
+// Ovo treba da ide u neki globalni,
+// trenutno je kopirano u course-profile.js i u users-index.js
 $('#leaderboard-tabs').on('click', 'li', function() {
   $(this).siblings().removeClass('active');
   $(this).addClass('active');

@@ -62,7 +62,7 @@ namespace UpamtiMe.Controllers
             UserSession.ReloadSidebar();
             Session.Timeout = ld.RememberMe ? 525600 : 20;
 
-            return RedirectToAction("Profile", "Users", new { id = ld.UserID });
+            return RedirectToAction("Index", "Users", new { id = ld.UserID });
         }
 
         [HttpPost]

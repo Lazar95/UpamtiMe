@@ -391,7 +391,7 @@ namespace Data
             return (from a in dc.Courses.AsEnumerable() 
                     where // v lazo ovde je poredjenje stringova kad se pretrazuje kurs
                     (name == null || a.name.Contains(name)) && (categoryID == null || a.categoryID == categoryID) &&
-                    (subcategoryID == null || a.subcategoryID == subcategoryID)
+                    (subcategoryID == null || a.subcategoryID == subcategoryID) && a.numberOfCards > 0
                 select new CourseDTO
                 {
                     CourseID = a.courseID,

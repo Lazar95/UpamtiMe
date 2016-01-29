@@ -745,9 +745,11 @@ $('#course').on('click', '#new-level .add-button', function() {
     .end().attr('data-function', 'add');
   } else {
     // data-function = "add"
-    if ($('#new-level input[type="text"]').val() != "")
+    var typed = $('#new-level input[type="text"]').val();
+    if (typed != "" && typed != undefined)
       addLevel();
-    alert('Nivo mora da ima ime!'); //TODO validacija
+    else
+      alert('Nivo mora da ima ime!'); //TODO validacija
   }
 });
 

@@ -47,35 +47,27 @@ namespace Data
             }
         }
 
-        public static bool checkJustQustion(string question, int courseID)
+        public static bool checkJustQustion(string question, int courseID, int? cardID =  null)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Cards
                     from b in dc.Levels
                     from c in dc.Courses
-                    where  c.courseID == courseID && a.levelID == b.levelID && b.courseID == c.courseID  && a.question == question 
+                    where  c.courseID == courseID && a.levelID == b.levelID && b.courseID == c.courseID  && a.question == question && (cardID == null || a.cardID != cardID.Value) 
                     select a).Any();
         }
 
         public static bool checkJustQustion(Card card)
         {
-            return checkJustQustion(card.question, getCourseOfCard(card.cardID));
+            return checkJustQustion(card.question, getCourseOfCard(card.cardID), card.cardID);
         }
 
         public static bool checkJustQustion(CardBasicDTO cardBasic)
         {
-            return checkJustQustion(cardBasic.Question, getCourseOfCard(cardBasic.CardID));
+            return checkJustQustion(cardBasic.Question, getCourseOfCard(cardBasic.CardID), cardBasic.CardID);
         }
 
-        public static bool checkQustion(CardBasicDTO cardBasic)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a in dc.Cards
-                    from b in dc.Levels
-                    from c in dc.Courses
-                    where a.levelID == b.levelID && b.courseID == c.courseID && a.question == cardBasic.Question && a.cardID != cardBasic.CardID
-                    select a).Any();
-        }
+      
 
         public static bool checkEmptyFields(Card card)
         {
@@ -93,7 +85,7 @@ namespace Data
             
             foreach (CardBasicDTO card in cards)
             {
-                if (checkJustQustion(card.Question, Levels.getCourse(card.LevelID)))
+                if (checkJustQustion(card))
                     continue;
                 if (checkEmptyFields(card))
                     continue;

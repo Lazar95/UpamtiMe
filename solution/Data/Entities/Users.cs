@@ -280,10 +280,29 @@ namespace Data
                 (from a in dc.UserCourseStatistics where userCourseID.Contains(a.userCourseID)  && a.date > prev select a).OrderBy(a=>a.date).ToList();
 
            
+            if (userCourseID.Count > 1)
+            {
+                stats = (from o in stats
+                            group o by o.date into grouping
+                            select new UserCourseStatistic()
+                            {
+                                score = grouping.Sum(a => a.score),
+                                learnedCards = grouping.Sum(a => a.learnedCards),
+                                reviewedCards = grouping.Sum(a => a.reviewedCards),
+                                sessionNo = grouping.Sum(a => a.sessionNo),
+                                timeSpent = grouping.Sum(a => a.timeSpent),
+                                learnedCorrectAnswers = grouping.Sum(a => a.sessionNo),
+                                learnedWrongAnswers = grouping.Sum(a => a.learnedWrongAnswers),
+                                reviewCorrectAnswers = grouping.Sum(a => a.reviewCorrectAnswers),
+                                reviewWrongAnswers = grouping.Sum(a => a.reviewWrongAnswers),
+                                date = grouping.Key
+                            }).ToList();
+            }
+           
 
             foreach (UserCourseStatistic stat in stats)
             {
-                int zeroDays = stat.date.Subtract(prev).Days -1;
+                int zeroDays = (int)stat.date.Subtract(prev).TotalDays -1;
                 returnValue.SetZeros(zeroDays);
 
                 returnValue.AddValues(stat.score, stat.learnedCards, stat.reviewedCards, stat.sessionNo, stat.timeSpent, stat.learnedCorrectAnswers, stat.learnedWrongAnswers, stat.reviewCorrectAnswers, stat.reviewWrongAnswers);
@@ -291,7 +310,7 @@ namespace Data
                 prev = stat.date;
             }
 
-            int zeroDaysAfter = DateTime.Today.Subtract(prev).Days;
+            int zeroDaysAfter = (int)DateTime.Today.Subtract(prev).TotalDays;
             returnValue.SetZeros(zeroDaysAfter);
           
             returnValue.TrimStrings();

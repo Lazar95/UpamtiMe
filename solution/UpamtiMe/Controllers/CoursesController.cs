@@ -308,14 +308,15 @@ namespace UpamtiMe.Controllers
                 throw new Exception("nije enrollovan");
         }
 
-        public ActionResult CardsPartial(SessionModel model)
+        public ActionResult CardsPartial(List<Data.DTOs.CardCourseProfileDTO> model)
         {
             return PartialView(model);
         }
 
         public ActionResult GetCardsOfLevel(int levelID)
         {
-            SessionModel model = new SessionModel();
+            LoginDTO usr = UserSession.GetUser();
+            List<Data.DTOs.CardCourseProfileDTO> model = Data.Cards.getCards(levelID, usr?.UserID);
 
             JsonModel jsonModel = new JsonModel();
             jsonModel.HTMLString = RenderPartialViewToString("CardsPartial", model);

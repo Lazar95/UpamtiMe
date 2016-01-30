@@ -13,8 +13,6 @@ namespace UpamtiMe.Models
         public List<Data.DTOs.CardSessionDTO> Cards { get; set; }
         public int CourseID { get; set; }
 
-         
-
         public static SessionModel LoadLearningSession(int userID, int courseID, int? levelID, int? numberOfCards)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();

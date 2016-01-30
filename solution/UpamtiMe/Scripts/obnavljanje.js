@@ -245,7 +245,7 @@ var displayProgress = function() {
     if (_qa[i].status == SKIPPED)
       progressBar.children('li:nth-child(' + (i+1) + ')').removeClass('correct').removeClass('incorrect').removeClass('skipped').removeClass('unopened').removeClass('current').addClass('skipped');
   }
-  progressBar.children('li:nth-child(' + (_currentQuestion+1) + ')').removeClass('correct').removeClass('incorrect').removeClass('skipped').removeClass('unopened').removeClass('current').addClass('current');
+  progressBar.children('li:nth-child(' + (_currentQuestion+1) + ')')/*.removeClass('correct').removeClass('incorrect').removeClass('skipped').removeClass('unopened').removeClass('current')*/.addClass('current');
 }
 
 var givenAnswerWas = function(STATE) {

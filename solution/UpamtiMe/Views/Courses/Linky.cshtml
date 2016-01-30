@@ -78,29 +78,7 @@
         </aside>
     </div>
 
-    <div id="cover">
-        <aside>
-            <div class="message">
-                <div class="subtitle"></div>
-                <div class="title"></div>
-            </div>
-            <div class="info">
-                <div class="total-score"><span>474</span></div>
-                <div class="additional">
-                    <ul>
-                        <li id="cover-remaining-lives">Preostali životi: <span>+300</span></li>
-                        <li id="cover-correctness">Tačnost: <span>+100</span></li>
-                        <li id="cover-max-combo">Najveći kombo: <span></span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="actions">
-                @Helper.Button("sqr", "btn-play-again", "undo", "Igraj opet")
-                @Helper.Button("sqr", "btn-session-details", "list", "Detalji sesije")
-                @Helper.Button("sqr", "btn-to-course", "clone", "Na kurs")
-            </div>
-        </aside>
-    </div>
+   @Helper.SessionCover(2)
 
 </main>
 

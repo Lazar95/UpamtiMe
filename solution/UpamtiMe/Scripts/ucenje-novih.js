@@ -76,15 +76,15 @@ $(window).bind('load', function() {
 
 });
 
-var UNOPENED = -1;
-var SHOWN = 0;
-var MULTIPLE_CHOICE_DONE = 1;
-var HANGMAN_DONE = 2;
-var SCRABBLE_DONE = 3;
-var CORRECT_FIRST = 4;
-var CORRECT_SECOND = 5;
+const UNOPENED = -1;
+const SHOWN = 0;
+const MULTIPLE_CHOICE_DONE = 1;
+const HANGMAN_DONE = 2;
+const SCRABBLE_DONE = 3;
+const CORRECT_FIRST = 4;
+const CORRECT_SECOND = 5;
 
-var IGNORED = 7; // TODO
+const IGNORED = 7; // TODO
 
 var _currentLevel = 0; // 0, 1, 2
 var _questionPointer = 0; // pokazuje na pitanje u trenutnom nivou
@@ -97,8 +97,8 @@ var _maxComboReached = 0;
 var _correctAnswers = 0;
 var _wrongAnswers = 0;
 
-var _partLength = 3;
-var _sectionLength = 2 * _partLength;
+const _partLength = 3;
+const _sectionLength = 2 * _partLength;
 var _levels = [[], [], []];
 
 var setLevels = function() {
@@ -202,6 +202,8 @@ var scheduleAgain = function() {
 }
 
 var loadQuestion = function() {
+
+  updateProgressBarCurrent();
 
   ALREADY_PUNISHED = false;
 
@@ -450,6 +452,7 @@ var iWantToLearn = function() {
 
 var iDontWantToLearn = function() {
   _qa[_currentQuestion()].status = CORRECT_FIRST;
+  updateProgressBarCorrect();
   goToNextQuestion();
 }
 
@@ -476,6 +479,7 @@ var multipleChoiceSelect = function(n) {
       _qa[_currentQuestion()].status = MULTIPLE_CHOICE_DONE;
     }
     selected.addClass('correct');
+    updateProgressBarCorrect();
     $('.card-content .next').show().focus();
   } else {
     // Izabran netacan odgovor.
@@ -483,6 +487,7 @@ var multipleChoiceSelect = function(n) {
     //console.log('Netacan odgovor!');
     scheduleAgain();
     selected.addClass('wrong');
+    updateProgressBarWrong();
     $('.multiple-choice #virtual-typing').val('');
   }
 }
@@ -565,6 +570,7 @@ var colorHangman = function() {
       }
       if (currentInput.val() != _qa[_currentQuestion()].answer[currentIndex - 1]) {
         $(this).addClass('wrong');
+        updateProgressBarWrong();
         scheduleAgain();
       }
     }
@@ -593,9 +599,11 @@ $('.hangman').on('keyup', 'input', function(e) {
       if (!ALREADY_PUNISHED) {
         _qa[_currentQuestion()].status = HANGMAN_DONE;
       }
+      updateProgressBarCorrect();
       $('.card-content .next').show().focus();
     } else {
       evaluateStatsWrong();
+      updateProgressBarWrong();
       //console.log('Netacan odgovor!');
     }
   }
@@ -759,10 +767,12 @@ var scrabbleEnter = function() {
     if (!ALREADY_PUNISHED) {
       _qa[_currentQuestion()].status = SCRABBLE_DONE;
     }
+    updateProgressBarCorrect();
     $('.card-content .next').show().focus();
   } else {
     // Izabran netacan odgovor.
     evaluateStatsWrong();
+    updateProgressBarWrong();
     //console.log('Netacan odgovor!');
     scheduleAgain();
   }
@@ -828,10 +838,12 @@ var realDealCheckAnswer = function() {
     if (_qa[_currentQuestion()].status == SCRABBLE_DONE) {
       // Ako prvi put vidi pitanje na ovom levelu
       _qa[_currentQuestion()].status = CORRECT_FIRST;
+      updateProgressBarCorrect();
     } else {
       // Vec je jednom video pitanje ili je ovde skocio tako sto je objavio da
       // vec zna rec.
       _qa[_currentQuestion()].status = CORRECT_SECOND;
+      updateProgressBarCorrect();
 
       // I sad upisujemo sve zivo:
       _qa[_currentQuestion()].nextSeeMinutes = 5; // 4h //TODO PAZI
@@ -845,6 +857,7 @@ var realDealCheckAnswer = function() {
     // Izabran netacan odgovor.
     evaluateStatsWrong();
     //console.log('Netacan odgovor!');
+    updateProgressBarWrong();
     scheduleAgain();
     displayQuestionAndAnswer();
   }
@@ -870,6 +883,43 @@ var dump = function() {
       }
     }
   }
+}
+
+// Update Progress-Bar
+var colorProgressBar = function(type, q, c) {
+  // type = "correct", "wrong", "current"
+  // q - koje pitanje
+  // c - koji kruzic po redu
+  var $c = $('aside.progress-bar > ul > div:nth-child(' + q + ') > li:nth-child(' + c + ')');
+  if (type != "current") $c.removeClass('wrong').removeClass('correct');
+  $c.addClass(type);
+}
+var updateProgressBarCorrect = function() {
+  colorProgressBar('correct', _currentQuestion() + 1, getCircleNumber()-5);
+  colorProgressBar('correct', _currentQuestion() + 1, getCircleNumber()-4);
+  colorProgressBar('correct', _currentQuestion() + 1, getCircleNumber()-3);
+  colorProgressBar('correct', _currentQuestion() + 1, getCircleNumber()-2);
+  colorProgressBar('correct', _currentQuestion() + 1, getCircleNumber()-1);
+  colorProgressBar('correct', _currentQuestion() + 1, getCircleNumber());
+}
+var updateProgressBarWrong = function() {
+  colorProgressBar('wrong', _currentQuestion() + 1, getCircleNumber() + 1);
+}
+var updateProgressBarCurrent = function() {
+  $('aside.progress-bar > ul > div > li').removeClass('current'); // sklonimo svuda prvo xD
+  colorProgressBar('current', _currentQuestion() + 1, getCircleNumber() + 1);
+}
+var getCircleNumber = function() {
+  var c = -1;
+  switch (_qa[_currentQuestion()].status) {
+    case CORRECT_SECOND: c = 5; break;
+    case CORRECT_FIRST: c = 4; break;
+    case SCRABBLE_DONE: c = 3; break;
+    case HANGMAN_DONE: c = 2; break;
+    case MULTIPLE_CHOICE_DONE: c = 1; break;
+    case SHOWN: c = 0; break;
+  }
+  return c;
 }
 
 var sessionCompleted = function() {

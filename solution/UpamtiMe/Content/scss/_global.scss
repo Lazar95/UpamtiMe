@@ -50,6 +50,11 @@ table {
 /**
  * Moj dodatni reset
  */
+
+* {
+	min-size: 0;
+}
+
 input {
   outline: none;
 	border: none;

@@ -687,6 +687,7 @@ main#review-session, main#learn-session, main#spajalica {
 				background-color: white;
 				box-shadow: 0px 0px 0px 0px palette($blue-grey, 600) inset; // zbog tranzicije
         transition: all 0.66s ease;
+				position: relative;
 
         // Uvek treba da ima (sakrivenu) brojku, da bi tranzicija radila.
         // Brojka ce biti stvarno vidljiva tek sa .dispaly-number.
@@ -719,8 +720,17 @@ main#review-session, main#learn-session, main#spajalica {
 
         &.current {
           @extend .display-number;
-          background-color: palette($pink, 600);
-          box-shadow: 0px 0px 0px 5px palette($blue-grey, 700) inset, 0px 0px 0px 2px palette($pink, 300);
+          //background-color: palette($pink, 600);
+          &::before {
+						content: "";
+						box-shadow: 0px 0px 0px 2px palette($pink, 400);
+						position: absolute;
+						width: 100%;
+						height: 100%;
+						margin-left: -50%;
+						transform: scale(1.2);
+						border-radius: 50%;
+					}
         }
 
         &.correct {
@@ -728,7 +738,7 @@ main#review-session, main#learn-session, main#spajalica {
           box-shadow: 0px 0px 0px 8px palette($green, 500) inset;
         }
 
-        &.incorrect {
+        &.incorrect, &.wrong {
           background-color: palette($blue-grey, 900);
           box-shadow: 0px 0px 0px 5px palette($red, 500) inset;
         }

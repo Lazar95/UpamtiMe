@@ -93,7 +93,7 @@ namespace UpamtiMe.Controllers
             {
                 int usrID = UserSession.GetUserID();
                 Course c = Data.Courses.addCourse(model.Name, model.CategoryID, model.SubcategoryID, model.NumberOfCards, usrID);
-                return RedirectToAction("EditCourse", new {id = c.courseID });
+                return RedirectToAction("Edit", new {id = c.courseID });
             }
             else
             {
@@ -101,14 +101,14 @@ namespace UpamtiMe.Controllers
             }
         }
 
-        public ActionResult EditCourse(int id)
+        public ActionResult Edit(int id)
         {
             Models.EditCourseModel model = Models.EditCourseModel.Load(id);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult EditCourse(EditCourseLevelsCards model)
+        public ActionResult Edit(EditCourseLevelsCards model)
         {
             try
             {

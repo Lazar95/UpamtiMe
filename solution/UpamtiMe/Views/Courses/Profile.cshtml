@@ -26,7 +26,7 @@
 
             <div id="course-actions">
                 @if (user != null && user.UserID == Model.CreatorID)
-                { <a id="button-edit-course" class="button-link" href="@Url.Action("EditCourse", "Courses", new { id = @Model.CourseID })"><div class="button"><i class="fa fa-pencil"></i></div></a> }
+                { <a id="button-edit-course" class="button-link" href="@Url.Action("Edit", "Courses", new { id = @Model.CourseID })"><div class="button"><i class="fa fa-pencil"></i></div></a> }
 
                 @if (Model.Favorite == null)
                 { <a id="button-favorite" class="button-link" href="@Url.Action("Favorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-heart-o"></i></div></a> }

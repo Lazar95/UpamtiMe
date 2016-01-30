@@ -737,7 +737,7 @@ var save = function() {
   console.log(_dataToSend);
 
   $.ajax({
-      url: "/Courses/EditCourse", // /kontroler/akcija (klasa/funkcija u klasi)
+      url: "/Courses/Edit", // /kontroler/akcija (klasa/funkcija u klasi)
       method: "POST",
       data: _dataToSend,
       success: function (res) {

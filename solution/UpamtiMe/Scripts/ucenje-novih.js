@@ -70,6 +70,7 @@ $(window).bind('load', function() {
   parseTableOfGod();
   LENGTH = _qa.length;
   setLevels();
+  createProgressBar();
 
   //console.log('Broj pitanja: ', LENGTH);
   loadQuestion();
@@ -886,6 +887,18 @@ var dump = function() {
 }
 
 // Update Progress-Bar
+var createProgressBar = function() {
+  $pb = $('aside.progress-bar');
+  string = '';
+  string += '<ul>';
+    for (var i = 0; i < _qa.length; i++) {
+      string += '<div>';
+        for (var j = 1; j <= 5; j++) string += '<li class="unopened"></li>';
+      string += '</div>';
+    }
+  string += '</ul>';
+  $pb.html(string);
+}
 var colorProgressBar = function(type, q, c) {
   // type = "correct", "wrong", "current"
   // q - koje pitanje

@@ -648,6 +648,7 @@ main#review-session, main#learn-session, main#spajalica {
 			display: flex;
 			flex-flow: column;
 			justify-content: flex-start;
+			display: none; //TODO ako ih implementiramo, sklni ovo i sredi
 
 			button:not(:last-child) {	margin-bottom: 10px; }
 			button {

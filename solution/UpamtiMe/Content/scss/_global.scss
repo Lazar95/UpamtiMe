@@ -584,6 +584,31 @@ dl.stats-horizontal {
 	flex-flow: row;
 	justify-content: space-between;
 
+	#course-description-length-indicator {
+		position: absolute;
+		left:   24px + 4px; // 24 od paddinga i 4 ovako
+		bottom: 24px + 4px; // 24 od paddinga i 4 ovako
+		font-size: 12px;
+		font-weight: 100;
+		opacity: .33;
+		display: flex;
+		flex-flow: row;
+		justify-content: flex-start;
+		padding: 4px;
+		background-color: palette($blue-grey, 50);
+
+		&.invisible { opacity: 0; }
+		&.normal { opacity: 0.3; }
+		&.warning { opacity: .9; font-weight: normal; }
+		&.danger { opacity: .9; font-weight: bold; color: palette($orange); }
+		&.overflow { opacity: 1; font-weight: bold; color: rgba(white, .9); background-color: palette($red); }
+
+		& > span {
+			flex-grow: 0;
+			margin: 0;
+		}
+	}
+
 	.avatar {
 		margin: -24px 24px -24px -24px;
 		background-size: cover;
@@ -723,7 +748,7 @@ dl.stats-horizontal {
 			display: flex;
 			flex-flow: row;
 
-			span, textarea {
+			& > span, & > textarea {
 				flex-grow: 1;
 				display: block;
 				margin-right: 12px;
@@ -732,8 +757,10 @@ dl.stats-horizontal {
 				border: none;
 			}
 
-			textarea {
+			& > textarea {
 				background-color: palette($blue-grey, 50);
+				padding-bottom: 28px;
+				vertical-align: bottom;
 			}
 
 			#course-description-buttons {

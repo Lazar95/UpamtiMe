@@ -900,6 +900,10 @@ $('.course-banner').on('click', '#btn-course-description-edit', function() {
 $('.course-banner').on('click', '#btn-course-description-accept', function(e) {
   var newDesc = $('textarea').val();
   var oldDesc = $('textarea').attr('data-old-desc');
+  if (newDesc.length > 2000) {
+    alert('Preveliko!'); //TODO validacija
+    return false;
+  }
   if (newDesc != oldDesc) {
     _courseInfo.description = newDesc;
     _courseInfo.status = CHANGED;
@@ -910,6 +914,7 @@ $('.course-banner').on('click', '#btn-course-description-accept', function(e) {
   $('#btn-course-description-edit').show();
   $('#btn-course-description-accept').hide();
   $('#btn-course-description-discard').hide();
+  $('#course-description-length-indicator').removeAttr('class').addClass('invisible');
 });
 $('.course-banner').on('click', '#btn-course-description-discard', function(e) {
   var oldDesc = $('textarea').attr('data-old-desc');
@@ -918,6 +923,19 @@ $('.course-banner').on('click', '#btn-course-description-discard', function(e) {
   $('#btn-course-description-edit').show();
   $('#btn-course-description-accept').hide();
   $('#btn-course-description-discard').hide();
+  $('#course-description-length-indicator').removeAttr('class').addClass('invisible');
+});
+// Dok kucamo description, treba da se apdejtuje brojka dole i plus stilovi.
+$('.course-banner').on('keyup', 'textarea', function() {
+  var n = $(this).val().length;
+  var $indicator = $('#course-description-length-indicator');
+  var $curr = $indicator.children('.curr');
+  $indicator.removeAttr('class');
+  if (n > 2000) $indicator.addClass('overflow');
+  else if (n > 1950) $indicator.addClass('danger');
+  else if (n > 1700) $indicator.addClass('warning');
+  else $indicator.addClass('normal');
+  $curr.text(n);
 });
 
 // Image

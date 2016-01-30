@@ -702,7 +702,7 @@ var save = function() {
   _dataToSend.name =          _courseInfo.name;
   _dataToSend.categoryID =    _courseInfo.categoryID;
   _dataToSend.subcategoryID = _courseInfo.subcategoryID;
-  _dataToSend.description =   _courseInfo.desc;
+  _dataToSend.description =   _courseInfo.description;
 
   // Celi nivoi:
   for (var i = 0; i < _course.length; i++) {
@@ -901,7 +901,7 @@ $('.course-banner').on('click', '#btn-course-description-accept', function(e) {
   var newDesc = $('textarea').val();
   var oldDesc = $('textarea').attr('data-old-desc');
   if (newDesc != oldDesc) {
-    _courseInfo.desc = newDesc;
+    _courseInfo.description = newDesc;
     _courseInfo.status = CHANGED;
   }
   $('textarea').remove();

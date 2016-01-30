@@ -160,7 +160,7 @@ namespace UpamtiMe.Models
                             }).Take(numberOfCards.Value).ToList();
 
                 if (sm.Cards.Count < linkyLimit)
-                    return null; //ovde bi mogo i da se baci odgovarajuci exception
+                    throw new Exception("nemas dovoljno naucenih kartica");
             }
             else
             {
@@ -179,7 +179,7 @@ namespace UpamtiMe.Models
                             }).Take(numberOfCards.Value).ToList();
 
                 if (sm.Cards.Count < linkyLimit)
-                    return null; //ovde bi mogo i da se baci odgovarajuci exception
+                    throw new Exception("nemas dovoljno naucenih kartica");
             }
             
 

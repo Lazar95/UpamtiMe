@@ -106,7 +106,7 @@
                                                 <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "graduation-cap", "Uči")</a>
                                                 <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "flask", "Obnovi")</a>
                                                 <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "chain", "Spajalica")</a>
-                                                <a class="button-level-linky button-link" href="#!">@Helper.Button("rect", "", "list", "Spisak")</a>
+                                                <a class="button-level-list button-link" href="#!">@Helper.Button("rect", "", "list", "Spisak")</a>
                                             </div>
 
                                             <div class="level-info">
@@ -175,7 +175,7 @@
 <script>
     
     // Spsiak
-    $('.levels').on('click', '.button-level-linky', function() {
+    $('.levels').on('click', '.button-level-list', function () {
         $('#list-of-cards').addClass('visible');
 
         var lID = $(this).closest('.level').attr('data-level-id');

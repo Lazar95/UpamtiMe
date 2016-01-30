@@ -31,6 +31,11 @@ namespace UpamtiMe.Controllers
                 ViewBag.Message = "Nisi prijavljen na kurs!";
             }
 
+            if (exception.Message == "nemas dovoljno naucenih kartica")
+            {
+                ViewBag.Message = "nemas dovoljno naucenih kartica";
+            }
+
             if (Regex.IsMatch(exception.Message,
                 @"The controller for path .+ was not found or does not implement IController.+")
                 ||

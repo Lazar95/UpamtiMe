@@ -157,10 +157,9 @@ namespace Data
             }
             else
             {
-                returnValue = (from c in dc.Cards
-                    join u in dc.UsersCards on c.cardID equals u.cardID into uc
+                returnValue = (from c in dc.Cards.Where(a=>a.levelID == levelID)
+                    join u in dc.UsersCards.Where(a=>a.userID == userID.Value) on c.cardID equals u.cardID into uc
                     from u in uc.DefaultIfEmpty()
-                    where c.levelID == levelID && u.userID == userID.Value
                     select new CardCourseProfileDTO
                     {
                         BasicInfo = new CardBasicDTO()
@@ -172,8 +171,8 @@ namespace Data
                             Number = c.number,
                             Image = c.image == null ? null : c.image.ToArray(),
                         },
-                        Ignore = u.ignore,
-                        UserCardInfo = new CardUserDTO
+                        Ignore = u == null ? false : u.ignore,
+                        UserCardInfo = u == null ? null : new CardUserDTO
                         {
                             UserCardID = u.usersCardID,
                             CorrectAnswers = u.correctAnswers,

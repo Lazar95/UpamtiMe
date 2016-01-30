@@ -1,2 +1,40 @@
 ﻿@model List<Data.DTOs.CardCourseProfileDTO>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Number)</th>
+        <th>@Html.DisplayNameFor(model => model[0].Ignore)</th>
+        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.CardID)</th>
+        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Question)</th>
+        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Answer)</th>
+        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Description)</th>
+        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.UserCardID)</th>
+        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.Combo)</th>
+        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.CorrectAnswers)</th>
+        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.WrongAnswers)</th>
+        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.LastSeenMinutes)</th>
+        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.NextSeeMinutes)</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => item.BasicInfo.Number)</td>
+            <td>@Html.DisplayFor(model => item.Ignore)</td>
+            <td>@Html.DisplayFor(model => item.BasicInfo.CardID)</td>
+            <td>@Html.DisplayFor(model => item.BasicInfo.Question)</td>
+            <td>@Html.DisplayFor(model => item.BasicInfo.Answer)</td>
+            <td>@Html.DisplayFor(model => item.BasicInfo.Description)</td>
+            <td>@Html.DisplayFor(model => item.UserCardInfo.UserCardID)</td>
+            <td>@Html.DisplayFor(model => item.UserCardInfo.Combo)</td>
+            <td>@Html.DisplayFor(model => item.UserCardInfo.CorrectAnswers)</td>
+            <td>@Html.DisplayFor(model => item.UserCardInfo.WrongAnswers)</td>
+            <td>@Html.DisplayFor(model => item.UserCardInfo.LastSeenMinutes)</td>
+            <td>@Html.DisplayFor(model => item.UserCardInfo.NextSeeMinutes)</td>
+        </tr>
+    }
+
+</table>

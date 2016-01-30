@@ -158,7 +158,7 @@ namespace Data
             else
             {
                 returnValue = (from c in dc.Cards
-                    join uc in dc.UsersCards on c.cardID equals uc.cardID into uc
+                    join u in dc.UsersCards on c.cardID equals u.cardID into uc
                     from u in uc.DefaultIfEmpty()
                     where c.levelID == levelID && u.userID == userID.Value
                     select new CardCourseProfileDTO
@@ -180,10 +180,12 @@ namespace Data
                             WrongAnswers = u.wrongAnswers,
                             Combo = u.cardCombo,
                             LastSeen = u.lastSeen,
+                            LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
                             NextSee = u.nextSee,
+                            NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
                             Goodness = u.goodness
                         }
-                    }).ToList();
+                    }).OrderBy(a=>a.BasicInfo.Number).ToList();
             }
 
             return returnValue;

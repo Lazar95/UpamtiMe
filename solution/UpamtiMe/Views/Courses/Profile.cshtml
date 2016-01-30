@@ -75,7 +75,7 @@
                             @for (int j = 0; index + 1 < Model.Levels.Count && j < ((i % 2 == 0) ? 5 : 4); j++)
                             {
                                 index++;
-                                <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)">
+                                <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)" data-level-id ="@Model.Levels[index].LevelID">
                                     <div class="circle-display">
                                         <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1: Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
                                         <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
@@ -171,3 +171,19 @@
 </main>
 
 <script src="~/Scripts/course-profile.js"></script>
+
+<script>
+    
+    // Spsiak
+    $('.levels').on('click', '.button-level-linky', function() {
+        $('#list-of-cards').addClass('visible');
+
+        var lID = $(this).closest('.level').attr('data-level-id');
+        //ajax
+        $.post("@Url.Action("GetCardsOfLevel", "Courses")", { "levelID": lID },
+                function (data) {                       
+                    $('#list-of-cards > ul').html(data.HTMLString);
+                });
+        
+    });
+</script>

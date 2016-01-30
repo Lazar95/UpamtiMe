@@ -1013,3 +1013,27 @@ dl.stats-horizontal {
 		}
 	} // drugi i treci po redu
 }
+
+.full-screen {
+
+	display: none;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-content: flex-start;
+	align-items: flex-start;
+	@include z-depth(4);
+	position: fixed;
+	top: 100px + 68px; //TODO visina headera sa sve sranjima
+	left: 224px + 100px; //TODO refaktorisi, 224 je sirina sidebara
+	right: 100px;
+	bottom: 100px;
+	z-index: 100;
+	background-color: palette($blue-grey, 200);
+	box-sizing: border-box;
+	padding: 24px;
+	z-index: 9999;
+
+	&.visible {
+	  display: flex;
+	}
+}

@@ -43,5 +43,10 @@ $('#leaderboard-tabs').on('click', 'li', function() {
   }
 });
 
+// Spsiak
+$('.levels').on('click', '.button-level-linky', function() {
+  $('#list-of-cards').addClass('visible');
+});
+
 $(document).ready(function() {
 });

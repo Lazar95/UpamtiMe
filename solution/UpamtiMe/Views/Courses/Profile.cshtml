@@ -37,6 +37,13 @@
     </div>
 
     <div class="main-content">
+
+        <div id="list-of-cards">
+            <ul>
+                kartice
+            </ul>
+        </div>
+
         <div class="buttons">
             @if (user != null)
             {
@@ -61,7 +68,7 @@
         @{int index = -1;
             <ul class="levels big-container">
                 @for (int i = 0; i <= 2 * Model.Levels.Count / 9; i++)
-            {
+                {
                     <li class="level-group">
                         <ul>
                             @for (int j = 0; index + 1 < Model.Levels.Count && j < ((i % 2 == 0) ? 5 : 4); j++)
@@ -123,22 +130,8 @@
                                                             <dd>@Model.Levels[index].LearningStatistics.Unseen</dd>
                                                         </dl>
                                                     </div>
-
-                                                    <div class="words-highlight">
-
-                                                    </div>
                                                 }
-
-                                                <ul class="list-of-cards" id=@("list-of-cards-level-id-" + Model.Levels[index].LevelID)>
-                                                    @*@for (int c = 0; c < Model.Levels[index].CardNumber; c++)
-                                                        {
-                                                            <li>@Model.Levels[index].</li>
-                                                            Gde jke lsita kartica?
-                                                        }*@
-                                                </ul>
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </li>

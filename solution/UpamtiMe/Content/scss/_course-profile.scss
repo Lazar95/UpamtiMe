@@ -23,6 +23,12 @@ main#course-profile {
   .main-content {
     width: 75%;
 
+    // Spisak
+    #list-of-cards {
+      @extend .full-screen;
+      position: fixed;
+    }
+
     .buttons {
       display: flex;
       justify-content: space-between;

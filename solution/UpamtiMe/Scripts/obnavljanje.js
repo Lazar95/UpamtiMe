@@ -121,9 +121,16 @@ var resetTimer = function() {
 };
 
 var displayFinalMessage = function() {
-  $('.current-card').html('');
-  $('.next-card').css('flex-grow', '0.000000001').html('');
-  $('.cards').css('flex-grow', '0.001');
+  
+  //TODO ovde clearInterval
+
+  $('#cover .title').html('Uspešno odigrano!');
+  $('#cover .subtitle').html('Svaka čast!');
+
+  $('#cover .total-score span').html(_currentPoints);
+  $('#cover .total-score').attr('data-init-points', _currentPoints);
+
+  $('#cover').addClass('show');
 
   console.table(_qa);
 

@@ -144,9 +144,16 @@
                 }
             </div>
             <div class="actions">
-                @Helper.Button("sqr", "btn-play-again", "undo", "Igraj opet")
-                @Helper.Button("sqr", "btn-session-details", "list", "Detalji sesije")
-                @Helper.Button("sqr", "btn-to-course", "clone", "Na kurs")
+                @if (type == 0 || type == 1)
+                {
+                    @Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi")
+                }
+                else
+                {
+                    @Helper.Button("rect", "btn-play-again", "undo", "Igraj opet")
+                }
+                @* @Helper.Button("rect", "btn-session-details", "list", "Detalji sesije") *@ @* <-- dobra ideja ali ja sam snage bez *@
+                @Helper.Button("rect", "btn-to-course", "clone", "Na kurs")
             </div>
         </aside>
     </div>

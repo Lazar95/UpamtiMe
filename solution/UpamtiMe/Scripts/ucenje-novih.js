@@ -936,7 +936,16 @@ var getCircleNumber = function() {
 }
 
 var sessionCompleted = function() {
-  alert("Gotovo");
+
+  //TODO ovde clearInterval
+
+  $('#cover .title').html('Uspešno odigrano!');
+  $('#cover .subtitle').html('Svaka čast!');
+
+  $('#cover .total-score span').html(_currentPoints);
+  $('#cover .total-score').attr('data-init-points', _currentPoints);
+
+  $('#cover').addClass('show');
 
   var dataToSend = {
     "qaInfo": _qa,

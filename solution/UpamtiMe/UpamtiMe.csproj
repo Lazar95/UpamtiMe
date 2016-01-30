@@ -161,6 +161,7 @@
     <Content Include="Views\Partials\Sidebar.cshtml" />
     <Content Include="Views\Users\GetCoursesChunk.cshtml" />
     <Content Include="Views\ErrorPage\Error.cshtml" />
+    <Content Include="Views\Courses\CardsPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

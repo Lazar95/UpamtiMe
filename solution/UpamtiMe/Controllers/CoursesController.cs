@@ -181,8 +181,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Learn(int courseID, int? levelID, int? numberOfCards)
         {
-            if(!Data.Users.enrolled(UserSession.GetUserID(), courseID))
-                throw new Exception("nije enrollovan");
+            CheckIfEnrolled(courseID);
 
             SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
@@ -221,8 +220,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Review(int courseID, int? levelID, int? numberOfCards)
         {
-            if (!Data.Users.enrolled(UserSession.GetUserID(), courseID))
-                throw new Exception("nije enrollovan");
+            CheckIfEnrolled(courseID);
 
             SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
@@ -259,8 +257,7 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Linky(int courseID, int? levelID, int? numberOfCards)
         {
-            if (!Data.Users.enrolled(UserSession.GetUserID(), courseID))
-                throw new Exception("nije enrollovan");
+            CheckIfEnrolled(courseID);
 
             SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             UserSession.SetTime();
@@ -287,7 +284,8 @@ namespace UpamtiMe.Controllers
 
         public ActionResult Favorite(int courseID)
         {
-            
+            CheckIfEnrolled(courseID);
+
             Data.Courses.setFavorite(courseID, UserSession.GetUserID(), 1);
 
             UserSession.ReloadSidebar();
@@ -296,13 +294,32 @@ namespace UpamtiMe.Controllers
 
         public ActionResult UnFavorite(int courseID)
         {
+            CheckIfEnrolled(courseID);
+
             Data.Courses.setFavorite(courseID, UserSession.GetUserID(), null);
 
             UserSession.ReloadSidebar();
             return RedirectToAction("Profile", new { id = courseID });
         }
 
+        public void CheckIfEnrolled(int courseID)
+        {
+            if (!Data.Users.enrolled(UserSession.GetUserID(), courseID))
+                throw new Exception("nije enrollovan");
+        }
 
+        public ActionResult CardsPartial(SessionModel model)
+        {
+            return PartialView(model);
+        }
 
+        public ActionResult GetCardsOfLevel(int levelID)
+        {
+            SessionModel model = new SessionModel();
+
+            JsonModel jsonModel = new JsonModel();
+            jsonModel.HTMLString = RenderPartialViewToString("CardsPartial", model);
+            return Json(jsonModel);
+        }
     }
 }

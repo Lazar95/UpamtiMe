@@ -90,5 +90,13 @@ namespace UpamtiMe.Controllers
         {
             return View(e);
         }
+
+        public ActionResult LetItBeTheMidnight()
+        {
+            Data.Users.resetStatisticsForAllUsers();
+            if (UserSession.GetUser() != null)
+                UserSession.ReloadSidebar();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

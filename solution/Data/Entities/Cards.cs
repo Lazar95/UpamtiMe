@@ -240,5 +240,35 @@ namespace Data
             return cw;
         }
 
+        public static void setIgnore(bool ignore, int cardID , int userID)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+
+            //ignorise karticu koju je vec video
+            var uc = (from a in dc.UsersCards where a.cardID == cardID && a.userID == userID select a);
+            if (uc.Any())
+            {
+               uc.First().ignore = ignore;
+            }
+            else 
+            {
+                UsersCard newUC = new UsersCard
+                {
+                    ignore = ignore,
+                    userID = userID,
+                    cardID = cardID,
+                    lastSeen = DateTime.Now,
+                    nextSee = new DateTime(2300, 0, 0),
+                    cardCombo = 0,
+                    correctAnswers = 0,
+                    wrongAnswers = 0,
+                    goodness = 0
+                };
+                dc.UsersCards.InsertOnSubmit(newUC);
+            }
+
+            dc.SubmitChanges();
+        }
+
     }
 }

@@ -129,5 +129,20 @@ namespace UpamtiMe.Controllers
             byte[] image = Data.Users.GetUser(id).avatar.ToArray();
             return File(image, "image/jpg");
         }
+
+        public ActionResult Ignore(bool ignore, int cardID)
+        {
+            try
+            {
+                int userID = UserSession.GetUserID();
+                Data.Cards.setIgnore(ignore, cardID, userID);
+                return Json(new { success = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false });
+            }
+
+        }
     }
 }

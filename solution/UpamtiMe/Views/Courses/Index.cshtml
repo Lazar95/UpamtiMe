@@ -5,88 +5,46 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal" style="margin-bottom: 50px;     margin-left: 50px; padding-top: 20px;">
+        <div id="search-form">
         
-
-            <div class="form-group" style="float: left; margin-right: 50px;">
-                @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Search, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
+            <div class="search-form-input-group">
+                <span>Naizv</span>
+                @Html.EditorFor(model => model.Search, new { htmlAttributes = new { @class = "search-form-input" } })
             </div>
 
-            <div class="form-group" style="float: left;margin-right: 50px;">
-                @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
-                </div>
+            <div class="search-form-input-group">
+                <span>Kategorija</span>
+                @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "search-form-input" } })
             </div>
 
-            <div class="form-group" style="float: left;margin-right: 50px;">
-                @Html.LabelFor(model => model.SubcategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.SubcategoryID, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.SubcategoryID, "", new { @class = "text-danger" })
-                </div>
+            <div class="search-form-input-group">
+                <span>Podkategorija</span>
+                @Html.EditorFor(model => model.SubcategoryID, new { htmlAttributes = new { @class = "search-form-input" } })
             </div>
 
-            <div class="form-group" style="float: left;margin-right: 50px;">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" formmethod="get" />
-                </div>
+            <div class="search-form-input-group search-button">
+                <button type="submit" id="button-search" formmethod="get"><i class="fa fa-search"></i></button>
             </div>
         </div>
+    }
 
-        <br>
-            <table id="tabela" style ="width:1400px ;    margin-left: 50px; ">
-            <thead style=" text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
-            <th>CourseID</th>
-            <th>Name</th>
-            <th>CategoryID</th>
-            <th>CategoryName</th>
-            <th>SubcategoryID</th>
-            <th>SubcategoryName</th>
-            <th>ParticipantCount</th>
-            <th>NumberOfCards</th>
-            <th>CreatorID</th>
-            <th>CreatorUsername</th>
-            <th>Rating</th>
-            <th>Image</th>
-            </thead>
+    <div id="search-results-outer">
+        <ul>
             @foreach (Data.DTOs.CourseDTO course in @Model.Courses)
             {
-                <tr>
-                    <td>@Html.DisplayFor(a => course.CourseID)</td>
-                    <td><a href="@Url.Action("Profile", "Courses", new {id = @course.CourseID })">@Html.DisplayFor(a => course.Name)</a></td>
-                    <td>@Html.DisplayFor(a => course.CategoryID)</td>
-                    <td>@Html.DisplayFor(a => course.CategoryName)</td>
-                    <td>@Html.DisplayFor(a => course.SubcategoryID)</td>
-                    <td>@Html.DisplayFor(a => course.SubcategoryName)</td>
-                    <td>@Html.DisplayFor(a => course.ParticipantCount)</td>
-                    <td>@Html.DisplayFor(a => course.NumberOfCards)</td>
-                    <td>@Html.DisplayFor(a => course.CreatorID)</td>
-                    <td>@Html.DisplayFor(a => course.CreatorUsername)</td>
-                    <td>@Html.DisplayFor(a => course.Rating)</td>
-                    <td class="picture">
-                        @{
-                            if (course.Image != null)
-                            {
-                                var base64 = Convert.ToBase64String(course.Image.ToArray());
-                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                <img src="@imgSrc" width="50px" height="50px" />
-                            }
-                        }
-                    </td>
-                </tr>
-                            }
-        </table>
-
-
-                            }
-
+                @Helper.SearchResult(
+                    course.CourseID, course.Name, course.CategoryID, course.CategoryName, course.SubcategoryID, course.SubcategoryName,
+                    course.Description, course.ParticipantCount, course.NumberOfCards, course.Rating, course.CreatorID, course.CreatorUsername, course.Image
+                )
+            }
+        </ul>
+    </div>
+        
     <div class="more"><button @(Model.More == false ? "disabled" : "")>MORE</button></div>
+
 </main>
+
+<script src="~/Scripts/courses-index.js"></script>
 
 <script type="text/javascript">
     var BlockNumber = 0; //ne => //Infinate Scroll starts from second block
@@ -105,7 +63,7 @@
 
                         BlockNumber = BlockNumber + 1;
                         NoMoreData = data.NoMoreData;
-                        $('#tabela').append(data.HTMLString);
+                        $('#search-results-outer > ul').append(data.HTMLString);
                         if (data.NoMoreData) {
                             $('.more > button').html("NO MORE");
                             $('.more > button').attr('disabled',"");

@@ -84,3 +84,39 @@
         <li id="leaderboard-tabs-all">Ukupno</li>
     </ul>
 }
+
+@helper SearchResult(int id, string name, int cat, string catName, int? subcat, string subcatName, string desc, int partCount, int noOfCards, int? rating, int creatorID, string creatorUsername, byte[] image)
+{
+    <li class="result" data-rating="@rating" data-course-id="@id">
+        <div class="avatar-wrapper">
+            @Helper.Image(image, "class", "avatar")
+            <div class="creator-username">by <a href="#!">@@@creatorUsername</a></div>
+        </div>
+        <div class="course-info">
+            <div class="course-info-visible">
+                <div class="course-info-init">
+                    <div class="show-more"><i class="fa fa-ellipsis-v"></i></div>
+                    <div class="name">@name</div>
+                    <div class="cat-subcat">
+                        <div class="cat" data-cat-id="@cat">@catName</div>
+                        <i class="fa fa-caret-right"></i>
+                        <div class="subcat" data-subcat-id="@subcat">@subcatName</div>
+                    </div>
+                    <div class="stats">
+                        <dl>
+                            <dt><i class="fa fa-users"></i></dt> @* Participant count *@
+                            <dd>@partCount</dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="fa fa-file"></i></dt> @* Number of cards *@
+                            <dd>@noOfCards</dd>
+                        </dl>
+                    </div>
+                    <div class="description-snippet-placeholder"></div>
+                </div>
+                <div class="description-full">@desc</div>
+                @Helper.Button("rect button-enroll", "", "unlock", "Učlani se")
+            </div>
+        </div>
+    </li>
+}

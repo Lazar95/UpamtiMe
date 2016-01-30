@@ -248,9 +248,18 @@ namespace Data
             var uc = (from a in dc.UsersCards where a.cardID == cardID && a.userID == userID select a);
             if (uc.Any())
             {
-               uc.First().ignore = ignore;
+                UsersCard usrCard = uc.First();
+                //ako je odingorises a nisi je niakd ucio, obrisi stavku i onda bude kao da je nikad nisi video
+                if (ignore == false && usrCard.nextSee.Year == 2300)
+                {
+                    dc.UsersCards.DeleteOnSubmit(usrCard);
+                }
+                else
+                {
+                    usrCard.ignore = ignore;
+                }
             }
-            else 
+            else if(ignore ==  true)
             {
                 UsersCard newUC = new UsersCard
                 {
@@ -265,6 +274,10 @@ namespace Data
                     goodness = 0
                 };
                 dc.UsersCards.InsertOnSubmit(newUC);
+            }
+            else
+            {
+                return;//za svaki slucaj
             }
 
             dc.SubmitChanges();

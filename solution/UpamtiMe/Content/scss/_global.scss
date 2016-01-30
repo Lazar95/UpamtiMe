@@ -589,8 +589,8 @@ dl.stats-horizontal {
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;
-		width:  360px;
-		height: 360px;
+		@include force-width(360px);
+		@include force-height(360px);
 		@include z-depth(1);
 
 		&:hover ~ #image-upload-prompt {

@@ -2,35 +2,35 @@
 
 <table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Number)</th>
-        <th>@Html.DisplayNameFor(model => model[0].Ignore)</th>
-        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.CardID)</th>
-        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Question)</th>
-        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Answer)</th>
-        <th>@Html.DisplayNameFor(model => model[0].BasicInfo.Description)</th>
-        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.UserCardID)</th>
-        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.Combo)</th>
-        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.CorrectAnswers)</th>
-        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.WrongAnswers)</th>
-        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.LastSeenMinutes)</th>
-        <th>@Html.DisplayNameFor(model => model[0].UserCardInfo.NextSeeMinutes)</th>
+        <th>#</th>
+        <th>Pitanje</th>
+        <th>Odgovor</th>
+        <th>Opis</th>
+        <th><i class="fa fa-certificate"></i></th> @* Combo *@
+        <th><i class="fa fa-check"></i></th> @* broj tacnih *@
+        <th><i class="fa fa-times"></i></th> @* broj netacnih*@
+        <th><i class="fa fa-circle"></i></th> @* goodness *@
+        <th><i class="fa fa-history"></i></th>
+        <th><i class="fa fa-hourglass"</th>
+        <th>@*Time to learn*@</th>
+        <th>@*Ignore*@</th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr data-card-id="@item.BasicInfo.CardID" data-user-card-id="@(item.UserCardInfo == null ? -1 : item.UserCardInfo.UserCardID)" class="@item.Ignore ? ignored">
             <td>@Html.DisplayFor(model => item.BasicInfo.Number)</td>
-            <td>@Html.DisplayFor(model => item.Ignore)</td>
-            <td>@Html.DisplayFor(model => item.BasicInfo.CardID)</td>
             <td>@Html.DisplayFor(model => item.BasicInfo.Question)</td>
             <td>@Html.DisplayFor(model => item.BasicInfo.Answer)</td>
             <td>@Html.DisplayFor(model => item.BasicInfo.Description)</td>
-            <td>@Html.DisplayFor(model => item.UserCardInfo.UserCardID)</td>
             <td>@Html.DisplayFor(model => item.UserCardInfo.Combo)</td>
             <td>@Html.DisplayFor(model => item.UserCardInfo.CorrectAnswers)</td>
             <td>@Html.DisplayFor(model => item.UserCardInfo.WrongAnswers)</td>
-            <td>@Html.DisplayFor(model => item.UserCardInfo.LastSeenMinutes)</td>
-            <td>@Html.DisplayFor(model => item.UserCardInfo.NextSeeMinutes)</td>
+            <td>@(item.UserCardInfo == null ? "" : item.UserCardInfo.Goodness.ToString())</td>
+            <td data-timestamp="@*ne umem da izvucem .lastseen*@">@(item.UserCardInfo == null ? "" : item.UserCardInfo.LastSeenMinutes.ToString())</td>
+            <td data-timestamp="@*ne umem da izvucem .nextsee*@">@(item.UserCardInfo == null ? "" : item.UserCardInfo.NextSeeMinutes.ToString())</td>
+            <td>@if (item.UserCardInfo?.NextSeeMinutes > 0) { <i class="fa fa-bell"></i> }</td>
+            <td>@if (item.Ignore) { <i class="fa fa-ban"></i> }</td>
         </tr>
     }
 

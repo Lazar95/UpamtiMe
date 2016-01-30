@@ -40,9 +40,9 @@
 
         <div id="list-of-cards">
             <div class="less"><i class="fa fa-times"></i></div>
-            <ul>
-                kartice
-            </ul>
+            <div id="list-of-cards-inner">
+
+            </div>
         </div>
 
         <div class="buttons">
@@ -182,8 +182,13 @@
         //ajax
         $.post("@Url.Action("GetCardsOfLevel", "Courses")", { "levelID": lID },
                 function (data) {                       
-                    $('#list-of-cards > ul').html(data.HTMLString);
+                    $('#list-of-cards > #list-of-cards-inner').html(data.HTMLString);
                 });
         
+    });
+
+    $('.less').click(function () {
+        $(this).parent().removeClass('visible');
+        //TODO obrisi sve unutra po zatvaranju
     });
 </script>

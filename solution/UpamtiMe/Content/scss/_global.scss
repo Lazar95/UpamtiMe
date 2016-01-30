@@ -1023,7 +1023,7 @@ dl.stats-horizontal {
 	align-items: flex-start;
 	@include z-depth(4);
 	position: fixed;
-	top: 100px + 68px; //TODO visina headera sa sve sranjima
+	top: 100px; //TODO visina headera sa sve sranjima
 	left: 224px + 100px; //TODO refaktorisi, 224 je sirina sidebara
 	right: 100px;
 	bottom: 100px;
@@ -1033,7 +1033,33 @@ dl.stats-horizontal {
 	padding: 24px;
 	z-index: 9999;
 
+	/*&::before {
+		position: absolute;
+		content: "";
+		z-index: 9998;
+		background-color: rgba(black, .5);
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+	}*/
+
 	&.visible {
 	  display: flex;
+	}
+
+	.less {
+		position: absolute;
+		top:   12px;
+		right: 12px;
+		color: palette($blue-grey, 500);
+		font-size: 12px;
+		cursor: pointer;
+		transition: all .1s ease;
+
+		&:hover {
+			transform: scale(1.2);
+			color: palette($blue-grey, 300);
+		}
 	}
 }

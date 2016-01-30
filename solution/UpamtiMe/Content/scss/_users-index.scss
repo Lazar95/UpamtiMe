@@ -9,19 +9,8 @@ main#users-index {
     padding: 16px;
     @include force-height(400px);
 
-    .more, .less {
-      position: absolute;
-      top:   12px;
-      right: 12px;
-      color: palette($blue-grey, 500);
-      font-size: 12px;
-      cursor: pointer;
-      transition: all .1s ease;
-
-      &:hover {
-        transform: scale(1.2);
-        color: palette($blue-grey, 300);
-      }
+    .more {
+      @extend .less;
     }
 
     .full-screen {

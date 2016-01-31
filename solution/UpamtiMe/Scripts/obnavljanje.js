@@ -40,7 +40,6 @@ $(window).bind('load', function() {
   parseTableOfGod();
 
   resetTimer();
-  _interval = setInterval(function(){updateTimer(_timeRemaining);}, _timerUpdateInterval);
 
   // na osnovu broja pitanja napraviti kruzice dole
   var progress = '';
@@ -54,14 +53,14 @@ $(window).bind('load', function() {
   $('input#type-answer').focus();
 });
 
-var UNOPENED = -1;
-var CORRECT = 0;
-var ONE_MISTAKE = 1;
-var TWO_MISTAKE = 2;
-var THREE_MISTAKE = 3;
-var SKIPPED = 4;
+const UNOPENED = -1;
+const CORRECT = 0;
+const ONE_MISTAKE = 1;
+const TWO_MISTAKE = 2;
+const THREE_MISTAKE = 3;
+const SKIPPED = 4;
 
-var IGNORED = 5; // TODO
+const IGNORED = 5; // TODO
 
 var _currentQuestion = 0;
 var _currentPoints = 0;
@@ -70,7 +69,7 @@ var _currentCombo = 0;
 var _maxComboReached = 0;
 
 // Za tajmer
-var _maxTimeRemaining = 20000;
+const _maxTimeRemaining = 20000;
 var _timeRemaining = 20000;
 var _timerUpdateInterval = 10;
 var _interval;
@@ -103,11 +102,13 @@ var updateTimer = function(timeRemaining) {
   // Smanji vreme
   _timeRemaining -= _timerUpdateInterval;
 
-  // Ako je vreme isteklo, prestani da izvrsavas
+  // Ako je vreme isteklo, prestani da izvrsavas i okini Enter.
+  // To sto ima ukucano ce da se posalje.
+  // Ako niej ukucano nista, taman ce da bude netacno.
   // TODO
   if (timeRemaining < 0) {
-    clearInterval(_interval);
     remainingTime.children('span').html('');
+    onPressEnterAnswerInput($('input#type-answer'));
   }
 
 };
@@ -117,11 +118,14 @@ var updateTimer = function(timeRemaining) {
  */
 var resetTimer = function() {
   _timeRemaining = _maxTimeRemaining;
-  updateTimer(_maxTimeRemaining);
+  clearInterval(_interval);
+  _interval = setInterval( function() {
+    updateTimer(_timeRemaining);
+  }, _timerUpdateInterval);
 };
 
 var displayFinalMessage = function() {
-  
+
   //TODO ovde clearInterval
 
   $('#cover .title').html('Uspešno odigrano!');
@@ -486,7 +490,7 @@ $('button.next').click(function() {
   loadNextQuestion();
 });
 
-$('input').bind("enterKey",function(e){
+var onPressEnterAnswerInput = function(el) {
   // Ne moze tokom prve 3 sekunde da se pritisne samo Enter, a da se nista
   // nije ukucalo. Ovime se sprecava da korisnik slucajno pritisne dvaputa
   // Enter.
@@ -496,11 +500,12 @@ $('input').bind("enterKey",function(e){
   // pa se stalno preskaca. Bag i dalje ostaje ako neko pritisne next pomocu
   // Enter, pa druzi dugme preko 3 sekunde i onda ga pusti. Ali ovo vise nije
   // bag, ne interesuje me budala koja drzi dugme toliko dugo.
-  if ($(this).val() == 0 && _timeRemaining > 17000) return;
+  if (el.val().trim() == "" && _timeRemaining > 17000)
+    return;
 
-  var eval = evaluateAnswer($(this).val());
-  $('.given-answer span').html($(this).val()); // TODO ako je jedno slovo omanuto, oboji ga itd.
-  $(this).val('');
+  var eval = evaluateAnswer(el.val());
+  $('.given-answer span').html(el.val()); // TODO ako je jedno slovo omanuto, oboji ga itd.
+  el.val('');
   if (eval.baseScore == -1) {
     // Netacan odgovor.
     displayQuestionAndAnswer();
@@ -512,6 +517,9 @@ $('input').bind("enterKey",function(e){
   }
   displayAll();
   displayScoreBreakdown(eval);
+}
+$('input').bind("enterKey",function(e){
+  onPressEnterAnswerInput($(this));
 });
 $('input').keyup(function(e){
   if(e.keyCode == 13) {

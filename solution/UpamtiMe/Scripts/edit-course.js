@@ -731,6 +731,61 @@ $('#course').on('click', 'ul.options > li', function() {
 /*****************************/
 /*****************************/
 /*****************************/
+/***  Menjanje redosleda  ****/
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
+
+var orderAllCards = function() {
+  for (var i = 0; i < _course.length; i++) {
+    var currLevel = _course[i];
+    var expectedNumber = 0;
+    for (var j = 0; j < currLevel.cards.length; j++) {
+      var currCard = currLevel.cards[j];
+      if (currCard.status == DELETED) {
+        continue; // Preskacemo obrisane kartice
+      }
+      expectedNumber++;
+      if (currCard.number != expectedNumber.toString()) {
+        currCard.number = expectedNumber.toString();
+        if (currCard.status == UNTOUCHED) {
+          // Ako je DELETED, nece ni da upadne ovde (preskacemo je gore)
+          // Ako je vec EDITED, to je to
+          // Ako je NEW, ne moze da bude EDITED.
+          // Prema tome, ostaje samo ako nije dirana, da kazemo da jeste.
+          currCard.status = CHANGED;
+        }
+      }
+    }
+  }
+}
+
+var orderAllLevels = function() {
+  var expectedNumber = 0;
+  for (var j = 0; j < _course.length; j++) {
+    var currLevel = _course[j];
+    if (currLevel.status == DELETED) {
+      continue; // Preskacemo obrisane nivoe
+    }
+    expectedNumber++;
+    if (currLevel.number != expectedNumber.toString()) {
+      currLevel.number = expectedNumber.toString();
+      if (currLevel.status == UNTOUCHED) {
+        // Ako je DELETED, nece ni da upadne ovde (preskacemo ga gore)
+        // Ako je vec EDITED, to je to
+        // Ako je NEW, ne moze da bude EDITED.
+        // Prema tome, ostaje samo ako nije diran, da kazemo da jeste.
+        currLevel.status = CHANGED;
+      }
+    }
+  }
+}
+
+/*****************************/
+/*****************************/
+/*****************************/
+/*****************************/
 /* SAVE SAVE SAVE SAVE SAVE  */
 /*****************************/
 /*****************************/
@@ -738,6 +793,10 @@ $('#course').on('click', 'ul.options > li', function() {
 /*****************************/
 
 var save = function() {
+
+  // TODO nije istestirano
+  orderAllLevels();
+  orderAllCards();
 
   // Osnovni podaci o kursu:
   _dataToSend.courseID = $('#course').attr('data-course-id');

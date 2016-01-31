@@ -1016,6 +1016,8 @@ dl.stats-horizontal {
 	       align-items: center;
 	       border-radius: 50%;
 	       margin-bottom: 8px;
+				 background-size: cover;
+				 background-position: center center;
 
 	       i {
 	         @extend .fa-spin;

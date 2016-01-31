@@ -28,7 +28,7 @@
 
 @helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted, UrlHelper url)
 {
-    <li class="@( isHighlighted ? " highlight" : "")">
+    <li class="@(isHighlighted ? " highlight" : "")" data-user-id="@userID">
         <div class="order">@order</div>
         <div class="avatar">
             <i class="fa fa-refresh"></i>

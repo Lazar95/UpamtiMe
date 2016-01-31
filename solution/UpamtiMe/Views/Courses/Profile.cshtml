@@ -84,8 +84,8 @@
                     var reviewLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Review > 0 select new { id = a.LevelID, no = a.Number });
                     int reviewLevel = reviewLevelQuery.Any() ? reviewLevelQuery.OrderBy(a => a.no).First().id : 0;
 
-                    <a id="button-learn" class="button-link" href=@Url.Action("Learn", new {courseID = Model.CourseID, levelID = @learnLevel})>@Helper.Button("rect", "", "graduation-cap", "Uči", true)</a>
-                    <a id="button-review" class="button-link" href=@Url.Action("Review", new {courseID = Model.CourseID, levelID = @reviewLevel})>@Helper.Button("rect", "", "flask", "Obnovi", true)</a>
+                    <a id="button-learn" class="button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @learnLevel })>@Helper.Button("rect", "", "graduation-cap", "Uči", true)</a>
+                    <a id="button-review" class="button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @reviewLevel })>@Helper.Button("rect", "", "flask", "Obnovi", true)</a>
                     <a id="button-linky" class="button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID })>@Helper.Button("rect", "", "chain", "Spajalica")</a>
                 }
             }
@@ -102,7 +102,7 @@
                                 index++;
                                 <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)" data-level-id ="@Model.Levels[index].LevelID">
                                     <div class="circle-display">
-                                        <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1: Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
+                                        <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1 : Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
                                         <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
                                         <div class="pie-ring-outer">
                                             <div class="pie-ring-inner">
@@ -119,7 +119,7 @@
                                                     int u = (int)Math.Ceiling(udeg) == 360 ? 361 : (int)Math.Ceiling(udeg);
                                                     <div class="pie pie-learned @(l > 180 ? "big" : "")" data-start="0" data-value="@l"></div>
                                                     <div class="pie pie-forgotten @(r > 180 ? "big" : "")" data-start="@l" data-value="@r"></div>
-                                                    <div class="pie pie-unseen @(u > 180 ? "big" : "")" data-start="@(l+r)" data-value="@u"></div>
+                                                    <div class="pie pie-unseen @(u > 180 ? "big" : "")" data-start="@(l + r)" data-value="@u"></div>
                                                 }
                                             </div>
                                         </div>
@@ -128,9 +128,9 @@
                                         <div class="more-info-inner">
 
                                             <div class="session-buttons">
-                                                <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "graduation-cap", "Uči", true)</a>
-                                                <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "flask", "Obnovi", true)</a>
-                                                <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>@Helper.Button("rect", "", "chain", "Spajalica")</a>
+                                                <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>@Helper.Button("rect", "", "graduation-cap", "Uči", true)</a>
+                                                <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>@Helper.Button("rect", "", "flask", "Obnovi", true)</a>
+                                                <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>@Helper.Button("rect", "", "chain", "Spajalica")</a>
                                                 <a class="button-level-list button-link" href="#!">@Helper.Button("rect", "", "list", "Spisak")</a>
                                             </div>
 
@@ -197,19 +197,36 @@
 
 <script src="~/Scripts/course-profile.js"></script>
 
-<script>
+<script type="text/javascript">
+
+    // Po ucitavanju dokumenta
+    $(window).bind('load', function () {
+        $('#leaderboard > ul:not(#leaderboard-tabs) > li:nth-child(-n+3)').each(function () {
+            try {
+                var $that = $(this);
+                var id = $(this).attr('data-user-id');
+                $.post("@Url.Action("getavatar", "users")", { "id": id }, function (data) {
+                    var base64 = window.btoa(unescape(encodeURIComponent(data)));
+                    var imgSrc = "data:image/gif;base64," + base64;
+                    $that.children('.avatar').html('');
+                    $that.children('.avatar').attr('style', 'background-image: url(' + data + ')');
+                });
+                //$that.children('.avatar').attr('style', 'background-image: url(/Users/GetAvatar/' + id + ')');
+            } catch (e) {
+                alert(e.message);
+            }
+        })
+    });
     
     // Spsiak
     $('.levels').on('click', '.button-level-list', function () {
         $('#list-of-cards').addClass('visible');
+        var levelID = $(this).closest('.level').attr('data-level-id');
 
-        var lID = $(this).closest('.level').attr('data-level-id');
         //ajax
-        $.post("@Url.Action("GetCardsOfLevel", "Courses")", { "levelID": lID },
-                function (data) {                       
-                    $('#list-of-cards > #list-of-cards-inner').html(data.HTMLString);
-                });
-        
+        $.post("@Url.Action("GetCardsOfLevel", "Courses")", { "levelID": levelID }, function (data) {
+            $('#list-of-cards-inner').html(data.HTMLString);
+        });
     });
 
     $('.less').click(function () {

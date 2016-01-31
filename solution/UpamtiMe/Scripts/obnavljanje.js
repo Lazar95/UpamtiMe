@@ -109,6 +109,7 @@ var updateTimer = function(timeRemaining) {
   if (timeRemaining < 0) {
     remainingTime.children('span').html('');
     onPressEnterAnswerInput($('input#type-answer'));
+    clearInterval(_interval);
   }
 
 };

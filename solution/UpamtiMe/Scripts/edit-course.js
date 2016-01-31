@@ -224,10 +224,9 @@ var addCard = function(level) {
 }
 
 // addCard se zove kada se pritisne enter u bilo kom od tri inputa za dodavanje nove kartice u nivo
-$('.new-card input[type="text"]').keyup(function(e){
-  if(e.keyCode == 13)
-  {
-    addCard($(this).parent().parent().parent().parent().attr('data-level-number'));
+$('#course').on('keyup', '.new-card input[type="text"]', function(e) {
+  if(e.keyCode == 13) {
+    addCard($(this).closest('.level').attr('data-level-number'));
   }
 });
 

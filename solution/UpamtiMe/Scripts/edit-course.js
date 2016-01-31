@@ -162,7 +162,7 @@ var addCard = function(level) {
   var $level = $('#course > li:nth-child(' + level + ')');
   var $levelNewCard = $level.find('.new-card');
 
-  //TODO validacija
+  //TODO validacija - ako nije uneto nista
   var error = "";
   if ($levelNewCard.find('.question').val().trim() == "") error += 'Kartica mora da ima pitanje! ';
   if ($levelNewCard.find('.answer').val().trim() == "") error += 'Kartica mora da ima odgovor!';
@@ -171,14 +171,25 @@ var addCard = function(level) {
     return false;
   }
 
+  //TODO validacija - ako nista u kartici nije ni promenjeno
+  var newQ = $levelNewCard.find('input.question').val();
+  var oldQ = $levelNewCard.find('input.question').attr('data-old-value');
+  var newA = $levelNewCard.find('input.answer').val();
+  var oldA = $levelNewCard.find('input.answer').attr('data-old-value');
+  var newD = $levelNewCard.fidn('input.description').val();
+  var oldD = $levelNewCard.fidn('input.description').attr('data-old-value');
+  if (newQ == oldQ && newA == oldA && newD == oldD) {
+    return false;
+  }
+
   _lastFakeCardID--;
 
   var newCard = {
     "cardID": _lastFakeCardID.toString(),
     "number": (_course[level - 1].cards.length + 1).toString(),
-    "question": $levelNewCard.find('input.question').val(),
-    "answer": $levelNewCard.find('input.answer').val(),
-    "description": $levelNewCard.find('input.description').val(),
+    "question": newQ,
+    "answer": newA,
+    "description": newD,
     "levelID": _course[level - 1].levelID.toString(),
     "status": NEW,
   }

@@ -278,29 +278,26 @@ var onAcceptButtonClick = function(button) {
   var oldD = cardInfo.children('input.description').attr('data-old-value').trim();
 
   // Ako se islo na accept a nista se nije ni promenilo, ne radi nista
-  if (newQ == oldQ && newA == oldA && newD == oldD) {
-    return false;
-  }
-
-  // Sustina:
-  for (var level = 0; level < _course.length; level++) {
-    for (var card = 0; card < _course[level].cards.length; card++) {
-      if (_course[level].cards[card].cardID == cardID) {
-        var currCard = _course[level].cards[card];
-        // Nasili smo na karticu koja se edituje
-        currCard.question = newQ;
-        currCard.answer = newA;
-        currCard.description = newD;
-        if (currCard.status == NEW || currCard.status == CHANGED) {
-          // Nemoj da radis nista...
-          // Kartica koja je dodata a onda editovana je, sto se baze tice,
-          // i dalje nova.
-          // Kartica koje je editovana a onda je opet editovana je, sto se
-          // baze tice, i dalje samo editovana.
-        } else { // UNTOUCHED
-          // Ako kartica nije dirana, onda je oznaci kao changed jer treba
-          // da se prosledi bazi kao takva.
-          currCard.status = CHANGED;
+  if (!(newQ == oldQ && newA == oldA && newD == oldD)) { // Ako se nesto promenilo
+    for (var level = 0; level < _course.length; level++) {
+      for (var card = 0; card < _course[level].cards.length; card++) {
+        if (_course[level].cards[card].cardID == cardID) {
+          var currCard = _course[level].cards[card];
+          // Nasili smo na karticu koja se edituje
+          currCard.question = newQ;
+          currCard.answer = newA;
+          currCard.description = newD;
+          if (currCard.status == NEW || currCard.status == CHANGED) {
+            // Nemoj da radis nista...
+            // Kartica koja je dodata a onda editovana je, sto se baze tice,
+            // i dalje nova.
+            // Kartica koje je editovana a onda je opet editovana je, sto se
+            // baze tice, i dalje samo editovana.
+          } else { // UNTOUCHED
+            // Ako kartica nije dirana, onda je oznaci kao changed jer treba
+            // da se prosledi bazi kao takva.
+            currCard.status = CHANGED;
+          }
         }
       }
     }

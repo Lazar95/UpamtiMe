@@ -1,3 +1,6 @@
+
+
+
 //
 //  ╔═══════╗
 //  ║ SIZES ║
@@ -7,8 +10,8 @@
 // Veličine i miksini za kverije po Butstrepu + jedna naša
 $screen-xs-min: 480px;
 $screen-sm-min: 768px;
-$screen-md-min: 992px;
-$screen-lg-min: 1200px;
+$screen-md-min: 1224px;
+$screen-lg-min: 1552px; // sidebar + paddingi + 1280
 $screen-xxs-max: $screen-xs-min - 1px;
 $screen-xs-max: $screen-sm-min - 1px;
 $screen-sm-max: $screen-md-min - 1px;
@@ -60,9 +63,9 @@ $screen-md-max: $screen-lg-min - 1px;
   }
 }
 
-// --------------------------------------
-// Sve veličine počev od jedne pa naviše
-// --------------------------------------
+// --------------------------------------------
+// Sve veličine počev od jedne pa naviše/naniže
+// --------------------------------------------
 
 // Extra extra small (xxs) - telefoni (uspravno) i naviše
 // Ne postoji miksin jer se tako podrazumeva (mobile-first)
@@ -73,10 +76,20 @@ $screen-md-max: $screen-lg-min - 1px;
     @content;
   }
 }
+@mixin xs-and-below {
+  @media (max-width: #{$screen-xs-max}) {
+    @content;
+  }
+}
 
 // Small (sm) - tableti, barem 768px
 @mixin sm-and-above {
   @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+@mixin sm-and-below {
+  @media (max-width: #{$screen-sm-max}) {
     @content;
   }
 }
@@ -87,10 +100,20 @@ $screen-md-max: $screen-lg-min - 1px;
     @content;
   }
 }
+@mixin md-and-below {
+  @media (max-width: #{$screen-md-max}) {
+    @content;
+  }
+}
 
 // Large (lg) - veliki dekstopi, barem 1200px
 @mixin lg-and-above {
   @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+@mixin lg-and-below {
+  @media (max-width: #{$screen-lg-max}) {
     @content;
   }
 }

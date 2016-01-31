@@ -35,9 +35,9 @@
 
     <div id="leaderboard" class="big-container">
         @Helper.LeaderboardTabs()
-        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 8, Url, true)
-        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 8, Url, false)
-        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 8, Url, false)
+        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 11, Url, true)
+        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 11, Url, false)
+        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 11, Url, false)
         <div class="more"><i class="fa fa-arrows-alt"></i></div>
         <div class="full-screen">
             <div class="full-screen-inner">

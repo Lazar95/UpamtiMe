@@ -306,12 +306,26 @@ aside#sidebar {
 	}
 }
 
+//TODO debugging boje za main
+@include lg-only { main { background-color: palette($orange); } }
+@include md-only { main { background-color: palette($green); } }
+@include sm-only { main { background-color: palette($blue); } }
+@include xs-only { main { background-color: palette($red); } }
+@include xxs-only { main { background-color: palette($teal); } }
+
 main {
 	position: relative;
 	max-width: 1280px;
 	margin: 0 auto;
 	left: (224px/2);
 	padding: 24px;
+
+	@include md-and-below {
+		max-width: auto;
+		width: calc(100vw - #{(224px + 48px + 20px)}); // sidebar i dvaput padding
+		margin: 0;
+		left: 224px;
+	}
 }
 
 /**

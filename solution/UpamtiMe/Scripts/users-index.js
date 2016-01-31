@@ -65,7 +65,7 @@ Chart.defaults.global = {
     responsive: false,
 
     // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
 
     // Boolean - Determines whether to draw tooltips on the canvas or not
     showTooltips: true,
@@ -319,7 +319,7 @@ $(document).ready(function() {
     { dataName: 'data-dates',    color: "",               label: "",              },
     { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
   ];
-  var elements = $('.stats-points-per-course'); 
+  var elements = $('.stats-points-per-course');
   elements.each(function() {
     loadGraphLine($(this), temp, 7);
   });

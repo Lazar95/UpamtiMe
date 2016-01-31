@@ -7,7 +7,7 @@ main#users-index {
 
   #user-stats, #leaderboard {
     padding: 16px;
-    @include force-height(400px);
+    @include force-height(460px);
 
     .more {
       @extend .less;
@@ -107,10 +107,6 @@ main#users-index {
     width: 23.5%;
     display: flex;
     flex-flow: column;
-
-    & > ul:not(#leaderboard-tabs) {
-      flex-grow: 1;
-    }
   }
 
   div#user-courses {

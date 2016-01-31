@@ -327,6 +327,10 @@ var onAcceptButtonClick = function(button) {
 $('#course').on('click', '.level .buttons .accept-button', function() {
   onAcceptButtonClick($(this));
 });
+$('#course').on('keyup', '.card-info > input', function(e) {
+  if (e.keyCode == 13)
+    onAcceptButtonClick($(this).parent().siblings('.buttons').children('.accept-button'));
+});
 
 // Kad klikne na Discard dugme prilikom editovanja kartice, vrati sve nazad.
 // Skroz je nebitno sta je upisao.

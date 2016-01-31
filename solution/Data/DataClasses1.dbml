@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UpamtiMe" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-TBSCO3M\SQLEXPRESS;Initial Catalog=UpamtiMe;Integrated Security=True" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="UpamtiMeConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-RFKNG80\SQLEXPRESS;Initial Catalog=UpamtiMe;Integrated Security=True" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="UpamtiMeConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Achievements" Member="Achievements">
     <Type Name="Achievement">
       <Column Name="achievementID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="description" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Column Name="title" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="VarChar(400)" CanBeNull="true" />
       <Column Name="image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Achievement_UsersAchievement" Member="UsersAchievements" ThisKey="achievementID" OtherKey="achievementID" Type="UsersAchievement" />
     </Type>
@@ -41,7 +41,7 @@
   <Table Name="dbo.Categories" Member="Categories">
     <Type Name="Category">
       <Column Name="categoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="name" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
       <Association Name="Category_Course" Member="Courses" ThisKey="categoryID" OtherKey="categoryID" Type="Course" />
       <Association Name="Category_Subcategory" Member="Subcategories" ThisKey="categoryID" OtherKey="categoryID" Type="Subcategory" />
     </Type>
@@ -49,14 +49,14 @@
   <Table Name="dbo.Courses" Member="Courses">
     <Type Name="Course">
       <Column Name="courseID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="categoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="subcategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="participantCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="numberOfCards" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="creatorID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="rating" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="description" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Column Name="image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Course_UsersCourse" Member="UsersCourses" ThisKey="courseID" OtherKey="courseID" Type="UsersCourse" />
       <Association Name="Course_Level" Member="Levels" ThisKey="courseID" OtherKey="courseID" Type="Level" />
@@ -96,7 +96,7 @@
   <Table Name="dbo.Subcategories" Member="Subcategories">
     <Type Name="Subcategory">
       <Column Name="subcategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="categoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Subcategory_Course" Member="Courses" ThisKey="subcategoryID" OtherKey="subcategoryID" Type="Course" />
       <Association Name="Category_Subcategory" Member="Category" ThisKey="categoryID" OtherKey="categoryID" Type="Category" IsForeignKey="true" />
@@ -122,8 +122,8 @@
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
       <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="surname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="surname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="score" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="avatar" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="lastLogin" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
@@ -132,10 +132,10 @@
       <Column Name="password" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="totalCardsSeen" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="bio" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Column Name="bio" Type="System.String" DbType="VarChar(400)" CanBeNull="true" />
       <Column Name="streak" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="doneToday" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="location" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="thisWeekScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="thisMonthScore" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Association Name="User_UsersCourse" Member="UsersCourses" ThisKey="userID" OtherKey="userID" Type="UsersCourse" />

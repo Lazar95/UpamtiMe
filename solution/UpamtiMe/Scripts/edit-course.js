@@ -282,7 +282,7 @@ var onAcceptButtonClick = function(button) {
     var currLevel = _course[i];
     for (var j = 0; j < currLevel.cards.length; j++) {
       var currCard = currLevel.cards[j];
-      if (currCard.question == newQ) {
+      if (currCard.cardID != cardID && currCard.question == newQ) {
         alert('Vec postoji kartica sa tim pitanjem u nivou "' + currLevel.name + '"!'); // TODO slobodno mu napisi gde xD
         return false;
       }

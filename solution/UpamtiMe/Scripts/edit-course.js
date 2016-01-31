@@ -175,7 +175,7 @@ var addCard = function(level) {
     return false;
   }
 
-  // TODO validacija - ne sme da se doda kartica sa pitanjem koje vec postoji u drugoj kartici istog nivoa
+  // TODO validacija - ne sme da se doda kartica sa pitanjem koje vec postoji u drugoj kartici istog kursa
   for (var i = 0; i < _course.length; i++) {
     var currLevel = _course[i];
     for (var j = 0; j < currLevel.cards.length; j++) {
@@ -276,6 +276,18 @@ var onAcceptButtonClick = function(button) {
   var oldQ = cardInfo.children('input.question').attr('data-old-value').trim();
   var oldA = cardInfo.children('input.answer').attr('data-old-value').trim();
   var oldD = cardInfo.children('input.description').attr('data-old-value').trim();
+
+  // TODO validacija - ne sme da se editovanjem dobije kartica sa pitanjem koje vec postoji u drugoj kartici istog kursa
+  for (var i = 0; i < _course.length; i++) {
+    var currLevel = _course[i];
+    for (var j = 0; j < currLevel.cards.length; j++) {
+      var currCard = currLevel.cards[j];
+      if (currCard.question == newQ) {
+        alert('Vec postoji kartica sa tim pitanjem u nivou "' + currLevel.name + '"!'); // TODO slobodno mu napisi gde xD
+        return false;
+      }
+    }
+  }
 
   // Ako se islo na accept a nista se nije ni promenilo, ne radi nista
   if (!(newQ == oldQ && newA == oldA && newD == oldD)) { // Ako se nesto promenilo

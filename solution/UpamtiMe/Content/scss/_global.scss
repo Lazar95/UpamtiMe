@@ -822,6 +822,7 @@ dl.stats-horizontal {
 	position: relative;
 	@include z-depth(1);
 	transition: all .2s ease;
+	position: relative;
 
 	div:nth-child(2) {
 		text-transform: uppercase;
@@ -837,20 +838,88 @@ dl.stats-horizontal {
 	flex-flow: row;
 
 	div:nth-child(1) {
+		// Ikonica
 		margin-right: 8px;
 		font-size: 2em;
 		transition: all .2s ease;
 	}
 
 	div:nth-child(2) {
+		// Tekst
 		font-size: 1em;
 		font-weight: bold;
 		text-transform: uppercase;
 	}
 
-	&:hover {
-		div:nth-child(1) {
-			margin-right: 12px;
+	div:nth-child(3) {
+		// Picked value from drop-down
+		position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2em;
+    border-left: 1px rgba(palette($blue-grey, 900), .2) solid;
+		color: rgba(white, 7);
+
+		&:hover {
+			background-color: rgba(white, .08);
+		}
+
+		&::after {
+			@extend .fa;
+			content: "\f0d7"; // caret-down
+			bottom: 8px;
+			left: 0; right: 0;
+			font-size: .8em;
+			text-align: center;
+			color: rgba(white, .4);
+			position: absolute;
+			display: block;
+		}
+	}
+
+	ul {
+		// Drop-down
+		opacity: 0;
+		margin-bottom: -90px + 12px;
+		transition: all .33s ease;
+		bottom: 0;
+		background-color: palette($blue-grey, 900);
+		padding: 0;
+		width: 2em; // isto kao count
+		right: 0;
+		height: 90px;
+		box-sizing: border-box;
+		display: flex;
+		flex-flow: column;
+		@include z-depth(1);
+		border-radius: 3px;
+		overflow: hidden;
+		position: absolute;
+
+		&.show {
+			display: flex;
+			opacity: 1;
+			margin-bottom: -90px - 6px;
+		}
+
+		li {
+			font-weight: bold;
+			border-bottom: rgba(white, .2) 1px solid;
+			flex-grow: 1;
+			color: rgba(white, .7);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			&:last-child { border-bottom: none; }
+
+			&:hover {
+				background-color: palette($blue-grey, 800);
+				color: rgba(white, .9);
+			}
 		}
 	}
 }

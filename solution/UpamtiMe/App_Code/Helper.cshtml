@@ -13,9 +13,17 @@
     }
 }
 
-@helper Button(string type, string id, string icon, string text)
+@helper Button(string type, string id, string icon, string text, bool dropdown = false)
 { 
-    <div class="@("button-" + type)" id=@id><div class="@("fa fa-"+icon)"></div><div>@text</div></div>
+    <div class="@("button-" + type)" id=@id>
+        <div class="@("fa fa-"+icon)"></div>
+        <div>@text</div>
+        @if(dropdown)
+        {
+            <div class="count">20</div>
+            <ul class="dropdown"><li>1</li><li>2</li><li>3</li></ul>
+        }
+    </div>
 }
 
 @helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted, UrlHelper url)

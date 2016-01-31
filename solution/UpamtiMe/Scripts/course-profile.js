@@ -43,9 +43,12 @@ $('#leaderboard-tabs').on('click', 'li', function() {
   }
 });
 
-
-
-
+// Otvaranje padajuce liste za sesije
+// TODO refaktorisi ovo moze svuda
+$('.button-rect .count').click(function(e) {
+  e.preventDefault(); // da se ne ode na link
+  $(this).siblings('ul').toggleClass('show');
+});
 
 $(document).ready(function() {
 });

@@ -202,19 +202,12 @@
     // Po ucitavanju dokumenta
     $(window).bind('load', function () {
         $('#leaderboard > ul:not(#leaderboard-tabs) > li:nth-child(-n+3)').each(function () {
-            try {
-                var $that = $(this);
-                var id = $(this).attr('data-user-id');
-                $.post("@Url.Action("getavatar", "users")", { "id": id }, function (data) {
-                    var base64 = window.btoa(unescape(encodeURIComponent(data)));
-                    var imgSrc = "data:image/gif;base64," + base64;
-                    $that.children('.avatar').html('');
-                    $that.children('.avatar').attr('style', 'background-image: url(' + data + ')');
-                });
-                //$that.children('.avatar').attr('style', 'background-image: url(/Users/GetAvatar/' + id + ')');
-            } catch (e) {
-                alert(e.message);
-            }
+            var $that = $(this);
+            var id = $(this).attr('data-user-id');
+            $.post("@Url.Action("getavatar", "users")", { "id": id }, function (data) {
+                $that.children('.avatar').html('');
+                $that.children('.avatar').attr('style', 'background-image: url(' + data + ')');
+            });
         })
     });
     

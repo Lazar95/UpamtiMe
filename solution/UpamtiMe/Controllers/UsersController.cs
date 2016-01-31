@@ -127,7 +127,9 @@ namespace UpamtiMe.Controllers
         public ActionResult GetAvatar(int id)
         {
             byte[] image = Data.Users.GetUser(id).avatar.ToArray();
-            return File(image, "image/jpg");
+            var base64 = Convert.ToBase64String(image.ToArray());
+            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            return Content(imgSrc);
         }
 
         public ActionResult Ignore(bool ignore, int cardID)

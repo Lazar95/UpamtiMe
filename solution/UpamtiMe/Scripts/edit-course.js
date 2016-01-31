@@ -273,6 +273,14 @@ var onAcceptButtonClick = function(button) {
   var newQ = cardInfo.children('input.question').val().trim();
   var newA = cardInfo.children('input.answer').val().trim();
   var newD = cardInfo.children('input.description').val().trim();
+  var oldQ = cardInfo.children('input.question').attr('data-old-value').trim();
+  var oldA = cardInfo.children('input.answer').attr('data-old-value').trim();
+  var oldD = cardInfo.children('input.description').attr('data-old-value').trim();
+
+  // Ako se islo na accept a nista se nije ni promenilo, ne radi nista
+  if (newQ == oldQ && newA == oldA && newD == oldD) {
+    return false;
+  }
 
   // Sustina:
   for (var level = 0; level < _course.length; level++) {

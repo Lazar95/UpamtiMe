@@ -13,15 +13,17 @@
     }
 }
 
-@helper Button(string type, string id, string icon, string text, bool dropdown = false)
+@helper Button(string type, string id, string icon, string text, bool dropdown = false, int[] array = null)
 { 
+    array = array ?? new int[] { 20, 10, 20, 30 };
+
     <div class="@("button-" + type)" id=@id>
         <div class="@("fa fa-"+icon)"></div>
         <div>@text</div>
         @if(dropdown)
         {
-            <div class="count">20</div>
-            <ul class="dropdown"><li>1</li><li>2</li><li>3</li></ul>
+            <div class="count">@array[0]</div>
+            <ul class="dropdown"><li>@array[1]</li><li>@array[2]</li><li>@array[3]</li></ul>
         }
     </div>
 }
@@ -93,29 +95,36 @@
     </ul>
 }
 
-@helper SearchResult(int id, string name, int cat, string catName, int? subcat, string subcatName, string desc, int partCount, int noOfCards, int? rating, int creatorID, string creatorUsername, byte[] image)
+@helper SearchResult(UrlHelper url, int id, string name, int cat, string catName, int? subcat, string subcatName, string desc, int partCount, int noOfCards, int? rating, int creatorID, string creatorUsername, byte[] image)
 {
     <li class="result" data-rating="@rating" data-course-id="@id">
+        
         <div class="avatar-wrapper">
-            @Helper.Image(image, "class", "avatar")
+            <a href="@url.Action("Profile", "Courses", new { courseID = id })">
+                @Helper.Image(image, "class", "avatar")
+            </a>
             <div class="creator-username">by <a href="#!">@@@creatorUsername</a></div>
         </div>
         <div class="course-info">
             <div class="course-info-visible">
                 <div class="course-info-init">
                     <div class="show-more"><i class="fa fa-ellipsis-v"></i></div>
-                    <div class="name">@name</div>
+                    <div class="name"><a href="@url.Action("Profile", "Courses", new { courseID = id })">@name</a></div>
                     <div class="cat-subcat">
-                        <div class="cat" data-cat-id="@cat">@catName</div>
+                        <div class="cat" data-cat-id="@cat">
+                            <a href="@url.Action("Index", "Courses", new { categoryID = cat })">@catName</a>
+                        </div>
                         <i class="fa fa-caret-right"></i>
-                        <div class="subcat" data-subcat-id="@subcat">@subcatName</div>
+                        <div class="subcat" data-subcat-id="@subcat">
+                            <a href="@url.Action("Index", "Courses", new { subcategoryID = subcat })">@subcatName</a>
+                        </div>
                     </div>
                     <div class="stats">
-                        <dl>
+                        <dl class="tooltippable" data-tooltip-text="Broj učesnika" data-tooltip-direction="bottom">
                             <dt><i class="fa fa-users"></i></dt> @* Participant count *@
                             <dd>@partCount</dd>
                         </dl>
-                        <dl>
+                        <dl class="tooltippable" data-tooltip-text="Broj kartica" data-tooltip-direction="bottom">
                             <dt><i class="fa fa-file"></i></dt> @* Number of cards *@
                             <dd>@noOfCards</dd>
                         </dl>

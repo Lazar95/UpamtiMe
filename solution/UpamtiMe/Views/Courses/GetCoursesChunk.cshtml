@@ -3,7 +3,7 @@
 @foreach (Data.DTOs.CourseDTO course in @Model)
 {
     @Helper.SearchResult(
-                    course.CourseID, course.Name, course.CategoryID, course.CategoryName, course.SubcategoryID, course.SubcategoryName,
+                    Url, course.CourseID, course.Name, course.CategoryID, course.CategoryName, course.SubcategoryID, course.SubcategoryName,
                     course.Description, course.ParticipantCount, course.NumberOfCards, course.Rating, course.CreatorID, course.CreatorUsername, course.Image
                 )
 }

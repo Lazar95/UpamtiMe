@@ -66,12 +66,16 @@ main#courses-index {
       .avatar-wrapper {
           position: relative;
 
-        .avatar {
+        & > a {
+
           width: 100%;
-          padding-bottom: 100%;
-          background-size: cover;
-          background-position: center center;
-          transition: all .5s ease;
+
+          .avatar {
+            padding-bottom: 100%;
+            background-size: cover;
+            background-position: center center;
+            transition: all .5s ease;
+          }
         }
 
         .creator-username {
@@ -188,7 +192,7 @@ main#courses-index {
       }
 
       &.expanded {
-        .avatar-wrapper > .avatar {
+        .avatar-wrapper > a > .avatar {
           padding-bottom: 100px;
         }
 

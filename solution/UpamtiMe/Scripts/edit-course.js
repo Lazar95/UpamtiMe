@@ -162,13 +162,29 @@ var addCard = function(level) {
   var $level = $('#course > li:nth-child(' + level + ')');
   var $levelNewCard = $level.find('.new-card');
 
-  //TODO validacija
+  var question = $levelNewCard.find('.question').val().trim();
+  var answer = $levelNewCard.find('.answer').val().trim();
+  var description = $levelNewCard.find('.description').val().trim();
+
+  //TODO validacija - ne sme da se doda kartica u kojoj ne pise nista
   var error = "";
-  if ($levelNewCard.find('.question').val().trim() == "") error += 'Kartica mora da ima pitanje! ';
-  if ($levelNewCard.find('.answer').val().trim() == "") error += 'Kartica mora da ima odgovor!';
+  if (question == "") error += 'Kartica mora da ima pitanje! ';
+  if (answer == "") error += 'Kartica mora da ima odgovor!';
   if (error != "") {
     alert(error);
     return false;
+  }
+
+  // TODO validacija - ne sme da se doda kartica sa pitanjem koje vec postoji u drugoj kartici istog nivoa
+  for (var i = 0; i < _course.length; i++) {
+    var currLevel = _course[i];
+    for (var j = 0; j < currLevel.cards.length; j++) {
+      var currCard = currLevel.cards[j];
+      if (currCard.question == question) {
+        alert('Vec postoji kartica sa tim pitanjem u nivou "' + currLevel.name + '"!'); // TODO slobodno mu napisi gde xD
+        return false;
+      }
+    }
   }
 
   _lastFakeCardID--;

@@ -248,16 +248,17 @@ var onEditButtonClick = function(button) {
   button.parent().children('.accept-button').show();
   button.parent().children('.discard-button').show();
 
-  var cardInfo = button.parent().parent().find('.card-info');
-  var oldQ = cardInfo.children('span.question').html().trim();
-  var oldA = cardInfo.children('span.answer').html().trim();
-  var oldD = cardInfo.children('span.description').html().trim();
-  cardInfo.children('span.question').remove();
-  cardInfo.children('span.answer').remove();
-  cardInfo.children('span.description').remove();
-  cardInfo.append('<input type="text" class="question" data-old-value="' + oldQ + '" value="' + oldQ + '">');
-  cardInfo.append('<input type="text" class="answer" data-old-value="' + oldA + '" value="' + oldA + '">');
-  cardInfo.append('<input type="text" class="description" data-old-value="' + oldD + '" value="' + oldD + '">');
+  var $cardInfo = button.parent().parent().find('.card-info');
+  var oldQ = $cardInfo.children('span.question').html().trim();
+  var oldA = $cardInfo.children('span.answer').html().trim();
+  var oldD = $cardInfo.children('span.description').html().trim();
+  $cardInfo.children('span.question').remove();
+  $cardInfo.children('span.answer').remove();
+  $cardInfo.children('span.description').remove();
+  $cardInfo.append('<input type="text" class="question" data-old-value="' + oldQ + '" value="' + oldQ + '">');
+  $cardInfo.append('<input type="text" class="answer" data-old-value="' + oldA + '" value="' + oldA + '">');
+  $cardInfo.append('<input type="text" class="description" data-old-value="' + oldD + '" value="' + oldD + '">');
+  $cardInfo.children('input.question').focus().select();
 }
 $('#course').on('click', '.level .buttons .change-button', function() {
   onEditButtonClick($(this));

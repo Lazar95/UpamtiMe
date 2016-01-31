@@ -98,7 +98,7 @@
 @helper SearchResult(UrlHelper url, int id, string name, int cat, string catName, int? subcat, string subcatName, string desc, int partCount, int noOfCards, int? rating, int creatorID, string creatorUsername, byte[] image)
 {
     <li class="result" data-rating="@rating" data-course-id="@id">
-        
+
         <div class="avatar-wrapper">
             <a href="@url.Action("Profile", "Courses", new { courseID = id })">
                 @Helper.Image(image, "class", "avatar")
@@ -133,6 +133,66 @@
                 </div>
                 <div class="description-full">@desc</div>
                 @Helper.Button("rect button-enroll", "", "unlock", "Učlani se")
+            </div>
+        </div>
+    </li>
+}
+
+@helper CourseCard(UrlHelper url, int id, string name, int cat, string catName, int? subcat, string subcatName, string desc, int partCount, int noOfCards, int? rating, int creatorID, string creatorUsername, byte[] image, int learned, int review, int unseen, int total, string dates, string points)
+{
+    <li class="course-card" data-rating="@rating" data-course-id="@id">
+
+        <div class="avatar-wrapper">
+            <a href="@url.Action("Profile", "Courses", new { id = id })">
+                @Helper.Image(image, "class", "avatar")
+            </a>
+            <div class="creator-username">by <a href="#!">@@@creatorUsername</a></div>
+        </div>
+        <div class="course-info">
+            <div class="course-info-visible">
+                <div class="course-info-init">
+                    <div class="show-more"><i class="fa fa-ellipsis-v"></i></div>
+                    <div class="name"><a href="@url.Action("Profile", "Courses", new { id = id })">@name</a></div>
+                    <div class="cat-subcat">
+                        <div class="cat" data-cat-id="@cat">
+                            <a href="@url.Action("Index", "Courses", new { categoryID = cat })">@catName</a>
+                        </div>
+                        <i class="fa fa-caret-right"></i>
+                        <div class="subcat" data-subcat-id="@subcat">
+                            <a href="@url.Action("Index", "Courses", new { subcategoryID = subcat })">@subcatName</a>
+                        </div>
+                    </div>
+                    <div class="stats">
+                        <dl class="tooltippable" data-tooltip-text="Neviđene" data-tooltip-direction="top">
+                            <dt>Neviđene</dt>
+                            <dd>@unseen</dd>
+                        </dl>
+                        <dl class="tooltippable" data-tooltip-text="Za obnavljanje" data-tooltip-direction="top">
+                            <dt>Za obnavljanje</dt>
+                            <dd>@review</dd>
+                        </dl>
+                        <dl class="tooltippable" data-tooltip-text="Naučene" data-tooltip-direction="top">
+                            <dt>Naučene</dt>
+                            <dd>@learned</dd>
+                        </dl>
+                        <dl class="tooltippable" data-tooltip-text="Ukupno" data-tooltip-direction="top">
+                            <dt>Za obnavljanje</dt>
+                            <dd>@total</dd>
+                        </dl>
+                    </div>
+                    <div class="session-buttons">
+                        <a class="button-learn button-link" href=@url.Action("Learn", "Courses", new { courseID = @id })>
+                            @Helper.Button("rect", "", "graduation-cap", "Uči", false)
+                        </a>
+                        <a class="button-review button-link" href=@url.Action("Review", "Courses", new { courseID = @id })>
+                            @Helper.Button("rect", "", "flask", "Obnovi", false)
+                        </a>
+                    </div>
+                </div>
+                <div class="stats-points-per-course-wrapper">
+                    <canvas class="stats-points-per-course" width="264" height="120" data-dates="@dates" data-points="@points"></canvas>
+                </div>
+                @Helper.Button("rect button-goto", "", "caret-right", "Idi na stranicu kursa")
             </div>
         </div>
     </li>

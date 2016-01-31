@@ -1,5 +1,5 @@
 /**
- * Tooltipovi //TODO refaktorisi da se vidi svuda
+ * Tooltipovi
  */
 
 var TOOLTIP_TIMEOUT = 0;
@@ -53,3 +53,14 @@ $(document).on('mouseleave', '.tooltippable', function() {
     $('.tooltip').remove();
   }, 50);
 });
+
+
+/**
+ * Stil material-card za kurseve
+ */
+ $('#search-results-outer').on('click', '.show-more', function() {
+   $(this).closest('.result').toggleClass('expanded');
+ })
+ $('#user-courses').on('click', '.show-more', function() {
+   $(this).closest('.course-card').toggleClass('expanded');
+ })

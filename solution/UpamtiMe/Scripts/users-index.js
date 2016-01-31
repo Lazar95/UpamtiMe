@@ -319,11 +319,12 @@ $(document).ready(function() {
     { dataName: 'data-dates',    color: "",               label: "",              },
     { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
   ];
-  var elements = $('.course-points-graph:lt(3)'); // uzima samo prva tri jer se za njih vide grafici //TODO promeni
+  var elements = $('.stats-points-per-course'); 
   elements.each(function() {
     loadGraphLine($(this), temp, 7);
   });
 
+  // Pie - trenutno nema
   $('.course-total-breakdown').each(function() {
     loadStatsCourseTotalBreakdown($(this));
   });

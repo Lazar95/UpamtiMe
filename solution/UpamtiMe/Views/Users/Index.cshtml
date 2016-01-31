@@ -35,9 +35,9 @@
 
     <div id="leaderboard" class="big-container">
         @Helper.LeaderboardTabs()
-        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 10, Url, true)
-        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 10, Url, false)
-        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 10, Url, false)
+        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 8, Url, true)
+        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 8, Url, false)
+        @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 8, Url, false)
         <div class="more"><i class="fa fa-arrows-alt"></i></div>
         <div class="full-screen">
             <div class="full-screen-inner">
@@ -64,41 +64,23 @@
         </div>
     </div>
 
-    <ul id="user-courses">
-        <button id="load-more-courses">More</button>
-        @foreach (Data.DTOs.UserCourseDTO course in Model.Courses)
-        {
-            <li data-course-id=@course.CourseID>
-                <div class="wrapper">
-                    <div class="course-name"><a href="@Url.Action("Profile", "Courses", new { id = course.CourseID } )">@course.Name</a></div>
-                    @Helper.Image(course.Image, "class", "course-picture")
-                    <div class="course-buttons">
-                        <div class="button button-rect learn-button">
-                            <div class="btn-icon icon-id-learn"><span></span></div><span><a href="@Url.Action("Learn", "Courses", new { courseID = course.CourseID } )">Uči</a></span>
-                        </div>
-                        <div class="button button-rect review-button">
-                            <div class="btn-icon icon-id-review"><span></span></div><span><a href="@Url.Action("Review", "Courses", new { courseID = course.CourseID } )">Obnovi</a></span>
-                        </div>
-                        <div class="button button-rect linky-button">
-                            <div class="btn-icon icon-id-linky"><span></span></div><span><a href="@Url.Action("Linky", "Courses", new { courseID = course.CourseID } )">Spajalica</a></span>
-                        </div>
-                    </div>
-                    <div class="course-points-graph-wrapper">
-                        <canvas class="course-points-graph" width="224" height="135"
-                                data-points="@course.StatisctisByDays.Scores"
-                                data-dates="@course.StatisctisByDays.Dates"></canvas>
-                    </div>
-                    <div class="course-total-breakdown-wrapper">
-                        <canvas class="course-total-breakdown" width="118" height="118"
-                                data-learned="@course.LearningStatistics.LearningStatistics.Learned"
-                                data-review="@course.LearningStatistics.LearningStatistics.Review"
-                                data-unseen="@course.LearningStatistics.LearningStatistics.Unseen"
-                        ></canvas>
-                    </div>
-                </div>
-            </li>
-        }
-    </ul>
+    <div id="user-courses">
+        <ul>
+            @foreach (Data.DTOs.UserCourseDTO course in @Model.Courses)
+            {
+                @Helper.CourseCard(
+                    Url, course.CourseID, course.Name, course.CategoryID, course.CategoryName, course.SubcategoryID, course.SubcategoryName,
+                    course.Description, course.ParticipantCount, course.NumberOfCards, course.Rating, course.CreatorID, course.CreatorUsername, course.Image,
+                    course.LearningStatistics.LearningStatistics.Learned, course.LearningStatistics.LearningStatistics.Review,
+                    course.LearningStatistics.LearningStatistics.Unseen, course.LearningStatistics.LearningStatistics.Total,
+                    course.StatisctisByDays.Dates, course.StatisctisByDays.Scores
+                )
+            }
+        </ul>
+    </div>
+
+    <div id="load-more"><button @(Model.More == false ? "disabled" : "")>MORE</button></div>
+
 
 </main>
 
@@ -109,7 +91,7 @@
     var inProgress = false;
 
 
-    $('#load-more-courses').click(function () {
+    $('#load-more').click(function () {
         if (!inProgress) {
 
             inProgress = true;
@@ -120,10 +102,10 @@
 
                         BlockNumber = BlockNumber + 1;
                         NoMoreData = data.NoMoreData;
-                        $('#user-courses').append(data.HTMLString);
+                        $('#user-courses > ul').append(data.HTMLString);
                         if (data.NoMoreData) {
-                            $('#load-more-courses').html("NO MORE");
-                            $('#load-more-courses').attr('disabled', "");
+                            $('#load-more').html("NO MORE");
+                            $('#load-more').attr('disabled', '');
                         }
 
 
@@ -132,17 +114,19 @@
                           { dataName: 'data-dates', color: "", label: "", },
                           { dataName: 'data-points', color: colorBlueGrey700, label: 'Poeni', }
                         ];
+
+                        // lol
                         var min = data.min - 2;
                         var max = data.max + 1;
                         
-                        var elements = $('.course-points-graph:gt('+ min +'):lt(' + max + ')'); // uzima samo prva tri jer se za njih vide grafici
+                        var elements = $('.stats-points-per-course:gt(' + min + '):lt(' + max + ')');
                         elements.each(function () {
                             loadGraphLine($(this), temp, 7);
                         });
 
-                        $('.course-total-breakdown:gt(' + min + '):lt(' + max + ')').each(function () {
+                        /*$('.course-total-breakdown:gt(' + min + '):lt(' + max + ')').each(function () {
                             loadStatsCourseTotalBreakdown($(this));
-                        });
+                        });*/
 
                        
                         inProgress = false;

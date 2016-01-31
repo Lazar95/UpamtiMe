@@ -35,7 +35,7 @@
 
         @Helper.Image(Model.Image, "class", "avatar")
 
-        <div id="image-upload-prompt">
+        <div id="image-upload-prompt" class="tooltippable" data-tooltip-text="Promeni avatar" data-tooltip-direction="right">
             <i class="fa fa-pencil"></i>
         </div>
 
@@ -56,17 +56,21 @@
         
         <div class="basic-info">
 
-            <h1 id="course-name"><span class="editable">@Model.Name</span></h1>
+            <h1 id="course-name">
+                <span class="tooltippable" data-tooltip-text="Promeni naziv kursa" data-tooltip-direction="right">
+                    @Model.Name
+                </span>
+            </h1>
 
             <div class="cat-subcat">
-                <select id="category">
+                <select id="category" class="tooltippable" data-tooltip-text="Promeni kategoriju" data-tooltip-direction="bottom">
                     @foreach (var cat in categories)
                     {
                         <option value="@cat.Value" @( cat.Value == Model.CategoryID.ToString() ? "selected" : "" )>@cat.Text</option>
                     }
                 </select>
                 <i class="fa fa-caret-right"></i>
-                <select id="subcategory" data-subcat="@Model.SubcategoryID">
+                <select id="subcategory" data-subcat="@Model.SubcategoryID" class="tooltippable" data-tooltip-text="Promeni podkategoriju" data-tooltip-direction="bottom">
                     <option value="0">Izaberi podkategoriju</option>
                     @foreach (var subcat in Model.AllSubcategories)
                     {
@@ -76,14 +80,20 @@
             </div>
 
             <div id="course-description">
-                <div id="course-description-length-indicator" class="invisible"><span class="curr">@(Model.Description == null ? 0:Model.Description.Length)</span><span class="slash">/</span><span class="total">2000</span></div>
+                <div id="course-description-length-indicator" class="invisible">
+                    <span class="curr">@(Model.Description == null ? 0:Model.Description.Length)</span><span class="slash">/</span><span class="total">2000</span>
+                </div>
                 <div id="course-description-buttons">
-                    <div id="course-description-edit-button">
+                    <div id="course-description-edit-button" class="tooltippable" data-tooltip-text="Izmeni opis kursa" data-tooltip-direction="left">
                         <div class="button" id="btn-course-description-edit"><i class="fa fa-pencil"></i></div>
                     </div>
                     <div id="course-description-other-buttons">
-                        <div class="button" id="btn-course-description-accept" style="display: none;"><i class="fa fa-check"></i></div>
-                        <div class="button" id="btn-course-description-discard" style="display: none;"><i class="fa fa-times"></i></div>
+                        <div id="btn-course-description-accept" style="display: none;" class="button tooltippable" data-tooltip-text="Prihvati izmene" data-tooltip-direction="left">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <div id="btn-course-description-discard" style="display: none;" class="button tooltippable" data-tooltip-text="Odbaci izmene" data-tooltip-direction="left">
+                            <i class="fa fa-times"></i>
+                        </div>
                     </div>
                 </div>
                 <span>@Model.Description</span>
@@ -142,7 +152,9 @@
                             <div class="new-card-answer"><span>Odgovor</span> <input class="answer" type="text" /></div>
                             <div class="new-card-description"><span>Opis:</span> <input class="description" type="text" /></div>
                         </div>
-                        <div class="add-button" data-function="expand"><i class="fa fa-plus"></i></div>
+                        <div class="add-button tooltippable" data-function="expand" data-tooltip-text="Dodaj karticu" data-tooltip-direction="bottom">
+                            <i class="fa fa-plus"></i>
+                        </div>
                     </li>
                 </ul>
             </li>
@@ -162,12 +174,16 @@
                     <input type="text" />
                 </div>
             </div>
-            <div class="add-button" data-function="expand">+</div>
+            <div class="add-button tooltippable" data-function="expand" data-tooltip-text="Dodaj nivo" data-tooltip-direction="bottom">
+                <i class="fa fa-plus"></i>
+            </div>
         </li>
 
     </ul>
 
-    <div class="button" id="save"><i class="fa fa-floppy-o"></i></div>
+    <div id="save" class="button tooltippable" data-tooltip-text="Snimi" data-tooltip-direction="top">
+        <i class="fa fa-floppy-o"></i>
+    </div>
 
 </main>
 

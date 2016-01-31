@@ -552,8 +552,8 @@ dl.stats-horizontal {
  * Tooltipovi
  */
 .tooltip {
-	background-color: rgba(palette($blue-grey, 900), .9);
-	color: white;
+	background-color: rgba(black, .7);
+	color: rgba(white, .8);
 	padding: 8px 12px;
 	position: fixed;
 	border-radius: 3px;

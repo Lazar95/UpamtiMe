@@ -15,24 +15,49 @@
         <div class="basic-info">
             <h1 id="course-name"><span>@Model.Name</span></h1>
             <div class="cat-subcat">
-                <span class="cat" data-cat-id=@Model.CategoryID><a href="@Url.Action("Index", "Courses", new { categoryID = Model.CategoryID })">@Model.CategoryName</a></span>
+                <span data-cat-id=@Model.CategoryID class="cat tooltippable" data-tooltip-text="Pretraži kategoriju" data-tooltip-direction="bottom">
+                    <a href="@Url.Action("Index", "Courses", new { categoryID = Model.CategoryID })">@Model.CategoryName</a>
+                </span>
                 <i class="fa fa-caret-right"></i>
-                <span class="subcat" data-subcat-id=@Model.SubcategoryID><a href="@Url.Action("Index", "Courses", new { subcategoryID = Model.SubcategoryID })">@Model.SubcategoryName</a></span>
+                <span data-subcat-id=@Model.SubcategoryID  class="subcat tooltippable" data-tooltip-text="Pretraži podkategoriju" data-tooltip-direction="bottom">
+                    <a href="@Url.Action("Index", "Courses", new { subcategoryID = Model.SubcategoryID })">@Model.SubcategoryName</a>
+                </span>
             </div>
 
             <div id="course-description">
                 <span>@Model.Description</span>
             </div>
 
-            <div id="course-actions">
-                @if (user != null && user.UserID == Model.CreatorID)
-                { <a id="button-edit-course" class="button-link" href="@Url.Action("Edit", "Courses", new { id = @Model.CourseID })"><div class="button"><i class="fa fa-pencil"></i></div></a> }
+            @if (user != null)
+            {
+                <div id="course-actions">
+                    @if (user.UserID == Model.CreatorID)
+                    {
+                        <a id="button-edit-course" class="button-link" href="@Url.Action("Edit", "Courses", new { id = @Model.CourseID })">
+                            <div class="button tooltippable" data-tooltip-text="Izmeni kurs" data-tooltip-direction="left">
+                                <i class="fa fa-pencil"></i>
+                            </div>
+                        </a>
+                    }
 
-                @if (Model.Favorite == null)
-                { <a id="button-favorite" class="button-link" href="@Url.Action("Favorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-heart-o"></i></div></a> }
-                else
-                { <a id="button-unfavorite" class="button-link" href="@Url.Action("UnFavorite", new {courseID = @Model.CourseID})"><div class="button"><i class="fa fa-heart"></i></div></a> }
-            </div>
+                    @if (Model.Favorite == null)
+                    {
+                        <a id="button-favorite" class="button-link" href="@Url.Action("Favorite", new { courseID = @Model.CourseID })">
+                            <div class="button tooltippable" data-tooltip-text="Dodaj u omiljene" data-tooltip-direction="left">
+                                <i class="fa fa-heart-o"></i>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <a id="button-unfavorite" class="button-link" href="@Url.Action("UnFavorite", new { courseID = @Model.CourseID })">
+                            <div class="button tooltippable" data-tooltip-text="Ukloni iz omiljenih" data-tooltip-direction="left">
+                                <i class="fa fa-heart"></i>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
         </div>
     </div>
 

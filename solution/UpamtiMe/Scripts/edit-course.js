@@ -1062,39 +1062,3 @@ $(document).ready(function() {
   // Inicijalno sklanjane nepotrebnih dugmadi za editovanje kartice.
   showInitialButtons();
 });
-
-/**
- * Tooltipovi //TODO refaktorisi da se vidi svuda
- */
-
-var TOOLTIP_TIMEOUT = 0;
-
-var showTooltip = function($obj, direction, margin) {
-  if ($obj.is('[data-tooltip-shown]')) return;
-  $obj.attr('data-tooltip-shown', '');
-  TOOLTIP_TIMEOUT = setTimeout(function() {
-    var objSize = $obj.get(0).getBoundingClientRect();
-    var $tt = $('<div class="tooltip">' + $obj.attr('data-tooltip-text') + '</div>');
-    $('body').append($tt);
-    var tooltipSize = $tt.get(0).getBoundingClientRect();
-
-    var top = objSize.top - margin - tooltipSize.height;
-    var left = objSize.left + objSize.width/2 - tooltipSize.width/2;
-
-    $tt.css('top', top + 'px').css('left', left + 'px');
-  }, $obj.attr('data-tooltip-delay') == undefined ? 500 : $obj.attr('data-tooltip-delay'));
-}
-
-$('#course').on('mouseover', '.tooltippable', function() {
-  showTooltip($(this), 'top', 15);
-});
-
-$('#course').on('mouseleave', '.tooltippable', function() {
-  if (!$(this).is('[data-tooltip-shown]')) return;
-  clearTimeout(TOOLTIP_TIMEOUT);
-  $(this).removeAttr('data-tooltip-shown');
-  $('.tooltip').fadeOut(50);
-  setTimeout(function() {
-    $('.tooltip').remove();
-  }, 50);
-});

@@ -34,9 +34,9 @@
 
     
     @{ Html.RenderPartial("~/Views/Partials/Sidebar.cshtml", user == null ? new PartialModel {UserID = -1} : UserSession.GetSidebar()); }
+    @RenderBody()
 
-
-              @RenderBody()
+    <script src="~/Scripts/global.js"></script>
 
 </body>
 </html>

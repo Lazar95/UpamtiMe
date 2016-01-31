@@ -20,17 +20,24 @@
         </div>
         <div id="sidebar-stats-info">
             <ul>
-                <li><dl><dd><i class="fa fa-fire"></i></dd><dt>@Model.Streak</dt></dl></li>
-                <li><dl><dd><i class="fa fa-line-chart"></i></dd><dt>@Model.Score.beautify()</dt></dl></li>
-                <li><dl><dd><i class="fa fa-dashboard"></i></dd><dt>@Model.TotalCardsSeen</dt></dl></li>
-                <li><dl><dd><i class="fa fa-file"></i></dd><dt>@Model.LearningStatistics.Learned</dt></dl></li>
+                <li><dl class="tooltippable" data-tooltip-text="Recke" data-tooltip-direction="top">
+                    <dd><i class="fa fa-fire"></i></dd><dt>@Model.Streak</dt>
+                </dl></li>
+                <li><dl class="tooltippable" data-tooltip-text="Poeni" data-tooltip-direction="top">
+                    <dd><i class="fa fa-line-chart"></i></dd><dt>@Model.Score.beautify()</dt>
+                </dl></li>
+                <li><dl class="tooltippable" data-tooltip-text="Pogledano kartica" data-tooltip-direction="bottom">
+                    <dd><i class="fa fa-dashboard"></i></dd><dt>@Model.TotalCardsSeen</dt>
+                </dl></li>
+                <li><dl class="tooltippable" data-tooltip-text="Naučeno kartica" data-tooltip-direction="bottom">
+                    <dd><i class="fa fa-file"></i></dd><dt>@Model.LearningStatistics.Learned</dt>
+                </dl></li>
             </ul>
         </div>
         <div id="sidebar-leaderboard">
 
         </div>
         <div id="sidebar-favorite-courses">
-            @* Prvi treba da bude expanded po defaultu *@
             <ul class="acordeon">
                 <li class="expanded">
                     <div class="acordeon-title">
@@ -90,21 +97,21 @@
             <canvas id="sidebar-graph-points" width="200" height="100" data-points="@Model.Statistics.Scores" data-dates="@Model.Statistics.Dates"></canvas>
         </div>
         <div id="sidebar-buttons">
-            <div class="sidebar-button">
+            <div class="sidebar-button tooltippable" data-tooltip-text="Pomoć" data-tooltip-direction="top">
                 <div class="button-icon"><i class="fa fa-question"></i></div>
                 <div class="button-text">Halp</div>
             </div>
-            <div class="sidebar-button">
+            <div class="sidebar-button tooltippable" data-tooltip-text="Pomoć" data-tooltip-direction="top">
                 <div class="button-icon"><i class="fa fa-bell"></i></div>
                 <div class="button-text">Bell</div>
             </div>
-            <div class="sidebar-button">
+            <div class="sidebar-button tooltippable" data-tooltip-text="Kontakt" data-tooltip-direction="top">
                 <div class="button-icon"><i class="fa fa-envelope"></i></div>
-                <div class="button-text">Koverta</div>
+                <div class="button-text">Kontakt</div>
             </div>
-            <div class="sidebar-button">
-                <div class="button-icon"><i class="fa fa-eye"></i></div>
-                <div class="button-text">Oko!</div>
+            <div class="sidebar-button tooltippable" data-tooltip-text="O nama" data-tooltip-direction="top">
+                <div class="button-icon"><i class="fa fa-info"></i></div>
+                <div class="button-text">O nama</div>
             </div>
         </div>
     }
@@ -112,6 +119,6 @@
     {
         <span>REGISTRUJ SE MAJMUNE</span>
     }
- </aside>
+</aside>
 
-    <script src="~/Scripts/sidebar.js"></script>
+<script src="~/Scripts/sidebar.js"></script>

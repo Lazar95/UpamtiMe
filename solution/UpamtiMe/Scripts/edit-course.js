@@ -352,6 +352,10 @@ var onDiscardButtonClick = function(button) {
 $('#course').on('click', '.level .buttons .discard-button', function() {
   onDiscardButtonClick($(this));
 });
+$('#course').on('keyup', '.card-info > input', function(e) {
+  if (e.keyCode == 27) // Escape
+    onDiscardButtonClick($(this).parent().siblings('.buttons').children('.discard-button'));
+});
 
 /****************************/
 /****************************/

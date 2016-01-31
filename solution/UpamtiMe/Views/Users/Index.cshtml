@@ -40,15 +40,27 @@
         @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 10, Url, false)
         <div class="more"><i class="fa fa-arrows-alt"></i></div>
         <div class="full-screen">
-            <div class="less"><i class="fa fa-times"></i></div>
-            <div class="full-leaderboard-headings">
-                <h3>Nedelja</h3>
-                <h3>Mesec</h3>
-                <h3>Ukupno</h3>
+            <div class="full-screen-inner">
+                <div class="less"><i class="fa fa-times"></i></div>
+                <div class="week-container">
+                    <div class="full-leaderboard-headings">
+                        <h3>Nedelja</h3>
+                    </div>
+                    @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, null, Url, true)
+                </div>
+                <div class="month-container">
+                    <div class="full-leaderboard-headings">
+                        <h3>Mesec</h3>
+                    </div>
+                    @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, null, Url, true)
+                </div>
+                <div class="total-container">
+                    <div class="full-leaderboard-headings">
+                        <h3>Ukupno</h3>
+                    </div>
+                    @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, null, Url, true)
+                </div>                
             </div>
-            @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, null, Url, true)
-            @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, null, Url, true)
-            @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, null, Url, true)
         </div>
     </div>
 

@@ -362,5 +362,5 @@ $('.more').click(function() {
 });
 
 $('.less').click(function() {
-  $(this).parent().removeClass('visible');
+  $(this).closest('.full-screen').removeClass('visible');
 })

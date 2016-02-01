@@ -13,19 +13,24 @@
     }
 }
 
-@helper Button(string type, string id, string icon, string text, bool dropdown = false, int[] array = null)
-{ 
-    array = array ?? new int[] { 20, 10, 20, 30 };
+
+@helper Button(string type, string id, string icon, string text, bool dropdown = false, Data.DTOs.Options option = null, List<string> links = null)
+{
 
     <div class="@("button-" + type)" id=@id>
         <div class="@("fa fa-"+icon)"></div>
         <div>@text</div>
-        @if(dropdown)
+        @if(dropdown && option != null &&  option.List.Count > 0)
         {
-            <div class="count">@array[0]</div>
-            <ul class="dropdown"><li>@array[1]</li><li>@array[2]</li><li>@array[3]</li></ul>
-        }
-    </div>
+            <div class="count">@option.Default</div>
+            <ul class="dropdown">
+                @for (int i = 0; i < option.List.Count; i++)
+                {
+                    <li data-href="@links[i]">@option.List[i]</li>
+                }
+            </ul>
+         }
+</div>
 }
 
 @helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted, UrlHelper url)

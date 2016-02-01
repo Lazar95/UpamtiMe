@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
@@ -53,6 +54,12 @@ namespace UpamtiMe.Tests
                 Regex.IsMatch(
                     "A public action method 'ksndkjasn' was not found on controller 'UpamtiMe.Controllers.UsersController'.",
                     @"A public action method .+ was not found on controller .+");
+        }
+
+        [TestMethod]
+        public void Jajceva()
+        {
+            List<int> list = Levels.getOptions(21, 4, 10, 5);
         }
     }
 }

@@ -29,6 +29,12 @@ namespace UpamtiMe.Models
 
         public static CourseProfileModel Load(int courseID, int? userID = null)
         {
+            int numOpt = ConfigurationParameters.numOptions;
+            int firstLearn = ConfigurationParameters.firstOptionLearn;
+            int firstReview = ConfigurationParameters.firstOptionReview;
+            int stepLearn = ConfigurationParameters.stepLearn;
+            int stepReview = ConfigurationParameters.stepReview;
+
             Data.Course course = Data.Courses.getCourse(courseID);
             CourseProfileModel cim = new CourseProfileModel
             {
@@ -40,7 +46,7 @@ namespace UpamtiMe.Models
                 CategoryName = Data.Courses.getCategoryName(course.categoryID),
                 SubcategoryID = course.subcategoryID,
                 SubcategoryName = course.subcategoryID == null ? null : Data.Courses.getSubcategoryName(course.subcategoryID.Value),
-                Levels = Data.Levels.getLevels(courseID, userID),
+                Levels = Data.Levels.getLevels(courseID, userID, numOpt, firstLearn, firstReview, stepLearn, stepReview),
                 Leaderboard = Data.Courses.getLeaderboard(courseID),
                 LevelNumber = Data.Courses.countLevels(courseID),
                 Statistics = null,

@@ -18,6 +18,13 @@ namespace UpamtiMe
         public static int LinkySessionCardNumber = 100;
         public static int LinkyLimit = 5;
 
+        //dropdown
+        public static int numOptions = 4;
+        public static int firstOptionLearn = 3;
+        public static int firstOptionReview = 10;
+        public static int stepLearn = 3;
+        public static int stepReview = 5;
+
 
         //ovo nisam stavila da ne bih prenatrpavala kod, tesko da ce ikad da se promeni
         // static int StatisticsTimeSpan = 30;

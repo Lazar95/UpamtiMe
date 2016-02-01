@@ -168,7 +168,7 @@ namespace Data
         }
        
 
-        public static List<LevelWithStatisticsDTO> getLevels(int courseID, int? userID)
+        public static List<LevelWithStatisticsDTO> getLevels(int courseID, int? userID, int numOptions, int firstOptLearn, int firstOptReview, int stepLearn, int stepReview)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             List<LevelWithStatisticsDTO> returnValue = (
@@ -191,12 +191,62 @@ namespace Data
                 foreach (LevelWithStatisticsDTO level in returnValue)
                 {
                     level.LearningStatistics = getLevelStatistics(level.LevelID, userID.Value, dc);
+                    level.LearnOptions = new Options
+                    {
+                        List = Levels.getOptions(level.LearningStatistics.Unseen, numOptions, firstOptLearn, stepLearn),
+                        Default = 6
+                    };
+
+                    level.ReviewOptions = new Options
+                    {
+                        List = getOptions(level.LearningStatistics.Review, numOptions, firstOptReview, stepReview),
+                        Default = 20
+                    };
                 }
+
             }
+            
             
 
             return returnValue;
-        } 
+        }
+
+
+
+        // parametri (broj nenaucenih kartica u nivou, broj opcija u dropdown, prva opcija, korak)
+        public static List<int> getOptions(int totalCards, int optionNum, int firstOption, int step)
+        {
+            //ja ovde napravim listu sa optionNum nula, nzm kako ti radi f-ja, ako hoces da lista inicijalno bude prazna mozes da koristis options.Add(nesto) da bi dodao nesto na kraj
+            List<int> options = new List<int>(new int[optionNum]); // niz opcija koji ce funkcija da vrati
+            int  maxOptionsNum = optionNum; // vracamo najvise 4 opcije
+            int temp = totalCards;
+            int i;
+            int minimumCards = firstOption; // prva opcija, nikad ne sme manje od ovoga da ostane, samo ako ih nije ni bilo u nivou
+            int stepSize = step; // uvecava se za ovoliko po opciji
+            for (i = 0; i < maxOptionsNum && temp >= minimumCards; i++)
+            {
+                options[i] = minimumCards + i * stepSize;
+                if (i == 0)
+                    temp -= minimumCards;
+                else
+                    temp -= stepSize;
+            }
+            if (i > 0)
+            {
+                if (temp <= minimumCards)
+                {
+                    options[i - 1] += temp;
+                }
+            }
+            else {
+                options[i] = temp;
+            }
+
+            if (options.Count > 0)
+                options.RemoveAll(m => m == 0);
+
+            return options;
+        }
 
         public static List<Data.LevelWithCardsDTO> getLevelsAndCardsFor(int courseID)
         {
@@ -221,6 +271,7 @@ namespace Data
 
             return returnValue;
         }
+
 
        
         

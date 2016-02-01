@@ -35,8 +35,8 @@
 
     <div id="leaderboard" class="big-container">
         @Helper.LeaderboardTabs()
-        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 11, Url, true)
-        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 11, Url, false)
+        @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 11, Url, true)
+        @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, 11, Url, false)
         @Helper.Leaderboard("all-time-score", Model.Leaderboard.OrderByDescending(a => a.AllTimeScore).ToList(), user?.UserID, 11, Url, false)
         <div class="more"><i class="fa fa-arrows-alt"></i></div>
         <div class="full-screen">
@@ -46,13 +46,13 @@
                     <div class="full-leaderboard-headings">
                         <h3>Nedelja</h3>
                     </div>
-                    @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, null, Url, true)
+                    @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, null, Url, true)
                 </div>
                 <div class="month-container">
                     <div class="full-leaderboard-headings">
                         <h3>Mesec</h3>
                     </div>
-                    @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, null, Url, true)
+                    @Helper.Leaderboard("month-score", Model.Leaderboard.OrderByDescending(a => a.MonthScore).ToList(), user?.UserID, null, Url, true)
                 </div>
                 <div class="total-container">
                     <div class="full-leaderboard-headings">

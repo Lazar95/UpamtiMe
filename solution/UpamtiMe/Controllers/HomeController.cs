@@ -24,14 +24,14 @@ namespace UpamtiMe.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            else if (!logOut)
-            {
-                Login(new HomeIndexModel
-                {
-                    Login = new LoginTransporterDTO { Username = "masa", Password = "plavusha", RememberMe = true }
-                });
-                return RedirectToAction("Index", "Users");
-            }
+            //else if (!logOut)
+            //{
+            //    Login(new HomeIndexModel
+            //    {
+            //        Login = new LoginTransporterDTO { Username = "masa", Password = "plavusha", RememberMe = true }
+            //    });
+            //    return RedirectToAction("Index", "Users");
+            //}
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace UpamtiMe.Controllers
             UserSession.SetUser(ld);
             UserSession.ReloadSidebar();
             Session.Timeout = ld.RememberMe ? 525600 : 20;
-
+           
             return RedirectToAction("Index", "Users");
         }
 
@@ -97,6 +97,12 @@ namespace UpamtiMe.Controllers
             if (UserSession.GetUser() != null)
                 UserSession.ReloadSidebar();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Time()
+        {
+            int pom = Session.Timeout;
+            return Content(pom.ToString());
         }
     }
 }

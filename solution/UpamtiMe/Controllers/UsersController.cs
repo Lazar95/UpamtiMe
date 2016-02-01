@@ -10,6 +10,7 @@ using UpamtiMe.Models;
 
 namespace UpamtiMe.Controllers
 {
+    [SessionExpireFilter]
     public class UsersController : InfinateScroll
     {
         // GET: Users

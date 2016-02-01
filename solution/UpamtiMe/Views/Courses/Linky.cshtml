@@ -41,44 +41,89 @@
             <div class="session-info">
                 <!--<h3>Trenutna sesija</h3>-->
                 <dl class="general">
-                    <div><dt>Broj odgovora</dt>     <dd id="cards-current-total">0</dd></div>
-                    <div><dt>Tačnost</dt>           <dd id="accuracy">0%</dd></div>
-                    <div><dt>Životi</dt>            <dd id="lives">3</dd></div>
-                    <div><dt>Trenutni kombo</dt>    <dd id="session-combo">0</dd></div>
+                    <div><dt>Broj odgovora</dt> <dd id="cards-current-total">0</dd>
+                    </div>
+                    <div><dt>Tačnost</dt> <dd id="accuracy">0%</dd>
+                    </div>
+                    <div><dt>Životi</dt> <dd id="lives">3</dd>
+                    </div>
+                    <div><dt>Trenutni kombo</dt> <dd id="session-combo">0</dd>
+                    </div>
                 </dl>
                 <dl class="total-score">
-                    <div><dt>Osvojeni poeni</dt>               <dd id="score">0</dd></div>
+                    <div><dt>Osvojeni poeni</dt> <dd id="score">0</dd>
+                    </div>
                 </dl>
                 <dl class="last-score">
-                    <div><dt></dt><dd id="last-score"></dd></div>
+                    <div><dt></dt><dd id="last-score"></dd>
+                    </div>
                 </dl>
                 <dl class="last-score-breakdown">
-                    <div><dt>Bazni skor</dt> <dd id="base-score" class="level-1">1</dd></div>
+                    <div><dt>Bazni skor</dt> <dd id="base-score" class="level-1">1</dd>
+                    </div>
                     <!--<div><dt>Card combo</dt> <dd id="card-combo" class="level-1">&nbsp;</dd></div>-->
-                    <div><dt>Kombo bonus</dt> <dd id="combo-bonus" class="level-1">+0</dd></div>
-                    <div><dt>Brzinski bonus</dt> <dd id="time-bonus" class="level-1">+0</dd></div>
+                    <div><dt>Kombo bonus</dt> <dd id="combo-bonus" class="level-1">+0</dd>
+                    </div>
+                    <div><dt>Brzinski bonus</dt> <dd id="time-bonus" class="level-1">+0</dd>
+                    </div>
                 </dl>
             </div>
         </aside>
         <div class="cards">
             <ul>
-                <li><div class="chip" data-qa="q" data-id="1"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="a" data-id="1"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="q" data-id="2"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="a" data-id="2"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="q" data-id="3"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="a" data-id="3"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="q" data-id="4"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="a" data-id="4"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
-                <li><div class="chip" data-qa="q" data-id="5"><div class="old"><span></span></div><div class="new"><span></span></div></div></li>
+                <li>
+                    <div class="chip" data-qa="q" data-id="1">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="a" data-id="1">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="q" data-id="2">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="a" data-id="2">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="q" data-id="3">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="a" data-id="3">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="q" data-id="4">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="a" data-id="4">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
+                <li>
+                    <div class="chip" data-qa="q" data-id="5">
+                        <div class="old"><span></span></div>
+                        <div class="new"><span></span></div>
+                    </div></li>
             </ul>
         </div>
         <aside class="timer">
             <div><span>06'28</span></div>
         </aside>
     </div>
-
-   @Helper.SessionCover(2)
+  
+   @Helper.SessionCover(@Model.CourseID, Url, 2)
 
 </main>
 

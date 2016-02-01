@@ -199,7 +199,7 @@
 }
 
 @* 0 -> ucenje, 1 -> obnavljanje, 2 -> spajalica *@
-@helper SessionCover(int type = 0)
+@helper SessionCover(int courseID, UrlHelper url, int type = 0)
 {
     <div id="cover">
         <aside>
@@ -221,17 +221,22 @@
                 }
             </div>
             <div class="actions">
-                @if (type == 0 || type == 1)
+                @if (type == 0) 
                 {
-                    @Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi")
+                   
+                    <a href ="@url.Action("Learn", "Courses", new {courseID = courseID})">@Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi")</a>
+                }
+                else if (type == 1)
+                {
+                    <a href="@url.Action("Review", "Courses", new {courseID = courseID})">@Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi")</a>
                 }
                 else
                 {
-                    @Helper.Button("rect", "btn-play-again", "undo", "Igraj opet")
+                    <a href=" @Request.RawUrl">@Helper.Button("rect", "btn-play-again", "undo", "Igraj opet")</a>
                 }
-                @* @Helper.Button("rect", "btn-session-details", "list", "Detalji sesije") *@ @* <-- dobra ideja ali ja sam snage bez *@
-                @Helper.Button("rect", "btn-to-course", "clone", "Na kurs")
-            </div>
+                    @* @Helper.Button("rect", "btn-session-details", "list", "Detalji sesije") *@ @* <-- dobra ideja ali ja sam snage bez *@
+                <a href="@url.Action("Profile", "Courses", new {id = courseID})">@Helper.Button("rect", "btn-to-course", "clone", "Na kurs")</a>
+</div>
         </aside>
     </div>
 }

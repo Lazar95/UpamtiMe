@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace UpamtiMe.Controllers
 {
-    [SessionExpireFilter]
+  
     public class ErrorPageController : Controller
     {
         public ActionResult Error(int statusCode, Exception exception)

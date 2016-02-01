@@ -174,24 +174,39 @@ main#course-profile {
     }
 
     & > ul.levels {
+      position: relative;
       display: flex;
-      flex-flow: column;
+      flex-flow: row;
+      flex-wrap: wrap;
+      justify-content: center;
       width: 100%;
       margin-top: 20px;
       // Ono cudo koje iskoci kad se klikne na nivo ima negativnu donju marginu, pa za poslednji nivo
       // ode van ovoga. Zato mora:
       padding-bottom: 45px;
 
-      // Lista od pet nivoa
-      & > li.level-group > ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 36px;
-        padding-bottom: 0;
-        margin-bottom: -16px;
-        transition: all .5s ease;
-        position: relative;
+      // Clearfixovi
+      .clearfix-lg, .clearfix-md, .clearfix-sm {
+        display: none;
+      }
+
+      @include lg-only {
+        .clearfix-lg {
+          display: block;
+        }
+      }
+
+      @include md-only {
+        .clearfix-md {
+          display: block;
+        }
+      }
+
+      @include sm-and-below {
+        .clearfix-sm {
+          display: block;
+        }
+      }
 
         // "Kartica" (UI element) za nivo
         & > li.level {
@@ -433,7 +448,6 @@ main#course-profile {
             }
           }
         } // level
-      }
     }
   }
 }

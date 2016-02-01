@@ -97,88 +97,118 @@
             }
         </div>
 
-        @{int index = -1;
+        @{
+            int index = -1;
+            int lgCount = 0;
+            bool lgFlag = true;
+            int mdCount = 0;
+            bool mdFlag = true;
+            int smCount = 0;
+            bool smFlag = true;
+
             <ul class="levels big-container">
-                @for (int i = 0; i <= 2 * Model.Levels.Count / 9; i++)
+                <li class="clearfix clearfix-lg" style="width:100%;"></li>
+                <li class="clearfix clearfix-md" style="width:100%;"></li>
+                <li class="clearfix clearfix-sm" style="width:100%;"></li>
+                @for (int i = 0; i < Model.Levels.Count; i++)
                 {
-                    <li class="level-group">
-                        <ul>
-                            @for (int j = 0; index + 1 < Model.Levels.Count && j < ((i % 2 == 0) ? 5 : 4); j++)
-                            {
-                                index++;
-                                <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)" data-level-id ="@Model.Levels[index].LevelID">
-                                    <div class="circle-display">
-                                        <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1 : Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
-                                        <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
-                                        <div class="pie-ring-outer">
-                                            <div class="pie-ring-inner">
-                                                @if (Model.Levels[index].LearningStatistics != null)
-                                                {
-                                                    int t = Model.Levels[index].LearningStatistics.Total;
-                                                    t = t == 0 ? 1 : t;
-                                                    double tdeg = 360.0 / t;
-                                                    double ldeg = Model.Levels[index].LearningStatistics.Learned * tdeg;
-                                                    double rdeg = Model.Levels[index].LearningStatistics.Review * tdeg;
-                                                    double udeg = Model.Levels[index].LearningStatistics.Unseen * tdeg;
-                                                    int l = (int)Math.Ceiling(ldeg) == 360 ? 361 : (int)Math.Ceiling(ldeg);
-                                                    int r = (int)Math.Ceiling(rdeg) == 360 ? 361 : (int)Math.Ceiling(rdeg);
-                                                    int u = (int)Math.Ceiling(udeg) == 360 ? 361 : (int)Math.Ceiling(udeg);
-                                                    <div class="pie pie-learned @(l > 180 ? "big" : "")" data-start="0" data-value="@l"></div>
-                                                    <div class="pie pie-forgotten @(r > 180 ? "big" : "")" data-start="@l" data-value="@r"></div>
-                                                    <div class="pie pie-unseen @(u > 180 ? "big" : "")" data-start="@(l + r)" data-value="@u"></div>
-                                                }
-                                            </div>
+                    index++;
+                    lgCount++;
+                    mdCount++;
+                    smCount++;
+                    <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)" data-level-id ="@Model.Levels[index].LevelID">
+                        <div class="circle-display">
+                            <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1 : Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
+                            <div class="name"><span>@Model.Levels[index].Number</span>@Model.Levels[index].Name</div>
+                            <div class="pie-ring-outer">
+                                <div class="pie-ring-inner">
+                                    @if (Model.Levels[index].LearningStatistics != null)
+                                    {
+                                        int t = Model.Levels[index].LearningStatistics.Total;
+                                        t = t == 0 ? 1 : t;
+                                        double tdeg = 360.0 / t;
+                                        double ldeg = Model.Levels[index].LearningStatistics.Learned * tdeg;
+                                        double rdeg = Model.Levels[index].LearningStatistics.Review * tdeg;
+                                        double udeg = Model.Levels[index].LearningStatistics.Unseen * tdeg;
+                                        int l = (int)Math.Ceiling(ldeg) == 360 ? 361 : (int)Math.Ceiling(ldeg);
+                                        int r = (int)Math.Ceiling(rdeg) == 360 ? 361 : (int)Math.Ceiling(rdeg);
+                                        int u = (int)Math.Ceiling(udeg) == 360 ? 361 : (int)Math.Ceiling(udeg);
+                                        <div class="pie pie-learned @(l > 180 ? "big" : "")" data-start="0" data-value="@l"></div>
+                                        <div class="pie pie-forgotten @(r > 180 ? "big" : "")" data-start="@l" data-value="@r"></div>
+                                        <div class="pie pie-unseen @(u > 180 ? "big" : "")" data-start="@(l + r)" data-value="@u"></div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="more-info-outer">
+                            <div class="more-info-inner">
+
+                                <div class="session-buttons">
+                                    <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>
+                                        @Helper.Button("rect", "", "graduation-cap", "Uči", true)
+                                    </a>
+                                    <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>
+                                        @Helper.Button("rect", "", "flask", "Obnovi", true)
+                                    </a>
+                                    <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>
+                                        @Helper.Button("rect", "", "chain", "Spajalica")
+                                    </a>
+                                    <a class="button-level-list button-link" href="#!">
+                                        @Helper.Button("rect", "", "list", "Spisak")
+                                    </a>
+                                </div>
+
+                                <div class="level-info">
+
+                                    @if (Model.Levels[index].LearningStatistics != null)
+                                    {
+                                        <div class="statistics">
+                                            <dl class="stats stats-vertical level-total-card">
+                                                <dt>Ukupno</dt>
+                                                <dd>@Model.Levels[index].CardNumber</dd>
+                                            </dl>
+                                            <dl class="stats stats-vertical  level-learned-cards">
+                                                <dt>Nauceno</dt>
+                                                <dd>@Model.Levels[index].LearningStatistics.Learned</dd>
+                                            </dl>
+                                            <dl class="stats stats-vertical  level-review-cards">
+                                                <dt>Za obnavljanje</dt>
+                                                <dd>@Model.Levels[index].LearningStatistics.Review</dd>
+                                            </dl>
+                                            <dl class="stats stats-vertical  level-unseen-cards">
+                                                <dt>Neotvorenih</dt>
+                                                <dd>@Model.Levels[index].LearningStatistics.Unseen</dd>
+                                            </dl>
                                         </div>
-                                    </div>
-                                    <div class="more-info-outer">
-                                        <div class="more-info-inner">
-
-                                            <div class="session-buttons">
-                                                <a class="button-level-learn button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>
-                                                    @Helper.Button("rect", "", "graduation-cap", "Uči", true)
-                                                </a>
-                                                <a class="button-level-review button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>
-                                                    @Helper.Button("rect", "", "flask", "Obnovi", true)
-                                                </a>
-                                                <a class="button-level-linky button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID })>
-                                                    @Helper.Button("rect", "", "chain", "Spajalica")
-                                                </a>
-                                                <a class="button-level-list button-link" href="#!">
-                                                    @Helper.Button("rect", "", "list", "Spisak")
-                                                </a>
-                                            </div>
-
-                                            <div class="level-info">
-
-                                                @if (Model.Levels[index].LearningStatistics != null)
-                                                {
-                                                    <div class="statistics">
-                                                        <dl class="stats stats-vertical level-total-card">
-                                                            <dt>Ukupno</dt>
-                                                            <dd>@Model.Levels[index].CardNumber</dd>
-                                                        </dl>
-                                                        <dl class="stats stats-vertical  level-learned-cards">
-                                                            <dt>Nauceno</dt>
-                                                            <dd>@Model.Levels[index].LearningStatistics.Learned</dd>
-                                                        </dl>
-                                                        <dl class="stats stats-vertical  level-review-cards">
-                                                            <dt>Za obnavljanje</dt>
-                                                            <dd>@Model.Levels[index].LearningStatistics.Review</dd>
-                                                        </dl>
-                                                        <dl class="stats stats-vertical  level-unseen-cards">
-                                                            <dt>Neotvorenih</dt>
-                                                            <dd>@Model.Levels[index].LearningStatistics.Unseen</dd>
-                                                        </dl>
-                                                    </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </li>
+
+                    if (lgCount == (lgFlag ? 5 : 4))
+                    {
+                        lgFlag = !lgFlag;
+                        lgCount = 0;
+                        <li class="clearfix clearfix-lg" style="width:100%;"></li>
+                    }
+                    if (mdCount == (mdFlag ? 4 : 3))
+                    {
+                        mdFlag = !mdFlag;
+                        mdCount = 0;
+                        <li class="clearfix clearfix-md" style="width:100%;"></li>
+                    }
+                    if (smCount == (smFlag ? 3 : 2))
+                    {
+                        smFlag = !smFlag;
+                        smCount = 0;
+                        <li class="clearfix clearfix-sm" style="width:100%;"></li>
+                    }
+
                 }
+                <li class="clearfix clearfix-lg" style="width:100%;"></li>
+                <li class="clearfix clearfix-md" style="width:100%;"></li>
+                <li class="clearfix clearfix-sm" style="width:100%;"></li>
             </ul>
         }
     </div>

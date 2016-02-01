@@ -1,20 +1,26 @@
 $('.levels').on('click', '.circle-display', function() {
-  var level = $(this).parent();
-  var index = level.index() + 1;
-  if (level.hasClass('active')) {
-    $(level.removeClass('active'));
+  var $level = $(this).parent();
+  var index = $level.index() + 1;
+  if ($level.hasClass('active')) {
+    $($level.removeClass('active'));
   } else {
-    if (level.parent().children().hasClass('active')) {
+    var size = $('main').attr('data-size');
+    var $okolni = $level.nextUntil('.clearfix-' + size);
+    var $okolni = $okolni.add($level.prevUntil('.clearfix-' + size));
+    var $okolni = $okolni.not('.clearfix');
+    console.log($okolni.length);
+    if ($okolni.hasClass('active')) {
       // Menja se kroz istu grupu
-      // alert()
-      level.parent().find('.more-info-outer').css('height', '240px').css('max-height', '240px').css('min-height', '240px');
-      level.parent().children().removeClass('active');
-      level.addClass('active');
-      setTimeout(function() { level.parent().find('.more-info-outer').removeAttr('style') }, 500);
+      console.log('ista grupa');
+      $okolni.find('.more-info-outer').css('height', '240px').css('max-height', '240px').css('min-height', '240px');
+      $okolni.removeClass('active');
+      $level.addClass('active');
+      setTimeout(function() { $level.parent().find('.more-info-outer').removeAttr('style') }, 500);
     } else {
       // Manje se medju grupama
+      console.log('nije ista');
       $('.level').removeClass('active');
-      level.addClass('active');
+      $level.addClass('active');
     }
   }
 });

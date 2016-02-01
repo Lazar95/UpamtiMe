@@ -66,6 +66,28 @@ $(document).on('mouseleave', '.tooltippable', function() {
  })
 
  /**
+  * Upis trenutog lg/md/sm itd u main data-size
+  */
+ var responsiveMain = function() {
+   w = $(window).width();
+   var xs = 480;
+   var sm = 840;
+   var md = 1224;
+   var lg = 1572;
+   if (w > lg) $('main').attr('data-size', 'lg');
+   else if (w > md) $('main').attr('data-size', 'md');
+   else if (w > sm) $('main').attr('data-size', 'sm');
+   else if (w > xs) $('main').attr('data-size', 'xs');
+   else $('main').attr('data-size', 'xxs');
+ }
+ $(window).bind('resize', function() {
+   responsiveMain();
+ });
+ $(window).bind('load', function() {
+   responsiveMain();
+ })
+
+ /**
   * Canvas resize to fit
   */
 /*

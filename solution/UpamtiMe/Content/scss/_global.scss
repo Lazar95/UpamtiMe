@@ -595,9 +595,10 @@ dl.stats-horizontal {
 	box-sizing: border-box;
 	background-color: palette($blue-grey, 100); // ista kao za big-container
 	@include z-depth(1);
-	height: 360px;
 	overflow: hidden; // da ne zdrakne senka slike
 	position: relative;
+	height: 360px;
+	@include sm-and-below { height: 240px; }
 
 	display: flex;
 	flex-flow: row;
@@ -605,8 +606,8 @@ dl.stats-horizontal {
 
 	#course-description-length-indicator {
 		position: absolute;
-		left:   24px + 4px; // 24 od paddinga i 4 ovako
-		bottom: 24px + 4px; // 24 od paddinga i 4 ovako
+		left:   4px;
+		bottom: 4px;
 		font-size: 12px;
 		font-weight: 100;
 		opacity: .33;
@@ -635,6 +636,7 @@ dl.stats-horizontal {
 		background-repeat: no-repeat;
 		@include force-width(360px);
 		@include force-height(360px);
+		@include sm-and-below { @include force-width(240px); @include force-height(240px); }
 		@include z-depth(1);
 
 		&:hover ~ #image-upload-prompt {
@@ -761,8 +763,6 @@ dl.stats-horizontal {
 
 		#course-description {
 			flex-grow: 1;
-			padding: 24px;
-			background-color: palette($blue-grey, 200); //TODO skloni kad dodje opis
 			position: relative;
 			display: flex;
 			flex-flow: row;
@@ -1055,37 +1055,9 @@ dl.stats-horizontal {
 }
 
 #leaderboard.leaderboard-emphasized-top > ul:not(#leaderboard-tabs) > li {
-	// Najbolji
-	&:nth-of-type(1) {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-
-		.order {
-			display: none;
-		}
-
-		.avatar {
-			display: flex;
-			width:  92px;
-			height: 92px;
-		}
-
-		.username {
-			font-size: 20px;
-			font-weight: bold;
-			color: palette($pink, 600);
-			text-align: center;
-		}
-
-		.score {
-			font-size: 24px;
-		}
-	} // najbolji
 
 	// Drugi i treci po redu
-	&:nth-of-type(2), &:nth-of-type(3) {
+	&:nth-of-type(1), &:nth-of-type(2), &:nth-of-type(3) {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -1106,6 +1078,38 @@ dl.stats-horizontal {
 			display: flex;
 		}
 	} // drugi i treci po redu
+
+	// Najbolji
+	@include md-and-above {
+		&:nth-of-type(1) {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+
+			.order {
+				display: none;
+			}
+
+			.avatar {
+				display: flex;
+				width:  92px;
+				height: 92px;
+			}
+
+			.username {
+				font-size: 20px;
+				font-weight: bold;
+				color: palette($pink, 600);
+				text-align: center;
+			}
+
+			.score {
+				font-size: 24px;
+			}
+		}
+	}
 }
 
 .full-screen {

@@ -10,18 +10,55 @@ main#course-profile {
   justify-content: space-between;
 
   aside {
+
     width: 23.5%;
+    display: flex;
+    flex-flow: column;
+    margin-bottom: 16px;
+
+    @include sm-and-below {
+      width: 100%;
+      flex-flow: row;
+      flex-wrap: nowrap;
+    }
 
     & > * {
       background-color: palette($blue-grey, 100);
       @include z-depth(1);
-      margin-bottom: 16px;
+      @include md-and-above { margin-bottom: 16px; }
+      @include sm-and-below { margin-right: 16px; flex-grow: 1; &:last-child {margin-right: 0;} }
       padding: 8px 24px;
+    }
+
+    @include md-only {
+      #leaderboard-tabs {
+        font-size: 14px;
+
+        li { padding: 0; }
+      }
+    }
+
+    @include sm-and-below {
+      #leaderboard > ul:not(#leaderboard-tabs) {
+        & > li {
+          width: 33%;
+          flex-grow: 1;
+        }
+
+        & > li:nth-child(n+4) {
+          display: none;
+        }
+      }
     }
   }
 
   .main-content {
     width: 75%;
+
+      @include sm-and-below {
+        order: 3;
+        width: 100%;
+      }
 
     // Spisak
     #list-of-cards {
@@ -157,12 +194,13 @@ main#course-profile {
           height: 100%;
           width: 100%;
           background-color: palette($blue-grey, 50);
+          color: palette($blue-grey, 900);
 
           div:nth-child(1) {
             color: palette($pink, 500);
           }
 
-          div:nth-child(2) {
+          div.count, div.count::after {
             color: palette($blue-grey, 900);
           }
         }
@@ -186,7 +224,7 @@ main#course-profile {
       padding-bottom: 45px;
 
       // Clearfixovi
-      .clearfix-lg, .clearfix-md, .clearfix-sm {
+      .clearfix {
         display: none;
       }
 
@@ -202,8 +240,14 @@ main#course-profile {
         }
       }
 
-      @include sm-and-below {
+      @include sm-only {
         .clearfix-sm {
+          display: block;
+        }
+      }
+
+      @include xs-and-below {
+        .clearfix-xs {
           display: block;
         }
       }
@@ -337,32 +381,37 @@ main#course-profile {
             margin-top: 84px;
             @include force-height(0);
             opacity: 0;
-            margin-bottom: -30px;
           }
 
           .more-info-inner {
-            width: 100%;
+            width: 90%;
+            left: 5%; // pola od ostatka
             position: absolute;
-            left: 0;
             height: 240px;
             background-color: palette($blue-grey, 50);
             padding: 24px;
             box-sizing: border-box;
             z-index: 100;
-            margin: 0 auto;
             border-radius: 10px;
 
             display: flex;
             flex-flow: column;
+            justify-content: space-around;
+            align-items: center;
 
-            & > * { margin: auto; @include force-width(80%); }
+            & > * {
+              @include force-width(90%);
+
+              @include md-and-below {
+                @include force-width(97%);
+              }
+            }
 
             .session-buttons {
               order: 1;
               display: flex;
               flex-flow: row;
               justify-content: space-between;
-              margin-right: 16px 0;
               width: 100%;
 
               & > a {
@@ -444,6 +493,7 @@ main#course-profile {
 
             .more-info-outer {
               opacity: 1;
+              // Ova vrednost dole mora da se slaze sa specificiranom vrednoscu (gore) za .more-info-inner
               @include force-height(240px);
             }
           }

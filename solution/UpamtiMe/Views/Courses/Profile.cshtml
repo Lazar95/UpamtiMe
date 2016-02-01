@@ -105,17 +105,21 @@
             bool mdFlag = true;
             int smCount = 0;
             bool smFlag = true;
+            int xsCount = 0;
+            bool xsFlag = true;
 
             <ul class="levels big-container">
                 <li class="clearfix clearfix-lg" style="width:100%;"></li>
                 <li class="clearfix clearfix-md" style="width:100%;"></li>
                 <li class="clearfix clearfix-sm" style="width:100%;"></li>
+                <li class="clearfix clearfix-xs" style="width:100%;"></li>
                 @for (int i = 0; i < Model.Levels.Count; i++)
                 {
                     index++;
                     lgCount++;
                     mdCount++;
                     smCount++;
+                    xsCount++;
                     <li class="level level-color-id-@(Model.Levels[index].Color == 0 ? 1 : Model.Levels[index].Color)" data-level-id ="@Model.Levels[index].LevelID">
                         <div class="circle-display">
                             <div class="icon icon-id-@(Model.Levels[index].Icon == 0 ? 1 : Model.Levels[index].Icon)">@*level.icon; level.color*@</div>
@@ -198,17 +202,24 @@
                         mdCount = 0;
                         <li class="clearfix clearfix-md" style="width:100%;"></li>
                     }
-                    if (smCount == (smFlag ? 3 : 2))
+                    if (smCount == (smFlag ? 4 : 3))
                     {
                         smFlag = !smFlag;
                         smCount = 0;
                         <li class="clearfix clearfix-sm" style="width:100%;"></li>
+                    }
+                    if (xsCount == (xsFlag ? 3 : 2))
+                    {
+                        xsFlag = !xsFlag;
+                        xsCount = 0;
+                        <li class="clearfix clearfix-xs" style="width:100%;"></li>
                     }
 
                 }
                 <li class="clearfix clearfix-lg" style="width:100%;"></li>
                 <li class="clearfix clearfix-md" style="width:100%;"></li>
                 <li class="clearfix clearfix-sm" style="width:100%;"></li>
+                <li class="clearfix clearfix-xs" style="width:100%;"></li>
             </ul>
         }
     </div>

@@ -31,6 +31,7 @@ namespace UpamtiMe
         public static void SetTime()
         {
             HttpContext.Current.Session["timeSpent"] = DateTime.Now;
+            HttpContext.Current.Session.Timeout += 20;
         }
 
         public static DateTime GetTime()

@@ -71,7 +71,7 @@ $(document).on('mouseleave', '.tooltippable', function() {
  var responsiveMain = function() {
    w = $(window).width();
    var xs = 480;
-   var sm = 840;
+   var sm = 960;
    var md = 1224;
    var lg = 1572;
    if (w > lg) $('main').attr('data-size', 'lg');

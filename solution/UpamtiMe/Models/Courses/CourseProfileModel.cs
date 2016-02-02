@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Data;
+using Data.DTOs;
 
 namespace UpamtiMe.Models
 {
@@ -26,6 +27,9 @@ namespace UpamtiMe.Models
 
         public string CreatorUsername { get; set; }
         public int CreatorID { get; set; }
+
+        public Options LearnOptions { get; set; }
+        public Options ReviewOptions { get; set; }
 
         public static CourseProfileModel Load(int courseID, int? userID = null)
         {
@@ -66,6 +70,18 @@ namespace UpamtiMe.Models
             {
                 cim.Image = Data.DefaultPictures.getAt(course.defaultImageID);
             }
+
+            cim.LearnOptions = new Options
+            {
+                List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Unseen, numOpt, firstLearn, stepLearn),
+                Default = 6
+            };
+
+            cim.ReviewOptions = new Options
+            {
+                List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Review, numOpt, firstReview, stepReview),
+                Default = 20
+            };
 
             return cim;
 

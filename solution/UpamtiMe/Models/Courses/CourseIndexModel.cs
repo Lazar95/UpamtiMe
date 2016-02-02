@@ -16,7 +16,11 @@ namespace UpamtiMe.Models
         //search
         public string Search { get; set; }
         public int? CategoryID { get; set; }
+        public string CategoryName { get; set; }
         public int? SubcategoryID { get; set; }
+        public string SubcategoryName { get; set; }
+
+        public List<Subcategory> AllSubcategories { get; set; }
 
         public static CourseIndexModel Load(string search, int? categoryID = null, int? subcategoryID = null)
         {
@@ -47,7 +51,11 @@ namespace UpamtiMe.Models
            
             cim.Search = search;
             cim.CategoryID = categoryID;
+            cim.CategoryName = categoryID == null ? null : Data.Courses.getCategoryName(cim.CategoryID.Value);
             cim.SubcategoryID = subcategoryID;
+            cim.SubcategoryName = subcategoryID == null? null : Data.Courses.getSubcategoryName(cim.SubcategoryID.Value);
+
+            cim.AllSubcategories = Data.Courses.GetAllSubcategories();
 
             return cim;
         }

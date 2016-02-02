@@ -1,5 +1,29 @@
 ﻿@model UpamtiMe.Models.CourseIndexModel
 
+@{
+    List<SelectListItem> categories = new List<SelectListItem>();
+    foreach (var val in Enum.GetValues(typeof(Data.Enumerations.Categories)))
+    {
+        categories.Add(new SelectListItem
+        {
+            Text = Enum.GetName(typeof(Data.Enumerations.Categories), val),
+            Value = ((int)val).ToString()
+        });
+    }
+}
+
+@{
+    List<SelectListItem> subcategories = new List<SelectListItem>();
+    foreach (var sub in Model.AllSubcategories)
+    {
+        subcategories.Add(new SelectListItem
+        {
+            Text = sub.name,
+            Value = ((int)sub.subcategoryID).ToString()
+        });
+    }
+}
+
 <main id="courses-index">
     @using (Html.BeginForm())
     {
@@ -12,7 +36,7 @@
                 @Html.EditorFor(model => model.Search, new { htmlAttributes = new { @class = "search-form-input" } })
             </div>
 
-            <div class="search-form-input-group">
+            @*<div class="search-form-input-group">
                 <span>Kategorija</span>
                 @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "search-form-input" } })
             </div>
@@ -20,7 +44,23 @@
             <div class="search-form-input-group">
                 <span>Podkategorija</span>
                 @Html.EditorFor(model => model.SubcategoryID, new { htmlAttributes = new { @class = "search-form-input" } })
+            </div>*@
+
+            <div id="new-course-category">
+                @Html.DropDownListFor(m => m.CategoryID, categories, "Izaberi kategoriju")
             </div>
+
+            <div id="new-course-subcategory">
+                <select id="@Html.NameFor(m => m.SubcategoryID)" name="@Html.NameFor(m=>m.SubcategoryID)">
+                    <option value="0">Izaberi podkategoriju</option>
+                    @foreach (var subcat in Model.AllSubcategories)
+                    {
+                        <option hidden value="@subcat.subcategoryID" data-catID="@subcat.categoryID">@subcat.name</option>
+                    }
+                </select>
+            </div>
+
+
 
             <div class="search-form-input-group search-button">
                 <button type="submit" id="button-search" formmethod="get"><i class="fa fa-search"></i></button>

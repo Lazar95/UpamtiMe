@@ -59,7 +59,7 @@ namespace UpamtiMe.Tests
         [TestMethod]
         public void Jajceva()
         {
-            List<int> list = Levels.getOptions(21, 4, 10, 5);
+            List<int> list = Levels.getOptions(21, new List<int> { 10, 15, 20, 30 }, 5);
         }
     }
 }

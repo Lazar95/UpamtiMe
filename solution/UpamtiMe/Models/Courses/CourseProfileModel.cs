@@ -34,10 +34,10 @@ namespace UpamtiMe.Models
         public static CourseProfileModel Load(int courseID, int? userID = null)
         {
             int numOpt = ConfigurationParameters.numOptions;
-            int firstLearn = ConfigurationParameters.firstOptionLearn;
-            int firstReview = ConfigurationParameters.firstOptionReview;
-            int stepLearn = ConfigurationParameters.stepLearn;
-            int stepReview = ConfigurationParameters.stepReview;
+            List<int> desiredLearn = ConfigurationParameters.desiredLearningOptions;
+            int minimumLearn = ConfigurationParameters.minimumLeftToLearn;
+            List<int> desiredReview = ConfigurationParameters.desiredReviewOptions;
+            int minimumReview = ConfigurationParameters.minimumLeftToReview;
 
             Data.Course course = Data.Courses.getCourse(courseID);
             CourseProfileModel cim = new CourseProfileModel
@@ -50,7 +50,7 @@ namespace UpamtiMe.Models
                 CategoryName = Data.Courses.getCategoryName(course.categoryID),
                 SubcategoryID = course.subcategoryID,
                 SubcategoryName = course.subcategoryID == null ? null : Data.Courses.getSubcategoryName(course.subcategoryID.Value),
-                Levels = Data.Levels.getLevels(courseID, userID, numOpt, firstLearn, firstReview, stepLearn, stepReview),
+                Levels = Data.Levels.getLevels(courseID, userID, desiredLearn, desiredReview, minimumLearn, minimumReview),
                 Leaderboard = Data.Courses.getLeaderboard(courseID),
                 LevelNumber = Data.Courses.countLevels(courseID),
                 Statistics = null,
@@ -67,13 +67,13 @@ namespace UpamtiMe.Models
 
                 cim.LearnOptions = new Options
                 {
-                    List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Unseen, numOpt, firstLearn, stepLearn),
+                    List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Unseen, desiredLearn, minimumLearn),
                     Default = 6
                 };
 
                 cim.ReviewOptions = new Options
                 {
-                    List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Review, numOpt, firstReview, stepReview),
+                    List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Review, desiredReview, minimumReview),
                     Default = 20
                 };
             }

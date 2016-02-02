@@ -168,7 +168,7 @@ namespace Data
         }
        
 
-        public static List<LevelWithStatisticsDTO> getLevels(int courseID, int? userID, int numOptions, int firstOptLearn, int firstOptReview, int stepLearn, int stepReview)
+        public static List<LevelWithStatisticsDTO> getLevels(int courseID, int? userID, List<int> desiredOptLearn, List<int> desiredOptReview, int minimumLearn, int minimumReview)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             List<LevelWithStatisticsDTO> returnValue = (
@@ -193,13 +193,13 @@ namespace Data
                     level.LearningStatistics = getLevelStatistics(level.LevelID, userID.Value, dc);
                     level.LearnOptions = new Options
                     {
-                        List = Levels.getOptions(level.LearningStatistics.Unseen, numOptions, firstOptLearn, stepLearn),
+                        List = Levels.getOptions(level.LearningStatistics.Unseen, desiredOptLearn, minimumLearn),
                         Default = 6
                     };
 
                     level.ReviewOptions = new Options
                     {
-                        List = getOptions(level.LearningStatistics.Review, numOptions, firstOptReview, stepReview),
+                        List = getOptions(level.LearningStatistics.Review, desiredOptReview, minimumReview),
                         Default = 20
                     };
                 }
@@ -213,33 +213,34 @@ namespace Data
 
 
 
-        // parametri (broj nenaucenih kartica u nivou, broj opcija u dropdown, prva opcija, korak)
-        public static List<int> getOptions(int totalCards, int optionNum, int firstOption, int step)
+        // parametri (broj nenaucenih/neobnovljenih kartica u nivou, lista zeljenih opcija, tipa {10, 15, 20, 30, 50}, koliko najmanje kartica sme da ostane)
+        public static List<int> getOptions(int totalCards, List<int> desiredOptions, int minimumLeft)
         {
-            //ja ovde napravim listu sa optionNum nula, nzm kako ti radi f-ja, ako hoces da lista inicijalno bude prazna mozes da koristis options.Add(nesto) da bi dodao nesto na kraj
+            int optionNum = desiredOptions.Count; // koliko cemo opcija da ponudimo
             List<int> options = new List<int>(new int[optionNum]); // niz opcija koji ce funkcija da vrati
-            int  maxOptionsNum = optionNum; // vracamo najvise 4 opcije
-            int temp = totalCards;
+            int temp = totalCards; // temp je pomocna promenljiva u kojoj se pamti jos koliko kartica ima za rasporedjivanje po opcijama
             int i;
-            int minimumCards = firstOption; // prva opcija, nikad ne sme manje od ovoga da ostane, samo ako ih nije ni bilo u nivou
-            int stepSize = step; // uvecava se za ovoliko po opciji
-            for (i = 0; i < maxOptionsNum && temp >= minimumCards; i++)
+            int currentOption = 0;
+            for (i = 0; i < optionNum && minimumLeft <= temp; i++)
             {
-                options[i] = minimumCards + i * stepSize;
-                if (i == 0)
-                    temp -= minimumCards;
+                if (temp < (desiredOptions[i] - (i > 0 ? desiredOptions[i-1] : 0))) // gledamo da li je temp manje od onoliko koliko nam treba za sledecu opciju
+                    currentOption += temp;  // ako jeste, npr opcije su 30 pa 40 a nama je temp = 8, sledeca opcija ce biti 38
                 else
-                    temp -= stepSize;
+                    currentOption = desiredOptions[i]; // a ako temp nije manje, onda je sledeca opcija 40
+
+                if (i == 0)  // smanjume temp za onoliko koliko je nova opcija veca od prethodne
+                    temp -= currentOption;
+                else
+                    temp -= currentOption - desiredOptions[i - 1];
+                options[i] = currentOption;
             }
-            if (i > 0)
+
+            if (temp < minimumLeft) // ako je ostalo jos nesto sitno (manje od minimumLeft), da se doda u poslednju opciju, ili naravno u prvu ako ima samo jedna
             {
-                if (temp <= minimumCards)
-                {
+                if (i == 0)
+                    options[i] += temp;
+                else
                     options[i - 1] += temp;
-                }
-            }
-            else {
-                options[i] = temp;
             }
 
             if (options.Count > 0)

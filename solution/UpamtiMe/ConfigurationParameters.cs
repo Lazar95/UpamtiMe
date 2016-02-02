@@ -20,10 +20,10 @@ namespace UpamtiMe
 
         //dropdown
         public static int numOptions = 4;
-        public static int firstOptionLearn = 3;
-        public static int firstOptionReview = 10;
-        public static int stepLearn = 3;
-        public static int stepReview = 5;
+        public static List<int> desiredLearningOptions = new List<int> { 3, 6, 9, 12, 15 };
+        public static int minimumLeftToLearn = 3;
+        public static List<int> desiredReviewOptions = new List<int> { 10, 15, 20, 30, 50 };
+        public static int minimumLeftToReview = 5;
 
 
         //ovo nisam stavila da ne bih prenatrpavala kod, tesko da ce ikad da se promeni

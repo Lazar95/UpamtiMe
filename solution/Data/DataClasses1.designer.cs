@@ -1191,6 +1191,8 @@ namespace Data
 		
 		private EntityRef<Category> _Category;
 		
+		private EntityRef<DefaultPicture> _DefaultPicture;
+		
 		private EntityRef<Subcategory> _Subcategory;
 		
     #region Extensibility Method Definitions
@@ -1226,6 +1228,7 @@ namespace Data
 			this._UsersCourses = new EntitySet<UsersCourse>(new Action<UsersCourse>(this.attach_UsersCourses), new Action<UsersCourse>(this.detach_UsersCourses));
 			this._Levels = new EntitySet<Level>(new Action<Level>(this.attach_Levels), new Action<Level>(this.detach_Levels));
 			this._Category = default(EntityRef<Category>);
+			this._DefaultPicture = default(EntityRef<DefaultPicture>);
 			this._Subcategory = default(EntityRef<Subcategory>);
 			OnCreated();
 		}
@@ -1449,6 +1452,10 @@ namespace Data
 			{
 				if ((this._defaultImageID != value))
 				{
+					if (this._DefaultPicture.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OndefaultImageIDChanging(value);
 					this.SendPropertyChanging();
 					this._defaultImageID = value;
@@ -1514,6 +1521,40 @@ namespace Data
 						this._categoryID = default(int);
 					}
 					this.SendPropertyChanged("Category");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DefaultPicture_Course", Storage="_DefaultPicture", ThisKey="defaultImageID", OtherKey="defaultPictureID", IsForeignKey=true)]
+		public DefaultPicture DefaultPicture
+		{
+			get
+			{
+				return this._DefaultPicture.Entity;
+			}
+			set
+			{
+				DefaultPicture previousValue = this._DefaultPicture.Entity;
+				if (((previousValue != value) 
+							|| (this._DefaultPicture.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DefaultPicture.Entity = null;
+						previousValue.Courses.Remove(this);
+					}
+					this._DefaultPicture.Entity = value;
+					if ((value != null))
+					{
+						value.Courses.Add(this);
+						this._defaultImageID = value.defaultPictureID;
+					}
+					else
+					{
+						this._defaultImageID = default(int);
+					}
+					this.SendPropertyChanged("DefaultPicture");
 				}
 			}
 		}
@@ -1609,6 +1650,10 @@ namespace Data
 		
 		private int _type;
 		
+		private EntitySet<Course> _Courses;
+		
+		private EntitySet<User> _Users;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1623,6 +1668,8 @@ namespace Data
 		
 		public DefaultPicture()
 		{
+			this._Courses = new EntitySet<Course>(new Action<Course>(this.attach_Courses), new Action<Course>(this.detach_Courses));
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
 			OnCreated();
 		}
 		
@@ -1686,6 +1733,32 @@ namespace Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DefaultPicture_Course", Storage="_Courses", ThisKey="defaultPictureID", OtherKey="defaultImageID")]
+		public EntitySet<Course> Courses
+		{
+			get
+			{
+				return this._Courses;
+			}
+			set
+			{
+				this._Courses.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DefaultPicture_User", Storage="_Users", ThisKey="defaultPictureID", OtherKey="defaultAvatarID")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1704,6 +1777,30 @@ namespace Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Courses(Course entity)
+		{
+			this.SendPropertyChanging();
+			entity.DefaultPicture = this;
+		}
+		
+		private void detach_Courses(Course entity)
+		{
+			this.SendPropertyChanging();
+			entity.DefaultPicture = null;
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.DefaultPicture = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.DefaultPicture = null;
 		}
 	}
 	
@@ -2835,6 +2932,8 @@ namespace Data
 		
 		private EntitySet<UsersCard> _UsersCards;
 		
+		private EntityRef<DefaultPicture> _DefaultPicture;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2884,6 +2983,7 @@ namespace Data
 			this._Friendships1 = new EntitySet<Friendship>(new Action<Friendship>(this.attach_Friendships1), new Action<Friendship>(this.detach_Friendships1));
 			this._UsersAchievements = new EntitySet<UsersAchievement>(new Action<UsersAchievement>(this.attach_UsersAchievements), new Action<UsersAchievement>(this.detach_UsersAchievements));
 			this._UsersCards = new EntitySet<UsersCard>(new Action<UsersCard>(this.attach_UsersCards), new Action<UsersCard>(this.detach_UsersCards));
+			this._DefaultPicture = default(EntityRef<DefaultPicture>);
 			OnCreated();
 		}
 		
@@ -3238,6 +3338,10 @@ namespace Data
 			{
 				if ((this._defaultAvatarID != value))
 				{
+					if (this._DefaultPicture.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OndefaultAvatarIDChanging(value);
 					this.SendPropertyChanging();
 					this._defaultAvatarID = value;
@@ -3309,6 +3413,40 @@ namespace Data
 			set
 			{
 				this._UsersCards.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DefaultPicture_User", Storage="_DefaultPicture", ThisKey="defaultAvatarID", OtherKey="defaultPictureID", IsForeignKey=true)]
+		public DefaultPicture DefaultPicture
+		{
+			get
+			{
+				return this._DefaultPicture.Entity;
+			}
+			set
+			{
+				DefaultPicture previousValue = this._DefaultPicture.Entity;
+				if (((previousValue != value) 
+							|| (this._DefaultPicture.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DefaultPicture.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._DefaultPicture.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._defaultAvatarID = value.defaultPictureID;
+					}
+					else
+					{
+						this._defaultAvatarID = default(int);
+					}
+					this.SendPropertyChanged("DefaultPicture");
+				}
 			}
 		}
 		

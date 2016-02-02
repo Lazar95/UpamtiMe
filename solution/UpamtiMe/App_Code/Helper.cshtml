@@ -52,22 +52,48 @@ else
 {
     // za ceo kurs
     List<string> LearnList = new List<string>();
+    foreach (int option in model.LearnOptions.List)
+    {
+        LearnList.Add(url.Action("Learn", new { courseID = model.CourseID, numberOfCards = option }));
+    }
+    @Helper.Button("rect", "", "graduation-cap", "Uči", url.Action("Learn", new { courseID = model.CourseID, numberOfCards = model.LearnOptions.List.ClosestTo(model.LearnOptions.Default) }), true, @model.LearnOptions, LearnList)
 }
 }
 
 @helper SessionButtonReview(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)
 {
-List<string> ReviewList = new List<string>();
-foreach (int option in model.Levels[index].ReviewOptions.List)
+if (index != -1)
 {
-    ReviewList.Add(url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = option }));
-}
+    // za pojedinacan nivo
+    List<string> ReviewList = new List<string>();
+    foreach (int option in model.Levels[index].ReviewOptions.List)
+    {
+        ReviewList.Add(url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = option }));
+    }
     @Helper.Button("rect", "", "bell", "Obnovi", url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].ReviewOptions.List.ClosestTo(model.Levels[index].ReviewOptions.Default) }), true, @model.Levels[index].ReviewOptions, ReviewList)
+}
+else
+{
+    // za ceo kurs
+    List<string> ReviewList = new List<string>();
+    foreach (int option in model.ReviewOptions.List)
+    {
+        ReviewList.Add(url.Action("Review", new { courseID = model.CourseID, numberOfCards = option }));
+    }
+    @Helper.Button("rect", "", "bell", "Obnovi", url.Action("Review", new { courseID = model.CourseID, numberOfCards = model.ReviewOptions.List.ClosestTo(model.ReviewOptions.Default) }), true, @model.ReviewOptions, ReviewList)
+}
 }
 
 @helper SessionButtonLinky(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)
 {
+if (index == -1)
+{
+    @Helper.Button("rect", "", "chain", "Spajalica", url.Action("Linky", new { courseID = model.CourseID }))
+}
+else
+{
     @Helper.Button("rect", "", "chain", "Spajalica", url.Action("Linky", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID }))
+}
 }
 
 @helper SessionButtonList(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)

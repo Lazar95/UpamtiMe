@@ -925,6 +925,7 @@ dl.stats-horizontal {
 		border-radius: 3px;
 		overflow: hidden;
 		position: absolute;
+		z-index: 20000;
 
 		&.show {
 			display: flex;
@@ -1296,21 +1297,6 @@ div#search-results-outer, div#user-courses {
          }
        }
      } //stats
-
-		 .session-buttons {
-			 display: flex;
-			 flex-flow: row;
-			 justify-content: space-between;
-			 width: 100%;
-
-			 & > .button-rect {
-				 background-color: palette($pink, 500);
-				 color: rgba(white, 0.9);
-				 width: 48%;
-				 height: 52px;
-				 font-size: 14px;
-			 }
-		 }
 
      .description-snippet-placeholder {
        width: 100%;

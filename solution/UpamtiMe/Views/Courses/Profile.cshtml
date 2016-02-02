@@ -85,10 +85,8 @@
                     int reviewLevel = reviewLevelQuery.Any() ? reviewLevelQuery.OrderBy(a => a.no).First().id : 0;
 
                     @Helper.SessionButtonLearn(Model, -1, Url)
-                    
-                    @Helper.Button("rect", "", "graduation-cap", "Uči", @Url.Action("Learn", new { courseID = Model.CourseID, levelID = @learnLevel }))
-                    @Helper.Button("rect", "", "flask", "Obnovi", @Url.Action("Review", new { courseID = Model.CourseID, levelID = @reviewLevel }))
-                    @Helper.Button("rect", "", "chain", "Spajalica", @Url.Action("Linky", new { courseID = Model.CourseID }))
+                    @Helper.SessionButtonReview(Model, -1, Url)
+                    @Helper.SessionButtonLinky(Model, -1, Url)
                 }
             }
         </div>
@@ -143,12 +141,15 @@
                         <div class="more-info-outer">
                             <div class="more-info-inner">
 
-                                <div class="session-buttons">
-                                    @Helper.SessionButtonLearn(Model, index, Url)
-                                    @Helper.SessionButtonReview(Model, index, Url)
-                                    @Helper.SessionButtonLinky(Model, index, Url)
-                                    @Helper.SessionButtonList(Model, index, Url)
-                                </div>
+                                @if (user != null && Model.Statistics != null)
+                                {
+                                    <div class="session-buttons">
+                                        @Helper.SessionButtonLearn(Model, index, Url)
+                                        @Helper.SessionButtonReview(Model, index, Url)
+                                        @Helper.SessionButtonLinky(Model, index, Url)
+                                        @Helper.SessionButtonList(Model, index, Url)
+                                    </div>
+                                }
 
                                 <div class="level-info">
 

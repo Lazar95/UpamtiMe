@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UpamtiMe" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=MASA-PC\SQLEXPRESS;Initial Catalog=UpamtiMe;Integrated Security=True" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="UpamtiMeConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-RFKNG80\SQLEXPRESS;Initial Catalog=UpamtiMe;Integrated Security=True" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="UpamtiMeConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Achievements" Member="Achievements">
     <Type Name="Achievement">
       <Column Name="achievementID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -62,6 +62,7 @@
       <Association Name="Course_UsersCourse" Member="UsersCourses" ThisKey="courseID" OtherKey="courseID" Type="UsersCourse" />
       <Association Name="Course_Level" Member="Levels" ThisKey="courseID" OtherKey="courseID" Type="Level" />
       <Association Name="Category_Course" Member="Category" ThisKey="categoryID" OtherKey="categoryID" Type="Category" IsForeignKey="true" />
+      <Association Name="DefaultPicture_Course" Member="DefaultPicture" ThisKey="defaultImageID" OtherKey="defaultPictureID" Type="DefaultPicture" IsForeignKey="true" />
       <Association Name="Subcategory_Course" Member="Subcategory" ThisKey="subcategoryID" OtherKey="subcategoryID" Type="Subcategory" IsForeignKey="true" />
     </Type>
   </Table>
@@ -70,6 +71,8 @@
       <Column Name="defaultPictureID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="image" Type="System.Data.Linq.Binary" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="DefaultPicture_Course" Member="Courses" ThisKey="defaultPictureID" OtherKey="defaultImageID" Type="Course" />
+      <Association Name="DefaultPicture_User" Member="Users" ThisKey="defaultPictureID" OtherKey="defaultAvatarID" Type="User" />
     </Type>
   </Table>
   <Table Name="dbo.Favorites" Member="Favorites">
@@ -152,6 +155,7 @@
       <Association Name="User_Friendship1" Member="Friendships1" ThisKey="userID" OtherKey="user2ID" Type="Friendship" />
       <Association Name="User_UsersAchievement" Member="UsersAchievements" ThisKey="userID" OtherKey="userID" Type="UsersAchievement" />
       <Association Name="User_UsersCard" Member="UsersCards" ThisKey="userID" OtherKey="userID" Type="UsersCard" />
+      <Association Name="DefaultPicture_User" Member="DefaultPicture" ThisKey="defaultAvatarID" OtherKey="defaultPictureID" Type="DefaultPicture" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.UsersAchievements" Member="UsersAchievements">

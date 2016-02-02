@@ -82,6 +82,10 @@ main#create-new {
 main#edit-course {
 	padding-bottom: 200px;
 
+	@include lg-only {
+		min-width: 1280px;
+	}
+
 	.course-banner {
 
 		.basic-info {
@@ -472,6 +476,12 @@ main#edit-course {
 
 		& > li > ul:not(.options):not(.icon-picker) {
 			margin: 32px;
+			display: flex;
+			flex-flow: column;
+
+			@include xs-and-below {
+				margin: 0;
+			}
 
 			.new-card {
 				align-items: flex-end;
@@ -479,11 +489,10 @@ main#edit-course {
 
 			& > li:not(.new-card) {
 				// Kartica u nivou
-				$h: 18px;
 				padding: 8px;
 				display: flex;
 				justify-content: space-between;
-				height: $h;
+				$h: 18px;
 				font-size: 0.9*$h;
 				line-height: 0.9*$h;
 				background-color: transparent;
@@ -543,6 +552,11 @@ main#edit-course {
 					background-color: $color;
 					box-shadow: $offset 0 $color, -$offset 0 $color;
 					color: palette($blue-grey, 900);
+
+					@include xs-and-below {
+						$offset: 36px;
+						box-shadow: $offset 0 $color, -$offset 0 $color;
+					}
 
 					.buttons {
 						opacity: 1;

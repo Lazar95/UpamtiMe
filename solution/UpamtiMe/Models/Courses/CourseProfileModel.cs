@@ -64,6 +64,18 @@ namespace UpamtiMe.Models
             {
                 cim.Statistics = Data.Courses.getUserCourseStatistics(courseID, userID.Value, course.numberOfCards);
                 cim.Favorite = Data.Courses.getFavorite(courseID, userID.Value);
+
+                cim.LearnOptions = new Options
+                {
+                    List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Unseen, numOpt, firstLearn, stepLearn),
+                    Default = 6
+                };
+
+                cim.ReviewOptions = new Options
+                {
+                    List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Review, numOpt, firstReview, stepReview),
+                    Default = 20
+                };
             }
 
             if (cim.Image == null || cim.Image.Length == 0)
@@ -71,17 +83,7 @@ namespace UpamtiMe.Models
                 cim.Image = Data.DefaultPictures.getAt(course.defaultImageID);
             }
 
-            cim.LearnOptions = new Options
-            {
-                List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Unseen, numOpt, firstLearn, stepLearn),
-                Default = 6
-            };
-
-            cim.ReviewOptions = new Options
-            {
-                List = Data.Levels.getOptions(cim.Statistics.LearningStatistics.Review, numOpt, firstReview, stepReview),
-                Default = 20
-            };
+         
 
             return cim;
 

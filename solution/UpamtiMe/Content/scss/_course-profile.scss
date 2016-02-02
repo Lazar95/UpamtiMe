@@ -183,26 +183,20 @@ main#course-profile {
     .buttons {
       display: flex;
       justify-content: space-between;
+      height: 64px;
 
-      // a-ovi
-      #button-learn, #button-review, #button-linky, #button-enroll {
-        display: block;
+      .button-rect {
+        height: 100%;
         width: 32%;
-        height: 72px;
+        background-color: palette($blue-grey, 50);
+        color: palette($blue-grey, 900);
 
-        .button-rect {
-          height: 100%;
-          width: 100%;
-          background-color: palette($blue-grey, 50);
+        div:nth-child(1) {
+          color: palette($pink, 500);
+        }
+
+        div.count, div.count::after {
           color: palette($blue-grey, 900);
-
-          div:nth-child(1) {
-            color: palette($pink, 500);
-          }
-
-          div.count, div.count::after {
-            color: palette($blue-grey, 900);
-          }
         }
       }
 
@@ -414,19 +408,12 @@ main#course-profile {
               justify-content: space-between;
               width: 100%;
 
-              & > a {
-                display: block;
-                width: 100%;
-                height: 56px;
-                margin: 8px;
-
-                & > div {
-                  background-color: palette($pink, 500);
-                  color: rgba(white, 0.9);
-                  width: 100%;
-                  height: 100%;
-                  font-size: 14px;
-                }
+              & > .button-rect {
+                background-color: palette($pink, 500);
+                color: rgba(white, 0.9);
+                width: 22%;
+                height: 52px;
+                font-size: 14px;
               }
             }
 

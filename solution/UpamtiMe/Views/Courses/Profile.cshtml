@@ -84,15 +84,11 @@
                     var reviewLevelQuery = (from a in @Model.Levels where a.LearningStatistics.Review > 0 select new { id = a.LevelID, no = a.Number });
                     int reviewLevel = reviewLevelQuery.Any() ? reviewLevelQuery.OrderBy(a => a.no).First().id : 0;
 
-                    <a id="button-learn" class="button-link" href=@Url.Action("Learn", new { courseID = Model.CourseID, levelID = @learnLevel })>
-                        @Helper.Button("rect", "", "graduation-cap", "Uči", false)
-                    </a>
-                    <a id="button-review" class="button-link" href=@Url.Action("Review", new { courseID = Model.CourseID, levelID = @reviewLevel })>
-                        @Helper.Button("rect", "", "flask", "Obnovi", false)
-                    </a>
-                    <a id="button-linky" class="button-link" href=@Url.Action("Linky", new { courseID = Model.CourseID })>
-                        @Helper.Button("rect", "", "chain", "Spajalica")
-                    </a>
+                    @Helper.SessionButtonLearn(Model, -1, Url)
+                    
+                    @Helper.Button("rect", "", "graduation-cap", "Uči", @Url.Action("Learn", new { courseID = Model.CourseID, levelID = @learnLevel }))
+                    @Helper.Button("rect", "", "flask", "Obnovi", @Url.Action("Review", new { courseID = Model.CourseID, levelID = @reviewLevel }))
+                    @Helper.Button("rect", "", "chain", "Spajalica", @Url.Action("Linky", new { courseID = Model.CourseID }))
                 }
             }
         </div>
@@ -148,34 +144,10 @@
                             <div class="more-info-inner">
 
                                 <div class="session-buttons">
-                                    @{
-                                        List<string> LearnList = new List<string>();
-                                        foreach (int option in Model.Levels[index].LearnOptions.List)
-                                        {
-                                            LearnList.Add(Url.Action("Learn", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID, numberOfCards = option }));
-                                        }
-
-                                        List<string> ReviewList = new List<string>();
-                                        foreach (int option in Model.Levels[index].ReviewOptions.List)
-                                        {
-                                            ReviewList.Add(Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID, numberOfCards = option }));
-                                        }
-                                    }
-
-                                    @Helper.SessionButtonLearn(@Model, index, Url)
-
-                                    <a class="button-level-review button-link" href=@Url.Action("Review", new {courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID, numberOfCards = Model.Levels[index].ReviewOptions.List.ClosestTo(Model.Levels[index].ReviewOptions.Default)})>
-                                        @{
-                                            @Helper.Button("rect", "", "flask", "Obnovi", true, @Model.Levels[index].ReviewOptions, ReviewList)
-                                        }
-                                       
-                                    </a>
-                                    <a class="button-level-linky button-link" href=@Url.Action("Linky", new {courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID})>
-                                        @Helper.Button("rect", "", "chain", "Spajalica")
-                                    </a>
-                                    <a class="button-level-list button-link" href="#!">
-                                        @Helper.Button("rect", "", "list", "Spisak")
-                                    </a>
+                                    @Helper.SessionButtonLearn(Model, index, Url)
+                                    @Helper.SessionButtonReview(Model, index, Url)
+                                    @Helper.SessionButtonLinky(Model, index, Url)
+                                    @Helper.SessionButtonList(Model, index, Url)
                                 </div>
 
                                 <div class="level-info">

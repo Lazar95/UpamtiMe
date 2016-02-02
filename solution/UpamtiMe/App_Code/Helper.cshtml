@@ -15,35 +15,64 @@
 }
 
 
-@helper Button(string type, string id, string icon, string text, bool dropdown = false, Data.DTOs.Options option = null, List<string> links = null)
+@helper Button(string type, string id, string icon, string text, string link = "", bool dropdown = false, Data.DTOs.Options option = null, List<string> links = null)
 {
 
     <div class="@("button-" + type)" id=@id>
-        <div class="@("fa fa-"+icon)"></div>
-        <div>@text</div>
+        <a href="@link" class="button-link">
+            <div class="button-icon @("fa fa-"+icon)"></div>
+            <div class="button-text">@text</div>
+        </a>
         @if(dropdown && option != null &&  option.List.Count > 0)
         {
             <div class="count">@option.List.ClosestTo(option.Default)</div>
             <ul class="dropdown">
                 @for (int i = 0; i < option.List.Count; i++)
                 {
-                    <li data-href="@links[i]">@option.List[i]</li>
+                    <li><a class="button-link" href="@links[i]">@option.List[i]</a></li>
                 }
             </ul>
          }
 </div>
 }
 
-@helper SessionButtonLearn(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url) 
+@helper SessionButtonLearn(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)
 {
+if (index != -1)
+{
+    // za pojedinacan nivo
     List<string> LearnList = new List<string>();
     foreach (int option in model.Levels[index].LearnOptions.List)
     {
         LearnList.Add(url.Action("Learn", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = option }));
     }
-    <a class="button-level-review button-link" href=@url.Action("Review", new {courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].ReviewOptions.List.ClosestTo(model.Levels[index].ReviewOptions.Default)})> @*treba closestTo*@
-        @Helper.Button("rect", "", "flask", "Obnovi", true, @model.Levels[index].LearnOptions, LearnList)
-    </a>
+    @Helper.Button("rect", "", "graduation-cap", "Uči", url.Action("Learn", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].LearnOptions.List.ClosestTo(model.Levels[index].LearnOptions.Default) }), true, @model.Levels[index].LearnOptions, LearnList)
+}
+else
+{
+    // za ceo kurs
+    List<string> LearnList = new List<string>();
+}
+}
+
+@helper SessionButtonReview(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)
+{
+List<string> ReviewList = new List<string>();
+foreach (int option in model.Levels[index].ReviewOptions.List)
+{
+    ReviewList.Add(url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = option }));
+}
+    @Helper.Button("rect", "", "bell", "Obnovi", url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].ReviewOptions.List.ClosestTo(model.Levels[index].ReviewOptions.Default) }), true, @model.Levels[index].ReviewOptions, ReviewList)
+}
+
+@helper SessionButtonLinky(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)
+{
+    @Helper.Button("rect", "", "chain", "Spajalica", url.Action("Linky", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID }))
+}
+
+@helper SessionButtonList(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)
+{
+    @Helper.Button("rect", "", "list", "Spisak", "#!")
 }
 
 @helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted, UrlHelper url)
@@ -200,10 +229,10 @@
                     </div>
                     <div class="session-buttons">
                         <a class="button-learn button-link" href=@url.Action("Learn", "Courses", new { courseID = @id })>
-                            @Helper.Button("rect", "", "graduation-cap", "Uči", false)
+                            @Helper.Button("rect", "", "graduation-cap", "Uči")
                         </a>
                         <a class="button-review button-link" href=@url.Action("Review", "Courses", new { courseID = @id })>
-                            @Helper.Button("rect", "", "flask", "Obnovi", false)
+                            @Helper.Button("rect", "", "flask", "Obnovi")
                         </a>
                     </div>
                 </div>

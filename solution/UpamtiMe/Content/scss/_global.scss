@@ -447,7 +447,7 @@ main {
 	// Boja pozadine kruga kada se selektira nivo
  	&.active { .icon {background-color: palette($color, $darker)!important; } }
 	// Boja dugmadi za sesije
-	.session-buttons > a > div { background-color: palette($color, $darker)!important; }
+	.session-buttons > div { background-color: palette($color, $darker)!important; }
 	// Boja statistike
 	.statistics dd { color: palette($color, $darker)!important; }
 	// Pita:
@@ -855,22 +855,31 @@ dl.stats-horizontal {
 	@extend .button-sqr-rect;
 	flex-flow: row;
 
-	div:nth-child(1) {
+	& > a {
+		display: block;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	div.button-icon {
 		// Ikonica
-		margin-right: 8px;
+		margin-right: 6px;
 		font-size: 2em;
 		transition: all .2s ease;
 	}
 
-	div:nth-child(2) {
+	div.button-text {
 		// Tekst
 		font-size: 1em;
 		font-weight: bold;
 		text-transform: uppercase;
 	}
 
-	div:nth-child(3) {
-		// Picked value from drop-down
+	div.count {
+		// Podrazumevana vrednost za broj kartica u sesiji
 		position: absolute;
     right: 0;
     top: 0;
@@ -878,7 +887,7 @@ dl.stats-horizontal {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 2em;
+    width: 17%;
     border-left: 1px rgba(palette($blue-grey, 900), .2) solid;
 		color: rgba(white, 7);
 
@@ -899,17 +908,16 @@ dl.stats-horizontal {
 		}
 	}
 
-	ul {
+	ul.dropdown {
 		// Drop-down
 		opacity: 0;
-		margin-bottom: -90px + 12px;
+		margin-top: 60px;
 		transition: all .33s ease;
-		bottom: 0;
+		top: 0;
 		background-color: palette($blue-grey, 900);
 		padding: 0;
-		width: 2em; // isto kao count
+		width: 17%; // isto kao count
 		right: 0;
-		height: 90px;
 		box-sizing: border-box;
 		display: flex;
 		flex-flow: column;
@@ -925,18 +933,25 @@ dl.stats-horizontal {
 		}
 
 		li {
+			height: 24px;
 			font-weight: bold;
 			border-bottom: rgba(white, .2) 1px solid;
 			flex-grow: 1;
 			color: rgba(white, .7);
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			&:last-child { border-bottom: none; }
 
 			&:hover {
 				background-color: palette($blue-grey, 800);
 				color: rgba(white, .9);
+			}
+
+			& > a {
+				width: 100%;
+				height: 100%;
+				display: block;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 		}
 	}

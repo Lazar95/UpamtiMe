@@ -292,20 +292,18 @@ else
             <div class="actions">
                 @if (type == 0) 
                 {
-                   
-                    <a href ="@url.Action("Learn", "Courses", new {courseID = courseID})">@Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi")</a>
+                    @Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi", @url.Action("Learn", "Courses", new { courseID = courseID }))
                 }
                 else if (type == 1)
                 {
-                    <a href="@url.Action("Review", "Courses", new {courseID = courseID})">@Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi")</a>
+                    @Helper.Button("rect", "btn-play-again", "angle-double-right", "Nastavi", @url.Action("Review", "Courses", new { courseID = courseID }))
                 }
                 else
                 {
-                    <a href=" @Request.RawUrl">@Helper.Button("rect", "btn-play-again", "undo", "Igraj opet")</a>
+                    @Helper.Button("rect", "btn-play-again", "undo", "Igraj opet", @Request.RawUrl)
                 }
-                    @* @Helper.Button("rect", "btn-session-details", "list", "Detalji sesije") *@ @* <-- dobra ideja ali ja sam snage bez *@
-                <a href="@url.Action("Profile", "Courses", new {id = courseID})">@Helper.Button("rect", "btn-to-course", "clone", "Na kurs")</a>
-</div>
+                @Helper.Button("rect", "btn-to-course", "clone", "Na kurs", @url.Action("Profile", "Courses", new { id = courseID }))
+            </div>
         </aside>
     </div>
 }

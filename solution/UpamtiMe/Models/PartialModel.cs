@@ -47,6 +47,11 @@ namespace UpamtiMe.Models
                 returnValue.LearningStatistics = learningStatistics;
             }
 
+            if (returnValue.Avatar == null || returnValue.Avatar.Length == 0)
+            {
+                returnValue.Avatar = Data.DefaultPictures.getAt(usr.defaultAvatarID);
+            }
+
             return returnValue;
         }
 

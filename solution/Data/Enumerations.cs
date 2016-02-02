@@ -39,6 +39,12 @@ namespace Data
             NotLoggedIn
         }
 
+        public enum DefaultPicture
+        {
+            Avatar = 1,
+            Course
+        }
+
         public static void addCategories()
         {
             DataClasses1DataContext dc =  new DataClasses1DataContext();

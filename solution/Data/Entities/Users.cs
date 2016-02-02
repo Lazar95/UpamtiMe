@@ -34,6 +34,7 @@ namespace Data
                 dateRegistered = DateTime.Now,
                 totalCardsSeen = 0,
                 streak = 0,
+                defaultAvatarID = Data.DefaultPictures.getRandom((int)Data.Enumerations.DefaultPicture.Avatar)
             };
 
             dc.Users.InsertOnSubmit(u);

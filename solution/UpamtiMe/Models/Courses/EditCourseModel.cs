@@ -25,7 +25,7 @@ namespace UpamtiMe.Models
             if(course.creatorID != UserSession.GetUserID())
                 throw new Exception("nije on kreator");
 
-            return new EditCourseModel
+            EditCourseModel returnValue =  new EditCourseModel
             {
                 CategoryID = course.categoryID,
                 CourseID = course.courseID,
@@ -37,6 +37,14 @@ namespace UpamtiMe.Models
                 Levels = Data.Levels.getLevelsAndCardsFor(courseID),
                 AllSubcategories = Data.Courses.GetAllSubcategories()
             };
+
+            if (returnValue.Image == null || returnValue.Image.Length == 0)
+            {
+                returnValue.Image = Data.DefaultPictures.getAt(course.defaultImageID);
+            }
+
+            return returnValue;
+            
         }
     }
 

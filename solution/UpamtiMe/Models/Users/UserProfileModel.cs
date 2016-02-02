@@ -24,7 +24,7 @@ namespace UpamtiMe.Models
         public static UserProfileModel Load(int userID)
         {
             Data.User u = Data.Users.GetUser(userID);
-            return new UserProfileModel
+            UserProfileModel returnValue = new UserProfileModel
             {
                 UserID = u.userID,
                 Username = u.username,
@@ -37,9 +37,16 @@ namespace UpamtiMe.Models
                 DateRegistered = u.dateRegistered,
                 totalCardsSeen = u.totalCardsSeen,
                 Streak = u.streak,
-                Image = u.avatar?.ToArray(),
+                Image =  u.avatar?.ToArray(),
                 Achievements = null
             };
+
+            if (returnValue.Image == null || returnValue.Image.Length == 0)
+            {
+                returnValue.Image = Data.DefaultPictures.getAt(u.defaultAvatarID);
+            }
+
+            return returnValue;
         }
     }
 }

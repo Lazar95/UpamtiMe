@@ -66,6 +66,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses1.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\DefaultPictures.cs" />
     <Compile Include="Entities\Login.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Entities\Levels.cs" />

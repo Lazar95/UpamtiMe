@@ -45,6 +45,9 @@ namespace Data
     partial void InsertCourse(Course instance);
     partial void UpdateCourse(Course instance);
     partial void DeleteCourse(Course instance);
+    partial void InsertDefaultPicture(DefaultPicture instance);
+    partial void UpdateDefaultPicture(DefaultPicture instance);
+    partial void DeleteDefaultPicture(DefaultPicture instance);
     partial void InsertFriendship(Friendship instance);
     partial void UpdateFriendship(Friendship instance);
     partial void DeleteFriendship(Friendship instance);
@@ -135,6 +138,14 @@ namespace Data
 			get
 			{
 				return this.GetTable<Course>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DefaultPicture> DefaultPictures
+		{
+			get
+			{
+				return this.GetTable<DefaultPicture>();
 			}
 		}
 		
@@ -259,7 +270,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string title
 		{
 			get
@@ -279,7 +290,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="VarChar(400)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(400)")]
 		public string description
 		{
 			get
@@ -1055,7 +1066,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NChar(10) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
 		public string name
 		{
 			get
@@ -1172,6 +1183,8 @@ namespace Data
 		
 		private System.Data.Linq.Binary _image;
 		
+		private int _defaultImageID;
+		
 		private EntitySet<UsersCourse> _UsersCourses;
 		
 		private EntitySet<Level> _Levels;
@@ -1204,6 +1217,8 @@ namespace Data
     partial void OndescriptionChanged();
     partial void OnimageChanging(System.Data.Linq.Binary value);
     partial void OnimageChanged();
+    partial void OndefaultImageIDChanging(int value);
+    partial void OndefaultImageIDChanged();
     #endregion
 		
 		public Course()
@@ -1235,7 +1250,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string name
 		{
 			get
@@ -1383,7 +1398,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="VarChar(500)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="NVarChar(2000)")]
 		public string description
 		{
 			get
@@ -1419,6 +1434,26 @@ namespace Data
 					this._image = value;
 					this.SendPropertyChanged("image");
 					this.OnimageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_defaultImageID", DbType="Int NOT NULL")]
+		public int defaultImageID
+		{
+			get
+			{
+				return this._defaultImageID;
+			}
+			set
+			{
+				if ((this._defaultImageID != value))
+				{
+					this.OndefaultImageIDChanging(value);
+					this.SendPropertyChanging();
+					this._defaultImageID = value;
+					this.SendPropertyChanged("defaultImageID");
+					this.OndefaultImageIDChanged();
 				}
 			}
 		}
@@ -1559,6 +1594,116 @@ namespace Data
 		{
 			this.SendPropertyChanging();
 			entity.Course = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DefaultPictures")]
+	public partial class DefaultPicture : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _defaultPictureID;
+		
+		private System.Data.Linq.Binary _image;
+		
+		private int _type;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OndefaultPictureIDChanging(int value);
+    partial void OndefaultPictureIDChanged();
+    partial void OnimageChanging(System.Data.Linq.Binary value);
+    partial void OnimageChanged();
+    partial void OntypeChanging(int value);
+    partial void OntypeChanged();
+    #endregion
+		
+		public DefaultPicture()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_defaultPictureID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int defaultPictureID
+		{
+			get
+			{
+				return this._defaultPictureID;
+			}
+			set
+			{
+				if ((this._defaultPictureID != value))
+				{
+					this.OndefaultPictureIDChanging(value);
+					this.SendPropertyChanging();
+					this._defaultPictureID = value;
+					this.SendPropertyChanged("defaultPictureID");
+					this.OndefaultPictureIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image", DbType="Image NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary image
+		{
+			get
+			{
+				return this._image;
+			}
+			set
+			{
+				if ((this._image != value))
+				{
+					this.OnimageChanging(value);
+					this.SendPropertyChanging();
+					this._image = value;
+					this.SendPropertyChanged("image");
+					this.OnimageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_type", DbType="Int NOT NULL")]
+		public int type
+		{
+			get
+			{
+				return this._type;
+			}
+			set
+			{
+				if ((this._type != value))
+				{
+					this.OntypeChanging(value);
+					this.SendPropertyChanging();
+					this._type = value;
+					this.SendPropertyChanged("type");
+					this.OntypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -2147,7 +2292,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string name
 		{
 			get
@@ -2678,6 +2823,8 @@ namespace Data
 		
 		private float _thisMonthScore;
 		
+		private int _defaultAvatarID;
+		
 		private EntitySet<UsersCourse> _UsersCourses;
 		
 		private EntitySet<Friendship> _Friendships;
@@ -2726,6 +2873,8 @@ namespace Data
     partial void OnthisWeekScoreChanged();
     partial void OnthisMonthScoreChanging(float value);
     partial void OnthisMonthScoreChanged();
+    partial void OndefaultAvatarIDChanging(int value);
+    partial void OndefaultAvatarIDChanged();
     #endregion
 		
 		public User()
@@ -2758,7 +2907,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string name
 		{
 			get
@@ -2778,7 +2927,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_surname", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_surname", DbType="NVarChar(50)")]
 		public string surname
 		{
 			get
@@ -2958,7 +3107,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bio", DbType="VarChar(400)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bio", DbType="NVarChar(400)")]
 		public string bio
 		{
 			get
@@ -3018,7 +3167,7 @@ namespace Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_location", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_location", DbType="NVarChar(50)")]
 		public string location
 		{
 			get
@@ -3074,6 +3223,26 @@ namespace Data
 					this._thisMonthScore = value;
 					this.SendPropertyChanged("thisMonthScore");
 					this.OnthisMonthScoreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_defaultAvatarID", DbType="Int NOT NULL")]
+		public int defaultAvatarID
+		{
+			get
+			{
+				return this._defaultAvatarID;
+			}
+			set
+			{
+				if ((this._defaultAvatarID != value))
+				{
+					this.OndefaultAvatarIDChanging(value);
+					this.SendPropertyChanging();
+					this._defaultAvatarID = value;
+					this.SendPropertyChanged("defaultAvatarID");
+					this.OndefaultAvatarIDChanged();
 				}
 			}
 		}

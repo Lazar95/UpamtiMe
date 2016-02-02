@@ -1,0 +1,52 @@
+﻿@using UpamtiMe.Models
+@model List<UpamtiMe.Models.DefaultImage>
+ 
+@{
+    ViewBag.Title = "UploadDefaultImage";
+}
+
+<h2>UploadDefaultImage</h2>
+
+<main id="user-profile">
+    @using (Html.BeginForm("UploadDefaultImage", "Home", FormMethod.Post, new {enctype = "multipart/form-data"}))
+    {
+        <div>
+            <label for="file">Izaberi sliku:</label>
+            <input type="file" name="file" id="file"/><br><br>
+            <select name="type">
+                <option value="1">Avatar</option>
+                <option value="2">Kurs</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Upload Image" class="submit" id="btn-upload-image"/>
+        </div>
+        @ViewBag.Message
+    }
+
+    @foreach (DefaultImage dp in Model)
+    {
+        @Helper.Image(dp.Image, "class", "avatar")
+        if (dp.Type == (int) Data.Enumerations.DefaultPicture.Avatar)
+        {
+            <span>Avatar</span>
+        }
+        else
+        {
+            <span>Kurs</span>
+        }
+        <a href="@Url.Action("RemoveDefaultImage", "Home", new {imgID = dp.ImgID})">Obrisi</a>
+        <hr/>
+    }
+
+
+</main>
+
+<style>
+    .avatar {
+        width: 300px;
+        height: 300px;
+        background-size: cover;
+        background-position: center center;
+    }
+</style>

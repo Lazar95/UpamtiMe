@@ -62,6 +62,11 @@ namespace UpamtiMe.Models
                 cim.Favorite = Data.Courses.getFavorite(courseID, userID.Value);
             }
 
+            if (cim.Image == null || cim.Image.Length == 0)
+            {
+                cim.Image = Data.DefaultPictures.getAt(course.defaultImageID);
+            }
+
             return cim;
 
         }

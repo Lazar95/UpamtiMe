@@ -44,6 +44,7 @@ namespace Data
                 participantCount = 0,
                 numberOfCards = numberOfCards,
                 creatorID = creatorID,
+                defaultImageID = Data.DefaultPictures.getRandom((int)Data.Enumerations.DefaultPicture.Course)
             };
             dc.Courses.InsertOnSubmit(course);
             dc.SubmitChanges();
@@ -208,6 +209,11 @@ namespace Data
                     LearningStatistics = cus,
                     StatisctisByDays = Users.GetStatisctisByDays(userID, course.courseID)
                 };
+
+                if (ucd.Image == null || ucd.Image.Length == 0)
+                {
+                    ucd.Image = Data.DefaultPictures.getAt(course.defaultImageID);
+                }
 
                 returnValue.Add(ucd);
             }
@@ -405,7 +411,7 @@ namespace Data
                     CreatorID = a.creatorID,
                     CreatorUsername = Users.getUsername(a.creatorID),
                     Rating = a.rating,
-                    Image = a.image?.ToArray(),
+                    Image = (a.image == null || a.image.ToArray().Length == 0) ? Data.DefaultPictures.getAt(a.defaultImageID) : a.image.ToArray(),
                     Erolled = userID != null && Users.enrolled(userID.Value, a.courseID),
                     Description = a.description
                 }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ThenByDescending(a=>a.Image).ToList();

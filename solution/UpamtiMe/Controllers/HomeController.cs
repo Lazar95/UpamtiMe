@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -103,6 +104,35 @@ namespace UpamtiMe.Controllers
         {
             int pom = Session.Timeout;
             return Content(pom.ToString());
+        }
+
+        public ActionResult UploadDefaultImage()
+        {
+            List<DefaultImage> model = DefaultImage.convert(Data.DefaultPictures.getAll());
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult UploadDefaultImage(HttpPostedFileBase file, int type)
+        {
+            if (file != null)
+            {
+                byte[] array;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    array = ms.GetBuffer();
+                }
+                Data.DefaultPictures.uploadImage(type, array);
+            }
+
+            return RedirectToAction("UploadDefaultImage", "Home");
+        }
+
+        public ActionResult RemoveDefaultImage(int imgID)
+        {
+            Data.DefaultPictures.removeImage(imgID);
+            return RedirectToAction("UploadDefaultImage", "Home");
         }
     }
 }

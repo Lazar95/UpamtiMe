@@ -7,6 +7,8 @@ using Data.DTOs;
 
 namespace Data.Entities
 {
+
+
     public class Login
     {
         public static LoginDTO CreateLoginDTO(LoginTransporterDTO ltd)

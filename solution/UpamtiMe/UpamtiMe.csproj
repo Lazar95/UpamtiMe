@@ -133,6 +133,7 @@
     <Compile Include="Models\Courses\CourseProfileModel.cs" />
     <Compile Include="Models\Courses\CreateNewCourseModel.cs" />
     <Compile Include="Models\Courses\EditCourseModel.cs" />
+    <Compile Include="Models\DefaultImage.cs" />
     <Compile Include="Models\Users\UserProfileModel.cs" />
     <Compile Include="Models\HomeIndexModel.cs" />
     <Compile Include="Models\SessionModel.cs" />
@@ -162,6 +163,7 @@
     <Content Include="Views\Users\GetCoursesChunk.cshtml" />
     <Content Include="Views\ErrorPage\Error.cshtml" />
     <Content Include="Views\Courses\CardsPartial.cshtml" />
+    <Content Include="Views\Home\UploadDefaultImage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

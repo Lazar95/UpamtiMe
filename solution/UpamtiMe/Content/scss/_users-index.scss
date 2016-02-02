@@ -131,21 +131,16 @@ main#users-index {
 
       .session-buttons {
         width: 100%;
+        height: 48px;
         display: flex;
         justify-content: space-between;
 
-        a {
-          display: block;
+        .button-rect {
+          height: 100%;
           width: 48%;
-          height: 48px;
-
-          .button-rect {
-            height: 100%;
-            width: 100%;
-            background-color: palette($pink);
-            color: rgba(white, .9);
-            font-size: .8em;
-          }
+          background-color: palette($pink);
+          color: rgba(white, .9);
+          font-size: .8em;
         }
       }
     }

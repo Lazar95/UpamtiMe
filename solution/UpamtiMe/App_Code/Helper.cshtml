@@ -228,12 +228,8 @@ foreach (int option in model.Levels[index].ReviewOptions.List)
                         </dl>
                     </div>
                     <div class="session-buttons">
-                        <a class="button-learn button-link" href=@url.Action("Learn", "Courses", new { courseID = @id })>
-                            @Helper.Button("rect", "", "graduation-cap", "Uči")
-                        </a>
-                        <a class="button-review button-link" href=@url.Action("Review", "Courses", new { courseID = @id })>
-                            @Helper.Button("rect", "", "flask", "Obnovi")
-                        </a>
+                        @Helper.Button("rect", "", "graduation-cap", "Uči", @url.Action("Learn", "Courses", new { courseID = @id }))
+                        @Helper.Button("rect", "", "bell", "Obnovi", @url.Action("Review", "Courses", new { courseID = @id }))
                     </div>
                 </div>
                 <div class="stats-points-per-course-wrapper">

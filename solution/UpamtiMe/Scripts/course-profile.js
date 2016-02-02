@@ -1,30 +1,3 @@
-$('.levels').on('click', '.circle-display', function() {
-  var $level = $(this).parent();
-  var index = $level.index() + 1;
-  if ($level.hasClass('active')) {
-    $($level.removeClass('active'));
-  } else {
-    var size = $('main').attr('data-size');
-    var $okolni = $level.nextUntil('.clearfix-' + size);
-    var $okolni = $okolni.add($level.prevUntil('.clearfix-' + size));
-    var $okolni = $okolni.not('.clearfix');
-    console.log($okolni.length);
-    if ($okolni.hasClass('active')) {
-      // Menja se kroz istu grupu
-      console.log('ista grupa');
-      $okolni.find('.more-info-outer').css('height', '240px').css('max-height', '240px').css('min-height', '240px');
-      $okolni.removeClass('active');
-      $level.addClass('active');
-      setTimeout(function() { $level.parent().find('.more-info-outer').removeAttr('style') }, 500);
-    } else {
-      // Manje se medju grupama
-      console.log('nije ista');
-      $('.level').removeClass('active');
-      $level.addClass('active');
-    }
-  }
-});
-
 //TODO Refaktorisi
 // npr. moze da se doda data-attr u #leaderboard-tabs
 // i da se na osnovu toga gadja koji da se otvori

@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" data-enrolled="@(user != null && Model.Statistics != null)">
 
         <div id="list-of-cards">
             <div class="less"><i class="fa fa-times"></i></div>
@@ -254,20 +254,51 @@
             });
         })
     });
-    
-    // Spsiak
-    $('.levels').on('click', '.button-level-list', function () {
+
+    var loadListOfCards = function (levelID) {
         $('#list-of-cards').addClass('visible');
-        var levelID = $(this).closest('.level').attr('data-level-id');
 
         //ajax
         $.post("@Url.Action("GetCardsOfLevel", "Courses")", { "levelID": levelID }, function (data) {
             $('#list-of-cards-inner').html(data.HTMLString);
         });
+    }
+
+    // Spsiak
+    $('.levels').on('click', '.button-level-list', function () {
+        loadListOfCards($(this).closest('.level').attr('data-level-id'));
     });
 
     $('.less').click(function () {
         $(this).parent().removeClass('visible');
         //TODO obrisi sve unutra po zatvaranju
+    });
+
+    $('.levels').on('click', '.circle-display', function () {
+        var $level = $(this).parent();
+        var index = $level.index() + 1;
+        if ($('main .main-content').attr('data-enrolled') == "True") {
+            if ($level.hasClass('active')) {
+                $($level.removeClass('active'));
+            } else {
+                var size = $('main').attr('data-size');
+                var $okolni = $level.nextUntil('.clearfix-' + size);
+                var $okolni = $okolni.add($level.prevUntil('.clearfix-' + size));
+                var $okolni = $okolni.not('.clearfix');
+                if ($okolni.hasClass('active')) {
+                    // Menja se kroz istu grupu
+                    $okolni.find('.more-info-outer').css('height', '240px').css('max-height', '240px').css('min-height', '240px');
+                    $okolni.removeClass('active');
+                    $level.addClass('active');
+                    setTimeout(function () { $level.parent().find('.more-info-outer').removeAttr('style') }, 500);
+                } else {
+                    // Manje se medju grupama
+                    $('.level').removeClass('active');
+                    $level.addClass('active');
+                }
+            }
+        } else {
+            loadListOfCards($level.attr('data-level-id'));
+        }
     });
 </script>

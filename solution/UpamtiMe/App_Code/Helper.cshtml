@@ -46,7 +46,7 @@ if (index != -1)
     {
         LearnList.Add(url.Action("Learn", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = option }));
     }
-    @Helper.Button("rect", "", "graduation-cap", "Uči", url.Action("Learn", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].LearnOptions.List.ClosestTo(model.Levels[index].LearnOptions.Default) }), true, @model.Levels[index].LearnOptions, LearnList)
+    @Helper.Button("rect button-level-learn", "", "graduation-cap", "Uči", url.Action("Learn", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].LearnOptions.List.ClosestTo(model.Levels[index].LearnOptions.Default) }), true, @model.Levels[index].LearnOptions, LearnList)
 }
 else
 {
@@ -56,7 +56,7 @@ else
     {
         LearnList.Add(url.Action("Learn", new { courseID = model.CourseID, numberOfCards = option }));
     }
-    @Helper.Button("rect", "", "graduation-cap", "Uči", url.Action("Learn", new { courseID = model.CourseID, numberOfCards = model.LearnOptions.List.ClosestTo(model.LearnOptions.Default) }), true, @model.LearnOptions, LearnList)
+    @Helper.Button("rect button-level-learn", "", "graduation-cap", "Uči", url.Action("Learn", new { courseID = model.CourseID, numberOfCards = model.LearnOptions.List.ClosestTo(model.LearnOptions.Default) }), true, @model.LearnOptions, LearnList)
 }
 }
 
@@ -70,7 +70,7 @@ if (index != -1)
     {
         ReviewList.Add(url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = option }));
     }
-    @Helper.Button("rect", "", "bell", "Obnovi", url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].ReviewOptions.List.ClosestTo(model.Levels[index].ReviewOptions.Default) }), true, @model.Levels[index].ReviewOptions, ReviewList)
+    @Helper.Button("rect button-level-review", "", "bell", "Obnovi", url.Action("Review", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].ReviewOptions.List.ClosestTo(model.Levels[index].ReviewOptions.Default) }), true, @model.Levels[index].ReviewOptions, ReviewList)
 }
 else
 {
@@ -80,7 +80,7 @@ else
     {
         ReviewList.Add(url.Action("Review", new { courseID = model.CourseID, numberOfCards = option }));
     }
-    @Helper.Button("rect", "", "bell", "Obnovi", url.Action("Review", new { courseID = model.CourseID, numberOfCards = model.ReviewOptions.List.ClosestTo(model.ReviewOptions.Default) }), true, @model.ReviewOptions, ReviewList)
+    @Helper.Button("rect button-level-review", "", "bell", "Obnovi", url.Action("Review", new { courseID = model.CourseID, numberOfCards = model.ReviewOptions.List.ClosestTo(model.ReviewOptions.Default) }), true, @model.ReviewOptions, ReviewList)
 }
 }
 
@@ -88,17 +88,17 @@ else
 {
 if (index == -1)
 {
-    @Helper.Button("rect", "", "chain", "Spajalica", url.Action("Linky", new { courseID = model.CourseID }))
+    @Helper.Button("rect button-level-linky", "", "chain", "Spajalica", url.Action("Linky", new { courseID = model.CourseID }))
 }
 else
 {
-    @Helper.Button("rect", "", "chain", "Spajalica", url.Action("Linky", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID }))
+    @Helper.Button("rect button-level-linky", "", "chain", "Spajalica", url.Action("Linky", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID }))
 }
 }
 
 @helper SessionButtonList(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url)
 {
-    @Helper.Button("rect", "", "list", "Spisak", "#!")
+    @Helper.Button("rect button-level-list", "", "list", "Spisak", "#!")
 }
 
 @helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted, UrlHelper url)

@@ -1,4 +1,5 @@
-﻿@using System.Web.Mvc
+﻿@using Data
+@using System.Web.Mvc
 @helper Image(byte[] image, string m_type, string m_name)
 {
     if (image != null)
@@ -22,7 +23,7 @@
         <div>@text</div>
         @if(dropdown && option != null &&  option.List.Count > 0)
         {
-            <div class="count">@option.Default</div>
+            <div class="count">@option.List.ClosestTo(option.Default)</div>
             <ul class="dropdown">
                 @for (int i = 0; i < option.List.Count; i++)
                 {
@@ -31,6 +32,18 @@
             </ul>
          }
 </div>
+}
+
+@helper SessionButtonLearn(UpamtiMe.Models.CourseProfileModel model, int index, UrlHelper url) 
+{
+    List<string> LearnList = new List<string>();
+    foreach (int option in model.Levels[index].LearnOptions.List)
+    {
+        LearnList.Add(url.Action("Learn", new { courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = option }));
+    }
+    <a class="button-level-review button-link" href=@url.Action("Review", new {courseID = model.CourseID, levelID = @model.Levels[index].LevelID, numberOfCards = model.Levels[index].ReviewOptions.List.ClosestTo(model.Levels[index].ReviewOptions.Default)})> @*treba closestTo*@
+        @Helper.Button("rect", "", "flask", "Obnovi", true, @model.Levels[index].LearnOptions, LearnList)
+    </a>
 }
 
 @helper LeaderboardEntry(int order, string username, double score, int userID, bool isHighlighted, UrlHelper url)

@@ -161,12 +161,9 @@
                                             ReviewList.Add(Url.Action("Review", new { courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID, numberOfCards = option }));
                                         }
                                     }
-                                    <a class="button-level-learn button-link" href="@Url.Action("Learn", new{courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID, numberOfCards = Model.Levels[index].LearnOptions.List.ClosestTo(Model.Levels[index].LearnOptions.Default)})">
-                                       @{
-                                        @Helper.Button("rect", "", "graduation-cap", "Uči", true, @Model.Levels[index].LearnOptions, LearnList)
-                                    }
-                                        
-                                    </a>
+
+                                    @Helper.SessionButtonLearn(@Model, index, Url)
+
                                     <a class="button-level-review button-link" href=@Url.Action("Review", new {courseID = Model.CourseID, levelID = @Model.Levels[index].LevelID, numberOfCards = Model.Levels[index].ReviewOptions.List.ClosestTo(Model.Levels[index].ReviewOptions.Default)})>
                                         @{
                                             @Helper.Button("rect", "", "flask", "Obnovi", true, @Model.Levels[index].ReviewOptions, ReviewList)

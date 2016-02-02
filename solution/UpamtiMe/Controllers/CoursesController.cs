@@ -187,8 +187,7 @@ namespace UpamtiMe.Controllers
             SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
             {
-                return RedirectToAction("Error", "Home");
-                // neka baci neki bolji exception
+                return RedirectToAction("Profile", "Courses", new { id = courseID });
             }
             UserSession.SetTime();
             return View("Learn",model);
@@ -226,8 +225,7 @@ namespace UpamtiMe.Controllers
             SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
             if (model.Cards.Count < 1)
             {
-                return RedirectToAction("Error", "Home");
-                // neka baci neki bolji exception
+                return RedirectToAction("Profile", "Courses", new { id = courseID });
             }
             UserSession.SetTime();
             return View("Review", model);
@@ -261,6 +259,10 @@ namespace UpamtiMe.Controllers
             CheckIfEnrolled(courseID);
 
             SessionModel model = Models.SessionModel.LoadLinkySession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
+            if (model.Cards.Count < ConfigurationParameters.LinkyLimit)
+            {
+                return RedirectToAction("Profile", "Courses", new { id = courseID });
+            }
             UserSession.SetTime();
             return View("Linky", model);
         }

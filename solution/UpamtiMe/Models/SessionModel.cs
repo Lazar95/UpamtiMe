@@ -135,8 +135,6 @@ namespace UpamtiMe.Models
         
         public static SessionModel LoadLinkySession(int userID, int courseID, int? levelID, int? numberOfCards)
         {
-            int linkyLimit = ConfigurationParameters.LinkyLimit;
-
             DataClasses1DataContext dc = new DataClasses1DataContext();
 
             if (numberOfCards == null)
@@ -159,8 +157,7 @@ namespace UpamtiMe.Models
                                 }
                             }).Take(numberOfCards.Value).ToList();
 
-                if (sm.Cards.Count < linkyLimit)
-                    throw new Exception("nemas dovoljno naucenih kartica");
+                
             }
             else
             {
@@ -177,9 +174,6 @@ namespace UpamtiMe.Models
                                     Description = c.description
                                 }
                             }).Take(numberOfCards.Value).ToList();
-
-                if (sm.Cards.Count < linkyLimit)
-                    throw new Exception("nemas dovoljno naucenih kartica");
             }
             
 

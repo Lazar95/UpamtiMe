@@ -127,7 +127,8 @@ namespace UpamtiMe.Controllers
 
         public ActionResult GetAvatar(int id)
         {
-            byte[] image = Data.Users.GetUser(id).avatar.ToArray();
+            User usr = Data.Users.GetUser(id);
+            byte[] image = (usr.avatar == null || usr.avatar.ToArray().Length == 0) ? Data.DefaultPictures.getAt(usr.defaultAvatarID) :  usr.avatar.ToArray();
             var base64 = Convert.ToBase64String(image.ToArray());
             var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
             return Content(imgSrc);

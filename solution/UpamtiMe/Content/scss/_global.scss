@@ -1017,9 +1017,11 @@ dl.stats-horizontal {
  */
 
 div#search-results-outer, div#user-courses {
+min-width: calc(100% + #{8px}); // dva puta margina kartica
+left: -4px; // margina kartica
 
  & > ul {
-   width: 100%;
+	 width: 100%;
    display: flex;
    flex-wrap: wrap;
    justify-content: space-between;
@@ -1034,6 +1036,19 @@ div#search-results-outer, div#user-courses {
    overflow: hidden; // da ne zdrakne senka
    display: flex;
    flex-flow: column;
+	 margin: 4px;
+
+	 @include md-and-below {
+		 width: calc((100%/3) - #{8px});
+	 }
+
+	 @include xs-and-below {
+		 width: calc((100%/2) - #{8px});
+	 }
+
+	 @include xxs-only {
+		 width: calc((100%) - #{8px});
+	 }
 
    .avatar-wrapper {
        position: relative;
@@ -1043,7 +1058,7 @@ div#search-results-outer, div#user-courses {
        width: 100%;
 
        .avatar {
-         padding-bottom: 100%;
+         padding-bottom: 300px;
          background-size: cover;
          background-position: center center;
          transition: all .5s ease;
@@ -1098,9 +1113,17 @@ div#search-results-outer, div#user-courses {
      }
 
      .name {
-       width: 100%;
-       font-size: 2em;
-       font-weight: bold;
+       @include force-width(100%);
+
+			 & > a {
+				 font-size: 2em;
+				 font-weight: bold;
+				 display: block;
+				 @include force-width(100%);
+				 white-space: nowrap;
+				 overflow: hidden;
+				 text-overflow: ellipsis;
+			 }
      }
 
      .cat-subcat {
@@ -1167,6 +1190,10 @@ div#search-results-outer, div#user-courses {
      .avatar-wrapper > a > .avatar {
        padding-bottom: 100px;
      }
+
+		 .name > a {
+			 white-space: normal;
+		 }
 
      .course-info {
        overflow: visible;

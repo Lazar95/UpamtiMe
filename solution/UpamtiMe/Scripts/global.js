@@ -39,9 +39,12 @@ var showTooltip = function($obj, direction, margin) {
 }
 
 $(document).on('mouseover', '.tooltippable', function() {
-  var direction = $(this).is('[data-tooltip-direction]') ? $(this).attr('data-tooltip-direction') : 'top';
-  var margin = $(this).is('[data-tooltip-margin]') ? $(this).attr('data-tooltip-margin') : 12;
-  showTooltip($(this), direction, margin);
+  var size = document.getElementsByTagName('main')[0].getAttribute('data-size');
+  if (size == 'lg' || size == 'md' || size == 'sm') {
+    var direction = $(this).is('[data-tooltip-direction]') ? $(this).attr('data-tooltip-direction') : 'top';
+    var margin = $(this).is('[data-tooltip-margin]') ? $(this).attr('data-tooltip-margin') : 12;
+    showTooltip($(this), direction, margin);
+  }
 });
 
 $(document).on('mouseleave', '.tooltippable', function() {

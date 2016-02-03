@@ -140,6 +140,7 @@ main {
 	left: (224px/2);
 	padding: 24px;
 	box-sizing: border-box;
+	min-height: calc(100vh - #{68px}); // minus heder ceo
 
 	@include md-and-below {
 		left:0;

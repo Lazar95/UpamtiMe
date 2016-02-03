@@ -98,6 +98,11 @@ a.button-link {
 	&:hover { box-shadow: none; }
 }
 
+a.no-emph:hover {
+	color: palette($pink, 500);
+	box-shadow: none;
+}
+
 /**
  * Global
  */
@@ -1103,23 +1108,24 @@ left: -4px; // margina kartica
 
      .show-more {
        position: absolute;
-       width: 12px;
-       height: 24px;
+       width: 48px;
+       height: 48px;
        line-height: 24px;
-       text-align: center;
-       top: 4px; right: 4px;
+       text-align: right;
+       top: 0px; right: 0px;
        color: palette($blue-grey, 500);
        cursor: pointer;
      }
 
      .name {
-       @include force-width(100%);
+       max-width: 100%;
+			 align-self: flex-start;
 
 			 & > a {
+				 @extend .no-emph;
 				 font-size: 2em;
 				 font-weight: bold;
 				 display: block;
-				 @include force-width(100%);
 				 white-space: nowrap;
 				 overflow: hidden;
 				 text-overflow: ellipsis;
@@ -1134,6 +1140,10 @@ left: -4px; // margina kartica
          margin: 0 8px;
          display: block;
        }
+
+			 a {
+				 @extend .no-emph;
+			 }
      }
 
      .stats {

@@ -79,7 +79,7 @@ namespace Data
         public static int getRandom(int type)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a in dc.DefaultPictures where a.type == type orderby Guid.NewGuid() select a.defaultPictureID).First();
+            return (from a in dc.DefaultPictures where a.type == type select a.defaultPictureID).ToList().OrderBy(x => Guid.NewGuid()).First();
         }
 
         public static byte[] getAt(int imgID)

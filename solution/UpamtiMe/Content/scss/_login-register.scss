@@ -51,7 +51,7 @@ main#home-index {
     }
 
     h2 {
-      color: palette($pink, 400);
+      color: palette($pink, 500);
       font-weight: bold;
       font-size: 36px;
     }
@@ -91,7 +91,7 @@ main#home-index {
       }
 
       input[type="text"]:focus {
-        box-shadow: 0px -3px 0px 0px palette($pink, a400) inset;
+        box-shadow: 0px -3px 0px 0px palette($pink, 500) inset;
       }
     }
   }
@@ -101,13 +101,14 @@ main#home-index {
     margin: 0 auto;
     margin-top: 20px;
     padding: 3%;
-    background-color: palette($blue-grey, 600);
-    color: palette($blue-grey, 50);
+    background-color: palette($blue-grey, 700);
+    color: rgba(white, .8);
     font-weight: bold;
     font-size: 18px;
     @include z-depth(1);
     transition: all .33s ease;
     cursor: pointer;
+    text-transform: uppercase;
   }
 
   .button:hover {

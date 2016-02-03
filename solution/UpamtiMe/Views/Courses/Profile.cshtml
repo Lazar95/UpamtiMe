@@ -156,19 +156,19 @@
                                     @if (Model.Levels[index].LearningStatistics != null)
                                     {
                                         <div class="statistics">
-                                            <dl class="stats stats-vertical level-total-card">
+                                            <dl class="stats level-total-card">
                                                 <dt>Ukupno</dt>
                                                 <dd>@Model.Levels[index].CardNumber</dd>
                                             </dl>
-                                            <dl class="stats stats-vertical  level-learned-cards">
+                                            <dl class="stats level-learned-cards">
                                                 <dt>Nauceno</dt>
                                                 <dd>@Model.Levels[index].LearningStatistics.Learned</dd>
                                             </dl>
-                                            <dl class="stats stats-vertical  level-review-cards">
+                                            <dl class="stats level-review-cards">
                                                 <dt>Za obnavljanje</dt>
                                                 <dd>@Model.Levels[index].LearningStatistics.Review</dd>
                                             </dl>
-                                            <dl class="stats stats-vertical  level-unseen-cards">
+                                            <dl class="stats level-unseen-cards">
                                                 <dt>Neotvorenih</dt>
                                                 <dd>@Model.Levels[index].LearningStatistics.Unseen</dd>
                                             </dl>

@@ -1,0 +1,183 @@
+aside#sidebar {
+	background-color: palette($blue-grey, 900);
+	position: fixed;
+	@include z-depth(2);
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 224px;
+	z-index: 10;
+	overflow: hidden;
+	color: palette($blue-grey, 200);
+
+	display: flex;
+	flex-direction: column;
+
+  @include xs-and-below {
+    left: -224px;
+    @include z-depth(0);
+  }
+
+	& > * {
+		flex-grow: 0;
+		padding: 8px;
+	}
+
+	& > *:first-child {
+		margin-top: 68px; // ukupna visina hedera
+	}
+
+	#sidebar-basic-info {
+		display: flex;
+		justify-content: space-between;
+
+		#sidebar-picture {
+			@include force-height(70px);
+			@include force-width(70px);
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+
+		#sidebar-names {
+			padding-left: 8px;
+			flex-grow: 1;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+
+			span { display: block; }
+
+			span:first-child {
+				font-weight: bold;
+				font-size: 20px;
+			}
+		}
+	}
+
+	#sidebar-stats-info {
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+
+			li {
+				width: 50%;
+				display: flex;
+				justify-content: center;
+
+				dl {
+					display: flex;
+					width: 100%;
+					justify-content: flex-start;
+
+					& > * {
+						font-size: 18px;
+						text-align: center;
+						margin: 0 5px;
+					}
+
+					dd {
+						width: 25px;
+						text-align: center;
+					}
+
+					dt {
+						text-align: left;
+					}
+				}
+
+				&:nth-child(1), &:nth-child(2) {
+					margin-bottom: 8px;
+				}
+			}
+		}
+	}
+
+	#sidebar-leaderboard {
+		height: 124px;
+		flex-grow: 1;
+	}
+
+	#sidebar-favorite-courses {
+		padding: 0;
+		display: flex;
+		flex-flow: column;
+
+		ul.acordeon {
+			flex-grow: 0;
+			height: 100%;
+			width: 100%;
+			display: flex;
+			flex-flow: row;
+			flex-wrap: wrap;
+
+			li {
+				flex-grow: 0;
+				width: 100%;
+				display: flex;
+				flex-flow: column;
+				position: relative;
+				align-items: stretch;
+
+				.acordeon-title {
+					flex-grow: 0;
+					border-top: 2px rgba(white, .1) solid;
+					padding: 6px 8px;
+					box-sizing: border-box;
+					cursor: pointer;
+					@include force-height(40px);
+				}
+				&:last-child .acordeon-title { border-bottom: 2px rgba(white, .1) solid; }
+
+				.acordeon-content {
+					flex-grow: 1;
+					overflow: hidden;
+					background-color: palette($blue-grey, 800);
+					@include force-height(0);
+					transition: all .5s ease;
+				}
+
+				&.expanded {
+					.acordeon-content {
+						flex-grow: 0.01;
+						@include force-height(150px);
+					}
+				}
+			}
+		}
+	}
+
+	#sidebar-graph {
+	}
+
+	#sidebar-buttons {
+		padding: 0;
+		display: flex;
+
+		.sidebar-button {
+			background-color: rgba(black, .3);
+			flex-grow: 1;
+			width: 25%;
+			height: 48px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 0 0 0 1px rgba(white, .05) inset, 0 0 0 1px rgba(white, .05);
+			cursor: pointer;
+
+			&:hover, &:focus {
+				background-color: rgba(black, .1);
+				.button-icon { color: palette($blue-grey, 50); }
+			}
+
+			.button-icon {
+				color: palette($blue-grey, 200);
+				text-align: center;
+				font-size: 24px;
+			}
+
+			.button-text { display: none; }
+		}
+	}
+}

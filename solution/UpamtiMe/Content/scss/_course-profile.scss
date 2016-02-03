@@ -15,19 +15,73 @@ main#course-profile {
     display: flex;
     flex-flow: column;
     margin-bottom: 16px;
+    justify-content: space-between;
 
     @include sm-and-below {
       width: 100%;
       flex-flow: row;
-      flex-wrap: nowrap;
+    }
+
+    @include xxs-only {
+      flex-wrap: wrap;
     }
 
     & > * {
+      @extend .big-container;
+      flex-grow: 1;
       background-color: palette($blue-grey, 100);
       @include z-depth(1);
-      @include md-and-above { margin-bottom: 16px; }
-      @include sm-and-below { margin-right: 16px; flex-grow: 1; &:last-child {margin-right: 0;} }
-      padding: 8px 24px;
+
+      @include md-and-above {
+        margin-bottom: 16px;
+      }
+
+      @include sm-and-below {
+        margin-bottom: 0;
+        margin-right: 16px;
+        flex-grow: 1;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      @include xxs-only {
+        margin-right: 0;
+      }
+
+      &.course-stats, &.personal-stats {
+        box-sizing: border-box;
+        @include xxs-only {
+          width: 48.5%;
+          margin-bottom: 16px;
+        }
+
+        .stats {
+          dl {
+            @include sm-and-above {
+              @include stats-horizontal;
+            }
+            @include xxs-only {
+              @include stats-vertical;
+            }
+          }
+        }
+      }
+
+      &#leaderboard {
+        @include xxs-only {
+          width: 100%;
+          margin-bottom: 0;
+
+          #leaderboard-tabs {
+            justify-content: center;
+
+            li {
+              width: 20%;
+            }
+          }
+        }
+      }
     }
 
     @include md-only {
@@ -217,6 +271,10 @@ main#course-profile {
       // ode van ovoga. Zato mora:
       padding-bottom: 45px;
 
+      @include sm-and-below {
+        padding: 0;
+      }
+
       // Clearfixovi
       .clearfix {
         display: none;
@@ -393,6 +451,16 @@ main#course-profile {
             justify-content: space-around;
             align-items: center;
 
+            @include sm-and-below {
+              width: 100%;
+              left: 0;
+              border-radius: 0;
+            }
+
+            @include xxs-only {
+              height: 360px;
+            }
+
             & > * {
               @include force-width(90%);
 
@@ -405,15 +473,24 @@ main#course-profile {
               order: 1;
               display: flex;
               flex-flow: row;
+              flex-wrap: wrap;
               justify-content: space-between;
               width: 100%;
 
               & > .button-rect {
                 background-color: palette($pink, 500);
                 color: rgba(white, 0.9);
+                font-size: 14px;
                 width: 22%;
                 height: 52px;
-                font-size: 14px;
+
+                @include xxs-only {
+                  width: 48.5%;
+                  height: 48px;
+                  &:nth-child(1), &:nth-child(2) {
+                    margin-bottom: 16px;
+                  }
+                }
               }
             }
 
@@ -431,6 +508,7 @@ main#course-profile {
                 justify-content: space-around;
 
                 dl {
+                  @include stats-vertical;
                   width: 20%;
                 }
               }
@@ -482,6 +560,10 @@ main#course-profile {
               opacity: 1;
               // Ova vrednost dole mora da se slaze sa specificiranom vrednoscu (gore) za .more-info-inner
               @include force-height(240px);
+
+              @include xxs-only {
+                @include force-height(360px);
+              }
             }
           }
         } // level

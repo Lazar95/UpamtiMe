@@ -83,35 +83,11 @@ $(document).on('mouseleave', '.tooltippable', function() {
    else if (w > xs) $('main').attr('data-size', 'xs');
    else $('main').attr('data-size', 'xxs');
  }
+ var resizeId;
  $(window).bind('resize', function() {
-   responsiveMain();
+   clearTimeout(resizeId);
+   resizeId = setTimeout(responsiveMain, 200);
  });
  $(window).bind('load', function() {
    responsiveMain();
  })
-
- /**
-  * Canvas resize to fit
-  */
-/*
-var canvasResize = function() {
-  $('canvas').each(function() {
-    var parentSize = this.parentNode.getBoundingClientRect();
-    var h = Math.floor(parentSize.height);
-    var w = Math.floor(parentSize.width);
-    this.width = w;
-    this.height = h;
-    $(this).removeAttr('style');
-  });
-}
-$(window).bind('load', function() {
-  canvasResize();
-});
-var resizeTimer;
-$(window).bind('resize', function() {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(function() {
-    canvasResize();
-  }, 250);
-});*/
-//TODO: na resize ce da ispituje breakpointe i u zavisnosti od toga da uzima neke predefinisane vrednosti za sirinu

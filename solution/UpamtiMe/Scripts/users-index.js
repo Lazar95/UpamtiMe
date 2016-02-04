@@ -228,6 +228,7 @@ var loadGraphLine = function($canvas, dataInfo, len) {
   var chart = new Chart($canvas.get(0).getContext('2d')).Line(data);
   var legend = chart.generateLegend();
   $canvas.append(legend);
+  return chart;
 }
 
 // Pie - user
@@ -293,24 +294,35 @@ var loadStatsCourseTotalBreakdown = function($element) {
   statsCardsBreakdown = new Chart($element.get(0).getContext('2d')).Pie(data, options);
 }
 
+var statsLearningHistoryMonthData = [];
+var statsPointsWeekData = [];
+var statsTimeWeekData = [];
+
+var statsLearningHistoryMonthGraph;
+var statsPointsWeekGraph;
+var statsTimeWeekGraph;
+
 $(document).ready(function() {
+
   // za korisnika
-  var temp = [
+  statsLearningHistoryMonthData = [
     { dataName: 'data-dates',    color: "",               label: "",              },
     { dataName: 'data-learned',  color: colorPink,        label: 'Naučeno',       },
     { dataName: 'data-reviewed', color: colorBlueGrey700, label: 'Obnovljeno',    }
   ];
-  loadGraphLine($('#stats-learning-history-month'), temp, 30);
-  var temp = [
+  statsLearningHistoryMonthGraph = loadGraphLine($('#stats-learning-history-month'), statsLearningHistoryMonthData, 30);
+
+  statsPointsWeekData = [
     { dataName: 'data-dates',    color: "",               label: "",              },
     { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
   ];
-  loadGraphLine($('#stats-points-week'), temp, 7);
-  var temp = [
+  statsPointsWeekGraph = loadGraphLine($('#stats-points-week'), statsPointsWeekData, 7);
+
+  statsTimeWeekData = [
     { dataName: 'data-dates',    color: "",               label: "",              },
     { dataName: 'data-time',     color: colorBlueGrey700, label: 'Vreme',         }
   ];
-  loadGraphLine($('#stats-time-week'), temp, 7);
+  statsTimeWeekGraph = loadGraphLine($('#stats-time-week'), statsTimeWeekData, 7);
 
   loadStatsCardsBreakdown();
 
@@ -365,3 +377,40 @@ $('.more').click(function() {
 $('.less').click(function() {
   $(this).closest('.full-screen').removeClass('visible');
 })
+
+/**
+ * Canvas refit
+ */
+
+var canvasResize = function() {
+  statsLearningHistoryMonthGraph.destroy();
+  statsPointsWeekGraph.destroy();
+  statsTimeWeekGraph.destroy();
+  var size = document.getElementsByTagName('main')[0].getAttribute('data-size');
+  var smAndBelow = (size == 'sm' || size == 'xs' || size == 'xxs' || size == 'xxxs')
+  $('canvas').each(function() {
+    var context = this.getContext('2d');
+    context.clearRect(0, 0, this.width, this.height);
+    var parentSize = this.parentNode.getBoundingClientRect();
+    var h = Math.floor(parentSize.height);
+    var w = Math.floor(parentSize.width);
+    this.width = w;
+    this.height = h;
+  });
+  loadGraphLine($('#stats-learning-history-month'), statsLearningHistoryMonthData, smAndBelow ? 7 : 30);
+  loadGraphLine($('#stats-points-week'), statsPointsWeekData, 7);
+  loadGraphLine($('#stats-time-week'), statsTimeWeekData, 7);
+  loadStatsCardsBreakdown();
+}
+$(window).bind('load', function() {
+  setTimeout(function() {
+    canvasResize();
+  }, 200);
+});
+var resizeTimer;
+$(window).bind('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function() {
+    canvasResize();
+  }, 500);
+});

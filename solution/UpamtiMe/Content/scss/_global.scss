@@ -710,7 +710,7 @@ dl.stats-horizontal {
 	div.button-icon {
 		// Ikonica
 		margin-right: 6px;
-		font-size: 2em;
+		font-size: 1.75em;
 		transition: all .2s ease;
 	}
 
@@ -762,13 +762,13 @@ dl.stats-horizontal {
 		width: 17%; // isto kao count
 		right: 0;
 		box-sizing: border-box;
-		display: flex;
 		flex-flow: column;
 		@include z-depth(1);
 		border-radius: 3px;
 		overflow: hidden;
 		position: absolute;
 		z-index: 20000;
+		display: none;
 
 		&.show {
 			display: flex;

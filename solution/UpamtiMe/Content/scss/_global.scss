@@ -140,7 +140,7 @@ header {
 
 main {
 	position: relative;
-	max-width: 1280px;
+	@include force-width(1280px);
 	margin: 0 auto;
 	left: (224px/2);
 	padding: 24px;
@@ -149,7 +149,6 @@ main {
 
 	@include md-and-below {
 		left:0;
-		max-width: auto;
 		padding-left: 24px + 224px; // pored 24px standardno da bude jos 224 od sidebar
 		@include force-width(100%); // sidebar i dvaput padding
 		margin: 0;
@@ -431,7 +430,7 @@ dl.stats-horizontal {
  * Course-banner
  */
 
-.course-banner {
+.course-banner, .profile-banner {
 	width: 100%;
 	margin: 24px auto;
 	padding: 24px;
@@ -560,7 +559,7 @@ dl.stats-horizontal {
 		justify-content: space-between;
 		color: palette($blue-grey, 800);
 
-		h1#course-name{
+		h1#course-name, h1#user-name-surname{
 			font-weight: bold;
 			font-size: 48px;
 			display: block;
@@ -568,7 +567,7 @@ dl.stats-horizontal {
 			margin-bottom: 16px;
 		}
 
-		.cat-subcat {
+		.cat-subcat, h2#user-username {
 			display: flex;
 			justify-content: flex-start;
 			width: 100%;
@@ -604,7 +603,7 @@ dl.stats-horizontal {
 			}
 		}
 
-		#course-description {
+		#course-description, #user-bio {
 			flex-grow: 1;
 			position: relative;
 			display: flex;

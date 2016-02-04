@@ -6,82 +6,51 @@
 }
 
 <main id="user-profile">
-    <h2>Profile</h2>
 
-            <!-- prva kartica -->
-            <div class="primary-info">
-
-                <div class="avatar">
-                    @{
-                        if (Model.Image != null)
-                        {
-                            var base64 = Convert.ToBase64String(Model.Image.ToArray());
-                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                            <img src="@imgSrc" width="208px" height="208px"/>
-                        }
-                    }
-                </div>
-
-                <div class="info">
-
-                    <div class="name">
-                        <div class="display-name">
-                            <span>@Html.DisplayFor(model => model.Name)</span>&nbsp;<span>@Html.DisplayFor(model => model.Surname)</span>
-                        </div>
-                        <div class="username">@Html.DisplayFor(model => model.Username)</div>
-                    </div>
-
-                    <dl class="progress-info">
-                        <div class="item">
-                            <dt>Kursevi</dt>
-                            <dd>??</dd>
-                        </div>
-                        <div class="item">
-                            <dt>Kartice</dt>
-                            <dd>@Html.DisplayFor(model => model.totalCardsSeen)</dd>
-                        </div>
-                        <div class="item">
-                            <dt>Poeni</dt>
-                            <dd>@Html.DisplayFor(model => model.Score)</dd>
-                        </div>
-                        <div class="item">
-                            <dt>Bedževi</dt>
-                            <dd>@Html.DisplayFor(model => model.Achievements).ToString()??</dd>
-                        </div>
-                    </dl>
-
-                </div>
-            
-            </div>
-
-            <!-- Druga kartica -->
-    <div class="secondary-info">
-      
-        <div class="bio">
-            @Html.DisplayFor(model => model.Bio)
-            Lorem ipsum
+    <div class="profile-banner">
+        @Helper.Image(Model.Image, "class", "avatar")
+        <div class="basic-info">
+            <h1 id="user-name-surname"><span>@Model.Name</span></h1>
+            <h2 id="user-username"><span>@@@Model.Username</span></h2>
+            <div id="user-bio"><span>@Model.Bio</span></div>
         </div>
-
-        <dl>
-            <div>
-                <dd>haha</dd>
-                <dt>12</dt>
-            </div>
-            <div>
-                <dd>hehe</dd>
-                <dt>15</dt>
-            </div>
-            <div>
-                <dd>hihi</dd>
-                <dt>2342</dt>
-            </div>
-            <div>
-                <dd>hoho</dd>
-                <dt>0.5</dt>
-            </div>
-        </dl>
-
     </div>
+
+    <div id="user-stats-first-card">
+        <div class="big-stats">
+            <div class="icon"><i class="fa fa-line-chart"></i></div>
+            <div class="actual-info">
+                <div class="title">Poeni</div>
+                <div class="primary-info">@Model.Score.ToString()</div>
+                <div class="secondary-info">@Model.Score.ToString()</div>
+            </div>
+        </div>
+        <div class="big-stats">
+            <div class="icon"><i class="fa fa-fire"></i></div>
+            <div class="actual-info">
+                <div class="title">Recke</div>
+                <div class="primary-info">@Model.Streak</div>
+                <div class="secondary-info">počev od @DateTime.Today.AddDays(-Model.Streak).ToString("dd. MM. yyyy.")</div>
+            </div>
+        </div>
+        <div class="big-stats">
+            <div class="icon"><i class="fa fa-file"></i></div>
+            <div class="actual-info">
+                <div class="title">Broj kartica</div>
+                <div class="primary-info">@Model.totalCardsSeen</div>
+                <div class="secondary-info">u XXX kurseva</div>
+            </div>
+        </div>
+        <div class="big-stats">
+            <div class="icon"><i class="fa fa-users"></i></div>
+            <div class="actual-info">
+                <div class="title">Pratilaca</div>
+                <div class="primary-info">666</div>
+                <div class="secondary-info">2 meseca</div>
+            </div>
+        </div>
+    </div>
+
 
    
       @if (@ViewBag.friends == Data.Enumerations.FollowStatus.NotFollowing)
@@ -93,17 +62,5 @@
         @Html.ActionLink("Unfollow", "Unfollow", "Users", new { secondID = Model.UserID }, null)
       }
 
-    <br/>
-    <br/>
-
-    <h2>Basic File Upload</h2>
-    @using (Html.BeginForm("UploadAvatar", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <label for="file">Upload Image:</label>
-        <input type="file" name="file" id="file" /><br><br>
-        <input type="submit" value="Upload Image" class="submit"/>
-      
-        @ViewBag.Message
-    }
 
 </main>

@@ -64,13 +64,17 @@
             {
                 @Helper.SearchResult(
                     Url, course.CourseID, course.Name, course.CategoryID, course.CategoryName, course.SubcategoryID, course.SubcategoryName,
-                    course.Description, course.ParticipantCount, course.NumberOfCards, course.Rating, course.CreatorID, course.CreatorUsername, course.Image
+                    course.Description, course.ParticipantCount, course.NumberOfCards, course.Rating, course.CreatorID, course.CreatorUsername, course.Image,
+                    course.Erolled
                 )
             }
         </ul>
     </div>
-        
-    <div class="more"><button @(Model.More == false ? "disabled" : "")>MORE</button></div>
+    
+    @if (Model.More)
+    {
+        <div id="load-more"><button><i class="fa fa-circle-o-notch fa-spin"></i></button></div>
+    }
 
 </main>
 
@@ -81,30 +85,43 @@
     var NoMoreData = false;
     var inProgress = false;
 
-
-    $('.more > button').click(function () {
+    var loadMore = function () {
         if (!inProgress) {
 
             inProgress = true;
 
             $.post("@Url.Action("InfinateScroll",
             "Courses")", { "BlockNumber": BlockNumber },
-                    function (data) {
+            function (data) {
 
-                        BlockNumber = BlockNumber + 1;
-                        NoMoreData = data.NoMoreData;
-                        $('#search-results-outer > ul').append(data.HTMLString);
-                        if (data.NoMoreData) {
-                            $('.more > button').html("NO MORE");
-                            $('.more > button').attr('disabled',"");
-                        }
-                            
-                        //$('#user-courses-always > ul').append(data.HTMLString);
-                        //$("#bookListDiv").append(data.HTMLString);
-                       // $("#loadingDiv").hide();
-                        inProgress = false;
-                    });
+                BlockNumber = BlockNumber + 1;
+                NoMoreData = data.NoMoreData;
+                $('#search-results-outer > ul').append(data.HTMLString);
+                if (data.NoMoreData) {
+                    $('#load-more').remove();
+                }
+                inProgress = false;
+            });
         }
+    }
+
+
+    $('#load-more > button').click(function () {
+        loadMore();
+    });
+
+    $(window).scroll(function () {
+        clearTimeout($.data(this, 'scrollTimer'));
+        $.data(this, 'scrollTimer', setTimeout(function () {
+            var el = document.getElementById('load-more');
+            var elemTop = el.getBoundingClientRect().top;
+            var elemBottom = el.getBoundingClientRect().bottom;
+
+            var isVisible = (elemTop >= 0) && (elemBottom - 900 <= window.innerHeight);
+            if ($('#load-more').length && isVisible) {
+                loadMore();
+            }
+        }, 250));
     });
 </script>
 

@@ -32,7 +32,6 @@
         </div>
     </div>
 
-
     <div id="leaderboard" class="big-container">
         @Helper.LeaderboardTabs()
         @Helper.Leaderboard("week-score", Model.Leaderboard.OrderByDescending(a => a.WeekScore).ToList(), user?.UserID, 11, Url, true)
@@ -79,7 +78,10 @@
         </ul>
     </div>
 
-    <div id="load-more"><button @(Model.More == false ? "disabled" : "")>MORE</button></div>
+    @if (Model.More)
+    {
+        <div id="load-more"><button><i class="fa fa-circle-o-notch fa-spin"></i></button></div>
+    }
 
 
 </main>
@@ -90,8 +92,7 @@
     var NoMoreData = false;
     var inProgress = false;
 
-
-    $('#load-more').click(function () {
+    var loadMore = function () {
         if (!inProgress) {
 
             inProgress = true;
@@ -99,15 +100,12 @@
             $.post("@Url.Action("InfinateScroll", "Users")",
                 { "BlockNumber": BlockNumber },
                     function (data) {
-
                         BlockNumber = BlockNumber + 1;
                         NoMoreData = data.NoMoreData;
                         $('#user-courses > ul').append(data.HTMLString);
                         if (data.NoMoreData) {
-                            $('#load-more').html("NO MORE");
-                            $('#load-more').attr('disabled', '');
+                            $('#load-more').remove();
                         }
-
 
                         // za svaki  kurs
                         var temp = [
@@ -118,71 +116,35 @@
                         // lol
                         var min = data.min - 2;
                         var max = data.max + 1;
-                        
+
                         var elements = $('.stats-points-per-course:gt(' + min + '):lt(' + max + ')');
                         elements.each(function () {
                             loadGraphLine($(this), temp, 7);
                         });
 
-                        /*$('.course-total-breakdown:gt(' + min + '):lt(' + max + ')').each(function () {
-                            loadStatsCourseTotalBreakdown($(this));
-                        });*/
-
-                       
                         inProgress = false;
                     });
         }
+    }
+
+
+    $('#load-more').click(function () {
+        loadMore();
+    });
+    
+    $(window).scroll(function () {
+        clearTimeout($.data(this, 'scrollTimer'));
+        $.data(this, 'scrollTimer', setTimeout(function () {
+            var el = document.getElementById('load-more');
+            var elemTop = el.getBoundingClientRect().top;
+            var elemBottom = el.getBoundingClientRect().bottom;
+
+            var isVisible = (elemTop >= 0) && (elemBottom - 900 <= window.innerHeight);
+            if ($('#load-more').length && isVisible) {
+                loadMore();
+            }
+        }, 250));
     });
 </script>
 
 <script src="~/Scripts/users-index.js"></script>
-
-@*
-    <div>
-
-        <div id="leaderbord">
-            <p>All Time</p>
-
-            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.AllTimeScore))
-            {
-                <span>Username: @lde.Username</span>
-                <span>AllTimeScore: @lde.AllTimeScore</span>
-            }
-
-            <p>This Week</p>
-            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.WeekScore))
-            {
-                <span>Username: @lde.Username</span>
-                <span>WeekScore: @lde.WeekScore</span>
-            }
-
-            <p>This Month</p>
-            @foreach (LeaderboardEntryDTO lde in Model.Leaderboard.OrderBy(a => a.MonthScore))
-            {
-                <span>Username: @lde.Username</span>
-                <span>MonthScore: @lde.MonthScore</span>
-            }
-        </div>
-
-        <div id="courses">
-            @foreach (UserCourseDTO ucd in Model.Courses)
-            {
-                <span>@ucd.Name</span>
-                <span>@Enum.GetName(typeof (Enumerations.Categories), ucd.CategoryID)</span>
-                if (ucd.SubcategoryID != null)
-                {
-                    //ovo treba da se izmeni, da bude string direktno u modelu
-                    <span>@Courses.getSubcategoryName((int) ucd.SubcategoryID)</span>
-                }
-                <br/>
-                <span>Statistics: Learned/Total/Review</span>
-                <span>@ucd.LearningStatistics.Learned</span>
-                <span>@ucd.LearningStatistics.Review</span>
-                <span>@ucd.LearningStatistics.Total</span>
-            }
-        </div>
-
-        // dugmici: view profile, edit profile, napravi kurs (mozemo i ko na memrajzu da imamo posebnu stranicu za kurseve) nzm sta jos
-
-    </div>
-*@

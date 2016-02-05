@@ -168,7 +168,7 @@ else
     </ul>
 }
 
-@helper SearchResult(UrlHelper url, int id, string name, int cat, string catName, int? subcat, string subcatName, string desc, int partCount, int noOfCards, int? rating, int creatorID, string creatorUsername, byte[] image)
+@helper SearchResult(UrlHelper url, int id, string name, int cat, string catName, int? subcat, string subcatName, string desc, int partCount, int noOfCards, int? rating, int creatorID, string creatorUsername, byte[] image, bool enrolled)
 {
     <li class="result" data-rating="@rating" data-course-id="@id">
 
@@ -205,7 +205,14 @@ else
                     <div class="description-snippet-placeholder"></div>
                 </div>
                 <div class="description-full">@desc</div>
-                @Helper.Button("rect button-enroll", "", "unlock", "Učlani se")
+                @if (!enrolled)
+                {
+                    @Helper.Button("rect button-enroll", "", "unlock", "Učlani se", url.Action("Enroll", "Course", new { id = id }))
+                }
+                else
+                {
+                    @Helper.Button("rect button-goto", "", "arrow-right", "Stranica kursa", url.Action("Course", new { id = id }))
+                }
             </div>
         </div>
     </li>

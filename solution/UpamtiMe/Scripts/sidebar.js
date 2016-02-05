@@ -59,10 +59,14 @@ $('.acordeon-title').click(function() {
   $(this).parent().addClass('expanded');
 });
 
- $(window).bind('load', function() {
-  var temp = [
-    { dataName: 'data-dates',    color: "",               label: "",              },
-    { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
-  ];
-  loadGraphLine($('#sidebar-graph-points'), temp, 7);
+$(window).bind('load', function() {
+  if ($('#sidebar').attr('data-logged-in') == 'true') {
+    var temp = [
+      { dataName: 'data-dates',    color: "",               label: "",              },
+      { dataName: 'data-points',   color: colorBlueGrey700, label: 'Poeni',         }
+    ];
+    loadGraphLine($('#sidebar-graph-points'), temp, 7);
+  } else {
+    // ako nije ulogovan
+  }
 });

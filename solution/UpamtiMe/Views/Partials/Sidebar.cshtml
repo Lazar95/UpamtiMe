@@ -1,7 +1,7 @@
 ﻿@using Data
 @model UpamtiMe.Models.SidebarModel
 
-<aside id="sidebar" @(UserSession.GetUser() == null ? "" : "data-logged-in")>
+<aside id="sidebar" data-logged-in=@(UserSession.GetUser() == null ? "false" : "true")>
     @if (Model.UserID > 0)
     {
         <div id="sidebar-basic-info">

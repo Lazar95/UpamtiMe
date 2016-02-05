@@ -59,7 +59,7 @@ Chart.defaults.global = {
     scaleFontStyle: "bold",
 
     // String - Scale label font colour
-    scaleFontColor: "#666",
+    scaleFontColor: "rgba(0, 0, 0, .5)",
 
     // Boolean - whether or not the chart should be responsive and resize when the browser does.
     responsive: false,
@@ -228,7 +228,7 @@ var loadGraphLine = function($canvas, dataInfo, len) {
   // bibliotecki pozivi
   var chart = new Chart($canvas.get(0).getContext('2d')).Line(data);
   var legend = chart.generateLegend();
-  $canvas.append(legend);
+  $canvas.parent().append(legend);
   return chart;
 }
 

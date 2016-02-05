@@ -46,6 +46,7 @@
     <Compile Include="DTOs\Cards\CardSessionDTO.cs" />
     <Compile Include="DTOs\CorrectWrong.cs" />
     <Compile Include="DTOs\Courses\CourseUsersStatisticsDTO.cs" />
+    <Compile Include="DTOs\Courses\FavoriteCourseDTO.cs" />
     <Compile Include="DTOs\EditCourseLevelsCards.cs" />
     <Compile Include="DTOs\Levels\LevelBasicDTO.cs" />
     <Compile Include="DTOs\LeaderboardEntryDTO.cs" />

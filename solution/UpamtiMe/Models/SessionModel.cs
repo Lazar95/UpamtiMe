@@ -10,7 +10,7 @@ namespace UpamtiMe.Models
 {
     public class SessionModel
     {
-        public List<Data.DTOs.CardSessionDTO> Cards { get; set; }
+        public List<CardSessionDTO> Cards { get; set; }
         public int CourseID { get; set; }
 
         public static SessionModel LoadLearningSession(int userID, int courseID, int? levelID, int? numberOfCards)
@@ -175,7 +175,8 @@ namespace UpamtiMe.Models
                                 }
                             }).Take(numberOfCards.Value).ToList();
             }
-            
+
+            sm.Cards = sm.Cards.GroupBy(a => a.BasicInfo.Answer).Select(a => a.First()).ToList();
 
             return sm;
         }

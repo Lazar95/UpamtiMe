@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 using Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace UpamtiMe.Tests
 {
@@ -60,6 +61,34 @@ namespace UpamtiMe.Tests
         public void Jajceva()
         {
             List<int> list = Levels.getOptions(21, new List<int> { 10, 15, 20, 30 }, 5);
+        }
+
+        [TestMethod]
+        public void Unique()
+        {
+            List<CardBasicDTO> sm = new List<CardBasicDTO>();
+            sm.Add(new CardBasicDTO
+            {
+                Answer = "1"
+            });
+            sm.Add(new CardBasicDTO
+            {
+                Answer = "1"
+            });
+            sm.Add(new CardBasicDTO
+            {
+                Answer = "2"
+            });
+            sm.Add(new CardBasicDTO
+            {
+                Answer = "1"
+            });
+            sm.Add(new CardBasicDTO
+            {
+                Answer = "3"
+            });
+
+            sm = sm.GroupBy(a => a.Answer).Select(a => a.First()).ToList();
         }
     }
 }

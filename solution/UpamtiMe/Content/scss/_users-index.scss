@@ -56,15 +56,49 @@ main#users-index {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    box-sizing: border-box;
+    align-items: center;
+    align-content: space-between;
 
     & > div:not(.more):not(.full-screen) {
-      flex-grow: 1;
-      margin: 1%;
+      // kontejneri za grafike
+      flex-grow: 0;
+      margin: 0;
       position: relative;
+      height: 49%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+
+      @include xs-and-below {
+        height: 32%;
+      }
     }
 
     #stats-learning-history-month-wrapper {
       width: 100%;
+    }
+
+    #stats-cards-breakdown-wrapper {
+      // pie
+      width: 19%;
+    }
+
+    #stats-points-week-wrapper {
+      width: 39%;
+
+      @include xs-and-below {
+        width: 79%;
+      }
+    }
+
+    #stats-time-week-wrapper {
+      width: 39%;
+
+      @include xs-and-below {
+        width: 100%;
+      }
     }
 
     .line-legend {

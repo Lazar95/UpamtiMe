@@ -1,7 +1,7 @@
 // http://www.chartjs.org/docs/
 Chart.defaults.global = {
     // Boolean - Whether to animate the chart
-    animation: true,
+    animation: false,
 
     // Number - Number of animation steps
     animationSteps: 60,
@@ -32,7 +32,7 @@ Chart.defaults.global = {
     scaleStartValue: null,
 
     // String - Colour of the scale line
-    scaleLineColor: "rgba(0,0,0,.1)",
+    scaleLineColor: "rgba(0,0,0,.15)",
 
     // Number - Pixel width of the scale line
     scaleLineWidth: 1,
@@ -50,13 +50,13 @@ Chart.defaults.global = {
     scaleBeginAtZero: false,
 
     // String - Scale label font declaration for the scale label
-    scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+    scaleFontFamily: "'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
     // Number - Scale label font size in pixels
     scaleFontSize: 10,
 
     // String - Scale label font weight style
-    scaleFontStyle: "normal",
+    scaleFontStyle: "bold",
 
     // String - Scale label font colour
     scaleFontColor: "#666",
@@ -68,13 +68,14 @@ Chart.defaults.global = {
     maintainAspectRatio: false,
 
     // Boolean - Determines whether to draw tooltips on the canvas or not
-    showTooltips: true,
+    showTooltips: false,
 
     // Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))
     customTooltips: false,
 
     // Array - Array of string names to attach tooltip events
-    tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+    // tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+    tooltipEvents: [],
 
     // String - Tooltip background colour
     tooltipFillColor: "rgba(0,0,0,0.6)",
@@ -388,7 +389,10 @@ var canvasResize = function() {
   statsTimeWeekGraph.destroy();
   var size = document.getElementsByTagName('main')[0].getAttribute('data-size');
   var smAndBelow = (size == 'sm' || size == 'xs' || size == 'xxs' || size == 'xxxs')
-  $('canvas').each(function() {
+  $('canvas:not(#sidebar-graph-points):not(.stats-points-per-course)').each(function() {
+    $parent = $(this).parent();
+    $temp = $(this).detach();
+    $temp.appendTo($parent);
     var context = this.getContext('2d');
     context.clearRect(0, 0, this.width, this.height);
     var parentSize = this.parentNode.getBoundingClientRect();

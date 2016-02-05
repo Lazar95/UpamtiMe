@@ -494,6 +494,24 @@ dl.stats-horizontal {
  * Course-banner
  */
 
+select {
+	font: inherit;
+	color: inherit;
+	font-family: inherit;
+	font-size: 0.75 * 24px;
+	background-color: transparent;
+	border: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	transition: all .2s ease;
+
+	&:hover, &:active, &:focus {
+
+	}
+}
+
 .course-banner, .profile-banner {
 	width: 100%;
 	margin: 24px auto;
@@ -646,24 +664,6 @@ dl.stats-horizontal {
 				font-size: 16px;
 				margin: 0 12px;
 				align-self: center;
-			}
-
-			select {
-				font: inherit;
-				color: inherit;
-				font-family: inherit;
-				font-size: 0.8 * 24px;
-				background-color: transparent;
-				border: none;
-				-webkit-appearance: none;
-				-moz-appearance: none;
-			  appearance: none;
-				cursor: pointer;
-				transition: all .2s ease;
-
-				&:hover, &:active, &:focus {
-
-				}
 			}
 		}
 

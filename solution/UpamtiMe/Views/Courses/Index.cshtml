@@ -36,22 +36,14 @@
                 @Html.EditorFor(model => model.Search, new { htmlAttributes = new { @class = "search-form-input" } })
             </div>
 
-            @*<div class="search-form-input-group">
+            <div class="search-form-input-group" id="course-category">
                 <span>Kategorija</span>
-                @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "search-form-input" } })
+                @Html.DropDownListFor(m => m.CategoryID, categories, "Izaberi kategoriju", new { @class = "search-form-input" } )
             </div>
 
-            <div class="search-form-input-group">
+            <div class="search-form-input-group" id="course-subcategory">
                 <span>Podkategorija</span>
-                @Html.EditorFor(model => model.SubcategoryID, new { htmlAttributes = new { @class = "search-form-input" } })
-            </div>*@
-
-            <div id="new-course-category">
-                @Html.DropDownListFor(m => m.CategoryID, categories, "Izaberi kategoriju")
-            </div>
-
-            <div id="new-course-subcategory">
-                <select id="@Html.NameFor(m => m.SubcategoryID)" name="@Html.NameFor(m=>m.SubcategoryID)">
+                <select id="@Html.NameFor(m => m.SubcategoryID)" name="@Html.NameFor(m=>m.SubcategoryID)" class="search-form-input">
                     <option value="0">Izaberi podkategoriju</option>
                     @foreach (var subcat in Model.AllSubcategories)
                     {
@@ -59,8 +51,6 @@
                     }
                 </select>
             </div>
-
-
 
             <div class="search-form-input-group search-button">
                 <button type="submit" id="button-search" formmethod="get"><i class="fa fa-search"></i></button>

@@ -38,7 +38,7 @@ var _qa = [];
 
 $(window).bind('load', function() {
   parseTableOfGod();
-
+  sessionTimer(); // ovo zapocinje tajmer sesije 1s nakon ucitavanja stranice
   resetTimer(); // za karticu
 
 
@@ -76,8 +76,31 @@ const _timerUpdateInterval = 10;
 var _intervalPerCard;
 var _intervalPerSession;
 
-var updateTimerPerSession = function() {
+// Za tajmer sesije
+var seconds = 0, minutes = 0, t; // t je kao neki ID za setTimeout
 
+var updateSessionTimer = function() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+        }
+    }
+    
+    $('#time').html((minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + "'" + (seconds > 9 ? seconds : "0" + seconds) + "''");
+    sessionTimer();
+}
+
+// Pozivamo updateSessionTimer na svakih 1000ms
+var sessionTimer = function() {
+    t = setTimeout(updateSessionTimer, 1000);
+}
+
+// Zaustavljamo tajmer sesije
+var stopSessionTimer = function() {
+	clearTimeout(t);
 }
 
 /**
@@ -133,7 +156,8 @@ var resetTimer = function() {
 
 var displayFinalMessage = function() {
 
-  //TODO ovde clearInterval
+  clearInterval(_intervalPerCard);
+  stopSessionTimer();
 
   $('#cover .title').html('Uspešno odigrano!');
   $('#cover .subtitle').html('Svaka čast!');

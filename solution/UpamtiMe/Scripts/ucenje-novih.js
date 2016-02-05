@@ -67,10 +67,13 @@ var LENGTH = _qa.length;
 var ALREADY_PUNISHED = false;
 
 $(window).bind('load', function() {
+	
+  sessionTimer(); // startujemo tajmer sesije 1s nakon loadovanja strane
   parseTableOfGod();
   LENGTH = _qa.length;
   setLevels();
   createProgressBar();
+
 
   //console.log('Broj pitanja: ', LENGTH);
   loadQuestion();
@@ -127,6 +130,33 @@ var setLevels = function() {
 
   shuffleArray(_levels[1]);
   shuffleArray(_levels[2]);
+}
+
+// Za tajmer sesije
+var seconds = 0, minutes = 0, t; // t je kao neki ID za setTimeout
+
+var updateSessionTimer = function() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+        }
+    }
+    
+    $('#time').html((minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + "'" + (seconds > 9 ? seconds : "0" + seconds) + "''");
+    sessionTimer();
+}
+
+// Pozivamo updateSessionTimer na svakih 1000ms
+var sessionTimer = function() {
+    t = setTimeout(updateSessionTimer, 1000);
+}
+
+// Zaustavljamo tajmer sesije
+var stopSessionTimer = function() {
+	clearTimeout(t);
 }
 
 var _currentQuestion = function() {
@@ -937,7 +967,7 @@ var getCircleNumber = function() {
 
 var sessionCompleted = function() {
 
-  //TODO ovde clearInterval
+  stopSessionTimer();
 
   $('#cover .title').html('Uspešno odigrano!');
   $('#cover .subtitle').html('Svaka čast!');

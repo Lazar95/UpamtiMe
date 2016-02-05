@@ -173,7 +173,7 @@ else
     <li class="result" data-rating="@rating" data-course-id="@id">
 
         <div class="avatar-wrapper">
-            <a href="@url.Action("Profile", "Courses", new { courseID = id })">
+            <a href="@url.Action("Profile", "Courses", new { id = id })">
                 @Helper.Image(image, "class", "avatar")
             </a>
             <div class="creator-username">by <a href="#!">@@@creatorUsername</a></div>
@@ -182,7 +182,7 @@ else
             <div class="course-info-visible">
                 <div class="course-info-init">
                     <div class="show-more"><i class="fa fa-ellipsis-v"></i></div>
-                    <div class="name"><a href="@url.Action("Profile", "Courses", new { courseID = id })">@name</a></div>
+                    <div class="name"><a href="@url.Action("Profile", "Courses", new { id = id })">@name</a></div>
                     <div class="cat-subcat">
                         <div class="cat" data-cat-id="@cat">
                             <a href="@url.Action("Index", "Courses", new { categoryID = cat })">@catName</a>

@@ -8,7 +8,7 @@ using Data.DTOs;
 
 namespace UpamtiMe.Models
 {
-    public class PartialModel
+    public class SidebarModel
     {
         public int UserID { get; set; }
         public string Username { get; set; }
@@ -17,15 +17,17 @@ namespace UpamtiMe.Models
         public int Streak { get; set; }
         public float Score { get; set; }
         public int TotalCardsSeen { get; set; }
+
+        public List<Data.DTOs.FavoriteCourseDTO> FavoriteCourses { get; set; } 
        
         public Data.DTOs.StatisctisByDays Statistics { get; set; }
 
         public List<Data.DTOs.LeaderboardEntryDTO> Leaderboard { get; set; }
         public LearningStatisticsDTO LearningStatistics { get; set; }
 
-        public static PartialModel Load(int userID, LearningStatisticsDTO learningStatistics = null)
+        public static SidebarModel Load(int userID, LearningStatisticsDTO learningStatistics = null)
         {
-            PartialModel returnValue = new PartialModel();
+            SidebarModel returnValue = new SidebarModel();
             User usr = Data.Users.GetUser(userID);
 
             returnValue.UserID = usr.userID;
@@ -35,6 +37,9 @@ namespace UpamtiMe.Models
             returnValue.Streak = usr.streak;
             returnValue.Score = usr.score;
             returnValue.TotalCardsSeen = usr.totalCardsSeen;
+
+            returnValue.FavoriteCourses = Data.Courses.GetUsersFavoriteCourses(usr.userID,
+                ConfigurationParameters.FavoriteCoursesNumber);
 
             //ne treba mi 30 ali ucitavam zbog User/Index
             returnValue.Statistics = Data.Users.GetStatisctisByDays(userID, timeSpan: 30);

@@ -7,11 +7,11 @@ namespace UpamtiMe
 {
     public static class ConfigurationParameters
     {
-        public static int CoursesSearchInfiniteScrollBlockSize = 2;
-        public static int CourseIndexStartCourseNumber = 1;
+        public static int CoursesSearchInfiniteScrollBlockSize = 8;
+        public static int CourseIndexStartCourseNumber = 8;
 
-        public static int CoursesUserIndexInfiniteScrollBlockSize = 2;
-        public static int UserIndexStartCourseNumber = 1;
+        public static int CoursesUserIndexInfiniteScrollBlockSize = 8;
+        public static int UserIndexStartCourseNumber = 8;
 
         public static int LearningSessionCardNumber = 6;
         public static int ReviewSessionCardNumber = 20;
@@ -25,6 +25,7 @@ namespace UpamtiMe
         public static List<int> desiredReviewOptions = new List<int> { 10, 15, 20, 30, 50 };
         public static int minimumLeftToReview = 5;
 
+        public static int FavoriteCoursesNumber = 6;
 
         //ovo nisam stavila da ne bih prenatrpavala kod, tesko da ce ikad da se promeni
         // static int StatisticsTimeSpan = 30;

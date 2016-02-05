@@ -1,5 +1,5 @@
 ﻿@using Data
-@model UpamtiMe.Models.PartialModel
+@model UpamtiMe.Models.SidebarModel
 
 <aside id="sidebar" @(UserSession.GetUser() == null ? "" : "data-logged-in")>
     @if (Model.UserID > 0)

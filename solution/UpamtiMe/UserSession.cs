@@ -96,12 +96,12 @@ namespace UpamtiMe
 
         public static void ReloadSidebar()
         {
-            HttpContext.Current.Session["sidebar"] = Models.PartialModel.Load(GetUserID());
+            HttpContext.Current.Session["sidebar"] = Models.SidebarModel.Load(GetUserID());
         }
 
-        public static Models.PartialModel GetSidebar()
+        public static Models.SidebarModel GetSidebar()
         {
-            return (Models.PartialModel) HttpContext.Current.Session["sidebar"];
+            return (Models.SidebarModel) HttpContext.Current.Session["sidebar"];
         }
 
         public static void SetUserCourses(List<Course> list)

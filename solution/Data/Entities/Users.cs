@@ -248,6 +248,8 @@ namespace Data
                 user.doneToday = false;
                 user.thisWeekScore = last7days;
                 user.thisMonthScore = last30days;
+
+               
             }
             dc.SubmitChanges();
         }

@@ -437,5 +437,38 @@ namespace Data
             dc.SubmitChanges();
         }
 
+        public static List<FavoriteCourseDTO> GetFavoriteCourseDTOs(int userID, List<int> courseIDs)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            return (from a in dc.Courses
+                where courseIDs.Contains(a.courseID)
+                select new FavoriteCourseDTO
+                {
+                    CourseID = a.courseID,
+                    Image =
+                        (a.image == null || a.image.ToArray().Length == 0)
+                            ? Data.DefaultPictures.getAt(a.defaultImageID)
+                            : a.image.ToArray(),
+                    Name = a.name,
+                    LearningStatistics = getUserLearningStatisticsForCourse(userID, a.courseID, -1, null)
+                }).ToList();
+        }
+
+        public static List<FavoriteCourseDTO> GetUsersFavoriteCourses(int userID, int courseNum)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            List<int> courses =
+                (from a in dc.UsersCourses
+                 where a.userID == userID && a.favorite != null
+                 select new
+                 {
+                     courseID =  a.courseID,
+                     lastPlayed = a.lastPlayed ,
+                     favorite = a.favorite
+                 }).OrderBy(a=>a.favorite).ThenByDescending(a => a.lastPlayed).Select(a=>a.courseID).ToList().Take(courseNum).ToList();
+
+            return GetFavoriteCourseDTOs(userID, courses);
+        } 
+
     }
 }

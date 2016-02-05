@@ -1,4 +1,5 @@
 ﻿@using Data.DTOs
+@using Data
 @model UpamtiMe.Models.UserProfileModel
 
 @{
@@ -21,7 +22,7 @@
             <div class="icon"><i class="fa fa-line-chart"></i></div>
             <div class="actual-info">
                 <div class="title">Poeni</div>
-                <div class="primary-info">@Model.Score.ToString()</div>
+                <div class="primary-info">@Model.Score.beautify()</div>
                 <div class="secondary-info">@Model.Score.ToString()</div>
             </div>
         </div>

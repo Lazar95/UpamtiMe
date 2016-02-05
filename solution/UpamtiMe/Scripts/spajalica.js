@@ -62,6 +62,7 @@ $(window).bind('load', function() {
   _stack.push(4);
   _stack.push(5);
 
+  ultraTime = setInterval()
   _interval = setInterval( function(){ updateTimer(_timeRemaining); }, _timerUpdateInterval);
 
 });
@@ -464,7 +465,3 @@ var dump = function() {
   console.log("Selected: " + _selected);
   console.log("Next chip: " + _nextChip);
 }
-
-/**
- * Prikaz summary na kraju
- */

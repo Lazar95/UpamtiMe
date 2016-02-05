@@ -912,6 +912,7 @@ main#review-session {
           margin: 64px;
           margin-top: 0;
           border-radius: 5px;
+					transition: all 0s;
 
           .remaining-time {
             background-color: palette($blue-grey, 500);
@@ -921,13 +922,15 @@ main#review-session {
             display: flex;
             justify-content: flex-end;
             align-items: center;
+						transition: all 0s;
 
-            &>span {
+            & > span {
               padding: 10px;
               display: block;
               border-radius: 5px;
               font-size: 12px;
               color: white;
+							transition: all 0s;
               //background-color: palette($blue-grey, 400);
             }
           }

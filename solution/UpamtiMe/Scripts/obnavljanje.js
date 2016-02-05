@@ -39,7 +39,8 @@ var _qa = [];
 $(window).bind('load', function() {
   parseTableOfGod();
 
-  resetTimer();
+  resetTimer(); // za karticu
+
 
   // na osnovu broja pitanja napraviti kruzice dole
   var progress = '';
@@ -68,11 +69,16 @@ var _lastPoints = 0;
 var _currentCombo = 0;
 var _maxComboReached = 0;
 
-// Za tajmer
+// Za tajmer po kartici
 const _maxTimeRemaining = 20000;
 var _timeRemaining = 20000;
-var _timerUpdateInterval = 10;
-var _interval;
+const _timerUpdateInterval = 10;
+var _intervalPerCard;
+var _intervalPerSession;
+
+var updateTimerPerSession = function() {
+
+}
 
 /**
  * [function description]
@@ -109,7 +115,7 @@ var updateTimer = function(timeRemaining) {
   if (timeRemaining < 0) {
     remainingTime.children('span').html('');
     onPressEnterAnswerInput($('input#type-answer'));
-    clearInterval(_interval);
+    clearInterval(_intervalPerCard);
   }
 
 };
@@ -119,8 +125,8 @@ var updateTimer = function(timeRemaining) {
  */
 var resetTimer = function() {
   _timeRemaining = _maxTimeRemaining;
-  clearInterval(_interval);
-  _interval = setInterval( function() {
+  clearInterval(_intervalPerCard);
+  _intervalPerCard = setInterval( function() {
     updateTimer(_timeRemaining);
   }, _timerUpdateInterval);
 };

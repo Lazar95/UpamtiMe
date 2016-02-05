@@ -123,12 +123,72 @@ body {
 header {
 	background-color: palette($blue-grey, 200);
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	align-items: center;
 	padding: 10px;
-	height: 48px;
+	height: 68px;
+	box-sizing: border-box;
+	padding-left: 224px + 10px; // 224 od sidebara plus 10 da bude stvarno
 	z-index: 10000;
 	@include z-depth(2);
+	position: relative;
+	width: 100%;
+
+	#hamburger {
+		color: palette($blue-grey, 800);
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 48px;
+		width: 48px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+		padding: 10px;
+		font-size: 24px;
+
+		@include sm-and-above {
+			display: none;
+		}
+	}
+
+	#logo {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 68px;
+		width: 224px;
+		box-sizing: border-box;
+		padding: 10px;
+		font-size: 30px;
+		transition: all 0s;
+
+		a {
+			@extend .no-emph;
+			display: flex;
+			width: 100%;
+			height: 100%;
+			justify-content: center;
+			align-items: center;
+			font-weight: bold;
+		}
+
+		@include xs-and-below {
+			left: 48px; // zbog hamburgera
+			width: 224px - 48px;
+			font-size: 20px;
+
+			a {
+				justify-content: flex-start;
+			}
+		}
+	}
+
+	@include xs-and-below {
+		padding-left: 10px; // vracamo se na originalni
+		position: fixed;
+	}
 }
 
 //TODO debugging boje za main
@@ -155,11 +215,13 @@ main {
 	}
 
 	@include xs-and-below {
-		padding-left: 24px;
+		padding-left: 24px; // reset na 24
+		padding-top: 68px + 24px; // header height + standardni
 	}
 
 	@include xxs-only {
 		padding: 0;
+		padding-top: 86px; // header height
 	}
 }
 

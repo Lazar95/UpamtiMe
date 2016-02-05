@@ -8,6 +8,7 @@ main#users-index {
   #user-stats, #leaderboard {
     padding: 16px;
     @include force-height(460px);
+    overflow: hidden;
 
     .more {
       @extend .less;

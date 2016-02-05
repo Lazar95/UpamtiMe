@@ -7,27 +7,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,700,100&subset=latin,latin-ext' rel='stylesheet' type='text/css'>-->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,700,100&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="~/Content/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<header>
-    @{ LoginDTO user = UserSession.GetUser();}
 
-    @if (user != null)
-    {
-        <span><a href="@Url.Action("Index", "Users", new { id = user.UserID })">Upamti.Me</a></span>
-    }
-
-    @if (user != null)
-    {
-        <span>@user.Username</span>
-        @Html.ActionLink("Log out", "Index", "Home", new { logOut = true }, new { @class = "logout" })
-    }
-
-   
-</header>
+    <header>
+        @{ LoginDTO user = UserSession.GetUser(); }
+        <div id="hamburger" data-state="collapsed"><i class="fa fa-bars"></i></div>
+        @if (user != null)
+        {
+            <div id="logo"><a href="@Url.Action("Index", "Users", new { id = user.UserID })"><span>Upamti.Online</span></a></div>
+        }
+        @if (user != null)
+        {
+            <span>@user.Username</span>
+            @Html.ActionLink("Log out", "Index", "Home", new { logOut = true }, new { @class = "logout" })
+        }
+    </header>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>

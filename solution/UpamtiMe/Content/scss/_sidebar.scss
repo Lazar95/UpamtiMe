@@ -14,8 +14,7 @@ aside#sidebar {
 	flex-direction: column;
 
   @include xs-and-below {
-    left: -224px;
-    @include z-depth(0);
+    left: -234px;
   }
 
 	& > * {

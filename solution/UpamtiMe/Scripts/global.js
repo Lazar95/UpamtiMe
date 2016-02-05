@@ -72,16 +72,24 @@ $(document).on('mouseleave', '.tooltippable', function() {
   * Upis trenutog lg/md/sm itd u main data-size
   */
  var responsiveMain = function() {
-   w = $(window).width();
-   var xs = 480;
-   var sm = 960;
-   var md = 1224;
-   var lg = 1572;
+   // size u main
+   w = $('body').innerWidth();
+   const xs = 640;
+   const sm = 960;
+   const md = 1224;
+   const lg = 1572;
    if (w > lg) $('main').attr('data-size', 'lg');
    else if (w > md) $('main').attr('data-size', 'md');
    else if (w > sm) $('main').attr('data-size', 'sm');
    else if (w > xs) $('main').attr('data-size', 'xs');
    else $('main').attr('data-size', 'xxs');
+
+   // skriva sidebar
+   if (w < sm) {
+     hideSidebar();
+   } else {
+     showSidebar();
+   }
  }
  var resizeId;
  $(window).bind('resize', function() {
@@ -90,4 +98,24 @@ $(document).on('mouseleave', '.tooltippable', function() {
  });
  $(window).bind('load', function() {
    responsiveMain();
- })
+ });
+
+ /**
+  * Sidebar Hamburger
+  */
+var showSidebar = function() {
+  $('#sidebar').css('left', '0');
+  $('#hamburger').attr('data-state', 'expanded').html('<i class="fa fa-arrow-left"></i>');
+}
+var hideSidebar = function() {
+  $('#sidebar').css('left', '-234px');
+  $('#hamburger').attr('data-state', 'collapsed').html('<i class="fa fa-bars"></i>');
+}
+$('#hamburger').on('click', function() {
+  var state = $('#hamburger').attr('data-state')
+  if (state == 'expanded') {
+    hideSidebar();
+  } else { // state == "collapsed"
+    showSidebar();
+  }
+});

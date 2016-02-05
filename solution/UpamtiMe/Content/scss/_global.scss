@@ -1248,6 +1248,10 @@ left: -4px; // margina kartica
        margin-top: -28px;
      }
 
+		 .stats-points-per-course-wrapper {
+			 .line-legend { display: none; }
+		 }
+
      .button-enroll, .button-goto {
        width: 100%;
        overflow: hidden;

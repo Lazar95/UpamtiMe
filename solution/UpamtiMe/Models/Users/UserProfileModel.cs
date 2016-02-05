@@ -24,6 +24,10 @@ namespace UpamtiMe.Models
         public List<Data.Achievement> Achievements { get; set; }
 
         public List<CourseDTO> Courses { get; set; }
+        public List<FollowerDTO> Followers { get; set; }
+        public List<FollowerDTO> Following { get; set; }
+
+        public int numCourses { get; set; }
 
 
         public static UserProfileModel Load(int profileID, int? userID = null)
@@ -52,8 +56,10 @@ namespace UpamtiMe.Models
             }
 
             returnValue.Courses = Data.Courses.GetCoursesOfUser(profileID, userID);
-            
-            
+            returnValue.Following = Data.Users.GetFollowing(profileID, userID);
+            returnValue.Followers = Data.Users.GetFollowers(profileID, userID);
+
+            returnValue.numCourses = Data.Users.getUserCourses(profileID).Count;
 
             return returnValue;
         }

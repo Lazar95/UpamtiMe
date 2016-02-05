@@ -48,6 +48,7 @@
     <Compile Include="DTOs\Courses\CourseUsersStatisticsDTO.cs" />
     <Compile Include="DTOs\Courses\FavoriteCourseDTO.cs" />
     <Compile Include="DTOs\EditCourseLevelsCards.cs" />
+    <Compile Include="DTOs\FollowerDTO.cs" />
     <Compile Include="DTOs\Levels\LevelBasicDTO.cs" />
     <Compile Include="DTOs\LeaderboardEntryDTO.cs" />
     <Compile Include="DTOs\LearningStatisticsDTO.cs" />

@@ -321,5 +321,50 @@ namespace Data
             return returnValue;
         }
 
+        //oni koji prate njega
+        public static List<FollowerDTO> GetFollowers(int profileID, int? userID = null, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+            return (from a in dc.Users.AsEnumerable()
+                from f in dc.Friendships
+                where f.user2ID == profileID && f.user1ID == a.userID
+                select new FollowerDTO
+                {
+                    UserID = a.userID,
+                    FirstName = a.name,
+                    LastName = a.surname,
+                    Username = a.username,
+                    Avatar =
+                        (a.avatar == null || a.avatar.ToArray().Length == 0)
+                            ? Data.DefaultPictures.getAt(a.defaultAvatarID)
+                            : a.avatar.ToArray(),
+                    Follow = userID == null ? (bool?)null : Users.follows(userID.Value, a.userID),
+                }).ToList();
+
+        }
+
+
+        //oni koje on prati
+        public static List<FollowerDTO> GetFollowing(int profileID, int? userID = null, DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+            return (from a in dc.Users.AsEnumerable()
+                    from f in dc.Friendships
+                    where f.user1ID == profileID && f.user2ID == a.userID
+                    select new FollowerDTO
+                    {
+                        UserID = a.userID,
+                        FirstName = a.name,
+                        LastName = a.surname,
+                        Username = a.username,
+                        Avatar =
+                            (a.avatar == null || a.avatar.ToArray().Length == 0)
+                                ? Data.DefaultPictures.getAt(a.defaultAvatarID)
+                                : a.avatar.ToArray(),
+                        Follow = userID == null ? (bool?)null : Users.follows(userID.Value, a.userID),
+                    }).ToList();
+
+        }
+
     }
 }

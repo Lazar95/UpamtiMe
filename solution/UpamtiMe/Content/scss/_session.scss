@@ -676,6 +676,7 @@ main#review-session, main#learn-session, main#spajalica {
 		ul {
 			display: flex;
 			justify-content: center;
+			flex-wrap: wrap;
 
 			div {
 				margin: 5px;
@@ -961,7 +962,7 @@ main#review-session {
 
     // Uvek treba da ima (sakrivenu) brojku, da bi tranzicija radila.
     // Brojka ce biti stvarno vidljiva tek sa .dispaly-number.
-    @for $i from 1 through 20 {
+    @for $i from 1 through 60 {
       &:nth-child(#{$i})::after { content: "" + $i }
     }
     &::after {
@@ -974,13 +975,17 @@ main#review-session {
       position: absolute;
       margin-left: - 86px / 2 + 24px / 2; // poluduzina njega, poluduzina kruzica gore
       margin-top: 0px;
-      color: transparentize(palette($blue-grey, 800), 1);
+      opacity: 0;
+			z-index: 2;
+			$c: palette($blue-grey, 700); // boja body pozadine
+			text-shadow: 1px 1px 2px $c, -1px 1px 2px $c, 1px -1px 2px $c, -1px -1px 2px $c;
       transition: all .33s linear;
     }
 
     &.display-number::after {
+			opacity: 1;
       margin-top: 32px;
-      color: transparentize(palette($blue-grey, 800), 0);
+      color: rgba(black, .3);
     }
 	}
 

@@ -192,11 +192,13 @@ header {
 }
 
 //TODO debugging boje za main
+/*
 @include lg-only { main { background-color: palette($orange); } }
 @include md-only { main { background-color: palette($green); } }
 @include sm-only { main { background-color: palette($blue); } }
 @include xs-only { main { background-color: palette($red); } }
 @include xxs-only { main { background-color: palette($teal); } }
+*/
 
 main {
 	position: relative;

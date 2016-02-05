@@ -437,11 +437,11 @@ namespace Data
             dc.SubmitChanges();
         }
 
-        public static List<FavoriteCourseDTO> GetFavoriteCourseDTOs(int userID, List<int> courseIDs)
+        public static List<FavoriteCourseDTO> GetFavoriteCoursesDTOs(int userID, List<int> courseIDs)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
-            return (from a in dc.Courses
-                where courseIDs.Contains(a.courseID)
+            return (from a in dc.Courses.AsEnumerable()
+                    where courseIDs.Contains(a.courseID)
                 select new FavoriteCourseDTO
                 {
                     CourseID = a.courseID,
@@ -467,8 +467,36 @@ namespace Data
                      favorite = a.favorite
                  }).OrderBy(a=>a.favorite).ThenByDescending(a => a.lastPlayed).Select(a=>a.courseID).ToList().Take(courseNum).ToList();
 
-            return GetFavoriteCourseDTOs(userID, courses);
-        } 
+            return GetFavoriteCoursesDTOs(userID, courses);
+        }
+
+        //one koje je on kreirao
+        public static List<CourseDTO> GetCoursesOfUser(int creatorID, int? userID = null ,DataClasses1DataContext dc = null)
+        {
+            dc = dc ?? new DataClasses1DataContext();
+
+            return (from a in dc.Courses.AsEnumerable()
+                    where a.creatorID == creatorID
+                    select new CourseDTO
+                    {
+                        CourseID = a.courseID,
+                        Name = a.name,
+                        CategoryID = a.categoryID,
+                        CategoryName = getCategoryName(a.categoryID),
+                        SubcategoryID = a.subcategoryID,
+                        SubcategoryName = a.subcategoryID == null ? null : getSubcategoryName(a.subcategoryID.Value),
+                        ParticipantCount = a.participantCount,
+                        NumberOfCards = a.numberOfCards,
+                        CreatorID = a.creatorID,
+                        CreatorUsername = Users.getUsername(a.creatorID),
+                        Rating = a.rating,
+                        Image = (a.image == null || a.image.ToArray().Length == 0) ? Data.DefaultPictures.getAt(a.defaultImageID) : a.image.ToArray(),
+                        Erolled = userID != null && Users.enrolled(userID.Value, a.courseID),
+                        Description = a.description
+                    }).OrderByDescending(m => m.Rating).ThenByDescending(m => m.ParticipantCount).ToList();
+        }
+
+
 
     }
 }

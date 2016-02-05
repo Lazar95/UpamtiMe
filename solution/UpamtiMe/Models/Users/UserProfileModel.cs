@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
+using Data.DTOs;
 
 namespace UpamtiMe.Models
 {
@@ -21,9 +23,12 @@ namespace UpamtiMe.Models
         public byte[] Image { get; set; }
         public List<Data.Achievement> Achievements { get; set; }
 
-        public static UserProfileModel Load(int userID)
+        public List<CourseDTO> Courses { get; set; }
+
+
+        public static UserProfileModel Load(int profileID, int? userID = null)
         {
-            Data.User u = Data.Users.GetUser(userID);
+            Data.User u = Data.Users.GetUser(profileID);
             UserProfileModel returnValue = new UserProfileModel
             {
                 UserID = u.userID,
@@ -45,6 +50,10 @@ namespace UpamtiMe.Models
             {
                 returnValue.Image = Data.DefaultPictures.getAt(u.defaultAvatarID);
             }
+
+            returnValue.Courses = Data.Courses.GetCoursesOfUser(profileID, userID);
+            
+            
 
             return returnValue;
         }

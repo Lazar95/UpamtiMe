@@ -24,7 +24,7 @@ namespace UpamtiMe.Controllers
         public ActionResult Profile(int id)
         {
            
-            Models.UserProfileModel model = Models.UserProfileModel.Load(id);
+            Models.UserProfileModel model = Models.UserProfileModel.Load(id, UserSession.GetUser()?.UserID);
             if (UserSession.GetUser() == null)
             {
                 ViewBag.friends = Data.Enumerations.FollowStatus.NotLoggedIn;

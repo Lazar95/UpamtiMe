@@ -7,11 +7,11 @@ namespace UpamtiMe
 {
     public static class ConfigurationParameters
     {
-        public static int CoursesSearchInfiniteScrollBlockSize = 8;
-        public static int CourseIndexStartCourseNumber = 8;
+        public static int CoursesSearchInfiniteScrollBlockSize = 12;
+        public static int CourseIndexStartCourseNumber = 12;
 
-        public static int CoursesUserIndexInfiniteScrollBlockSize = 8;
-        public static int UserIndexStartCourseNumber = 8;
+        public static int CoursesUserIndexInfiniteScrollBlockSize = 12;
+        public static int UserIndexStartCourseNumber = 12;
 
         public static int LearningSessionCardNumber = 6;
         public static int ReviewSessionCardNumber = 20;

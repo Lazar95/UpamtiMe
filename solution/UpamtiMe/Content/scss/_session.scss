@@ -675,13 +675,17 @@ main#review-session, main#learn-session, main#spajalica {
 
 		ul {
 			display: flex;
-			justify-content: space-between;
+			justify-content: center;
+
+			div {
+				margin: 5px;
+			}
 
 			li {
 				display: inline-block;
 				width:  24px;
 				height: 24px;
-				margin: 2px 2px;
+				margin: 3.2px;
 				line-height: 24px;
 				text-align: center;
 				border-radius: 50%;
@@ -689,30 +693,6 @@ main#review-session, main#learn-session, main#spajalica {
 				box-shadow: 0px 0px 0px 0px palette($blue-grey, 600) inset; // zbog tranzicije
         transition: all 0.66s ease;
 				position: relative;
-
-        // Uvek treba da ima (sakrivenu) brojku, da bi tranzicija radila.
-        // Brojka ce biti stvarno vidljiva tek sa .dispaly-number.
-        @for $i from 1 through 20 {
-          &:nth-child(#{$i})::after { content: "" + $i }
-        }
-        &::after {
-          height: 32px;
-          font-weight: bold;
-          line-height: 32px;
-          font-size: 32px;
-          width:  86px;
-          display: block;
-          position: absolute;
-          margin-left: - 86px / 2 + 24px / 2; // poluduzina njega, poluduzina kruzica gore
-          margin-top: 0px;
-          color: transparentize(palette($blue-grey, 800), 1);
-          transition: all .33s linear;
-        }
-
-        &.display-number::after {
-          margin-top: 32px;
-          color: transparentize(palette($blue-grey, 800), 0);
-        }
 
         &.unopened {
           background-color: palette($blue-grey, 800);
@@ -977,6 +957,33 @@ main#review-session {
 
   }
 
+	.progress-bar > ul > li {
+
+    // Uvek treba da ima (sakrivenu) brojku, da bi tranzicija radila.
+    // Brojka ce biti stvarno vidljiva tek sa .dispaly-number.
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i})::after { content: "" + $i }
+    }
+    &::after {
+      height: 32px;
+      font-weight: bold;
+      line-height: 32px;
+      font-size: 32px;
+      width:  86px;
+      display: block;
+      position: absolute;
+      margin-left: - 86px / 2 + 24px / 2; // poluduzina njega, poluduzina kruzica gore
+      margin-top: 0px;
+      color: transparentize(palette($blue-grey, 800), 1);
+      transition: all .33s linear;
+    }
+
+    &.display-number::after {
+      margin-top: 32px;
+      color: transparentize(palette($blue-grey, 800), 0);
+    }
+	}
+
 }
 
 
@@ -993,8 +1000,12 @@ main#learn-session {
 
 	}
 
-	.progress-bar {
+	.progress-bar > ul {
+		flex-wrap: wrap;
 
+		& > div {
+			margin: 5px;
+		}
 	}
 
 }

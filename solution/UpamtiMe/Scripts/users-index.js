@@ -225,8 +225,13 @@ var loadGraphLine = function($canvas, dataInfo, len) {
     datasets: ds,
   }
 
+  var options = {};
+  if ($canvas.attr('id') == 'sidebar-graph-points') {
+    options.scaleFontColor = "rgba(255, 255, 255, .5)";
+  }
+
   // bibliotecki pozivi
-  var chart = new Chart($canvas.get(0).getContext('2d')).Line(data);
+  var chart = new Chart($canvas.get(0).getContext('2d')).Line(data, options);
   var legend = chart.generateLegend();
   $canvas.parent().append(legend);
   return chart;

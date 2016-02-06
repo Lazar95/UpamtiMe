@@ -117,18 +117,18 @@ body {
 	flex-direction: column;
 	justify-content: flex-start;
 	font-family: $font-stack;
-	background-color: palette($blue-grey, 700);
+	background-color: $main-bg-color;
 }
 
 header {
-	background-color: palette($blue-grey, 200);
+	background-color: $header-bg-color;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	padding: 10px;
-	height: 68px;
+	padding: $header-padding;
+	height: $header-h;
 	box-sizing: border-box;
-	padding-left: 224px + 10px; // 224 od sidebara plus 10 da bude stvarno
+	padding-left: $sidebar-w + $header-padding;
 	z-index: 10000;
 	@include z-depth(2);
 	position: relative;
@@ -139,14 +139,14 @@ header {
 		position: fixed;
 		top: 0;
 		left: 0;
-		height: 48px;
-		width: 48px;
+		height: $header-h -  2 * $header-padding;
+		width: $header-h -  2 * $header-padding;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		align-content: center;
-		padding: 10px;
-		font-size: 24px;
+		padding: $header-padding;
+		font-size: 0.5 * $header-h;
 
 		@include sm-and-above {
 			display: none;
@@ -157,11 +157,11 @@ header {
 		position: fixed;
 		top: 0;
 		left: 0;
-		height: 68px;
-		width: 224px;
+		height: $header-h;
+		width: $sidebar-w;
 		box-sizing: border-box;
-		padding: 10px;
-		font-size: 30px;
+		padding: $header-padding;
+		font-size: 0.66 * ($header-h - 2 * $header-padding);
 		transition: all 0s;
 
 		a {
@@ -175,8 +175,8 @@ header {
 		}
 
 		@include xs-and-below {
-			left: 48px; // zbog hamburgera
-			width: 224px - 48px;
+			left: $header-h - 2 * $header-padding;
+			width: $sidebar-w - ($header-h - 2 * $header-padding);
 			font-size: 20px;
 
 			a {
@@ -186,7 +186,7 @@ header {
 	}
 
 	@include xs-and-below {
-		padding-left: 10px; // vracamo se na originalni
+		padding-left: $header-padding;
 		position: fixed;
 	}
 }
@@ -204,26 +204,26 @@ main {
 	position: relative;
 	@include force-width(1280px);
 	margin: 0 auto;
-	left: (224px/2);
-	padding: 24px;
+	left: ($sidebar-w / 2);
+	padding: $main-padding;
 	box-sizing: border-box;
-	min-height: calc(100vh - #{68px}); // minus heder ceo
+	min-height: calc(100vh - #{$header-h});
 
 	@include md-and-below {
 		left:0;
-		padding-left: 24px + 224px; // pored 24px standardno da bude jos 224 od sidebar
-		@include force-width(100%); // sidebar i dvaput padding
+		padding-left: $main-padding + $sidebar-w;
+		@include force-width(100%);
 		margin: 0;
 	}
 
 	@include xs-and-below {
-		padding-left: 24px; // reset na 24
-		padding-top: 68px + 24px; // header height + standardni
+		padding-left: $main-padding; // reset
+		padding-top: $header-h + $main-padding; // header height + standardni
 	}
 
 	@include xxs-only {
 		padding: 0;
-		padding-top: 86px; // header height
+		padding-top: $header-h;
 	}
 }
 
@@ -554,20 +554,16 @@ select {
 	}
 
 	.avatar {
-		margin: -24px 24px -24px -24px;
+		margin: -24px 24px -24px -24px; // jer je toliki padding na banner
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;
-		@include force-width(360px);
-		@include force-height(360px);
-		@include sm-and-below { @include force-width(240px); @include force-height(240px); }
+		@include force-width(360px); @include force-height(360px); // jer je tolika visina bannera
+		@include sm-and-below { @include force-width(240px); @include force-height(240px); } // jer je tolika visina bannera
 		@include z-depth(1);
-
-		&:hover ~ #image-upload-prompt {
-			transform: scale(1);
-		}
 	}
 
+	.avatar:hover ~ #image-upload-prompt { transform: scale(1); }
 	#image-upload-prompt {
 		background-color: rgba(black, .6);
 		color: white;

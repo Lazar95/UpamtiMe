@@ -160,15 +160,21 @@ aside#sidebar {
 			flex-grow: 1;
 			width: 25%;
 			height: 48px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			box-shadow: 0 0 0 1px rgba(white, .05) inset, 0 0 0 1px rgba(white, .05);
 			cursor: pointer;
 
 			&:hover, &:focus {
 				background-color: rgba(black, .1);
 				.button-icon { color: palette($blue-grey, 50); }
+			}
+
+			a {
+				@extend .no-emph;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				height: 100%;
 			}
 
 			.button-icon {

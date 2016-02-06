@@ -70,20 +70,40 @@
         </div>
         <div id="sidebar-buttons">
             <div class="sidebar-button tooltippable" data-tooltip-text="Pomoć" data-tooltip-direction="top">
-                <div class="button-icon"><i class="fa fa-question"></i></div>
-                <div class="button-text">Halp</div>
+                <a href="#!">
+                    <div class="button-icon"><i class="fa fa-question"></i></div>
+                    <div class="button-text">Pomoć</div>
+                </a>
             </div>
-            <div class="sidebar-button tooltippable" data-tooltip-text="Pomoć" data-tooltip-direction="top">
-                <div class="button-icon"><i class="fa fa-bell"></i></div>
-                <div class="button-text">Bell</div>
-            </div>
+            @if (UserSession.GetUser() != null)
+            {
+                <div class="sidebar-button tooltippable" data-tooltip-text="Izloguj se (@@@UserSession.GetUser().Username)" data-tooltip-direction="top">
+                    <a href="@Url.Action("Index", "Home", new { logOut = true })">
+                        <div class="button-icon"><i class="fa fa-key"></i></div>
+                        <div class="button-text">Izloguj se</div>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="sidebar-button tooltippable" data-tooltip-text="Uloguj se" data-tooltip-direction="top">
+                    <a href="@Url.Action("Index", "Home")">
+                        <div class="button-icon"><i class="fa fa-key"></i></div>
+                        <div class="button-text">Uloguj se</div>
+                    </a>
+                </div>
+            }
             <div class="sidebar-button tooltippable" data-tooltip-text="Kontakt" data-tooltip-direction="top">
-                <div class="button-icon"><i class="fa fa-envelope"></i></div>
-                <div class="button-text">Kontakt</div>
+                <a href="#!">
+                    <div class="button-icon"><i class="fa fa-envelope"></i></div>
+                    <div class="button-text">Kontakt</div>
+                </a>
             </div>
             <div class="sidebar-button tooltippable" data-tooltip-text="O nama" data-tooltip-direction="top">
-                <div class="button-icon"><i class="fa fa-info"></i></div>
-                <div class="button-text">O nama</div>
+                <a href="#!">
+                    <div class="button-icon"><i class="fa fa-info"></i></div>
+                    <div class="button-text">O nama</div>
+                </a>
             </div>
         </div>
     }

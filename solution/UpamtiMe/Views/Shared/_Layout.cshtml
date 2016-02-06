@@ -20,11 +20,13 @@
         {
             <div id="logo"><a href="@Url.Action("Index", "Users", new { id = user.UserID })"><span>Upamti.Online</span></a></div>
         }
-        @if (user != null)
-        {
-            <span>@user.Username</span>
-            @Html.ActionLink("Log out", "Index", "Home", new { logOut = true }, new { @class = "logout" })
-        }
+
+        <ul class="menu-group">
+            <li>Kursevi</li>
+            <li>Ovo</li>
+            <li>Ono</li>
+        </ul>
+
     </header>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>

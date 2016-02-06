@@ -19,6 +19,12 @@ namespace UpamtiMe.Controllers
         // GET: Courses
         public ActionResult Index(string search = null, int? categoryID = null, int? subcategoryID = null)
         {
+            //laza mi salje 0 kad nista nije selektirano
+            if (categoryID == 0)
+                categoryID = null;
+            if (subcategoryID == 0)
+                subcategoryID = null;
+
             CourseIndexModel model = CourseIndexModel.Load(search, categoryID, subcategoryID);
             return View(model);
         }

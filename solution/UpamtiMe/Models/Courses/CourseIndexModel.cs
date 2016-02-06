@@ -48,14 +48,30 @@ namespace UpamtiMe.Models
 
             //ostale smesti u sessiju (i posle cita na more)
             UserSession.SetSearchCourses(allCourses);
-           
-            cim.Search = search;
-            cim.CategoryID = categoryID;
-            cim.CategoryName = categoryID == null ? null : Data.Courses.getCategoryName(cim.CategoryID.Value);
-            cim.SubcategoryID = subcategoryID;
-            cim.SubcategoryName = subcategoryID == null? null : Data.Courses.getSubcategoryName(cim.SubcategoryID.Value);
 
             cim.AllSubcategories = Data.Courses.GetAllSubcategories();
+            cim.Search = search;
+            
+            cim.SubcategoryID = subcategoryID;
+            if (subcategoryID != null)
+            {
+                cim.SubcategoryName = Data.Courses.getSubcategoryName(cim.SubcategoryID.Value);
+                categoryID =
+                    (from a in cim.AllSubcategories where a.subcategoryID == cim.SubcategoryID.Value select a.categoryID)
+                        .First();
+            }
+            else
+            {
+                cim.SubcategoryName = null;
+            }
+
+
+            cim.CategoryID = categoryID;
+            cim.CategoryName = categoryID == null ? null : Data.Courses.getCategoryName(cim.CategoryID.Value);
+
+
+            
+            
 
             return cim;
         }

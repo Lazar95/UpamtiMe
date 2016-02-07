@@ -10,6 +10,7 @@ namespace Data.DTOs
 {
     public class LoginTransporterDTO
     {
+       
         public String Username { get; set; }
         //[DataType(DataType.Password)]
         public String Password { get; set; }

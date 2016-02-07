@@ -92,8 +92,11 @@ namespace UpamtiMe.Tests
         }
 
         [TestMethod]
-        public void Unique()
+        public void stringTest()
         {
+            string a = "Masa";
+            string b = "masa";
+            bool c = a == b;
         }
     }
 }

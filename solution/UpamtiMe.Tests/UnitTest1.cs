@@ -17,9 +17,9 @@ namespace UpamtiMe.Tests
         {
             Users.resetStatisticsForAllUsers();
 
-            Data.DTOs.StatisctisByDays statisctis1 = Data.Users.GetStatisctisByDays(2, 1,5);
-            Data.DTOs.StatisctisByDays statisctis7 = Data.Users.GetStatisctisByDays(2, 7,5);
-            Data.DTOs.StatisctisByDays statisctisTotal = Data.Users.GetStatisctisByDays(2,5);
+            Data.DTOs.StatisctisByDays statisctis1 = Data.Users.GetStatisctisByDays(2, 1, 5);
+            Data.DTOs.StatisctisByDays statisctis7 = Data.Users.GetStatisctisByDays(2, 7, 5);
+            Data.DTOs.StatisctisByDays statisctisTotal = Data.Users.GetStatisctisByDays(2, 5);
 
             Data.DTOs.StatisctisByDays aIb = statisctis1.Add(statisctis7);
             Data.DTOs.StatisctisByDays bIc = statisctis7.Add(statisctisTotal);
@@ -34,7 +34,7 @@ namespace UpamtiMe.Tests
 
             int sad = int.MaxValue;
             long lonssad = long.MaxValue;
-            
+
             float a = 15.151235f;
             string aS = a.beautify();
 
@@ -60,7 +60,7 @@ namespace UpamtiMe.Tests
         [TestMethod]
         public void Jajceva()
         {
-            List<int> list = Levels.getOptions(21, new List<int> { 10, 15, 20, 30 }, 5);
+            List<int> list = Levels.getOptions(21, new List<int> {10, 15, 20, 30}, 5);
         }
 
         [TestMethod]
@@ -89,6 +89,11 @@ namespace UpamtiMe.Tests
             });
 
             sm = sm.GroupBy(a => a.Answer).Select(a => a.First()).ToList();
+        }
+
+        [TestMethod]
+        public void Unique()
+        {
         }
     }
 }

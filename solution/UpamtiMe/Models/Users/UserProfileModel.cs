@@ -7,20 +7,14 @@ using Data.DTOs;
 
 namespace UpamtiMe.Models
 {
-    public class UserProfileModel
+    public class UserProfileModel : EditProfileModel
     {
-        public int UserID { get; set; }
-        public string Username { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
         public float Score { get; set; }
         public DateTime LastLogin { get; set; }
         public DateTime DateRegistered { get; set; }
         public int totalCardsSeen { get; set; }
-        public string Bio { get; set; }
         public int Streak { get; set; }
-        public string Location { get; set; }
-        public byte[] Image { get; set; }
+       
         public List<Data.Achievement> Achievements { get; set; }
 
         public List<CourseDTO> Courses { get; set; }

@@ -5,15 +5,45 @@
 @{
     ViewBag.Title = "Profile";
 }
+@{ LoginDTO user = UserSession.GetUser();}
 
 <main id="user-profile">
 
     <div class="profile-banner">
         @Helper.Image(Model.Image, "class", "avatar")
         <div class="basic-info">
-            <h1 id="user-name-surname"><span>@Model.Name</span></h1>
-            <h2 id="user-username"><span>@@@Model.Username</span></h2>
+            <h1 id="user-name-surname"><span>@Model.Name</span>&nbsp;<span>@Model.Surname</span></h1>
+            <h2 id="user-username"><span>@@@Model.Username</span>&nbsp;@if(@Model.Location != null && Model.Location != ""){<span>(@Model.Location)</span>}</h2>
             <div id="user-bio"><span>@Model.Bio</span></div>
+            @if (user != null)
+            {
+                <div id="course-actions">
+                    @if (user.UserID == Model.UserID)
+                    {
+                        <a id="button-edit-course" class="button-link" href="@Url.Action("Edit", "Users")">
+                            <div class="button tooltippable" data-tooltip-text="Izmeni profil" data-tooltip-direction="left">
+                                <i class="fa fa-pencil"></i>
+                            </div>
+                        </a>
+                    }
+                    @if (@ViewBag.friends == Data.Enumerations.FollowStatus.NotFollowing)
+                    {
+                        <a id="button-favorite" class="button-link" href="@Url.Action("Follow", new { firstID = user.UserID, secondID = Model.UserID })">
+                            <div class="button tooltippable" data-tooltip-text="Počni da pratiš" data-tooltip-direction="left">
+                                <i class="fa fa-user-plus"></i>
+                            </div>
+                        </a>
+                    }
+                    else if (@ViewBag.friends == Data.Enumerations.FollowStatus.Following)
+                    {
+                        <a id="button-favorite" class="button-link" href="@Url.Action("Unfollow", new { firstID = user.UserID, secondID = Model.UserID })">
+                            <div class="button tooltippable" data-tooltip-text="Prestani da pratiš" data-tooltip-direction="left">
+                                <i class="fa fa-user-times"></i>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
         </div>
     </div>
 
@@ -39,15 +69,15 @@
             <div class="actual-info">
                 <div class="title">Broj kartica</div>
                 <div class="primary-info">@Model.totalCardsSeen</div>
-                <div class="secondary-info">u XXX kurseva</div>
+                <div class="secondary-info">u @Model.numCourses kurseva</div>
             </div>
         </div>
         <div class="big-stats">
             <div class="icon"><i class="fa fa-users"></i></div>
             <div class="actual-info">
                 <div class="title">Pratilaca</div>
-                <div class="primary-info">666</div>
-                <div class="secondary-info">Prati 666</div>
+                <div class="primary-info">@Model.Followers.ToArray().Count()</div>
+                <div class="secondary-info">Prati @Model.Following.ToArray().Count()</div>
             </div>
         </div>
     </div>

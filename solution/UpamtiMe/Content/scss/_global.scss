@@ -728,6 +728,15 @@ select {
 	} // .basic-info
 } // .course-banner
 
+.profile-banner {
+	#user-name-surname > input {
+		width: 48%;
+	}
+	#user-username > input {
+		width: 20%;
+	}
+}
+
 /**
  * Dugmad
  */

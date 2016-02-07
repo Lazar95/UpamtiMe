@@ -9,8 +9,6 @@ namespace UpamtiMe.Models
 {
     public class UserProfileModel : EditProfileModel
     {
-        public int UserID { get; set; }
-        public string Username { get; set; }
         public float Score { get; set; }
         public DateTime LastLogin { get; set; }
         public DateTime DateRegistered { get; set; }

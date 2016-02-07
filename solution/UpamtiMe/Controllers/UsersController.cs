@@ -49,6 +49,12 @@ namespace UpamtiMe.Controllers
             return View(model);
         }
 
+        public ActionResult Edit()
+        {
+            Models.EditProfileModel model = EditProfileModel.Load(UserSession.GetUserID());
+            return View(model);
+        }
+
         
         public ActionResult Follow(int secondID)
         {

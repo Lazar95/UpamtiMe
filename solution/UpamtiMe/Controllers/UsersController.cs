@@ -55,6 +55,14 @@ namespace UpamtiMe.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Edit(EditProfileModel model)
+        {
+            int userID = UserSession.GetUserID();
+            Data.Users.editProfile(userID, model.Name, model.Surname, model.Location, model.Bio);
+            return RedirectToAction("Profile", new {id  = userID});
+        }
+
         
         public ActionResult Follow(int secondID)
         {

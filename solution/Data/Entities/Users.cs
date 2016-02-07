@@ -176,7 +176,19 @@ namespace Data
             DataClasses1DataContext dc = new DataClasses1DataContext();
             return (from a in dc.Friendships where a.user1ID == aID && a.user2ID == bID select a).Any();
         }
-       
+
+        public static void editProfile(int userID, string name, string surname, string location,string bio)
+        {
+            DataClasses1DataContext dc = new DataClasses1DataContext();
+            User usr = GetUser(userID, dc);
+            
+            usr.name = name ?? usr.name;
+            usr.surname = surname ?? usr.surname;
+            usr.location = location ?? usr.location;
+            usr.bio = bio ?? usr.bio;
+
+            dc.SubmitChanges();
+        }
 
         public static void editAvatar(int userID, byte[] file)
         {

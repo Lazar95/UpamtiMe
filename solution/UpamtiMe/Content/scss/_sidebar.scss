@@ -19,6 +19,7 @@ aside#sidebar {
 
 	& > * {
 		flex-grow: 0;
+		flex-shrink: 0;
 		padding: 8px;
 	}
 
@@ -94,7 +95,7 @@ aside#sidebar {
 	}
 
 	#sidebar-leaderboard {
-		height: 124px;
+		//height: 124px;
 		flex-grow: 1;
 	}
 
@@ -190,6 +191,9 @@ aside#sidebar {
 	}
 
 	#sidebar-graph {
+		@media (max-height: 800px) {
+    	display: none;
+	  }
 		.line-legend { display: none; }
 	}
 

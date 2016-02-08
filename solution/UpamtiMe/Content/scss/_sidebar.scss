@@ -126,6 +126,17 @@ aside#sidebar {
 					box-sizing: border-box;
 					cursor: pointer;
 					@include force-height(40px);
+
+					.sidebar-course-name {
+						width: 100%;
+						height: 100%;
+						font-size: 20px;
+						line-height: 40px - 2*6px;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						font-weight: bold;
+					}
 				}
 				&:last-child .acordeon-title { border-bottom: 2px rgba(white, .1) solid; }
 
@@ -135,6 +146,37 @@ aside#sidebar {
 					background-color: palette($blue-grey, 800);
 					@include force-height(0);
 					transition: all .5s ease;
+
+					.sidebar-course-session-buttons {
+						width: 100%;
+						height: 100%;
+						display: flex;
+						flex-flow: column;
+						justify-content: center;
+						align-items: center;
+						align-content: center;
+						position: relative;
+						background-position: center center;
+						background-size: cover;
+						background-repeat: no-repeat;
+
+						.button-rect {
+							margin: 3px;
+							width: 90%;
+							height: 32px;
+							font-size: 0.8em;
+							@include z-depth(0);
+							//transition: all 0s!important; //TODO ne kapiram zasto i dalje ima animaciju i jos kasni
+							color: rgba(white, .9);
+							$c: rgba(black, .25);
+							text-shadow: 1px 1.5px 1px $c, -1px 1.5px 1px $c, 0px 2px 1px $c, 0 0 5px $c;
+
+							&:hover {
+								background-color: rgba(white, .15);
+								color: rgba(white, 1);
+							}
+						}
+					}
 				}
 
 				&.expanded {

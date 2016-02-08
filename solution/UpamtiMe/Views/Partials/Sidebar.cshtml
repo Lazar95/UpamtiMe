@@ -39,30 +39,25 @@
         </div>
         <div id="sidebar-favorite-courses">
             <ul class="acordeon">
-                <li class="expanded">
-                    <div class="acordeon-title">
-                        <div class="sidebar-course-name"></div>
-                    </div>
-                    <div class="acordeon-content">
-                        <div class="sidebar-course-session-buttons">
-                            <div class="sidebar-course-session-button">a</div>
-                            <div class="sidebar-course-session-button">b</div>
-                            <div class="sidebar-course-session-button">c</div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="acordeon-title">
-                        <div class="sidebar-course-name">ime lololo</div>
-                    </div>
-                    <div class="acordeon-content">
-                        <div class="sidebar-course-session-buttons">
-                            <div class="sidebar-course-session-button">a</div>
-                            <div class="sidebar-course-session-button">b</div>
-                            <div class="sidebar-course-session-button">c</div>
-                        </div>
-                    </div>
-                </li>
+                @{ bool isFirst = true;
+                    foreach (Data.DTOs.FavoriteCourseDTO course in Model.FavoriteCourses)
+                    {
+                        <li class="@(isFirst ? "expanded" : "")">
+                            <div class="acordeon-title">
+                                <div class="sidebar-course-name">@course.Name</div>
+                            </div>
+                            <div class="acordeon-content">
+                                <div class="sidebar-course-session-buttons" style="background-image: url(@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(course.Image.ToArray())))">
+                                    @Helper.Button("rect", "", "graduation-cap", "Uči (" + @Math.Min(course.LearningStatistics.Unseen, ConfigurationParameters.LearningSessionCardNumber) + "/" + course.LearningStatistics.Unseen + ")", Url.Action("Learn", "Courses", new { courseID = @course.CourseID }), false)
+                                    @Helper.Button("rect", "", "bell", "Obnovi (" + @Math.Min(course.LearningStatistics.Review, ConfigurationParameters.ReviewSessionCardNumber) + "/" + course.LearningStatistics.Review + ")", Url.Action("Review", "Courses", new { courseID = @course.CourseID }), false)
+                                    @{ var enable = (course.LearningStatistics.Learned >= ConfigurationParameters.LinkyLimit); }
+                                    @Helper.Button("rect", "", "chain", "Spajalica (" + @Math.Min(course.LearningStatistics.Learned, ConfigurationParameters.LinkySessionCardNumber) + "/" + course.LearningStatistics.Learned + ")", Url.Action("Linky", "Courses", new { courseID = @course.CourseID }), false, enabled: enable)
+                                </div>
+                            </div>
+                        </li>
+                        isFirst = false;
+                    }
+                }
             </ul>
         </div>
         <div id="sidebar-graph">

@@ -93,6 +93,7 @@ a:hover {
 }
 
 a.button-link {
+	display: inline-block;
 	color: inherit;
 	cursor: pointer;
 	&:hover { box-shadow: none; }

@@ -75,7 +75,7 @@
             {
                 if (Model.Statistics == null)
                 {
-                    <a id="button-enroll" class="button-link" href=@Url.Action("Enroll", new { id = Model.CourseID })>@Helper.Button("rect", "", "unlock", "Prijavi se na kurs")</a>
+                    @Helper.Button("rect", "button-enroll", "unlock", "Prijavi se na kurs", Url.Action("Enroll", "Courses", new { id= Model.CourseID }))
                 }
                 else
                 {

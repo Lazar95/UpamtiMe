@@ -38,6 +38,14 @@
 
         </div>
         <div id="sidebar-favorite-courses">
+            @if(Model.FavoriteCourses.Count == 0)
+            {
+                <div id="sidebar-favorite-courses-callout">
+                    <div>:(</div>
+                    <span>Nemaš omiljene kurseve.</span>
+                    <a class="no-emph tooltippable" href="@Url.Action("Index", "Users")" data-tooltip-direction="right" data-tooltip-text="Klikni na srce u profilu kursa u gornjem desnom uglu.">Izaberi neki!</a>
+                </div>
+            }
             <ul class="acordeon">
                 @{ bool isFirst = true;
                     foreach (Data.DTOs.FavoriteCourseDTO course in Model.FavoriteCourses)

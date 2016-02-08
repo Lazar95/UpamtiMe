@@ -33,6 +33,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="NewConnection1-Deployment" Order="1">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=MASA-PC\SQLEXPRESS%3bInitial Catalog=UpamtiMe%3bIntegrated Security=True" ScriptSchema="True" ScriptData="True" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\NewConnection1-Deployment_SchemaAndData.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -90,20 +101,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\aaa.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\main.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="App_Code\Helper.cshtml" />
+    <None Include="Properties\PublishProfiles\upamtionline.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\course-profile.js" />
+    <Content Include="Scripts\courses-index.js" />
+    <Content Include="Scripts\create-new-course.js" />
     <Content Include="Scripts\edit-course.js" />
+    <Content Include="Scripts\global.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -112,6 +125,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\obnavljanje.js" />
+    <Content Include="Scripts\sidebar.js" />
+    <Content Include="Scripts\spajalica.js" />
+    <Content Include="Scripts\ucenje-novih.js" />
+    <Content Include="Scripts\users-index.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Users\Profile.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />

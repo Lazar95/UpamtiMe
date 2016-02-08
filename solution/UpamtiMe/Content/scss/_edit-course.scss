@@ -254,7 +254,7 @@ main#edit-course {
 					width: 24px;
 					text-align: center;
 					color: palette($blue-grey, 500);
-					transform: rotate(45deg);
+					transform: rotate(90deg);
 					transition: all .2s ease;
 					position: absolute;
 			    left: -1px;
@@ -576,4 +576,8 @@ main#edit-course {
 		@extend .fab;
 	}
 
+}
+
+ul.level {
+	transition: all 0s;
 }

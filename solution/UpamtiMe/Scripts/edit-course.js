@@ -132,7 +132,7 @@ var addLevel = function() {
 
     string += '<div class="level-info">';
       string += '<div class="level-name">';
-        string += '<div class="toggle-button"><i class="fa fa-plus"></i></div>';
+        string += '<div class="toggle-button"><i class="fa fa-caret-right"></i></div>';
         string += '<div class="icon-picker-button icon" data-icon-id="1" data-color-id="1"><span></span></div>';
         string += '<span>' + newLevel.name + '</span>';
       string += '</div>';

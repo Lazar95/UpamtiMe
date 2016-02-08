@@ -64,6 +64,14 @@
     </div>
 
     <div id="user-courses">
+        @if (Model.Courses.Count == 0)
+        {
+            <div id="user-courses-callout">
+                <div>:(</div>
+                <span>Nisi prijavljen ni na jedan kurs...</span>
+                <a href="@Url.Action("Index", "Courses")">Pretraži kurseve!</a>
+            </div>
+        }
         <ul>
             @foreach (Data.DTOs.UserCourseDTO course in @Model.Courses)
             {

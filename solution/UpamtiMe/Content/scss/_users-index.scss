@@ -144,7 +144,7 @@ main#users-index {
     flex-flow: column;
   }
 
-  div#user-courses {
+  #user-courses {
     padding: 0;
     width: 100%;
     flex-grow: 1;
@@ -179,5 +179,56 @@ main#users-index {
         }
       }
     }
+
+    #user-courses-callout {
+      width: 100%;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+
+      div {
+        // smajli
+        font-size: 128px;
+        color: rgba(white, .3);
+        margin: 12px;
+        animation-name: smile-n-wave-boys;
+        animation-duration: 3s;
+        transform: rotate(90deg);
+
+        @keyframes smile-n-wave-boys {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(90deg); }
+        }
+      }
+
+      span {
+        // tekst
+        color: rgba(white, .9);
+        font-size: 20px;
+        margin: 12px;
+        display: block;
+      }
+
+      a {
+        // duh
+        display: block;
+        margin: 12px;
+        padding: 16px 24px;;
+        background-color: palette($pink);
+        color: rgba(white, .9);
+        font-sze: 36px;
+        font-weight: bold;
+        text-transform: uppercase;
+        @include z-depth(1);
+        border-radius: 3px;
+        cursor: pointer;
+
+        &:hover {
+          @include z-depth(2);
+        }
+      }
+    }
+
   }
 }

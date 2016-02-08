@@ -211,7 +211,7 @@ else
                 }
                 else
                 {
-                    @Helper.Button("rect button-goto", "", "arrow-right", "Stranica kursa", url.Action("Course", new { id = id }))
+                    @Helper.Button("rect button-goto", "", "caret-right", "Idi na stranicu kursa", url.Action("Course", new { id = id }))
                 }
             </div>
         </div>
@@ -268,7 +268,7 @@ else
                 <div class="stats-points-per-course-wrapper">
                     <canvas class="stats-points-per-course" width="264" height="120" data-dates="@dates" data-points="@points"></canvas>
                 </div>
-                @Helper.Button("rect button-goto", "", "caret-right", "Idi na stranicu kursa")
+                @Helper.Button("rect button-goto", "", "caret-right", "Idi na stranicu kursa", url.Action("Course", new { id = id }))
             </div>
         </div>
     </li>

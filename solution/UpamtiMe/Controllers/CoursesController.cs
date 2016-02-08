@@ -183,6 +183,11 @@ namespace UpamtiMe.Controllers
                 Data.Courses.editImage(courseID, array);
             }
 
+            if (Data.Courses.getFavorite(courseID, UserSession.GetUserID()) != null)
+            {
+                UserSession.ReloadSidebar();
+            }
+
             return RedirectToAction("Profile", "Courses", new { id = courseID });
         }
 

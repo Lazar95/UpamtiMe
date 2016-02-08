@@ -1,0 +1,12 @@
+main#users-edit {
+  button {
+    background-color: palette($pink);
+    color: rgba(white, .9);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    width: 100%;
+    height: 48px;
+    cursor: pointer;
+  }
+}

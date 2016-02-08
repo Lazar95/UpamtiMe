@@ -82,16 +82,4 @@
         </div>
     </div>
 
-
-   
-      @if (@ViewBag.friends == Data.Enumerations.FollowStatus.NotFollowing)
-      {
-        @Html.ActionLink("Follow", "Follow", "Users", new { secondID = Model.UserID }, null)
-      }
-      else if(@ViewBag.friends == Data.Enumerations.FollowStatus.Following)
-      {
-        @Html.ActionLink("Unfollow", "Unfollow", "Users", new { secondID = Model.UserID }, null)
-      }
-
-
 </main>

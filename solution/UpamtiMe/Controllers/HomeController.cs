@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Data;
@@ -35,10 +37,13 @@ namespace UpamtiMe.Controllers
             //}
             return View();
         }
+       
 
         [HttpPost]
         public ActionResult Login(Models.HomeIndexModel model)
         {
+            model.Login.Password = Data.HashPassword.SaltedHashPassword(model.Login.Password, model.Login.Username);
+
             Data.DTOs.LoginDTO ld = Data.Entities.Login.CreateLoginDTO(model.Login);
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.IncorrectPassword)
             {
@@ -69,6 +74,9 @@ namespace UpamtiMe.Controllers
         [HttpPost]
         public ActionResult Register(Models.HomeIndexModel model)
         {
+            model.Register.Password = Data.HashPassword.SaltedHashPassword(model.Register.Password,
+                model.Register.Username);
+
             Data.DTOs.LoginDTO ld = Data.Entities.Login.CreateRegisterLoginDTO(model.Register);
             if (ld.LoginRegisterStatus == Enumerations.LoginRegisterStatus.UsernameExists)
             {
@@ -133,6 +141,12 @@ namespace UpamtiMe.Controllers
         {
             Data.DefaultPictures.removeImage(imgID);
             return RedirectToAction("UploadDefaultImage", "Home");
+        }
+
+        public ActionResult EncryptAllPasswords()
+        {
+            Data.Users.encryptAllPasswords();
+            return RedirectToAction("Index");
         }
     }
 }

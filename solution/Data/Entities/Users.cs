@@ -266,8 +266,7 @@ namespace Data
         /// <param name="userID"></param>
         /// <param name="score"></param>
         /// <param name="cardsLearned"></param>
-        /// <param name="firstSession">Oznacava da li je potrebno uvecati streak, odnosno da li je to prva sesija danas</param>
-        public static void updateStatisctics(int userID, float score, int cardsLearned, bool firstSession)
+        public static void updateStatisctics(int userID, float score, int cardsLearned)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
             User usr = GetUser(userID, dc);
@@ -276,7 +275,7 @@ namespace Data
             usr.thisMonthScore += score;
             usr.totalCardsSeen += cardsLearned;
 
-            if (firstSession)
+            if (!usr.doneToday)
             {
                 usr.streak++;
                 usr.doneToday = true;

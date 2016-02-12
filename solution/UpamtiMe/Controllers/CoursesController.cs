@@ -216,11 +216,11 @@ namespace UpamtiMe.Controllers
             Data.DTOs.CorrectWrong cw = Data.Cards.CreateUserCard(qaInfo, userID);
 
             //upisi u tabelu sa statistikama i userCourses
-            bool firstSession = Data.Courses.updateStatistics(courseID, userID, score, qaInfo.Count, 0, cw.Correct, cw.Wrong, 0, 0,
+            Data.Courses.updateStatistics(courseID, userID, score, qaInfo.Count, 0, cw.Correct, cw.Wrong, 0, 0,
                 timeSpent);
 
             //upisi u user-a
-            Data.Users.updateStatisctics(userID, score, qaInfo.Count, firstSession);
+            Data.Users.updateStatisctics(userID, score, qaInfo.Count);
 
             UserSession.ReloadSidebar();
 
@@ -254,11 +254,11 @@ namespace UpamtiMe.Controllers
             Data.DTOs.CorrectWrong cw = Data.Cards.UpdateUserCards(qaInfo);
 
             //upisi u tabelu sa statistikama i userCourses
-            bool streak = Data.Courses.updateStatistics(courseID, userID, score, 0, qaInfo.Count, 0, 0, cw.Correct, cw.Wrong, 
+            Data.Courses.updateStatistics(courseID, userID, score, 0, qaInfo.Count, 0, 0, cw.Correct, cw.Wrong, 
                 timeSpent);
 
             //upisi u user-a
-            Data.Users.updateStatisctics(userID, score, 0, streak);
+            Data.Users.updateStatisctics(userID, score, 0);
 
             UserSession.ReloadSidebar();
 
@@ -286,10 +286,10 @@ namespace UpamtiMe.Controllers
             int timeSpent = UserSession.GetTimeSpent();
 
             //upisi u tabelu sa statistikama i userCourses
-            bool streak = Data.Courses.updateStatistics(courseID, userID, score, 0, 0, 0, 0, 0, 0, timeSpent);
+            Data.Courses.updateStatistics(courseID, userID, score, 0, 0, 0, 0, 0, 0, timeSpent);
 
             //upisi u user-a
-            Data.Users.updateStatisctics(userID, score, 0, streak);
+            Data.Users.updateStatisctics(userID, score, 0);
 
             UserSession.ReloadSidebar();
 

@@ -48,30 +48,27 @@
                         <div><dt>Broj odgovora</dt>     <dd id="cards-current-total" data-current="0" data-total="@(Model.Cards.Count*5)">0/@(Model.Cards.Count*5)</dd></div>
                         <div><dt>Tačnost</dt>           <dd id="accuracy">0%</dd></div>
                         <div><dt>Proteklo vreme</dt>    <dd id="time">00'00"</dd></div>
-                        <div><dt>Trenutni kombo</dt>      <dd id="session-combo">0</dd></div>
+                        <div><dt>Trenutni kombo</dt>    <dd id="session-combo">0</dd></div>
                     </dl>
                     <dl class="total-score">
-                        <div><dt>Osvojeni poeni</dt>               <dd id="score">0.00</dd></div>
+                        <div><dt>Osvojeni poeni</dt>    <dd id="score">0.00</dd></div>
                     </dl>
                     <dl class="last-score">
-                        <div><dt></dt><dd id="last-score">&pm;0.00</dd></div>
+                        <div><dt></dt><dd id="last-score">+0.00</dd></div>
                     </dl>
                     <dl class="last-score-breakdown">
-                        <div><dt>Base score</dt> <dd id="base-score" class="level-1">&nbsp;</dd></div>
-                        <!--<div><dt>Card combo</dt> <dd id="card-combo" class="level-1">&nbsp;</dd></div>-->
-                        <div><dt>Session combo</dt> <dd id="session-combo-multiplier" class="level-1">&nbsp;</dd></div>
-                        <!--<div><dt>Time bonus</dt> <dd id="time-bonus" class="level-1">&nbsp;</dd></div>-->
+                        <div class="tooltippable" data-tooltip-direction="bottom" data-tooltip-text="Osnova za poene, na osnovu proteklog vremena od poslednje pojave kartice"><dt>Osnova</dt> <dd id="base-score" class="level-2">0.00</dd></div>
+                        <div class="tooltippable" data-tooltip-direction="bottom" data-tooltip-text="Bonus s kartice, na osnovu broja uzastopno datih tačnih odgovora na kartici"><dt>Kartica</dt> <dd id="card-combo" class="level-2">0.00</dd></div>
+                        <div class="tooltippable" data-tooltip-direction="bottom" data-tooltip-text="Bonus sa sesije, na osnovu broja uzastopno datih tačnih odgovara tokom tekuće sesije"><dt>Sesija</dt> <dd id="session-combo-multiplier" class="level-2">0.00</dd></div>
+                        <div class="tooltippable" data-tooltip-direction="bottom" data-tooltip-text="Bonus na vreme, na osnovu vremena koja je proteklo od pojave pitanja do davanja odgovora"><dt>Vreme</dt> <dd id="time-bonus" class="level-2">0.00</dd></div>
                     </dl>
                 </div>
             </aside>
             <div class="cards">
                 <div class="card current-card">
                     <div class="card-content simple">
-                        <!-- Ne postoji card info za sesiju ucenja -->
-                        <div class="question">
-                            <span>ođe je reč na srpski</span>
-                        </div>
-                        <div class="prompt">
+                        <div id="preview" class="challange"></div>
+                        @*<div class="prompt">
                             <input type="text" spellcheck="false" id="type-answer">
                         </div>
                         <ul class="multiple-choice">
@@ -129,8 +126,7 @@
                             <div id="no">
                                 <button>Ovu reč znam od ranije.</button>
                             </div>
-                        </div>
-                        <button class="next"><span>➤</span></button>
+                        </div>*@
                     </div>
                     <!-- Ne postoji tajmer za sesiju ucenja -->
                 </div>

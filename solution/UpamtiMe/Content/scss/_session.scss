@@ -80,7 +80,7 @@ main#review-session, main#learn-session, main#spajalica {
 						}
 
 						dd {
-							font-size: 108px;
+							font-size: 92px;
 							color: palette($pink, 500);
 							font-weight: bold;
 						}
@@ -88,7 +88,7 @@ main#review-session, main#learn-session, main#spajalica {
 
 					dl.last-score {
 						align-items: center;
-						font-size: 48px;
+						font-size: 36px;
 					}
 
 					dl.last-score-breakdown {
@@ -112,7 +112,7 @@ main#review-session, main#learn-session, main#spajalica {
 							&.level-2 { font-size: 18px; color: palette($blue-grey); }
 							&.level-3 { font-size: 24px; color: palette($blue-grey); }
 							&.level-4 { font-size: 36px; color: palette($blue-grey); font-weight: bold;}
-							&.level-5 { font-size: 48px; color: palette($pink); font-weight: bold}
+							&.level-5 { font-size: 48px; color: palette($pink); font-weight: bold; }
 
 							@keyframes whoom {
 								from {font-size: 12px; bottom: 48px; opacity: 1;}
@@ -162,482 +162,259 @@ main#review-session, main#learn-session, main#spajalica {
 				@include z-depth(4);
 				flex-grow: 10;
 				width: 100%;
-				display: flex;
-				flex-direction: column;
+				position: relative;
 
-				.card-content {
-          flex-grow: 1;
-          margin: 48px;
-					position: relative;
+				#jingle-correct {
+					color: palette($green, 600);
+				}
 
+				#jingle-wrong {
+					color: palette($red, 600);
+				}
+
+				#jingle-correct, #jingle-wrong {
+					position: absolute;
+					width: 100%;
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					font-size: 128px;
+					z-index: 3;
+					transform: scale(1.4);
+					opacity: 0;
+					animation: jingle .75s ease;
+
+					@keyframes jingle {
+						from {
+							transform: scale(.8);
+							opacity: 1;
+						}
+						to {
+							transform: scale(1.4);
+							opacity: 0;
+						}
+					}
+
+					i {
+						display: block;
+						$c: palette($blue-grey, 50);
+						$x: 1px;
+						$b: 0;
+						text-shadow: $x $x $b $c, -$x $x $b $c, $x -$x $b $c, -$x -$x $b $c,
+											   0 $x $b $c, 0 -$x $b $c, $x 0 $b $c, -$x 0 $b $c;
+					}
+				}
+
+				.challange {
+					width: 100%;
+					height: 100%;
 					display: flex;
 					flex-direction: column;
-					align-items: center;
+					position: absolute;
+					padding: 20px;
+					box-sizing: border-box;
+					transition: all 0s;
+					color: palette($blue-grey, 900);
 
-					& > * {
-						flex-grow: 1;
+					& > div {
 						display: flex;
 						justify-content: center;
 						align-items: center;
-						align-content: center;
-						width: 100%;
 					}
-
-          .question {
-            span {
-              display: block;
-              font-size: 64px;
-              font-weight: bold;
-              color: palette($blue-grey, 900);
-            }
-          }
-
-          .prompt {
-            input {
-              background-color: transparent;
-              border: none;
-              border-bottom: solid palette($pink, a400) 3px;
-              height: 64px;
-              font-size: 48px;
-              line-height: 64px;
-              padding: 12px;
-              color: palette($blue-grey, 800);
-              font-family: $font-stack;
-            }
-          }
-
-					.multiple-choice {
+					& > div:nth-child(1) {
+						height: 48px;
+						font-size: 36px;
+						font-weight: bold;
+						padding-top: 24px;
+					}
+					& > div:nth-child(2) {
+						flex-grow: 1;
+					}
+					& > div:nth-child(3) {
 						display: flex;
-						flex-wrap: wrap;
-						width: 100%;
-						height: 200px;
 						justify-content: space-between;
-						position: relative;
-
-						// Virtuelno kucanje
-						input {
-							display: none;
-							position: absolute;
-							left: 0;
-							right: 0;
-							margin: auto 0px;
-							bottom: 0;
+						& > button {
 							width: 100%;
-							height: 30px;
-							margin-bottom: -10px;
-							text-align: center;
-							font-family: inherit;
-							background-color: palette($blue-grey, 100);
-							border: none;
-							border-radius: 20px;
+							padding: 16px;
+							margin: 12px;
+							box-sizing: border-box;
+							background-color: palette($pink, 500);
+							text-transform: uppercase;
+							color: rgba(white, .9);
+							font-size: 14px;
 							font-weight: bold;
-
-							&.incomplete {
-								color: palette($orange);
-							}
-
-							&.impossible {
-								color: palette($red);
-							}
-
-							&.enough {
-								color: palette($green);
-							}
-						}
-
-						li {
-							display: flex;
-							justify-content: center;
-							align-items: center;
-							flex-wrap: wrap;
-							@include z-depth(1);
-							background-color: palette($blue-grey, 200);
-							color: palette($blue-grey, 700);
-							width: 45%;
-							height: 90px;
-							margin: 2.5%;
-							padding: 0;
-							font-size: 32px;
-							text-align: center;
-							border-radius: 2px;
-							font-weight: bold;
-							transition: all .33s ease;
 							cursor: pointer;
-							position: relative;
 
-							&:hover, &:focus, &.selected {
-								color: palette($blue-grey, 800);
-								background-color: palette($blue-grey, 100);
-								@include z-depth(1.5);
-							}
-
-							&.wrong {
-								background-color: palette($red);
-								color: palette($blue-grey, 100);
-								opacity: 0.7;
-								cursor: not-allowed;
-							}
-
-							&.correct {
-								background-color: palette($green);
-								color: palette($blue-grey, 100);
-							}
-
-							&.wrong:before {
-								opacity: 0;
-							}
-
-							&:before {
-								color: palette($blue-grey, 200);
-								position: absolute;
-								width: 30px;
-								height: 30px;
-								background-color: palette($blue-grey, 100);
-								@include z-depth(1);
-								font-size: 20px;
-								line-height: 30px;
-								border-radius: 50%;
-								font-weight: normal;
-								transition: all .33s ease;
-
-								top: 0;
-								left: 0;
-								right: 0;
-								margin: auto;
-								margin-top: -16px;
-							}
-
-							/*
-							&:nth-child(odd)::before {
-								left: 0;
-								margin-left: -15px;
-							}
-
-							&:nth-child(even)::before {
-								right: 0;
-								margin-right: -15px;
-							}
-
-							&:hover:nth-child(odd)::before {
-								left: 0;
-								margin-left: -10px;
-							}
-
-							&:hover:nth-child(even)::before {
-								right: 0;
-								margin-right: -10px;
-							}
-							*/
-
-							&:nth-child(1)::before { content: "1"; }
-							&:nth-child(2)::before { content: "2"; }
-							&:nth-child(3)::before { content: "3"; }
-							&:nth-child(4)::before { content: "4"; }
-
-						}
-					}
-
-					#scrabble {
-						display: flex;
-						flex-flow: row;
-						flex-wrap: wrap;
-						width: 560px; // trail and error, dok se ne prelome fensi
-						position: relative;
-
-						input {
-							width: 100%;
-							margin-bottom: 40px;
-							height: 48px;
-							text-align: center; // komentarisi za debug
-							font-size: 36px;
-							font-family: inherit;
-							border: none;
-							background-color: transparent;
-							box-shadow: 0 3px palette($blue-grey, 400);
-							color: transparent; // komentarisi za debug
-							z-index: 10;
-						}
-
-						#scrabble-typed {
-							position: absolute;
-							left: 0;
-							right: 0;
-							width: 100%;
-							height: 48px;
-							line-height: 48px;
-							text-align: center;
-							font-size: 36px;
-							color: palette($blue-grey);
-
-							&::after {
-								content: "";
-								position: absolute;
-								height: 36px;
-								width: 2px;
-								margin-left: 2px;
-								bottom: 6px;
-								background-color: palette($pink, a400);
-								animation: flickerAnimation 1s infinite;
-							}
-
-							@keyframes flickerAnimation {
-							  0%   { opacity: 1; }
-							  85%  { opacity: 0; }
-							  100% { opacity: 1; }
-							}
-						}
-
-						li {
-							height: 64px;
-							text-align: center;
-							background-color: palette($blue-grey, 300);
-							border-radius: 32px;
-							margin: 4px;
-							@include z-depth(1);
-							font-weight: bold;
-							color: palette($blue-grey, 800);
-							font-size: 32px;
-							cursor: pointer;
-							transition: all .33s ease;
-						}
-
-						#scrabble-control  {
-							display: flex;
-							margin-top: 8px;
-
-							#scrabble-space {
-								width: 354px;
-							}
-
-							#scrabble-backspace, #scrabble-enter {
-								width: 64px;
-								line-height: 64px;
-								font-weight: normal;
-							}
-
-							#scrabble-enter {
-								background-color: palette($pink, 500);
-								color: palette($blue-grey, 100);
-							}
-						}
-
-						#scrabble-letters {
-							display: flex;
-							justify-content: center;
-							flex-wrap: wrap;
-						}
-
-						li {
-							width: 64px;
-
-							&:hover {
+							&#skip-to-last {
 								background-color: palette($blue-grey, 200);
+								color: rgba(black, .6);
 							}
 
-							&.used-up {
-								background-color: palette($blue-grey, 500);
-
-								& > div.letter {
-									color: palette($blue-grey, 50);
-								}
+							&:hover, &:focus {
+								@include z-depth(1);
 							}
+						}
+					}
 
-							& > div {
-								flex-grow: 0;
-								font-weight: bold;
+					&#preview {
+						& > div:nth-child(2) {
+							font-size: 64px;
+							font-weight: bold;
+							color: palette($pink, 600);
+						}
+					}
 
-								&.letter {
-									font-size: 32px;
-									height: 64px;
-									width: 64px;
-									line-height: 64px;
-									color: palette($blue-grey, 800);
+					&#multiple-choice {
+						ul {
+							width: 80%;
+							display: flex;
+							flex-wrap: wrap;
+
+							& > li {
+								font-size: 18px;
+								width: 100%;
+								box-sizing: border-box;
+								background-color: palette($blue-grey, 100);
+								padding: 16px;
+								margin: 6px 0;
+
+								&.wrong {
+									background-color: palette($red);
+									color: white;
 								}
 
-								&.count {
-									font-size: 12px;
-									color: palette($blue-grey, 100);
-									width: 64px;
-									word-wrap: normal;
-									overflow: hidden;
-									position: absolute;
-									margin-top: -16px;
-
-									& > div {
-										width: 64px * 9;
-										transition: all .33s ease;
-
-										&.count-0 { margin-left: -64px * (-1); }
-										&.count-1 { margin-left: -64px * 0; }
-										&.count-2 { margin-left: -64px * 1; }
-										&.count-3 { margin-left: -64px * 2; }
-										&.count-4 { margin-left: -64px * 3; }
-
-										span {
-											float: left;
-											display: block;
-											width: 64px;
-
-										}
-									}
+								&.correct {
+									background-color: palette($green);
+									color: white;
 								}
 							}
 						}
 					}
 
-					.hangman {
+					&#hangman {
+						& > div:nth-child(2) {
+							display: flex;
+							flex-flow: column;
+							font-size: 32px;
+							font-family: monospace;
+							font-weight: bold;
+							text-align: left;
+
+							input {
+								box-sizing: border-box;
+								border: none;
+								box-shadow: none;
+								position: absolute;
+								display: block;
+								color: palette($blue-grey, 900);
+								margin-top: -35px; // natempirano
+								letter-spacing: 7px;
+							}
+
+							pre {
+								color: palette($blue-grey, 300);
+								letter-spacing: 7px;
+							}
+						}
+					}
+
+					&#scrabble {
+						& > div:nth-child(2) {
+							display: flex;
+							flex-flow: column;
+							font-size: 32px;
+							font-family: monospace;
+							font-weight: bold;
+							text-align: left;
+						}
+
+						input {
+							width: 90%;
+						}
 
 						ul {
 							display: flex;
-							background-color: palette($blue-grey, 50);
-							@include z-depth(1);
-							position: relative;
+							margin-top: 36px;
+					    width: 100%;
+					    flex-wrap: wrap;
+					    justify-content: center;
 
-							li {
-								position: relative;
+							li.scrabble-clickable {
 								width: 36px;
-								height: 64px;
-								line-height: 64px;
+								height: 36px;
+								position: relative;
+								margin: 4px;
+								background-color: palette($blue-grey, 700);
 
-								box-shadow:
-									0 -3px transparent inset, // bar dole
-									0 0 palette($green, 500) inset, // efekat ako je tacno
-									0 0 palette($red, 500) inset; // efekat ako je netacno
-
-								transition: box-shadow .33s ease;
-
-								&.correct {
-									box-shadow:
-										0 -3px palette($green, 500) inset, // bar dole
-										0 -64px transparent inset, // efekat ako je tacno
-										0 0 palette($red, 500) inset; // efekat ako je netacno
+								&.used {
+									opacity: .1;
 								}
 
-								&.wrong {
-									box-shadow:
-										0 -3px palette($red, 500) inset, // bar dole
-										0 0 palette($green, 500) inset, // efekat ako je tacno
-										0 -64px rgba(palette($red, 500), .2) inset; // efekat ako je netacno
-								}
-
-								input {
-									box-shadow: 0px 0px 1px 0px palette($blue-grey, 200) inset;
-									background-color: transparent;
-									border: none;
+								pre {
+									display: block;
 									width: 100%;
 									height: 100%;
-									text-align: center;
+									color: rgba(white, .8);
 									font-size: 24px;
-									font-family: $font-stack;
-									color: palette($blue-grey, 600);
+									line-height: 36px;
+									text-align: center;
+									cursor: pointer;
 								}
 							}
 						}
 					}
 
-					#initial-choice {
-						display: flex;
-						flex-flow: column;
-						justify-content: space-between;
-
-						button {
-							cursor: pointer;
-							margin: 2px;
-						}
-
-						div {
-							// i #yes i #no
-							display: flex;
-							justify-content: center;
-							align-items: center;
-						}
-
-						#yes {
-							// Ne znam rec, zelim da je ucim standardno.
-
-							button {
-								font-size: 36px;
-								background-color: palette($blue-grey, 600);
-								color: palette($blue-grey, 50);
-								border-radius: 50%;
-								width: 72px;
-								height: 72px;
-								line-height: 72px;
-								text-align: center;
-								@include z-depth(1);
-							}
-						}
-
-						#no {
-							// Vec znam ocu rec, ne zelim da provedem vreme uceci je.
-
-							button {
-								background-color: transparent;
-								font-size: 14px;
-								color: palette($blue-grey, 300);
-							}
+					&#real-deal {
+						input {
+							width: 80%;
+							font-size: 36px;
+							font-weight: bold;
 						}
 					}
 
-          .given-answer {
-            span {
-              display: block;
-              font-size: 36px;
-              color: palette($blue-grey, 600);
-            }
-          }
+					&#postview {
+						& > div:nth-child(2) {
+						  display: flex;
+						  flex-flow: column;
 
-          .correct-answer {
-            span {
-              display: block;
-              font-size: 64px;
-              font-weight: bold;
-              color: palette($pink, 600);
-            }
-          }
+							& > span {
+								display: inline-block;
+								margin: 10px;
+								font-size: 48px;
+								font-weight: bold;
 
-          button.next {
-            flex-grow: 0;
-            height: 64px;
-            width: 64px;
-						padding: 0;
-				    position: absolute;
-				    left: 0;
-				    right: 0;
-						margin: auto;
-				    margin-top: 16px; // try and error
-						background-color: palette($pink, 600);
-						font-size: 24px;
-						line-height: 64px;
-						border-radius: 50%;
-						outline: none!important; // mrtvi chrome
-						@include z-depth(2);
-						transition: box-shadow .33s ease-out;
+								&:first-child {
+									// givenAnswer
+									font-size: 36px;
+									position: relative;
 
-						span {
-							//@include z-depth(3);
-							display: block;
-	            height: 64px;
-	            width: 64px;
-							border-radius: 50%;
-							color: palette($blue-grey, 50);
-						}
+									&::before {
+						        border-bottom: 3px solid rgba(palette($red), .4);
+						        position: absolute;
+						        content: "";
+						        width: 130%;
+										margin-left: -15%;
+						        height: 50%;
+										transform: rotate(-4deg);
+							    }
 
-						&.next:focus {
-							@keyframes strelica-levo-desno {
-						      0% {margin-left: -8px;}
-						     50% {margin-left:  10px;}
-						    100% {margin-left: -8px;}
-							}
-
-							span {
-								animation-name: strelica-levo-desno;
-						    animation-duration: 1s;
-						    animation-iteration-count: infinite;
+							    .markMissingCharacter {
+							        color: palette($green);
+							    }
+							    .markWrongCharacter {
+							        color: palette($red);
+							    }
+							    .markExtraCharacter {
+							        color: palette($orange);
+							    }
+							    .markAccentMistake {
+							        color: palette($blue);
+							    }
+								}
 							}
 						}
 					}
-
 				}
 			}
 		}

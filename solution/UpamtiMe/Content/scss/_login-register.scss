@@ -27,7 +27,7 @@ main#home-index {
   @include z-depth(2);
   flex-grow: 0;
   width: 40%;
-  padding: 5%;
+  padding: 36px;
   box-sizing: border-box;
 
   display: flex;
@@ -100,7 +100,7 @@ main#home-index {
     width: 100%;
     margin: 0 auto;
     margin-top: 20px;
-    padding: 3%;
+    padding: 12px;
     background-color: palette($blue-grey, 700);
     color: rgba(white, .8);
     font-weight: bold;

@@ -496,6 +496,8 @@ dl.stats-horizontal {
 	border-radius: 3px;
 	z-index: 9000;
 	animation: tooltip-appear .2s ease;
+	text-align: center;
+	max-width: 172px;
 
 	@keyframes tooltip-appear {
 		from {

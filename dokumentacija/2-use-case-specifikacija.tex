@@ -11,22 +11,27 @@ Slučajevi korišćenja mogu biti podeljeni u sledeće grupe.
   \item Kursevi:
   \begin{enumerate}
     \item Pretraga kurseva.
-    \item Prijava na kurs.
+	\item Pregled gradiva kursa.
+    \item Upis na kurs.
     \item Kreiranje novog kursa.
-    \item Izmena kreiranog kursa.
+    \item Ažuriranje kursa.
+    \begin{enumerate}
+      \item Dodavanje lekcije.
+      \item Ažuriranje lekcije.
+    \end{enumerate}
     \item Navigacija kroz kurs.
     \item Pregled detaljne statistike.
   \end{enumerate}
   \item Sesije:
   \begin{enumerate}
-    \item Učenje novih.
+    \item Učenje.
     \item Obnavljanje.
     \item Spajalica.
   \end{enumerate}
   \item Korisnici:
   \begin{enumerate}
-    \item Pregled profila.
-    \item Follow drugih profila.
+    \item Pregled korisničkog profila.
+    \item Praćenje korisnika.
     \item Pregled detaljnih statistika.
   \end{enumerate}
 \end{enumerate}
@@ -55,7 +60,22 @@ Ukoliko je već prijavljen, pri pokretanju aplikacije korisnik vidi svoj profil 
 
 \subsection{Registracija}
 \label{subsec:registracija}
-Registracija se obavlja ispunjavanjem forme sa glavne strane aplikacije i pritiskom na dugme \dugme{registracija}.
+
+\subsubsection{Kratak opis}
+Pre početka korišćenja aplikacije korisnik se registruje unošenjem potrebnih informacija. Ovime, korisnik kreira svoj nalog koji će koristiti u daljem radu.
+
+\subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item Posećivanjem početne strane aplikacije pojavljuje se panel za registrovanje.
+  \item Korisnik popunjava sva polja neophodna za registrovanje.
+  \item Klikom na dugme \dugme{registracija} vrši se upis novog korisnika u bazu.
+\end{itemize}
+
+\subsubsection{Alternativni tokovi}
+Ako se, nakon klika na dugme \dugme{registracija}, proverom validnosti unetih informacija ustanovi da je došlo do greške, korisnik će biti obavešten kako bi mogao da koriguje unete informacije.
+Tek će se nakon ispunjenja svih uslova korisniku odobriti registracija.
+
+\subsubsection{Preduslovi}
 Da bi se registracija uspešno obavila, neophodno je ispuniti sva ponuđena polja:
 \begin{itemize}
   \item korisničko ime, \item šifra, \item ime i \item mejl adresa.
@@ -65,8 +85,295 @@ Da bi se registracija uspešno obavila, neophodno je ispuniti sva ponuđena polj
 Drugim rečima, ne mogu postojati dva naloga sa istim adresama (čak i sa različitim korisničkim imenima), niti dva naloga sa istim korisničkim imenima (čak i sa različitim adresama).
 Polja \emph{ime} i \emph{šifra} ne moraju biti jedinstveni za aplikaciju.
 
-U slučaju da korisnik unese \emph{korisničko ime} i/ili \emph{mejl adresu} koja ne zadovoljava opisane uslove, dobija odgovarajuću poruku o tome.
-Tek će se nakon ispunjenja svih uslova korisniku odobriti registracija.
+\subsubsection{Posledice}
+U slučaju uspešnog registrovanja, sistem automatski prijavljuje korisnika na novokreirani nalog i otvara njegovu indeks stranicu, u suprotnom se od korisnika traži da ponovi pokušaj registrovanja.
+
 
 \subsection{Prijava}
 \label{subsec:prijava}
+
+\subsubsection{Kratak opis}
+Ako korisnik ima nalog a nije prijavljen, korisnik se prijavljuje na svoj nalog pre korišćenja aplikacije.
+
+\subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item Posećivanjem početne strane aplikacije pojavljuje se panel za prijavljivanje.
+  \item Korisnik popunjava sva polja neophodna za prijavljivanje.
+  \item Ako želi, štiklira polje \emph{zapamti me}.
+  \item Klikom na dugme \dugme{prijava} sistem pretražuje unete informacije u bazi i prijavljuje korisnika.
+\end{itemize}
+
+\subsubsection{Alternativni tokovi}
+Ako se, nakon klika na dugme \dugme{prijavi}, proverom validnosti unetih informacija ustanovi da je došlo do greške, korisnik će biti obavešten kako bi mogao da koriguje unete informacije.
+Tek će se nakon ispunjenja svih uslova korisniku odobriti prijavljivanje.
+
+\subsubsection{Preduslovi}
+Da bi se prijavljivanje uspešno obavilo, neophodno je ispuniti ponuđena polja \emph{korisničko ime} i \emph{šifra}.
+
+\emph{Korisničko ime} mora postojati u bazi aplikacije i \emph{šifra} mora biti odgovarajuća kako bi se dozvolilo prijavljivanje korisnika.
+
+\subsubsection{Posledice}
+U slučaju uspešnog prijavljivanja korisniku će se otvoriti indeks stranica njegovog naloga, u suprotnom će se od korisnika tražiti da ponovi pokušaj prijavljivanja.
+
+
+
+
+
+\section{Kursevi}
+\label{sec:kursevi}
+Kursevi su glavna jedinica organizacije gradiva.
+Svim posetiocima treba obezbediti pretragu svih postojećih kurseva koji su organizovani u kategorije i detaljan pregled njihovog sadržaja.
+Ako posetilac ima nalog i ako je prijavljen, ima mogućnost da se upiše na neki kurs i tako postane učesnik.
+Svi prijavljeni korisnici takođe mogu da kreiraju svoje kurseve i da ih ažuriraju.
+
+\subsection{Pretraga kurseva}
+\label{subsec:pretraga-kurseva}
+
+\subsubsection{Kratak opis}
+Pretraživanje kurseva aplikacije po unetim kriterijumima.
+
+\subsubsection{Osnovni tok događaja}
+Korisnik, na stranici pregleda kurseva, unosi ime ili deo imena kursa koji hoće da nađe u polje \emph{naziv} i opciono bira kategoriju i potkategoriju u kojoj će se vršiti pretraga željenog kursa.
+Nakon toga, klikom na dugme \SearchButton vrši se pretraga i prikazuje se lista kurseva koji odgovaraju unetim kriterijumima.
+
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+Kako na stranici pregleda kurseva korisnik može da vidi sve kurseve koji postoje u aplikaciji, nako pretrage lista prikaza se redukuje samo na kurseve koji zadovoljavaju kriterijume pretrage.
+
+
+\subsection{Pregled gradiva kursa}
+\label{subsec:pregled-gradiva-kursa}
+
+\subsubsection{Kratak opis}
+Evaluacija gradiva koje neki kurs pokriva.
+
+\subsubsection{Osnovni tok događaja}
+Korisnik, klikom na dugme \dugme{spisak} za odgovarajuću lekciju u kursu, otvara prozor koji prikazuje informacije vezane za tu lekciju.
+
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+
+
+
+\subsection{Upis na kurs}
+\label{subsec:upis-na-kurs}
+
+\subsubsection{Kratak opis}
+Korisnik se upisuje na kurs kako bi mogao da uči i obnavlja gradivo koje taj kurs sadrži.
+
+\subsubsection{Osnovni tok događaja}
+Na stranici kursa klikom na dugme \dugme{upiši se}, korisnik se upisuje na dati kurs, odnosno postaje učesnik tog kursa.
+
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+Korisnik mora biti prijavljen kako bi mu se na stranici kursa prikazalo dugme \dugme{upiši se}.
+
+\subsubsection{Posledice}
+Nakon upisa na kurs, korisniku su omogućene opcije za učenje i obnavljanje lekcija tog kursa.
+
+
+
+\subsection{Kreiranje kursa}
+\label{subsec:kreiranje-kursa}
+
+\subsubsection{Kratak opis}
+Korisnik kreira novi kurs koji će samo on moći da ažurira.
+
+\subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item Korisnik unosi naziv kursa koji će da kreira i kategoriju kojoj će taj kurs da pripada.
+  \item Ako želi i ako odgovarajuća potkategorija postoji, može izabrati i potkategoriju.
+  \item Klikom na dugme \dugme{kreiraj} vrši se upis potrebnih informacija u bazu.
+\end{itemize}
+
+\subsubsection{Alternativni tokovi}
+Ako korisnik nije uneo naziv kursa ili nije odabrao kategoriju, dobiće odgovarajuću poruku.
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+Nakon uspešnog kreiranja novog kursa, automatski se otvara stranica za ažuriranje tog kursa.
+
+
+\subsection{Ažuriranje kursa}
+\label{subsec:azuriranje-kursa}
+
+\subsubsection{Kratak opis}
+Kreator kursa vrši ažuriranje informacija koje su vezane za kurs i za lekcije koje pripadaju tom kursu.
+Nakon unošenja svih potrebnih izmena potrebno je kliknuti na dugme \SaveButton{} čime se završava ažuriranje.
+
+\subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item Na stranici kursa, kreator klikom na dugme \EditCourseButton{} otvara stranicu za ažuriranje kursa.
+  \item Klikom na ime kursa omogućeno je kucanje novog imena. Nakon izmene, klikom na \CheckButton se potvrdjuje promena imena. Klikom na \CrossButton novo ime se odbacuje i kurs zadržava prvobitno ime.
+  \item Klikom na dugme \EditCourseButton{} za opis kursa moguće je ažurirati njegov opis. Nakon izmene, klikom na \CheckButton se potvrdjuje promena opisa. Klikom na \CrossButton novi opis se odbacuje i kurs zadržava prvobitni opis.
+  \item Klikom na dugme \ChangeAvatarButton{} otvara se standardni meni za izbor nove slike. %ovde možda da se doda ono klikom na choose file pa na upload pa bla bla
+  \item Nakon željenih izmena, klikom na dugme \SaveButton{} se potvrdjuju unete izmene i nove informacije o tom kursu su sada sačuvane.
+\end{itemize}
+\subsubsection{Alternativni tokovi}
+Ako nakon izmena nove informacije nisu validne, klikom na dugme \SaveButton{} neće biti ažurirane informacije o kursu i korisniku će se prikazati poruka kako čuvanje novih informacija nije bilo uspešno.
+\subsubsection{Preduslovi}
+Da bi korisnik uopšte mogao da pristupi stranici za ažuriranje kursa, on mora biti kreator tog kursa.
+\subsubsection{Posledice}
+Nove informacije o kursu koje je korisnik uneo se čuvaju u bazi i ovime je završen proces ažuriranja.
+
+\subsection{Kreiranje lekcije}
+\label{subsec:kreiranje-lekcije}
+
+\subsubsection{Kratak opis}
+Korisnik dodaje novu lekciju u neki od svojih kurseva.
+
+\subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item Na stranici kursa, kreator klikom na dugme \PlusButton{} započinje pravljenje nove lekcije.
+  \item Korisnik zatim unosi ime nove lekcije.
+  \item Ponovnim klikom na dugme \PlusButton{} potvrđuje kreiranje lekcije sa unetim imenom.
+\end{itemize}
+\subsubsection{Alternativni tokovi}
+Ako korisnik nije uneo naziv lekcije ili lekcija sa unetim nazivom već postoji u okviru tog kursa, dobiće odgovarajuću poruku.
+\subsubsection{Preduslovi}
+Da bi kreiranje lekcije bilo uspešno, u okviru tog kursa ne sme već postojati lekcija sa istim imenom.
+\subsubsection{Posledice}
+Nakon uspešnog kreiranja, nova lekcija se automatski dodaje na listu postojećih lekcija tog kursa i može se vršiti njeno ažuriranje.
+
+
+\subsection{Ažuriranje lekcije}
+\label{subsec:azuriranje-lekcije}
+
+\subsubsection{Kratak opis}
+Korisnik vrši izmenu informacija o samoj lekciji ili o pojmovima koji se uče unutar te lekcije.
+Nakon unošenja svih potrebnih izmena potrebno je kliknuti na dugme \SaveButton{} čime se završava ažuriranje.
+
+\subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item Klikom na dugme \SettingsButton{} otvara se padajući meni koji nudi više opcija za ažuriranje:
+  \begin{itemize}
+    \item \emph{Promeni ime} dozvoljava korisniku da unese novo ime lekcije.
+    Novo ime se potvrdjuje klikom na \CheckButton{} ili poništava klikom na \CrossButton{}.
+    \item \emph{Obriši lekciju} u potpunosti briše sve informacije vezane za tu lekciju kao i za sve pojmove unutar lekcije.
+    \item \emph{Grupno menjanje} dozvoljava korisniku da ažurira informacije o bilo kom pojmu u toj lekciji.
+    Sve izmene se istovremeno potvrđuju klikom na \CheckButton{} ili poništavaju klikom na \CrossButton{}.
+    \item \emph{Zameni pitanje i odgovor} će, za svaki pojam unutar te lekcije, međusobno zameniti informacije zapisane u poljima \emph{pitanje} i \emph{odgovor}.
+    \item \emph{Promeni opis svima} omogućava korisniku da istovremeno promeni opis svim pojmovima unutar te lekcije. % ovde da se doda nešto ako treba kad ga laza promeni
+  \end{itemize}
+  \item Klikom na sličicu pored imena nivoa otvara se padajući meni različitih sličica i boja koje korisnik može odabrati.
+  \item Dodavanje novog pojma započinje klikom na \PlusButton{} u okviru lekcije.
+  Zatim se vrši unos informacija u polja \emph{pitanje}, \emph{odgovor} i \emph{opis}, a zatim ponovnim klikom na \PlusButton{} se potvrđuje dodavanje novog pojma.
+  \item Ažuriranje postojećeg pojma se vrši klikom na \EditCourseButton za odgovarajući pojam.
+  Nakon izmene željenih informacija korisnik potvrđuje izmene klikom na \CheckButton{} ili ih poništava klikom na \CrossButton{}.
+  \item Brisanje postojećeg pojma se vrši klikom na \DeleteButton{} za odgovarajući pojam.
+  Nakon ovoga, ako korisnik želi da poništi brisanje, to može uraditi klikom na \UndoButton{}.
+  \item Kada korisnik završi sa ažuriranjem lekcije, klikom na \SaveButton{} potvrđuje sve izmene i baza se ažurira.
+\end{itemize}
+\subsubsection{Alternativni tokovi}
+Ako informacije vezane za lekciju nakon izmena nisu validne, klikom na dugme \SaveButton{} ažuriranje baze se neće izvršiti i korisnik će biti obavešten odgovarajućom porukom.
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+Nove informacije o lekciji koje je korisnik uneo se čuvaju u bazi i ovime je završen proces ažuriranja.
+
+\subsection{Navigacija kroz kurs}
+\label{subsec:navigacija-kroz-kurs}
+
+\subsubsection{Kratak opis}
+Akcije koje korisnik može započeti u okviru kursa.
+\subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item Klikom na dugme \dugme{uči} korisnik započinje sesiju učenja podrazumevanog broja novih pojmova.
+  Opciono, korisnik može klikom na padajući meni na istom dugmetu da promeni broj pojmova koje želi da uči u jednoj sesiji.
+  \item Klikom na dugme \dugme{obnovi} korisnik započinje sesiju obnavljanja podrazumevanog broja pojmova.
+  Opciono, korisnik može klikom na padajući meni na istom dugmetu da promeni broj pojmova koje želi da obnavlja u jednoj sesiji.
+  \item Klikom na dugme \dugme{spajalica} korisnik započinje sesiju igre \emph{spajalica}.
+\end{itemize}
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+Korisnik mora biti prijavljen i mora biti učesnik na tom kursu kako bi imao ponuđene pomenute opcije.
+\subsubsection{Posledice}
+
+
+
+\subsection{Učenje}
+\label{subsec:ucenje}
+
+\subsubsection{Kratak opis}
+
+\subsubsection{Osnovni tok događaja}
+
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+
+
+
+
+\subsection{Obnavljanje}
+\label{subsec:obnavljanje}
+
+\subsubsection{Kratak opis}
+
+\subsubsection{Osnovni tok događaja}
+
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+
+
+
+
+\subsection{Spajalica}
+\label{subsec:spajalica}
+
+\subsubsection{Kratak opis}
+
+\subsubsection{Osnovni tok događaja}
+
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+
+
+
+% ovde vrv nece bude nista na kraju? msm sta, samo gledas profil, nema neke interakcije
+\subsection{Pregled korisničkog profila}
+\label{subsec:pregled-korisnickog-profila}
+
+\subsubsection{Kratak opis}
+
+\subsubsection{Osnovni tok događaja}
+
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+
+
+
+
+\subsection{Praćenje korisnika}
+\label{subsec:pracenje-korisnika}
+
+\subsubsection{Kratak opis}
+Korisnik počinje da prati aktivnost drugog korisnika.
+\subsubsection{Osnovni tok događaja}
+Prijavljen korisnik koji se trenutno nalazi na stranici profila nekog drugog korisnika, klikom na dugme \dugme{prati} počinje da prati aktivnost tog korisnika.
+\subsubsection{Alternativni tokovi}
+
+\subsubsection{Preduslovi}
+
+\subsubsection{Posledice}
+%ovde nesto tipa sad kad ga prati ga vidi na rang listi na svojoj indeks strani al jebem li ga da l' to treba ovde uopste da se pise

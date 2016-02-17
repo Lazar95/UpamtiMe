@@ -1,12 +1,12 @@
 \part{Vizija sistema}
 
 \chapter{Cilj dokumenta}
-Cilj ovog dokumenta je da definiše zahteve koje treba da ispuni projekat \UpamtiMe, kako bi krajnjem korisniku bilo omogućeno zabavano i jednostavno učenje pre svega reči stranih jezika, %isuse
+Cilj ovog dokumenta je da definiše zahteve koje treba da ispuni aplikacija \UpamtiOnline{}.
 
 
 
 \chapter{Opseg dokumenta}
-Dokument se odnosi na realizaciju projekta \UpamtiMe, čija je namena da %isuse
+Dokument se odnosi na realizaciju veb aplikacije \UpamtiOnline{}.
 
 
 
@@ -19,25 +19,73 @@ Dokument se odnosi na realizaciju projekta \UpamtiMe, čija je namena da %isuse
 
 \chapter{Pozicioniranje proizvoda}
 
-\section{Poslvne mogućnosti}
-\UpamtiMe je projekat namenjen svim korisnicima, prvestveno onima koji %isuse
+\section{Poslovne mogućnosti}
+Primarni cilj aplikacije \UpamtiOnline{} je da omogući što adekvatniji proces učenja pojmova uz minimalno uloženo vreme, kao i da korisnicima stvori zabavnu i takmičarsku atmosferu.
+Aplikacija treba da obezbedi efikasan sistem za učenje i obnavljanje gradiva, praćenje aktivnosti i napretka korisnika.
+Takođe, treba obezbediti jednostavan i intuitivan način za proširenje opsega gradiva aplikacije kako bi korisnici, primenom istog sistema aplikacije, učili gradivo iz željenih oblasti.
 
 \section{Postavka problema}
 
+\begin{center}
+    \begin{tabular}{|>{\columncolor[gray]{0.8}}m{2cm}|m{6cm}|}
+        \hline
+        Problem je &
+        Nepostojanje dovoljno efikasnog sistema za učenje pojmova koji se teško pamte a lako zaboravljaju.
+        Ovakvi pojmovi su, prvenstveno, reči stranih jezika, imena geografskih pojmova, datumi istorijskih događaja i slični.\\
+        \hline
+        Pogađa &
+        Učenike osnovnih i srednjih škola, studente, ali i ostale ljude koji su zainteresovani da što brže i efikasnije nauče neki strani jezik ili gradivo iz bilo koje druge oblasti interesovanja.\\
+        \hline
+        Posledice su &
+        Naporan i neefikasan proces savladavanja gradiva iz neke oblasti.
+        Puno uloženog vremena ali nedovoljno rezultata.
+        Konačno, gubljenje interesa i odustajanje od učenja.\\
+        \hline
+        Uspešno rešenje će &
+        Učiniti proces učenja i pamćenja mnogo efikasnijim i zabavnijim uz znatno manje uloženog vremena i napora.\\
+        \hline
+    \end{tabular}
+\end{center}
+
 \section{Postavka pozicije proizvoda}
 
-
-
+\begin{center}
+    \begin{tabular}{|>{\columncolor[gray]{0.8}}m{2cm}|m{6cm}|}
+        \hline
+        Za koga &
+        Sve ljude koji moraju ili žele da za što manje vremena nauče i u potpunosti savladaju gradivo iz neke oblasti, a pritom žele da proces bude što zabavniji.\\
+        \hline
+        Proizvod je &
+        Veb-aplikacija.\\
+        \hline
+        Koja &
+        Obezbeđuje efikasan sistem za učenje i obnavljanje pojmova kroz sesije koje će trajati ne više od nekoliko minuta, kao i praćenje aktivnosti i napretka korisnika.\\
+        \hline
+        Za razliku od &
+        Postojećih rešenja kojih nema mnogo, nisu dovoljno efikasna ili zabavna.\\
+        \hline
+        Naš proizvod &
+        %TODO aj sad ti lazo ovde napiši znaš bolje kakvi su memrise i anki i to tako
+        \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \chapter{Opis korisnika}
 
 \section{Opis potencijalnog tržišta}
 
 \section{Profil korisnika}
+Postoji samo jedan tip korisnika.
+Svi korisnici se registruju i prijavljuju na isti način i imaju iste mogućnosti i privilegije u okviru aplikacije.
 
 \section{Opis okruženja}
+Kako je reč o veb-aplikaciji, bilo kom korisniku za rad neophodan je samo računar sa instaliranim veb-pregledačem i internet-konekcijom.
+Na ovaj način, korisnik može da se prijavi na svoj nalog sa bilo kog računara koji poseduje pomenuto.
 
 \section{Osnovne potrebe korisnika}
+Korisnici treba da imaju mogućnost da uče i obnavljaju gradivo iz različitih oblasti interesovanja.
+Takođe, korisnicima treba omogućiti jednostavno dodavanje novog gradiva koje će moći da uče korišćenjem istog sistema.
 
 \section{Alternative i konkurencija}
 
@@ -50,22 +98,56 @@ Dokument se odnosi na realizaciju projekta \UpamtiMe, čija je namena da %isuse
 
 \section{Mogućnosti}
 
+\begin{center}
+    \begin{tabular}{|m{3cm}|m{7cm}|}
+        \hline
+        Koristi korisnika &
+        Funkcije proizvoda koje to omogućavaju\\
+        \hline
+        Učenje pojmova &
+        Stranica aplikacije koja sprovodi korisnika kroz sesiju učenja. Sesija obuhvata prikazivanje novih pojmova korisniku i čekanje na njegov odgovor, pritom nudeći mu različite tipove pomoći kako bi korisnik, korak po korak, što lakše savladao gradivo.\\
+        \hline
+        Obnavljanje pojmova &
+        Analogno učenju, korisnik se sprovodi kroz sesiju obnavljanja dela gradiva za koje je već završio fazu učenja. U toku sesije, korisniku se prikazuju pojmovi i aplikacija određeno vreme čeka na odgovor od korisnika. U zavisnosti od tačnosti svakog pojedinačnog odgovora, pojmovi se odlažu određeno vreme, nakon koga će se smatrati da korisnik ponovo treba da ih obnovi.\\
+        \hline
+        Unos i ažuriranje gradiva &
+        Panel aplikacije za kreiranje novih kurseva i unos pojmova omogućava korisniku da na sopstven način organizuje raspored lekcija po svojim kriterijumima i potrebama.\\
+        \hline
+        Pregled napretka i aktivnosti &
+        Indeks stranica korisnika detaljno prikazuje skorašnje informacije o učenju i obnavljanju, kao i informacije o napretku korisnika koje prati.
+        \\
+        \hline
+    \end{tabular}
+\end{center}
+
 \section{Pretpostavke i zavisnosti}
-
+% ovde jedino da kazemo da radi lepo samo u chrome i firefox xDDD
 \section{Cena}
-
+Registrovanje naloga, kao i korišćenje svih usluga koje aplikacija pruža je skroz besplatno.
 \section{Licenciranje i instalacija}
-
+Aplikaciju nije potrebno instalirati, za korišćenje dovoljan je samo računar sa instaliranim modernim veb-pregledačem i internet-konekcijom.
 
 
 
 \chapter{Funkcionalni zahtevi}
 
-\section{Ažuriranje podataka o pacijentima}
-%TODO lol ne
+\section{Registrovanje korisnika}
+Da bi koristio usluge sistema, svaki korisnik mora da bude registrovan, odnosno da ima kreiran nalog. Ovo je neophodno kako bi se identifikovao među ostalim korisnicima i kako bi bilo moguće pamtiti sve potrebne informacije vezane za tog korisnika.
 
+\section{Prijavljivanje korisnika}
+Kako bi informacije vezane za nekog registrovanog korisnika mogle da se ažuriraju, potrebno je da on bude prijavljen u trenutku korišćenja sistema.
 
+\section{Učenje gradiva}
+Učenja novih pojmova treba organizovati u kratke sesije koje će, na više različitih načina, upoznati korisnika sa gradivom i omogućiti mu da ga lako zapamti.
 
+\section{Obnavljanje gradiva}
+Obnavljanje gradiva takođe treba organizovati u sesije koje će biti dostupne korisniku neko vreme nakog učenja tog gradiva. U ovim sesijama se treba ustanoviti koje je pojmove korisnik znao odnosno zaboravio i u zavisnosti od toga treba organizovati buduće sesije obnavljanja.
+
+\section{Kreiranje i ažuriranje kursa}
+Ako korisnik ne može naći kurs koji bi hteo da pohađa ili nije zadovoljan gradivom koje je pokriveno, treba mu omogućiti da napravi svoj kurs. Neophodno je obezbediti lak i intuitivan način unosa i organizovanja lekcija i pojmova u okviru novog kursa. Takođe, treba omogućiti ispravljanje i dodavanje novog gradiva.
+
+\section{Dodavanje prijatelja}
+Svakom korisniku treba obezbediti mogućnost praćenja aktivnosti drugih korisnika sistema.
 
 \chapter{Ograničenja}
 
@@ -87,14 +169,15 @@ Dokument se odnosi na realizaciju projekta \UpamtiMe, čija je namena da %isuse
 \section{Standardi}
 
 \section{Sistemski zahtevi}
+Ne zahtevaju se računari visokih performansi. Aplikaciju korisnik može da koristi sa bilo kog računara koji ima instaliran moderan veb-pregledač i uspostavljenu internet-konekciju.
 
 \section{Performanse}
+% mozda da se napise nesto samo kao da performanse ne zavise ni od cega posebno mozda eto samo da ne bude prespora internet konekcija xDD
 
 \section{Okruženje}
 
 
-
-
+% odavde verovatno treba maknemo stvari koje necemo da napisemo na kraju
 \chapter{Dokumentacija}
 
 \section{Korisničko upustvo}

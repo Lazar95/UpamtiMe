@@ -3,7 +3,7 @@ const CHANGED = 1;
 const NEW = 2;
 const DELETED = 3;
 
-var _course = []; // niz nivoa
+var _course = []; // niz lekcija
 var _courseInfo = {
   "name": $('#course-name > span').html().trim(),
   "categoryID": $('select#category > option:selected').val(),
@@ -62,11 +62,11 @@ var _dataToSend = {
   "subcategoryID": 0,
   "description": "",
   "deletedCards":  [], // lista ID-jeva kartica
-  "deletedLevels": [], // lista Id-jeva nivoa
+  "deletedLevels": [], // lista Id-jeva lekcija
   "editedCards":   [], // niz objekata kartica (promenjene a postojale)
-  "editedLevels":  [], // niz objekata nivoa (promenjen naziv ili redosled)
+  "editedLevels":  [], // niz objekata lekcija (promenjen naziv ili redosled)
   "addedCards":    [], // nove kartice
-  "addedLevels":   [], // nivo nivoi -- lazni ID (negativan)
+  "addedLevels":   [], // nove lekcije -- lazni ID (negativan)
 }
 
 var countWhatInWhere = function(STATUS, levelID) {
@@ -90,7 +90,7 @@ var countWhatInWhere = function(STATUS, levelID) {
 /*****************************/
 /*****************************/
 /*****************************/
-/* Dodavanje nivoa i kartica */
+/* Dodavanje lekcija i kartica */
 /*****************************/
 /*****************************/
 /*****************************/
@@ -101,15 +101,15 @@ var addLevel = function() {
   var newLevelName = $('#new-level input').val().toString();
 
   if (_course.length != 0 && _course[_course.length - 1].cards.length == 0) {
-    // Ako je poslednji nivo prazan
-    alert('Prethodni nivo je prazan! Dodaj kartice prvo u njega.');
+    // Ako je poslednja lekcija prazna
+    alert('Prethodna lekcija je prazna! Dodaj kartice prvo u nju.');
     return false;
   }
 
-  // Proveravamo da li postoji nivo sa tim imenom
+  // Proveravamo da li postoji lekcija sa tim imenom
   for (var i = 0; i < _course.length; i++) {
     if (_course[i].name == newLevelName) {
-      alert('Nivo sa tim imenom vec postoji! Izaberi drugo ime.');
+      alert('Lekcija sa tim imenom vec postoji! Izaberi drugo ime.');
       return false;
     }
   }
@@ -181,7 +181,7 @@ var addCard = function(level) {
     for (var j = 0; j < currLevel.cards.length; j++) {
       var currCard = currLevel.cards[j];
       if (currCard.question == question) {
-        alert('Vec postoji kartica sa tim pitanjem u nivou "' + currLevel.name + '"!'); // TODO slobodno mu napisi gde xD
+        alert('Vec postoji kartica sa tim pitanjem u lekciji "' + currLevel.name + '"!'); // TODO slobodno mu napisi gde xD
         return false;
       }
     }
@@ -223,7 +223,7 @@ var addCard = function(level) {
   $levelNewCard.find('.question').focus();
 }
 
-// addCard se zove kada se pritisne enter u bilo kom od tri inputa za dodavanje nove kartice u nivo
+// addCard se zove kada se pritisne enter u bilo kom od tri inputa za dodavanje nove kartice u lekciju
 $('#course').on('keyup', '.new-card input[type="text"]', function(e) {
   if(e.keyCode == 13) {
     addCard($(this).closest('.level').attr('data-level-number'));
@@ -283,7 +283,7 @@ var onAcceptButtonClick = function(button) {
     for (var j = 0; j < currLevel.cards.length; j++) {
       var currCard = currLevel.cards[j];
       if (currCard.cardID != cardID && currCard.question == newQ) {
-        alert('Vec postoji kartica sa tim pitanjem u nivou "' + currLevel.name + '"!'); // TODO slobodno mu napisi gde xD
+        alert('Vec postoji kartica sa tim pitanjem u lekciji "' + currLevel.name + '"!'); // TODO slobodno mu napisi gde xD
         return false;
       }
     }
@@ -396,7 +396,7 @@ var onRemoveButtonClick = function(button) {
   hideAllButtons(button.parent());
   button.parent().children('.undo-button').show();
 
-  // Ako je brisanjem ove kartice nivo postao prazan, obelezi to.
+  // Ako je brisanjem ove kartice lekcija postala prazna, obelezi to.
   var levelID = button.parent().parent().parent().parent().children('.level').attr('data-level-id');
   var levelIDnum = parseInt(levelID);
   var count = countWhatInWhere(DELETED, levelIDnum);
@@ -451,8 +451,8 @@ var onUndoButtonClick = function(button) {
 
   // Vizuelno:
   button.parent().parent().removeClass('dimmed');
-  // Takodje cim je undovano nesto, onda SIGURNO znamo da u tom nivou
-  // postoji barem jedna kartica pa sklanjamo oznaku da je nivo prazan.
+  // Takodje cim je undovano nesto, onda SIGURNO znamo da u toj lekciji
+  // postoji barem jedna kartica pa sklanjamo oznaku da je lekcija prazna.
   button.parent().parent().parent().parent().removeClass('empty');
 }
 
@@ -568,7 +568,7 @@ $('#course').on('click', '.icon-picker-button', function() {
 /*****************************/
 /*****************************/
 /*****************************/
-/*******  Opcije nivoa *******/
+/*******  Opcije lekcija *****/
 /*****************************/
 /*****************************/
 /*****************************/
@@ -603,7 +603,7 @@ var toggleAdvancedLevelOptions = function(levelElement) {
   var string = '';
   string += '<ul class="options">';
     string += '<li data-function="name-change"><span>Promeni ime</span><i class="fa fa-fw fa-pencil"></i></li>';
-    string += '<li data-function="level-delete"><span>Obriši nivo</span><i class="fa fa-fw fa-trash"></i></li>';
+    string += '<li data-function="level-delete"><span>Obriši lekciju</span><i class="fa fa-fw fa-trash"></i></li>';
     string += '<li data-function="mass-edit"><span>Grupno menjanje</span><i class="fa fa-fw fa-object-group"></i></li>';
     string += '<li data-function="swap-qa"><span>Zameni pitanje i odgovor</span><i class="fa fa-fw fa-exchange"></i></li>';
     string += '<li data-function="change-description"><span>Promeni opis svima</span><i class="fa fa-fw fa-reply-all"></i></li>';
@@ -765,7 +765,7 @@ var orderAllLevels = function() {
   for (var j = 0; j < _course.length; j++) {
     var currLevel = _course[j];
     if (currLevel.status == DELETED) {
-      continue; // Preskacemo obrisane nivoe
+      continue; // Preskacemo obrisane lekcije
     }
     expectedNumber++;
     if (currLevel.number != expectedNumber.toString()) {
@@ -804,7 +804,7 @@ var save = function() {
   _dataToSend.subcategoryID = _courseInfo.subcategoryID;
   _dataToSend.description =   _courseInfo.description;
 
-  // Celi nivoi:
+  // Cele lekcije:
   for (var i = 0; i < _course.length; i++) {
     var currLevel = _course[i];
     switch (currLevel.status) {
@@ -855,7 +855,7 @@ var save = function() {
 /**
  * Bindovanje funkcija za dugmad
  */
-// Klik na + kod dodavanja novog nivoa (prvo expand pa dodaj)
+// Klik na + kod dodavanja nove lekcije (prvo expand pa dodaj)
 $('#course').on('click', '#new-level .add-button', function() {
   if ($(this).attr('data-function') == 'expand') {
     $(this)
@@ -867,7 +867,7 @@ $('#course').on('click', '#new-level .add-button', function() {
     if (typed != "" && typed != undefined)
       addLevel();
     else
-      alert('Nivo mora da ima ime!'); //TODO validacija
+      alert('Lekcija mora da ima ime!'); //TODO validacija
   }
 });
 

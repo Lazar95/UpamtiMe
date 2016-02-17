@@ -91,7 +91,7 @@ const CORRECT_SECOND = 5;
 const IGNORED = 7; // TODO
 
 var _currentLevel = 0; // 0, 1, 2
-var _questionPointer = 0; // pokazuje na pitanje u trenutnom nivou
+var _questionPointer = 0; // pokazuje na pitanje u trenutnoj lekciji
 
 var _currentPoints = 0;
 var _lastPoints = 0;
@@ -903,7 +903,7 @@ $('#type-answer').keyup(function(e) {
 
 // Stampanje za debug
 var dump = function() {
-  console.log('Trenutni nivo: ' + _currentLevel);
+  console.log('Trenutna lekcija: ' + _currentLevel);
   for (var l = 0; l < _levels.length; l++) {
     console.log('Level ' + l);
     for (var q= 0 ; q < _levels[l].length; q++) {

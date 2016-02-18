@@ -279,7 +279,7 @@ var Schedule = function() {
     }
     //console.table(this.schedule);
   };
-
+  
   // Parametar: da li da kao sledeci challange prikaze postview?
   this.reschedule = function (showPostview = true) {
     // reschedule odmah posle da bi video postview
@@ -677,9 +677,15 @@ HangmanStrategy.prototype.display = function () {
 };
 
 HangmanStrategy.prototype.help = function () {
-  //TODO JAJAC: dodaj jos neko slovo u this.hints
-  // this.card.answer <-- tacan odgovor
-  // this.hints <-- string dipa d--_K--z-; njega samo treba da promnis
+  // TODO JAJAC
+  var hiddenChar = '-';
+  // nasumice trazimo indeks nekog skrivenog slova u reci da bi ga prikazali
+  do {
+    i = Math.floor(Math.random() * this.hints.length);
+  } while (this.hits[i] != hiddenChar);
+  // kada nadjemo indeks nekog skrivenog slova,
+  // samo prikazemo sada i to slovo kao dodatni hint
+  this.hints[i] = this.card.answer[i];
 };
 
 
@@ -714,9 +720,44 @@ ScrabbleStrategy.prototype.display = function () {
 };
 
 ScrabbleStrategy.prototype.help = function() {
-  //TODO JAJAC: izbaci neko slovo koje nije deo tacnog odgovora iz this.letters
-  // this.card.answer <-- tacan odgovor
-  // this.letters <-- niz dostupnih slova za kucanje
+  // TODO JAJAC
+  // racunamo koliko u procentima ima ponudjenih slova viska
+  var extraPercent = this.letters.length / this.card.answer.length - 1;
+
+  var tempLetters = letters.slice(0); // kopiramo u tempLetters trenutno
+
+  // neke granice kojima gledamo koliko cemo da pomognemo
+  var removethreshold1 = 0.33;
+  var removethreshold2 = 0.66;
+  var removethreshold3 = 1;
+
+  // neke vrednosti kojima odredjujemo koliko cemo slova da sklonimo
+  var littleHelp = 1;
+  var mediumHelp = 2;
+  var largeHelp = 3;
+
+  // u removeNum, u zavisnosti od prethodna dva parametra,
+  // cuvamo izracunat broj reci koje cemo da sklonimo kao pomoc
+  var removeNum;
+  var removeCandidates = []; // ovde ce da smestimo indekse kandidata za remove
+
+  // ako ima malo ponudjenih slova, sklanjamo mu samo jedno
+  // a ako ima vise ponudjenih onda 2 ili 3
+  if (extraPercent < remove1threshold) removeNum = littleHelp;
+  else if (extraPercent < remove2threshold) removeNum = mediumHelp;
+  else removeNum = largeHelp;
+
+  // prvo iz pomocnog niza sklonimo sva slova koja cine odgovor
+  // njih ne smemo da izbacimo iz this.letters
+  for (var i = 0; i < this.card.answer.length; i++) {
+    tempLetters.splice(tempLetters.indexOf(this.card.answer[i]), 1);
+  }
+
+  // i sad ovde sklonimo iz this.letters jos neko slovo
+  for (var i = 0; i < removeNum; i++) {
+    var rnd = Math.floor(Math.random() * tempLetters.length);
+    this.letters.splice(this.letters.indexof(tempLetters[rnd]), 1);
+  }
 }
 
 ScrabbleStrategy.prototype.addLetterAt = function(i) {

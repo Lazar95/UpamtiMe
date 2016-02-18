@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Text.RegularExpressions;
 using System.Web;
 using Data;
 using Data.DTOs;
@@ -47,6 +48,12 @@ namespace UpamtiMe.Models
                         Description = c.description,
                         Image = c.image == null ? null : c.image.ToArray(),
                         Number = c.number,
+                    },
+                    CardChallange = new CardChallangeDTO
+                    {
+                        MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
+                        Hangman = c.answer,
+                        Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
                     }
                 }).OrderBy(a=>a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
           
@@ -90,6 +97,12 @@ namespace UpamtiMe.Models
                                     Description = c.description,
                                     Image = c.image == null ? null : c.image.ToArray(),
                                     Number = c.number,
+                                },
+                                CardChallange = new CardChallangeDTO()
+                                {
+                                    MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
+                                    Hangman = c.answer,
+                                    Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
                                 }
                             }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
 
@@ -120,15 +133,15 @@ namespace UpamtiMe.Models
                                     Description = c.description,
                                     Image = c.image == null ? null : c.image.ToArray(),
                                     Number = c.number,
+                                },
+                                CardChallange = new CardChallangeDTO()
+                                {
+                                    MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
+                                    Hangman = c.answer,
+                                    Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
                                 }
                             }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
-
             }
-
-
-
-
-
             return sm;
         }
 
@@ -156,8 +169,6 @@ namespace UpamtiMe.Models
                                     Description = c.description
                                 }
                             }).Take(numberOfCards.Value).ToList();
-
-                
             }
             else
             {

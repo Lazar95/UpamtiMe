@@ -17,6 +17,7 @@
     <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.CorrectAnswers)</th>
     <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.WrongAnswers)</th>
     <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.Combo)</th>
+    <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice)</th>
     </thead>
     @foreach (Data.DTOs.CardSessionDTO card in @Model.Cards)
     {
@@ -31,6 +32,7 @@
             <td data-type="correct-answers">@Html.DisplayFor(a => card.UserCardInfo.CorrectAnswers)</td>
             <td data-type="wrong-answers">@Html.DisplayFor(a => card.UserCardInfo.WrongAnswers)</td>
             <td data-type="combo">@Html.DisplayFor(a => card.UserCardInfo.Combo)</td>
+            <td data-type="combo">@Html.DisplayFor(a => card.CardChallange.MultipleChoice)</td>
         </tr>
     }
 

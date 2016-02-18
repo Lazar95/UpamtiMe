@@ -98,5 +98,14 @@ namespace UpamtiMe.Tests
             string b = "masa";
             bool c = a == b;
         }
+
+        [TestMethod]
+        public void stringTestParsovanje()
+        {
+            string c = "nesto sad ja kao kucam";
+            List<string> proba = c.Select(s => s.ToString()).ToList();
+        }
+
+       
     }
 }

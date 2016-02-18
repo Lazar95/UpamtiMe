@@ -201,6 +201,8 @@ namespace UpamtiMe.Controllers
                 return RedirectToAction("Profile", "Courses", new { id = courseID });
             }
             UserSession.SetTime();
+            //string view = RenderPartialViewToString("Learn", model);
+            //return Json(new {model = model, view = view}, JsonRequestBehavior.AllowGet);
             return View("Learn",model);
         }
 

@@ -5,40 +5,61 @@
     ViewBag.Title = "SessionTest";
 }
 
-<h2>SessionTest</h2>
+<main>
+    <h2>SessionTest</h2>
 
-<div>
-    <h4>SessionModel</h4>
-    <hr />
-    <table style ="width:1400px ; ">
-        <thead style=" text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.UserCardID)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.CardID)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Question)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Answer)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Description)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.LastSeen)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.NextSee)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.CorrectAnswers)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.WrongAnswers)</th>
-        <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.Combo)</th>
-        </thead>
-        @foreach (CardSessionDTO card in @Model.Cards)
-        {
-            <tr>
-                <td>@Html.DisplayFor(a => card.UserCardInfo.UserCardID)</td>
-                <td>@Html.DisplayFor(a => card.BasicInfo.CardID)</td>
-                <td>@Html.DisplayFor(a => card.BasicInfo.Question)</td>
-                <td>@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
-                <td>@Html.DisplayFor(a => card.BasicInfo.Description)</td>
-                <td>@Html.DisplayFor(a => card.UserCardInfo.LastSeen)</td>
-                <td>@Html.DisplayFor(a => card.UserCardInfo.NextSee)</td>
-                <td>@Html.DisplayFor(a => card.UserCardInfo.CorrectAnswers)</td>
-                <td>@Html.DisplayFor(a => card.UserCardInfo.WrongAnswers)</td>
-                <td>@Html.DisplayFor(a => card.UserCardInfo.Combo)</td>
-            </tr>
-        }
+    <div>
+        <h4>SessionModel</h4>
+        <hr />
 
 
-    </table>
-</div>
+
+        <table style="width:1400px ; ">
+            <thead style="text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Answer)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice[0])</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice[1])</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice[2])</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice[3])</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.Hangman)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.Scrabble)</th>
+
+
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.UserCardID)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.CardID)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Question)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Answer)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Description)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.LastSeen)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.NextSee)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.CorrectAnswers)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.WrongAnswers)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.Combo)</th>
+            </thead>
+            @foreach (CardSessionDTO card in @Model.Cards)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
+                    <td id="table-of-god-multiple-choice-1">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[0])</td>
+                    <td id="table-of-god-multiple-choice-2">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[1])</td>
+                    <td id="table-of-god-multiple-choice-3">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[2])</td>
+                    <td id="table-of-god-multiple-choice-4">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[3])</td>
+                    <td id="table-of-god-hangman">@Html.DisplayFor(a => card.CardChallange.Hangman)</td>
+                    <td id="table-of-god-scrabble">@Html.DisplayFor(a => card.CardChallange.Scrabble)</td>
+
+                    <td>@Html.DisplayFor(a => card.UserCardInfo.UserCardID)</td>
+                    <td>@Html.DisplayFor(a => card.BasicInfo.CardID)</td>
+                    <td>@Html.DisplayFor(a => card.BasicInfo.Question)</td>
+                    <td>@Html.DisplayFor(a => card.BasicInfo.Description)</td>
+                    <td>@Html.DisplayFor(a => card.UserCardInfo.LastSeen)</td>
+                    <td>@Html.DisplayFor(a => card.UserCardInfo.NextSee)</td>
+                    <td>@Html.DisplayFor(a => card.UserCardInfo.CorrectAnswers)</td>
+                    <td>@Html.DisplayFor(a => card.UserCardInfo.WrongAnswers)</td>
+                    <td>@Html.DisplayFor(a => card.UserCardInfo.Combo)</td>
+                </tr>
+            }
+
+
+        </table>
+    </div>
+</main>

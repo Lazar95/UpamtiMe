@@ -204,7 +204,7 @@ namespace UpamtiMe.Controllers
             //string view = RenderPartialViewToString("Learn", model);
             //return Json(new {model = model, view = view}, JsonRequestBehavior.AllowGet);
             model.Link = Url.Action("Learn" ,"Courses");
-            return View("Learn",model);
+            return View("SessionTest",model);
         }
 
         [HttpPost]

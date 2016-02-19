@@ -5,38 +5,29 @@
 }
 
 
-<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god">
-    <thead style=" text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.UserCardID)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.CardID)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Question)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Answer)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Description)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.LastSeen)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.NextSee)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.CorrectAnswers)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.WrongAnswers)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.Combo)</th>
-    <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice)</th>
-    </thead>
+<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-session="learn">
     @foreach (Data.DTOs.CardSessionDTO card in @Model.Cards)
     {
         <tr>
-            <td data-type="user-card-id">@Html.DisplayFor(a => card.UserCardInfo.UserCardID)</td>
-            <td data-type="card-id">@Html.DisplayFor(a => card.BasicInfo.CardID)</td>
-            <td data-type="question">@Html.DisplayFor(a => card.BasicInfo.Question)</td>
-            <td data-type="answer">@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
-            <td data-type="description">@Html.DisplayFor(a => card.BasicInfo.Description)</td>
-            <td data-type="last-seen">@Html.DisplayFor(a => card.UserCardInfo.LastSeen)</td>
-            <td data-type="next-see">@Html.DisplayFor(a => card.UserCardInfo.NextSee)</td>
-            <td data-type="correct-answers">@Html.DisplayFor(a => card.UserCardInfo.CorrectAnswers)</td>
-            <td data-type="wrong-answers">@Html.DisplayFor(a => card.UserCardInfo.WrongAnswers)</td>
-            <td data-type="combo">@Html.DisplayFor(a => card.UserCardInfo.Combo)</td>
-            <td data-type="combo">@Html.DisplayFor(a => card.CardChallange.MultipleChoice)</td>
+            <td id="table-of-god-user-card-id">@Html.DisplayFor(a => card.UserCardInfo.UserCardID)</td>
+            <td id="table-of-god-card-id">@Html.DisplayFor(a => card.BasicInfo.CardID)</td>
+            <td id="table-of-god-question">@Html.DisplayFor(a => card.BasicInfo.Question)</td>
+            <td id="table-of-god-answer">@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
+            <td id="table-of-god-description">@Html.DisplayFor(a => card.BasicInfo.Description)</td>
+            <td id="table-of-god-since-seen">@Html.DisplayFor(a => card.UserCardInfo.LastSeen)</td>
+            <td id="table-of-god-since-plan">@Html.DisplayFor(a => card.UserCardInfo.NextSee)</td>
+            <td id="table-of-god-total-correct-answers">@Html.DisplayFor(a => card.UserCardInfo.CorrectAnswers)</td>
+            <td id="table-of-god-total-wrong-answers">@Html.DisplayFor(a => card.UserCardInfo.WrongAnswers)</td>
+            <td id="table-of-god-combo">@Html.DisplayFor(a => card.UserCardInfo.Combo)</td>
+            <td id="table-of-god-goodness">@Html.DisplayFor(a => card.UserCardInfo.Goodness)</td>
+            <td id="table-of-god-multiple-choice-1">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[0])</td>
+            <td id="table-of-god-multiple-choice-2">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[1])</td>
+            <td id="table-of-god-multiple-choice-3">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[2])</td>
+            <td id="table-of-god-multiple-choice-4">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[3])</td>
+            <td id="table-of-god-hangman">@Html.DisplayFor(a => card.CardChallange.Hangman)</td>
+            <td id="table-of-god-scrabble">@Html.DisplayFor(a => card.CardChallange.Scrabble)</td>
         </tr>
     }
-
-
 </table>
 
 

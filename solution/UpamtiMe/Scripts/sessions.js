@@ -206,8 +206,7 @@ var ScoreBreakdown = function() {
   this.timeBonusMultiplier = 0;
 
   this.setBaseScore = function(card) {
-    //TODO ako je netacan odgovor ovo ide na 0 (nema negativnih poena)
-    this.baseScore = (1 + 4 * log(262800, card.sinceSeen));
+    this.baseScore = (1 + 4 * log(262800, card.sinceSeen + 1));
   }
 
   this.setCardCombo = function(card) {
@@ -279,9 +278,11 @@ var Schedule = function() {
     }
     //console.table(this.schedule);
   };
-  
+
   // Parametar: da li da kao sledeci challange prikaze postview?
-  this.reschedule = function (showPostview = true) {
+  this.reschedule = function (showPostview) {
+    // default parametar
+    var showPostview = typeof showPostview !== 'undefined' ?  b : true;
     // reschedule odmah posle da bi video postview
     if (showPostview) this.schedule.splice(this.pointer + 1, 0, this.getCurrentCard());
     // reschedule na kraj jer moras da ponovis
@@ -346,7 +347,10 @@ var Session = (function() {
         return correctAnswers + wrongAnswers;
       },
       getCorrectness: function() {
-        return (correctAnswers / this.getGivenAnswers());
+        var givenAnswers = this.getGivenAnswers();
+        var ret;
+        if (givenAnswers == 0) ret = 0; else ret = correctAnswers / givenAnswers;
+        return ret;
       },
       incCombo: function() {
         combo++;
@@ -517,6 +521,7 @@ Strategy.prototype.correctAnswer = function(givenAnswer) {
   var currCard = Session.getInstance().schedule.getCurrentCard();
   currCard.combo++;
   currCard.correctAnswers++;
+  currCard.totalCorrectAnswers++;
   Session.getInstance().incCombo();
   Session.getInstance().incCorrectAnswers();
   currCard.goodness = 0.7 * currCard.goodness + (1 - 0.7) * 1;
@@ -536,6 +541,7 @@ Strategy.prototype.wrongAnswer = function(givenAnswer) {
   var currCard = Session.getInstance().schedule.getCurrentCard();
   currCard.combo = 0;
   currCard.wrongAnswers++;
+  currCard.totalWrongAnswers++;
   Session.getInstance().resetCombo();
   Session.getInstance().incWrongAnswers();
   currCard.goodness = 0.7 * currCard.goodness;
@@ -562,6 +568,18 @@ Strategy.prototype.evaluateScore = function() {
   score.setCardCombo(this.card);
   score.setSessionCombo();
   score.setTimeBonus(0); //TODO prosledi remaningCardTimeMiliseconds
+  Session.getInstance().lastScoreBreakdown = score;
+  var oldScore = Session.getInstance().getScore();
+  Session.getInstance().setScore(oldScore + score.getScore());
+}
+
+Strategy.prototype.evaluateScoreZero = function() {
+  var score = new ScoreBreakdown();
+  //TODO sve ovo dole iz konstruktora
+  score.setBaseScore(0);
+  score.setCardCombo(0);
+  score.setSessionCombo();
+  score.setTimeBonus(0); //TODO prosledi remaningCardTimeSeconds
   Session.getInstance().lastScoreBreakdown = score;
   var oldScore = Session.getInstance().getScore();
   Session.getInstance().setScore(oldScore + score.getScore());
@@ -677,15 +695,9 @@ HangmanStrategy.prototype.display = function () {
 };
 
 HangmanStrategy.prototype.help = function () {
-  // TODO JAJAC
-  var hiddenChar = '-';
-  // nasumice trazimo indeks nekog skrivenog slova u reci da bi ga prikazali
-  do {
-    i = Math.floor(Math.random() * this.hints.length);
-  } while (this.hits[i] != hiddenChar);
-  // kada nadjemo indeks nekog skrivenog slova,
-  // samo prikazemo sada i to slovo kao dodatni hint
-  this.hints[i] = this.card.answer[i];
+  //TODO JAJAC: dodaj jos neko slovo u this.hints
+  // this.card.answer <-- tacan odgovor
+  // this.hints <-- string dipa d--_K--z-; njega samo treba da promnis
 };
 
 
@@ -700,6 +712,10 @@ inheritsFrom(ScrabbleStrategy, Strategy);
 
 // override
 ScrabbleStrategy.prototype.display = function () {
+  // svaki put kad displayujemo moramo da rstarujemo stanje
+  this.used = [];
+  for (var i = 0; i < this.used.length; i++) this.used[i] = false;
+  this.typed = [];
   var $card = $('.card.current-card');
   var string = '';
   string += '<div id="scrabble" class="challange">';
@@ -720,44 +736,9 @@ ScrabbleStrategy.prototype.display = function () {
 };
 
 ScrabbleStrategy.prototype.help = function() {
-  // TODO JAJAC
-  // racunamo koliko u procentima ima ponudjenih slova viska
-  var extraPercent = this.letters.length / this.card.answer.length - 1;
-
-  var tempLetters = letters.slice(0); // kopiramo u tempLetters trenutno
-
-  // neke granice kojima gledamo koliko cemo da pomognemo
-  var removethreshold1 = 0.33;
-  var removethreshold2 = 0.66;
-  var removethreshold3 = 1;
-
-  // neke vrednosti kojima odredjujemo koliko cemo slova da sklonimo
-  var littleHelp = 1;
-  var mediumHelp = 2;
-  var largeHelp = 3;
-
-  // u removeNum, u zavisnosti od prethodna dva parametra,
-  // cuvamo izracunat broj reci koje cemo da sklonimo kao pomoc
-  var removeNum;
-  var removeCandidates = []; // ovde ce da smestimo indekse kandidata za remove
-
-  // ako ima malo ponudjenih slova, sklanjamo mu samo jedno
-  // a ako ima vise ponudjenih onda 2 ili 3
-  if (extraPercent < remove1threshold) removeNum = littleHelp;
-  else if (extraPercent < remove2threshold) removeNum = mediumHelp;
-  else removeNum = largeHelp;
-
-  // prvo iz pomocnog niza sklonimo sva slova koja cine odgovor
-  // njih ne smemo da izbacimo iz this.letters
-  for (var i = 0; i < this.card.answer.length; i++) {
-    tempLetters.splice(tempLetters.indexOf(this.card.answer[i]), 1);
-  }
-
-  // i sad ovde sklonimo iz this.letters jos neko slovo
-  for (var i = 0; i < removeNum; i++) {
-    var rnd = Math.floor(Math.random() * tempLetters.length);
-    this.letters.splice(this.letters.indexof(tempLetters[rnd]), 1);
-  }
+  //TODO JAJAC: izbaci neko slovo koje nije deo tacnog odgovora iz this.letters
+  // this.card.answer <-- tacan odgovor
+  // this.letters <-- niz dostupnih slova za kucanje
 }
 
 ScrabbleStrategy.prototype.addLetterAt = function(i) {
@@ -876,18 +857,20 @@ PreviewStrategy.prototype.display = function () {
 $('.card.current-card').on('click', 'button#go-to-next', function() {
   Session.getInstance().schedule.getCurrentCard().nextStrategy();
   Session.getInstance().schedule.advance();
+  updateSidebar();
+  updateProgressbar();
 });
 
 $('.card.current-card').on('click', 'button#skip-to-last', function() {
   var currCard = Session.getInstance().schedule.getCurrentCard();
-  // obelezi sve strategije osim posledenje kao skipped:
-  for (var i = 0; i < currCard.strategy.length - 1; i++ ) {
-    currCard.strategy[i].indicator = 3; // skipped
-  }
+  // obrisi sve strategije osim poslednje i prve (preview, realdeal)
+  currCard.strategy.splice(1, currCard.strategy.length - 2);
   // stavi da sledeca strategija bude poslednja:
   currCard.currStrategy = currCard.strategy.length - 1;
   // cepaj dalje kroz sesiju:
   Session.getInstance().schedule.advance();
+  updateSidebar();
+  updateProgressbar();
 });
 
 
@@ -969,9 +952,32 @@ var gameOver = function() {
 
   for (var i = 0; i < _session.cards.length; i++) {
     _session.cards[i].calculateNewPlan();
+    _session.cards[i].sincePlan = _session.cards[i].newPlan;
   }
 
   console.table(_session.cards);
+
+  // prikazi ono za kraj (nastavi/back to course)
+
+  var dataToSend = {
+    "qaInfo": Session.getInstance().cards,
+    "score": Session.getInstance().getScore(),
+    "courseID": $('#table-of-god').attr('data-course-id'),
+  }
+
+  $.ajax({
+    url: "/Courses/Learn", // /kontroler/akcija (klasa/funkcija u klasi)
+    method: "POST",
+    data: dataToSend,
+    success: function (res) {
+      if (res.success) {
+        $('body').append('Waai uspesno!');
+      } else {
+        $('body').append('Nije uspelo!');
+      }
+    }
+  });
+
 }
 
 /******************************************************************************/
@@ -985,10 +991,47 @@ var gameOver = function() {
 // Sesija
 var _session = Session.getInstance();
 
+// Citanje podataka iz Table Of God
+$('#table-of-god > tbody > tr').each(function() {
+  var cardID = $(this).find('#table-of-god-card-id').text();
+  var userCardID = $(this).find('#table-of-god-user-card-id').text();
+  var question = $(this).find('#table-of-god-question').text();
+  var answer = $(this).find('#table-of-god-answer').text();
+  var desc = $(this).find('#table-of-god-description').text();
+  var sinceSeen = $(this).find('#table-of-god-since-seen').text();
+  var sincePlan = $(this).find('#table-of-god-since-plan').text();
+  var totalCorrectAnswers = $(this).find('#table-of-god-total-correct-answers').text();
+  var totalWrongAnswers = $(this).find('#table-of-god-total-wrong-answers').text();
+  var combo = $(this).find('#table-of-god-combo').text();
+  var goodness = $(this).find('#table-of-god-goodness').text();
+  var mch1 = $(this).find('#table-of-god-multiple-choice-1').text();
+  var mch2 = $(this).find('#table-of-god-multiple-choice-2').text();
+  var mch3 = $(this).find('#table-of-god-multiple-choice-3').text();
+  var mch4 = $(this).find('#table-of-god-multiple-choice-4').text();
+  var hangman = $(this).find('#table-of-god-hangman').text();
+  var scrabble = $(this).find('#table-of-god-scrabble').text().split('');
+
+  var card = new Card(cardID, userCardID, question, answer, desc,
+                      sinceSeen, sincePlan, totalCorrectAnswers, totalWrongAnswers, combo, goodness);
+
+  if ($('#table-of-god').attr('data-session') == 'learn') {
+    card.addStrategy(new PreviewStrategy());
+    card.addStrategy(new MultipleChoiceStrategy([mch1, mch2, mch3, mch4]));
+    card.addStrategy(new HangmanStrategy(hangman));
+    card.addStrategy(new ScrabbleStrategy(scrabble));
+    card.addStrategy(new RealDealStrategy());
+  } else { // review
+    card.addStrategy(new RealDealStrategy());
+  }
+
+  _session.addCard(card);
+});
+
+/*
 // Neke kartice za testiranje:
 // new Card(cardID, userCardID, question, answer, desc, lastSeenMinutes, nextSeeMinutes, totalCorrectAnswers, totalWrongAnswers, combo, goodness);
 var _a = new Card(1, 1, 'mačka', 'die Katze', 'imenica', 30, 10, 2, 1, 1, 0.9321);
-//_a.addStrategy(new PreviewStrategy());
+_a.addStrategy(new PreviewStrategy());
 _a.addStrategy(new MultipleChoiceStrategy(['der Hund', 'die Katze', 'der Tisch', 'die Krankenversicherung']));
 _a.addStrategy(new HangmanStrategy('d--_K--z-'));
 _a.addStrategy(new ScrabbleStrategy(['d', 'r', 'e', 'K', 'a', ' ', 'y', 'z', 'K', 'e', 't', 'i', 'x']));
@@ -1003,6 +1046,7 @@ _b.addStrategy(new RealDealStrategy());
 // Dodavanje kartica u sesiju
 _session.addCard(_a);
 _session.addCard(_b);
+*/
 
 // Generise schedule za sesiju
 _session.schedule.generate();

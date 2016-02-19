@@ -5,7 +5,7 @@
 }
 
 
-<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-session="learn">
+<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-session="learn" data-link="@Model.Link">
     @foreach (Data.DTOs.CardSessionDTO card in @Model.Cards)
     {
         <tr>
@@ -14,8 +14,8 @@
             <td id="table-of-god-question">@Html.DisplayFor(a => card.BasicInfo.Question)</td>
             <td id="table-of-god-answer">@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
             <td id="table-of-god-description">@Html.DisplayFor(a => card.BasicInfo.Description)</td>
-            <td id="table-of-god-since-seen">@Html.DisplayFor(a => card.UserCardInfo.LastSeen)</td>
-            <td id="table-of-god-since-plan">@Html.DisplayFor(a => card.UserCardInfo.NextSee)</td>
+            <td id="table-of-god-since-seen">@Html.DisplayFor(a => card.UserCardInfo.SinceSeen)</td>
+            <td id="table-of-god-since-plan">@Html.DisplayFor(a => card.UserCardInfo.SincePlan)</td>
             <td id="table-of-god-total-correct-answers">@Html.DisplayFor(a => card.UserCardInfo.CorrectAnswers)</td>
             <td id="table-of-god-total-wrong-answers">@Html.DisplayFor(a => card.UserCardInfo.WrongAnswers)</td>
             <td id="table-of-god-combo">@Html.DisplayFor(a => card.UserCardInfo.Combo)</td>
@@ -61,75 +61,14 @@
                 <div class="card current-card">
                     <div class="card-content simple">
                         <div id="preview" class="challange"></div>
-                        @*<div class="prompt">
-                            <input type="text" spellcheck="false" id="type-answer">
-                        </div>
-                        <ul class="multiple-choice">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <input id="virtual-typing" type="text" spellcheck="false">
-                        </ul>
-                        <div class="hangman">
-                            <ul>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                                <li><input type="text" maxlength="1" spellcheck="false"></li>
-                            </ul>
-                        </div>
-                        <div id="scrabble">
-                            <input id="scrabble-typing" type="text" spellcheck="false">
-                            <span id="scrabble-typed" data-plain-text=""></span>
-                            <ul id="scrabble-letters">
-                                <!-- dynamic with JS -->
-                            </ul>
-                            <ul id="scrabble-control">
-                                <li id="scrabble-backspace">←</li>
-                                <li id="scrabble-space"></li>
-                                <li id="scrabble-enter">↲</li>
-                            </ul>
-                        </div>
-                        <div class="given-answer">
-                            <span></span>
-                        </div>
-                        <div class="correct-answer">
-                            <span></span>
-                        </div>
-                        <div id="initial-choice">
-                            <div id="yes">
-                                <button>✔</button>
-                            </div>
-                            <div id="no">
-                                <button>Ovu reč znam od ranije.</button>
-                            </div>
-                        </div>*@
                     </div>
-                    <!-- Ne postoji tajmer za sesiju ucenja -->
                 </div>
-                <!-- Ne postoji sledeca kartica za sesiju ucenja -->
             </div>
-            <aside class="options">
+            @*<aside class="options">
                 <button id="ignore">X</button>
                 <button id="help">?</button>
                 <button id="bookmark">!</button>
-            </aside>
+            </aside>*@
         </div>
 
         <aside class="progress-bar"></aside>

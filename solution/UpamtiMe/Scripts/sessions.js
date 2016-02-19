@@ -229,7 +229,8 @@ var ScoreBreakdown = function() {
   }
 
   this.getScore = function() {
-    return this.baseScore * (this.cardComboMultiplier + this.sessionComboMultiplier + this.timeBonusMultiplier);
+    var zagrada = this.cardComboMultiplier + this.sessionComboMultiplier + this.timeBonusMultiplier;
+    return this.baseScore * (zagrada == 0 ? 1 : zagrada);
   }
 }
 
@@ -370,7 +371,6 @@ var Session = (function() {
         }
       },
       getTotalNumberOfChallanges: function() {
-        // debugger;
         var ret = 0;
         for (var i = 0; i < Session.getInstance().cards.length; ++i) {
           var currCard = Session.getInstance().cards[i];
@@ -423,15 +423,15 @@ var Card = function(cardID, userCardID, question, answer, desc,
   this.question = question;
   this.answer = answer;
   this.desc = desc;
-  this.sinceSeen = sinceSeen; //TODO bilo: lastSeenMinutes
-  this.sincePlan = sincePlan; //TODO bilo: nextSeeMinutes
+  this.sinceSeen = sinceSeen == "" ? 0 : sinceSeen; //TODO bilo: lastSeenMinutes
+  this.sincePlan = sincePlan == "" ? 0 : sincePlan; //TODO bilo: nextSeeMinutes
   this.newPlan = 0; // ovo racuna funkcija calculateNewPlan() na kraju sesije
-  this.totalCorrectAnswers = totalCorrectAnswers; // ukupno za karticu
+  this.totalCorrectAnswers = totalCorrectAnswers == "" ? 0 : totalCorrectAnswers; // ukupno za karticu
   this.correctAnswers = 0; // za karticu u ovoj sesiji
-  this.totalWrongAnswers = totalWrongAnswers; // ukupno za karticu
+  this.totalWrongAnswers = totalWrongAnswers == "" ? 0 : totalWrongAnswers; // ukupno za karticu
   this.wrongAnswers = 0; // za karticu u ovoj sesiji
-  this.combo = combo;
-  this.goodness = goodness;
+  this.combo = combo == "" ? 0 : combo;
+  this.goodness = goodness == "" ? 0 : goodness;
   this.strategy = [];
   this.currStrategy = 0;
   this.postviewStrategy = new PostviewStrategy();
@@ -474,11 +474,15 @@ Card.prototype.calculateNewPlan = function () {
   //    goodness = goodness procitan sa kartice (nakon zavrsetka sesije),
   //    %tacnosti = correctAnswers / (totalAnswers), u okviru ove sesije za tu karticu
 
-  var firstBracket = (this.sinceSeen - this.sincePlan) * 1.33 + this.sincePlan * 0.33;
-  var secondBracket = 1 + this.combo / 10;
-  var percentageWrongness = this.correctAnswers /  (this.correctAnswers + this.wrongAnswers);
-
-  this.newPlan = firstBracket * this.goodness * secondBracket * percentageWrongness;
+  if (this.sinceSeen == 0) {
+    // Ako nikad dosad nije video ovu karticu, tj. ako je ovo sesija ucenja
+    this.newPlan = 240; // h
+  } else {
+    var firstBracket = (this.sinceSeen - this.sincePlan) * 1.33 + this.sincePlan * 0.33;
+    var secondBracket = 1 + this.combo / 10;
+    var percentageWrongness = this.correctAnswers /  (this.correctAnswers + this.wrongAnswers);
+    this.newPlan = Math.ceil(firstBracket * this.goodness * secondBracket * percentageWrongness);
+  }
 };
 
 /******************************************************************************/
@@ -504,8 +508,6 @@ Strategy.prototype.submit = function(givenAnswer) {
   } else {
     this.wrongAnswer(givenAnswer);
   }
-  updateSidebar();
-  updateProgressbar();
 }
 $('.card.current-card').on('click', 'button#submit', function() {
   Session.getInstance().schedule.getCurrentCard().getCurrentStrategy().submit($('.card.current-card input').val());
@@ -526,6 +528,8 @@ Strategy.prototype.correctAnswer = function(givenAnswer) {
   Session.getInstance().incCorrectAnswers();
   currCard.goodness = 0.7 * currCard.goodness + (1 - 0.7) * 1;
   this.evaluateScore();
+  updateSidebar();
+  updateProgressbar();
   Session.getInstance().schedule.getCurrentCard().nextStrategy();
   Session.getInstance().schedule.advance();
 };
@@ -546,6 +550,8 @@ Strategy.prototype.wrongAnswer = function(givenAnswer) {
   Session.getInstance().incWrongAnswers();
   currCard.goodness = 0.7 * currCard.goodness;
   // this.evaluateScore(); // nema poena
+  updateSidebar();
+  updateProgressbar();
   currCard.postviewStrategy.givenAnswer = givenAnswer;
   Session.getInstance().schedule.reschedule();
   Session.getInstance().schedule.getCurrentCard().nextStrategy();
@@ -680,7 +686,7 @@ inheritsFrom(HangmanStrategy, Strategy);
 // override
 HangmanStrategy.prototype.display = function () {
   var $card = $('.card.current-card');
-  var hints = this.hints.replace(/_/g, '&nbsp;').replace(/-/g, '_');
+  var hints = this.hints.replace(/ /g, '&nbsp;');
   var string = '';
   string += '<div id="hangman" class="challange">';
     string += '<div><span>' + this.card.question + '</span></div>';
@@ -863,9 +869,26 @@ $('.card.current-card').on('click', 'button#go-to-next', function() {
 
 $('.card.current-card').on('click', 'button#skip-to-last', function() {
   var currCard = Session.getInstance().schedule.getCurrentCard();
-  // obrisi sve strategije osim poslednje i prve (preview, realdeal)
+  var id = currCard.cardID;
+  // obrisi sve strategije osim poslednje i prve (preview, realdeal) iz kartice
   currCard.strategy.splice(1, currCard.strategy.length - 2);
-  // stavi da sledeca strategija bude poslednja:
+  // obrisi sve strategije posle sledece iz sesije
+  var session = Session.getInstance();
+  var i = session.schedule.pointer;
+  var passedFirst = false;
+  while (i < session.schedule.schedule.length - 1) {
+    i++;
+    if (session.schedule.schedule[i].cardID == id) {
+      if (!passedFirst) {
+        passedFirst = true;
+      } else {
+        // ako vec jesmo prosli jedan odpozadi, ukloni ga
+        session.schedule.schedule.splice(i, 1);
+        i--;
+      }
+    }
+  }
+  // stavi da sledeca strategija bude poslednja (tj druga al ajde):
   currCard.currStrategy = currCard.strategy.length - 1;
   // cepaj dalje kroz sesiju:
   Session.getInstance().schedule.advance();
@@ -953,6 +976,12 @@ var gameOver = function() {
   for (var i = 0; i < _session.cards.length; i++) {
     _session.cards[i].calculateNewPlan();
     _session.cards[i].sincePlan = _session.cards[i].newPlan;
+    _session.cards[i].getCurrentStrategy = null;
+    _session.cards[i].nextStrategy = null;
+    _session.cards[i].postviewStrategy = null;
+    _session.cards[i].strategy = null;
+    _session.cards[i].addStrategy = null;
+    _session.cards[i].calculateNewPlan = null;
   }
 
   console.table(_session.cards);
@@ -965,8 +994,10 @@ var gameOver = function() {
     "courseID": $('#table-of-god').attr('data-course-id'),
   }
 
+  var m_url = $('#table-of-god').attr('data-link');
+
   $.ajax({
-    url: "/Courses/Learn", // /kontroler/akcija (klasa/funkcija u klasi)
+    url: m_url, // /kontroler/akcija (klasa/funkcija u klasi)
     method: "POST",
     data: dataToSend,
     success: function (res) {
@@ -1050,8 +1081,11 @@ _session.addCard(_b);
 
 // Generise schedule za sesiju
 _session.schedule.generate();
+console.table(_session.schedule.schedule);
 
-console.table(_session.cards);
+//console.table(_session.cards);
+updateSidebar();
+updateProgressbar();
 
 // Pustimo sesiju da krene
 _session.begin();

@@ -203,6 +203,7 @@ namespace UpamtiMe.Controllers
             UserSession.SetTime();
             //string view = RenderPartialViewToString("Learn", model);
             //return Json(new {model = model, view = view}, JsonRequestBehavior.AllowGet);
+            model.Link = Url.Action("Learn" ,"Courses");
             return View("Learn",model);
         }
 
@@ -241,6 +242,7 @@ namespace UpamtiMe.Controllers
                 return RedirectToAction("Profile", "Courses", new { id = courseID });
             }
             UserSession.SetTime();
+            model.Link = Url.Action("Review", "Courses");
             return View("Review", model);
         }
 

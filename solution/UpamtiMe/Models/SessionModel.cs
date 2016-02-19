@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Web;
 using Data;
@@ -13,6 +14,7 @@ namespace UpamtiMe.Models
     {
         public List<CardSessionDTO> Cards { get; set; }
         public int CourseID { get; set; }
+        public string Link { get; set; }
 
         public static SessionModel LoadLearningSession(int userID, int courseID, int? levelID, int? numberOfCards)
         {
@@ -56,7 +58,7 @@ namespace UpamtiMe.Models
                         Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
                     }
                 }).OrderBy(a=>a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
-          
+            
             return sm;
         }
 

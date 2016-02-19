@@ -56,6 +56,7 @@ namespace UpamtiMe.Models
                         MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
                         Hangman = c.answer,
                         Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
+                        Challenges = ConfigurationParameters.ChallengesLearn,
                     }
                 }).OrderBy(a=>a.BasicInfo.Number).Take(numberOfCards.Value).ToList();
             
@@ -73,77 +74,40 @@ namespace UpamtiMe.Models
             SessionModel sm = new SessionModel();
             sm.CourseID = courseID;
 
-
-            if (levelID != null)
-            {
-                sm.Cards = (from c in dc.Cards
-                            from u in dc.UsersCards
-                            where u.userID == userID && u.cardID == c.cardID &&  c.levelID == levelID && u.ignore == false && u.nextSee < DateTime.Now
-                            select new CardSessionDTO
+            sm.Cards = (from c in dc.Cards
+                        from l in dc.Levels
+                        from u in dc.UsersCards
+                        where u.userID == userID && u.cardID == c.cardID && ((levelID != null && c.levelID == levelID ) || (levelID == null && c.levelID == l.levelID)) && u.ignore == false && u.nextSee < DateTime.Now && (levelID != null || l.courseID == courseID)
+                        select new CardSessionDTO
+                        {
+                            UserCardInfo = new CardUserDTO()
                             {
-                                UserCardInfo = new CardUserDTO()
-                                {
-                                    Combo = u.cardCombo,
-                                    CorrectAnswers = u.correctAnswers,
-                                    WrongAnswers = u.wrongAnswers,
-                                    LastSeen = u.lastSeen,
-                                    LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
-                                    NextSee = u.nextSee,
-                                    NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
-                                    UserCardID = u.usersCardID,
-                                },
-                                BasicInfo = new CardBasicDTO
-                                {
-                                    Question = c.question,
-                                    Answer = c.answer,
-                                    Description = c.description,
-                                    Image = c.image == null ? null : c.image.ToArray(),
-                                    Number = c.number,
-                                },
-                                CardChallange = new CardChallangeDTO()
-                                {
-                                    MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
-                                    Hangman = c.answer,
-                                    Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
-                                }
-                            }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
-
-            }
-            else
-            {
-                sm.Cards = (from c in dc.Cards
-                            from l in dc.Levels
-                            from u in dc.UsersCards
-                            where u.userID == userID && u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee < DateTime.Now
-                            select new CardSessionDTO
+                                Combo = u.cardCombo,
+                                CorrectAnswers = u.correctAnswers,
+                                WrongAnswers = u.wrongAnswers,
+                                LastSeen = u.lastSeen,
+                                SinceSeen = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
+                                NextSee = u.nextSee,
+                                SincePlan = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
+                                UserCardID = u.usersCardID,
+                            },
+                            BasicInfo = new CardBasicDTO
                             {
-                                UserCardInfo = new CardUserDTO()
-                                {
-                                    Combo = u.cardCombo,
-                                    CorrectAnswers = u.correctAnswers,
-                                    WrongAnswers = u.wrongAnswers,
-                                    LastSeen = u.lastSeen,
-                                    LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
-                                    NextSee = u.nextSee,
-                                    NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
-                                    UserCardID = u.usersCardID,
-                                },
-                                BasicInfo = new CardBasicDTO
-                                {
-                                    Question = c.question,
-                                    Answer = c.answer,
-                                    Description = c.description,
-                                    Image = c.image == null ? null : c.image.ToArray(),
-                                    Number = c.number,
-                                },
-                                CardChallange = new CardChallangeDTO()
-                                {
-                                    MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
-                                    Hangman = c.answer,
-                                    Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
-                                }
-                            }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
-            }
+                                Question = c.question,
+                                Answer = c.answer,
+                                Description = c.description,
+                                Image = c.image == null ? null : c.image.ToArray(),
+                                Number = c.number,
+                            },
+                            CardChallange = new CardChallangeDTO()
+                            {
+                                MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
+                                Hangman = c.answer,
+                                Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
+                                Challenges = (u.goodness > 0.6 ? "" : "mutiple;")  +  ConfigurationParameters.ChallengesReview 
+                            }
+                        }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
+            
             return sm;
         }
 

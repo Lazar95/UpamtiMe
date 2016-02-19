@@ -27,6 +27,10 @@ namespace UpamtiMe
 
         public static int FavoriteCoursesNumber = 6;
 
+        public static string ChallengesLearn = "preview;multiple;hangman;scrabble;realdeal";
+        public static string ChallengesReview = "realdeal";
+
+
         //ovo nisam stavila da ne bih prenatrpavala kod, tesko da ce ikad da se promeni
         // static int StatisticsTimeSpan = 30;
     }

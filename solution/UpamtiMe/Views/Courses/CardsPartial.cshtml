@@ -27,9 +27,9 @@
             <td>@Html.DisplayFor(model => item.UserCardInfo.CorrectAnswers)</td>
             <td>@Html.DisplayFor(model => item.UserCardInfo.WrongAnswers)</td>
             <td>@(item.UserCardInfo == null ? "" : item.UserCardInfo.Goodness.ToString())</td>
-            <td data-timestamp="@*ne umem da izvucem .lastseen*@">@(item.UserCardInfo == null ? "" : item.UserCardInfo.LastSeenMinutes.ToString())</td>
-            <td data-timestamp="@*ne umem da izvucem .nextsee*@">@(item.UserCardInfo == null ? "" : item.UserCardInfo.NextSeeMinutes.ToString())</td>
-            <td>@if (item.UserCardInfo?.NextSeeMinutes > 0) { <i class="fa fa-bell"></i> }</td>
+            <td data-timestamp="@*ne umem da izvucem .lastseen*@">@(item.UserCardInfo == null ? "" : item.UserCardInfo.SinceSeen.ToString())</td>
+            <td data-timestamp="@*ne umem da izvucem .nextsee*@">@(item.UserCardInfo == null ? "" : item.UserCardInfo.SincePlan.ToString())</td>
+            <td>@if (item.UserCardInfo?.SincePlan > 0) { <i class="fa fa-bell"></i> }</td>
             <td>@if (item.Ignore) { <i class="fa fa-ban"></i> }</td>
         </tr>
     }

@@ -179,9 +179,9 @@ namespace Data
                             WrongAnswers = u.wrongAnswers,
                             Combo = u.cardCombo,
                             LastSeen = u.lastSeen,
-                            LastSeenMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
+                            SinceSeen = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
                             NextSee = u.nextSee,
-                            NextSeeMinutes = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
+                            SincePlan = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
                             Goodness = u.goodness
                         }
                     }).OrderBy(a=>a.BasicInfo.Number).ToList();
@@ -205,7 +205,7 @@ namespace Data
                     userID = userID,
                     cardID = card.CardID,
                     lastSeen = DateTime.Now,
-                    nextSee = DateTime.Now.AddMinutes(card.NextSeeMinutes),
+                    nextSee = DateTime.Now.AddMinutes(card.SincePlan),
                     cardCombo = card.Combo,
                     correctAnswers = card.CorrectAnswers,
                     wrongAnswers = card.WrongAnswers,
@@ -231,7 +231,7 @@ namespace Data
 
                 uc.cardCombo = card.Combo;
                 uc.lastSeen = DateTime.Now;
-                uc.nextSee = DateTime.Now.AddMinutes(card.NextSeeMinutes);
+                uc.nextSee = DateTime.Now.AddMinutes(card.SincePlan);
                 uc.correctAnswers += card.CorrectAnswers;
                 uc.wrongAnswers += card.WrongAnswers;
                 uc.goodness = card.Goodness; //trenutno laza racuna to

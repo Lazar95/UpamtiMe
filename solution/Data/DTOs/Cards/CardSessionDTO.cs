@@ -19,5 +19,6 @@ namespace Data.DTOs
         public List<string> MultipleChoice { get; set; }
         public string Hangman { get; set; }
         public List<string> Scrabble { get; set; }
+        public string Challenges { get; set; }
     }
 }

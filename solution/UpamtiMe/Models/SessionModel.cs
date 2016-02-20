@@ -384,7 +384,7 @@ namespace UpamtiMe.Models
                                 MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
                                 Hangman = c.answer,
                                 Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
-                                Challenges = (u.goodness > 0.6 ? "" : "mutiple;")  +  ConfigurationParameters.ChallengesReview 
+                                Challenges = (u.goodness > 0.6 ? "" : "multiple;")  +  ConfigurationParameters.ChallengesReview 
                             }
                         }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
             

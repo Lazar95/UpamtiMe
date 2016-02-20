@@ -1,5 +1,4 @@
 main#review-session, main#learn-session, main#spajalica {
-	@include force-width(1280px);
 	position: relative;
   flex-grow: 1;
   display: flex;
@@ -13,29 +12,56 @@ main#review-session, main#learn-session, main#spajalica {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+		background-color: tomato;
+
+		@include xs-and-below {
+			flex-direction: column;
+			height: 100%;
+		}
 
 		& > * {
       margin: 36px;
 			flex-grow: 1;
+
+			@include md-and-below {
+				margin: 24px;
+			}
+
+			@include xs-and-below {
+				margin: 0px;
+			}
     }
 
 		.info {
 			flex-grow: 0;
-			@include force-width(384px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+			box-sizing: border-box;
+			@include force-width(384px);
+			@include md-and-below {
+				@include force-width(320px);
+			}
+			@include xs-and-below {
+				@include force-width(100%);
+				order: 2;
+			}
 
-      &>* { // sve info kartice (levo, sivo)
+      & > * { // sve info kartice (levo, sivo)
         flex-grow: 1;
         background-color: palette($blue-grey, 900);
         @include z-depth(1);
         color: palette($blue-grey, 300);
         padding: 24px;
 
+				@include xs-and-below {
+					padding: 6px;
+				}
+
 				&.session-info {
 					display: flex;
 					flex-flow: column;
+					@include xs-and-below { flex-direction: row; }
 
 					dl {
 						flex-grow: 2;
@@ -54,16 +80,37 @@ main#review-session, main#learn-session, main#spajalica {
 					}
 
 					dl.general {
+						display: flex;
+						flex-wrap: wrap;
+						flex-direction: row;
+						align-items: stretch;
+						padding: 8px;
+						box-sizing: border-box;
+
 						div {
 							width: 40%;
 							font-size: 14px;
+							display: flex;
+							flex-direction: column;
+							justify-content: space-between;
+
+							@include xs-and-below {
+								width: 20%;
+								font-size: 12px;
+							}
 
 							dt {
 								margin-bottom: 10px;
+								@include xs-and-below {
+									font-size: 10px;
+								}
 							}
 
 							dd {
 								font-size: 32px;
+								@include xs-and-below {
+									font-size: 16px;
+								}
 							}
 						}
 					}
@@ -77,24 +124,34 @@ main#review-session, main#learn-session, main#spajalica {
 							font-weight: bold;
 							margin-bottom: 10px;
 							color: palette($blue-grey, 400);
+							@include xs-and-below {
+								display: none;
+							}
 						}
 
 						dd {
-							font-size: 92px;
 							color: palette($pink, 500);
 							font-weight: bold;
+							font-size: 92px;
+							@include xs-and-below { font-size: 48px; }
 						}
 					}
 
 					dl.last-score {
 						align-items: center;
 						font-size: 36px;
+						@include xs-and-below { font-size: 24px; }
+						@include xxs-only { display: none; }
 					}
 
 					dl.last-score-breakdown {
 						flex-grow: 1;
 						align-items: flex-end; // prilepljeno u z dno kartice
 						@include force-height(64px); // jer ce brojke da rastu kako je bolji
+
+						@include xs-and-below {
+							display: none;
+						}
 
 						div {
 							@include force-width(25%);
@@ -154,7 +211,11 @@ main#review-session, main#learn-session, main#spajalica {
       flex-direction: column;
       align-items: center;
 			margin-left: 0;
-			margin-right: 0;
+			margin-right: 36px;
+			overflow: hidden;
+			@include xs-and-below {
+				margin-right: 0;
+			}
 
 			.current-card {
 				background-color: palette($blue-grey, 50);
@@ -179,27 +240,26 @@ main#review-session, main#learn-session, main#spajalica {
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					font-size: 128px;
+					font-size: 400px;
 					z-index: 3;
-					transform: scale(1.4);
 					opacity: 0;
-					animation: jingle .75s ease;
+					animation: jingle .75s ease-out;
 
 					@keyframes jingle {
 						from {
-							transform: scale(.8);
 							opacity: 1;
+							transform: scale(.6);
 						}
 						to {
-							transform: scale(1.4);
 							opacity: 0;
+							transform: scale(.8);
 						}
 					}
 
 					i {
 						display: block;
 						$c: palette($blue-grey, 50);
-						$x: 1px;
+						$x: 2px;
 						$b: 0;
 						text-shadow: $x $x $b $c, -$x $x $b $c, $x -$x $b $c, -$x -$x $b $c,
 											   0 $x $b $c, 0 -$x $b $c, $x 0 $b $c, -$x 0 $b $c;
@@ -212,32 +272,48 @@ main#review-session, main#learn-session, main#spajalica {
 					display: flex;
 					flex-direction: column;
 					position: absolute;
-					padding: 20px;
 					box-sizing: border-box;
 					transition: all 0s;
 					color: palette($blue-grey, 900);
+					padding: 24px;
+					@include sm-and-below {
+						padding: 12px;
+					}
+					@include xs-and-below {
+						padding: 4px;
+					}
 
 					& > div {
 						display: flex;
 						justify-content: center;
 						align-items: center;
 					}
+
 					& > div:nth-child(1) {
 						height: 48px;
 						font-size: 36px;
 						font-weight: bold;
 						padding-top: 24px;
 					}
+
 					& > div:nth-child(2) {
 						flex-grow: 1;
 					}
+
 					& > div:nth-child(3) {
 						display: flex;
 						justify-content: space-between;
+
 						& > button {
 							width: 100%;
 							padding: 16px;
 							margin: 12px;
+							@include sm-and-below {
+								margin: 6px;
+							}
+							@include xs-and-below {
+								margin: 0;
+							}
 							box-sizing: border-box;
 							background-color: palette($pink, 500);
 							text-transform: uppercase;
@@ -267,9 +343,10 @@ main#review-session, main#learn-session, main#spajalica {
 
 					&#multiple-choice {
 						ul {
-							width: 80%;
 							display: flex;
 							flex-wrap: wrap;
+							width: 80%;
+							@include xxs-only { width: 98%; }
 
 							& > li {
 								font-size: 18px;

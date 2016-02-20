@@ -118,13 +118,30 @@ namespace UpamtiMe.Models
                             },
                             CardChallange = new CardChallangeDTO()
                             {
-                                MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
-                                Hangman = c.answer,
-                                Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
+                                MultipleChoice = new List<string>(),
+                                Hangman = Methods.HangmanHints(c.answer, 0.5),
+                                Scrabble = new List<string>(),
                                 Challenges = (u.goodness > 0.6 ? "" : "multiple;")  +  ConfigurationParameters.ChallengesReview 
                             }
-                        }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
-            
+                        }).OrderBy(a => a.UserCardInfo.NextSee).ToList();
+
+            List<CardSessionDTO> sessionCards = sm.Cards.Take(numberOfCards.Value).ToList();
+
+            for (int i = 0; i < sessionCards.Count; i++)
+            {
+                // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
+                List<string> temp = Methods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
+                if (temp == null) // ako ne vrati multiplechoice odgovore, onda sklonimo tu igru
+                    sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
+                else
+                    sessionCards[i].CardChallange.MultipleChoice = temp;
+                
+                // pravimo slova za scrabble, ako ih budemo nekad mozda koristili u review
+                sessionCards[i].CardChallange.Scrabble = Methods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
+            }
+
+            sm.Cards = sessionCards;
+
             return sm;
         }
 

@@ -1046,16 +1046,15 @@ $('#table-of-god > tbody > tr').each(function() {
                       sinceSeen, sincePlan, totalCorrectAnswers, totalWrongAnswers, combo, goodness);
 
   var challenges = $(this).find('#table-of-god-challenges').text().split(';');
-  debugger;
   var challengesLength = challenges.length;
   for (var i = 0; i < challengesLength; i++) {
     switch (challenges[i]) {
       case 'preview': card.addStrategy(new PreviewStrategy()); break;
-      case 'multiple': card.addStrategy(new MultipleChoiceStrategy(mch1, mch2, mch3, mch4)); break;
+      case 'multiple': card.addStrategy(new MultipleChoiceStrategy(new Array(mch1, mch2, mch3, mch4))); break;
       case 'hangman': card.addStrategy(new HangmanStrategy(hangman)); break;
       case 'scrabble': card.addStrategy(new ScrabbleStrategy(scrabble)); break;
       case 'realdeal': card.addStrategy(new RealDealStrategy()); break;
-      default: card.addStrategy(new PreviewStrategy());
+      default: card.addStrategy(new RealDealStrategy());
     }
   }
 

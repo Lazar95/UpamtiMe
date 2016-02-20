@@ -422,7 +422,7 @@ namespace UpamtiMe.Models
         public static string HangmanHints(string answer, double showpercent)
         {
             string answerHint = answer;
-            char hiddenChar = '-';
+            char hiddenChar = '_';
             char spaceChar = ' ';
             char[] unobservedChars = { ' ', ',', '.', '!', '?' };
             List<int> hideCandidates = new List<int>();

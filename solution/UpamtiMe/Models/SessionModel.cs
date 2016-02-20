@@ -54,7 +54,7 @@ namespace UpamtiMe.Models
                     CardChallange = new CardChallangeDTO
                     {
                         MultipleChoice = new List<string>(),
-                        Hangman = Methods.HangmanHints(c.answer, 0.2),
+                        Hangman = Methods.HangmanHints(c.answer, 0.5),
                         Scrabble = new List<string>(),
                         Challenges = ConfigurationParameters.ChallengesLearn,
                     }
@@ -73,7 +73,7 @@ namespace UpamtiMe.Models
                 // drugi parametar (easiness) je koliki deo reci hocemo da mu prikazemo, stavio sam 20% zasad
                 // sessionCards[i].CardChallange.Hangman = Methods.HangmanHints(sessionCards[i].BasicInfo.Answer, 0.2);
                 // treci parametar (hardness) je koliko slova visak hocemo da mu vratimo preko onih koja su obavezna
-                sessionCards[i].CardChallange.Scrabble = Methods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.5);
+                sessionCards[i].CardChallange.Scrabble = Methods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
             }
 
             sm.Cards = sessionCards;

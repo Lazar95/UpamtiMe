@@ -640,6 +640,8 @@ MultipleChoiceStrategy.prototype.display = function () {
   Strategy.prototype.display.call(this);
 };
 
+//TODO da se shuffluju odgovori za multiplechoice kad se omane
+
 /*
 MultipleChoiceStrategy.prototype.wrongAnswer = function(givenAnswer) {
   //this.help();
@@ -718,12 +720,17 @@ HangmanStrategy.prototype.help = function () {
   var hiddenChar = '_';
   var i;
   // nasumice trazimo indeks nekog skrivenog slova u reci da bi ga prikazali
-  do {
-    i = Math.floor(Math.random() * this.hints.length);
-  } while (this.hints[i] != hiddenChar);
-  // kada nadjemo indeks nekog skrivenog slova,
-  // samo prikazemo sada i to slovo kao dodatni hint
-  this.hints = this.hints.substr(0, i) + this.card.answer[i] + this.hints.substr(i + 1);
+  // i to samo ako vec sva slova nisu prikazana
+  if (this.hints.indexOf(hiddenChar) != -1)
+  {
+    do {
+      i = Math.floor(Math.random() * this.hints.length);
+    } while (this.hints[i] != hiddenChar);
+
+    // kada nadjemo indeks nekog skrivenog slova,
+    // samo prikazemo sada i to slovo kao dodatni hint
+    this.hints = this.hints.substr(0, i) + this.card.answer[i] + this.hints.substr(i + 1);
+  }
 };
 
 
@@ -781,6 +788,7 @@ ScrabbleStrategy.prototype.help = function() {
     tempLetters.splice(tempLetters.indexOf(this.card.answer[i]), 1);
   }
 
+  // kao pomoc cemo da sklonimo polovinu slova koja su visak
   removeNum = Math.ceil(tempLetters.length / 2);
 
   // i sad ovde sklonimo iz this.letters jos neko slovo

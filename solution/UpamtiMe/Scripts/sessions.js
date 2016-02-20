@@ -1045,39 +1045,22 @@ $('#table-of-god > tbody > tr').each(function() {
   var card = new Card(cardID, userCardID, question, answer, desc,
                       sinceSeen, sincePlan, totalCorrectAnswers, totalWrongAnswers, combo, goodness);
 
-  if ($('#table-of-god').attr('data-session') == 'learn') {
-    card.addStrategy(new PreviewStrategy());
-    card.addStrategy(new MultipleChoiceStrategy([mch1, mch2, mch3, mch4]));
-    card.addStrategy(new HangmanStrategy(hangman));
-    card.addStrategy(new ScrabbleStrategy(scrabble));
-    card.addStrategy(new RealDealStrategy());
-  } else { // review
-    card.addStrategy(new RealDealStrategy());
+  var challenges = $(this).find('#table-of-god-challenges').text().split(';');
+  debugger;
+  var challengesLength = challenges.length;
+  for (var i = 0; i < challengesLength; i++) {
+    switch (challenges[i]) {
+      case 'preview': card.addStrategy(new PreviewStrategy()); break;
+      case 'multiple': card.addStrategy(new MultipleChoiceStrategy(mch1, mch2, mch3, mch4)); break;
+      case 'hangman': card.addStrategy(new HangmanStrategy(hangman)); break;
+      case 'scrabble': card.addStrategy(new ScrabbleStrategy(scrabble)); break;
+      case 'realdeal': card.addStrategy(new RealDealStrategy()); break;
+      default: card.addStrategy(new PreviewStrategy());
+    }
   }
 
   _session.addCard(card);
 });
-
-/*
-// Neke kartice za testiranje:
-// new Card(cardID, userCardID, question, answer, desc, lastSeenMinutes, nextSeeMinutes, totalCorrectAnswers, totalWrongAnswers, combo, goodness);
-var _a = new Card(1, 1, 'mačka', 'die Katze', 'imenica', 30, 10, 2, 1, 1, 0.9321);
-_a.addStrategy(new PreviewStrategy());
-_a.addStrategy(new MultipleChoiceStrategy(['der Hund', 'die Katze', 'der Tisch', 'die Krankenversicherung']));
-_a.addStrategy(new HangmanStrategy('d--_K--z-'));
-_a.addStrategy(new ScrabbleStrategy(['d', 'r', 'e', 'K', 'a', ' ', 'y', 'z', 'K', 'e', 't', 'i', 'x']));
-_a.addStrategy(new RealDealStrategy());
-var _b = new Card(1, 1, 'džukela', 'der Hund', 'imenica', 40, 15, 5, 0, 5, 1);
-//_b.addStrategy(new PreviewStrategy());
-_b.addStrategy(new MultipleChoiceStrategy(['der Hund', 'die Katze', 'der Tisch', 'die Krankenversicherung']));
-_b.addStrategy(new HangmanStrategy('d-r_---d'));
-_b.addStrategy(new ScrabbleStrategy(['h', 'H', 'd', 'r', 'a', ' ', 'd', 'H', 'K', 'e', 'u', 'ü', 'n']));
-_b.addStrategy(new RealDealStrategy());
-
-// Dodavanje kartica u sesiju
-_session.addCard(_a);
-_session.addCard(_b);
-*/
 
 // Generise schedule za sesiju
 _session.schedule.generate();

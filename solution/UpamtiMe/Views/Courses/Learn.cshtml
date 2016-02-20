@@ -5,7 +5,7 @@
 }
 
 
-<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-session="learn" data-link="@Model.Link">
+<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-link="@Model.Link">
     @foreach (Data.DTOs.CardSessionDTO card in @Model.Cards)
     {
         <tr>
@@ -26,6 +26,7 @@
             <td id="table-of-god-multiple-choice-4">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[3])</td>
             <td id="table-of-god-hangman">@Html.DisplayFor(a => card.CardChallange.Hangman)</td>
             <td id="table-of-god-scrabble">@Html.DisplayFor(a => card.CardChallange.Scrabble)</td>
+            <td id="table-of-god-challenges">@Html.DisplayFor(a => card.CardChallange.Challenges)</td>
         </tr>
     }
 </table>

@@ -54,293 +54,30 @@ namespace UpamtiMe.Models
                     CardChallange = new CardChallangeDTO
                     {
                         MultipleChoice = new List<string>(),
-                        Hangman = "",
+                        Hangman = Methods.HangmanHints(c.answer, 0.2),
                         Scrabble = new List<string>(),
                         Challenges = ConfigurationParameters.ChallengesLearn,
                     }
                 }).OrderBy(a => a.BasicInfo.Number).ToList();
 
-            ///// kreiranje multiplechoica za svaku karticu sesije /////
-            double otherCardAnswersChance = 0.5; // ovo znaci da u 50% slucajeva hocemo odgovore drugih kartica za multiple choice, a ne tumbanje
-            foreach (CardSessionDTO csd in sm.Cards.Take(numberOfCards.Value))
+            List<CardSessionDTO> sessionCards = sm.Cards.Take(numberOfCards.Value).ToList();
+
+            for (int i = 0; i < sessionCards.Count; i++)
             {
-                csd.CardChallange.MultipleChoice = new List<string>();
-                csd.CardChallange.Hangman = csd.BasicInfo.Answer;
-                csd.CardChallange.Scrabble = Regex.Split(csd.BasicInfo.Answer, string.Empty).ToList();
-
-                Random rnd = new Random();
-
-                // uzimamo random odgovore iz lekcije ako je otherCardAnswersChance ili ako je rec mnogo kratka pa ne mogu da se tumbaju slova
-                if (rnd.NextDouble() <= otherCardAnswersChance)
-                {
-                    // ako uopste ima dovoljno u lekciji, onda uzimamo 
-                    if (sm.Cards.Count >= 4)
-                    {
-                        csd.CardChallange.MultipleChoice = getMultipleChoiceAnswers(sm.Cards, csd);
-                    }
-                    else
-                    {   // pokusamo da istumbamo ako nema da se uzme iz lekcije
-                        if (csd.BasicInfo.Answer.Split(' ').OrderByDescending(k => k.Length).First().Length > 4)
-                            csd.CardChallange.MultipleChoice = generateWrongAnswers(csd.BasicInfo.Answer);
-                        else
-                            csd.CardChallange.Challenges.Replace("multiple;", "");
-                    }
-                }
-                else  // ako je 1 - otherCardAnswersChance i ako ima dovoljno dugacka rec za tumbanje
-                {
-                    if (csd.BasicInfo.Answer.Split(' ').OrderByDescending(k => k.Length).First().Length > 4)
-                        csd.CardChallange.MultipleChoice = generateWrongAnswers(csd.BasicInfo.Answer);
-                    else
-                    {
-                        // ako uopste ima dovoljno u lekciji, onda uzimamo 
-                        if (sm.Cards.Count >= 4)
-                        {
-                            csd.CardChallange.MultipleChoice = getMultipleChoiceAnswers(sm.Cards, csd);
-                        }
-                        else
-                        {
-                            csd.CardChallange.Challenges.Replace("multiple;", "");
-                        }
-                    }
-                }
-            }
-
-            ///// kreiranje hangmana za svaku karticu sesije /////
-            foreach (CardSessionDTO csd in sm.Cards.Take(numberOfCards.Value))
-            {
-                // pravi hint za hangmana za svaku karticu
-                // drugi parametar je koliki deo reci hocemo da mu prikazemo, stavio sam 20% zasad
-                csd.CardChallange.Hangman = HangmanHints(csd.BasicInfo.Answer, 0.2);
-            }
-
-            ///// kreiranje scrabble-a za svaku karticu sesije /////
-            foreach (CardSessionDTO csd in sm.Cards.Take(numberOfCards.Value))
-            {
-                csd.CardChallange.Scrabble = scrabbleCharacters(csd.BasicInfo.Answer, 0.2, sm.Cards);
-            }
-
-            sm.Cards = sm.Cards.Take(numberOfCards.Value).ToList();
-            return sm;
-        }
-
-        public static List<string> getMultipleChoiceAnswers(List<CardSessionDTO> lekcijaCards, CardSessionDTO correctCard)
-        {
-            Random rnd = new Random();
-            List<CardSessionDTO> cardsCopy = new List<CardSessionDTO>(lekcijaCards);
-            cardsCopy.Remove(correctCard);
-            List<CardSessionDTO> temp = cardsCopy.OrderBy(item => rnd.Next()).Take(3).ToList();
-            List<string> answers = new List<string>();
-            answers.Add(correctCard.BasicInfo.Answer);
-            foreach (CardSessionDTO t in temp)
-            {
-                answers.Add(t.BasicInfo.Answer);
-            }
-
-            return answers;
-        }
-
-        public static List<string> scrabbleCharacters(string answer, double hardness, List<CardSessionDTO> allCards)
-        {
-            char[] characters = answer.ToCharArray();
-            List<string> scrabbleChars = new List<string>();
-            foreach (char c in characters)
-            {
-               scrabbleChars.Add(c.ToString());
-            }
-
-            Random rnd = new Random();
-            int additionalChars = Convert.ToInt32(Math.Ceiling(answer.Length * hardness));
-            
-            for (int i = 0; i < additionalChars; i++)
-            {
-                int wordIndex = rnd.Next(0, allCards.Count);
-                int charIndex = rnd.Next(0, allCards[wordIndex].BasicInfo.Answer.Length);
-                scrabbleChars.Add(allCards[wordIndex].BasicInfo.Answer[charIndex].ToString());
-            }
-
-            return scrabbleChars;
-        }
-
-        public static List<string> generateWrongAnswers(string correct)
-        {
-            string[] words = correct.Split(' ');
-            string longest = words.OrderByDescending(s => s.Length).First();
-            int indexLongest = Array.FindIndex(words, temp => temp == longest); // nalazi indeks najduze reci
-            int numOfCandidates = 0; // koliko reci je kandida thttp://prntscr.com/9pr8hiza neko cackanje
-            List<int> candidateIndexes = new List<int>(); // indeksi kandidata za zamenu (indeksi u nizu words)
-            int minimumLength = 5; // samo reci od ovoliko SLOVA ili vise su kandidati za zamenu
-            List<string> finalArray = new List<string>(); // krajnji niz koji ce da sadrzi correct + 3 wrong odgovora
-            finalArray.Add(correct);
-
-            // prvo da se prebroji koliko ima reci duzih od minimumLength, tj reci koje su kandidati za modifikaciju
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (words[i].Length < minimumLength)
-                    continue;
-                if (words[i].Length == minimumLength && (words[i][minimumLength - 1] == '.' || words[i][minimumLength - 1] == ',' || words[i][minimumLength - 1] == '!' || words[i][minimumLength - 1] == '?'))
-                    continue;
-                numOfCandidates++; // ako je rec duzine minimumLength SLOVA (ne bilo kojih karaktera) ili duza, kandidat je za zamenu
-                candidateIndexes.Add(i); // index reci koja je kandidat za zamenu u nizu svih reci odgovora
-            }
-
-            Random rnd = new Random();
-
-            // ako se nisu uzeli odgovori iz drugih kartica nego je doslo do mesanja
-            // a nema nijednog kandidata za mesanje slova, onda se vracaju tacan i 3 prazna
-            // (ovo bi trebalo da se desi MNOGO retko ili nikad)
-            if (numOfCandidates == 0)
-                return new List<string>() { correct, "", "", "" }.OrderBy(item => rnd.Next()).ToList();
-
-            for (var i = 0; i < 3; i++) // treba da napravimo 3 pogresna odgovora
-            {
-                // najcesce ce da bude samo jedna rec kao kandidat za izmenu, eventualno dve
-                // ako je kandidat samo 1 rec, 100% se menja ona i samo ona
-                // ako imamo dva kandidata, onda se 80% menja jedna samo, a 20% da se promene obe reci
-                // ako imamo tri kandidata, onda se 72% menja jedna samo, a 28% da se promene dve reci
-                // ako imamo cetiri kandidata, onda se 65% menja jedna samo, a 35% da se promene dve reci
-                int modificationsNum = Convert.ToInt32(Math.Floor(rnd.NextDouble() * (1.0 + (double)numOfCandidates * 0.13) + 1.0));
-
-                // ako je 1 kandidat moze da ovo gore zabrlja pa ovime ispravljam
-                if (numOfCandidates == 1)
-                    modificationsNum = 1;
-
-                string[] newAnswer = correct.Split(' '); // niz reci koji cemo da koristimo za pravljenje novog odgovora
-                List<int> modifiedWordsIndexes = new List<int>(); // indeksi reci koje su izmenjene
-                int indexWordToModify; // indeks reci koju modifikujemo trenutno
-                int modificationType; // nacin na koji ce da se modifikuje rec
-                                        // 1 - dupliciraj neko slovo
-                                        // 2 - ukloni slovo
-                                        // 3 - zameni dva slova
-
-                int currentCandidateNum = numOfCandidates; // pomocna
-                List<int> currentCandidates = new List<int>(); // indeksi TRENUTNE reci koje su kandidati za zamenu
-                                                                // kopiramo indekse kandidata u jos jedan niz, da imamo sa njim da radimo
-                for (var z = 0; z < numOfCandidates; z++)
-                    currentCandidates.Add(candidateIndexes[z]);
-
-                string newAnswerString = null; // string gde ce da pamtimo rec nakon sto je modifikujemo
-                                                // odavde pocinjemo da generisemo odgovor
-                for (var k = 0; k < modificationsNum; k++)
-                {
-                    if (modificationsNum == 1) // ako treba samo jednu rec da izmenimo, onda cemo najduzu
-                    {
-                        indexWordToModify = indexLongest;
-                    }
-                    else // ako treba vise njih, onda sa vecom verovatnocom najduzu i sa manjim verovatnocama neku drugu
-                    {
-                        int randValue = rnd.Next(1, 11); // vraca broj od 1 do 10
-                        if (randValue <= 8 && Array.Exists(modifiedWordsIndexes.ToArray(), temp => temp == indexLongest)) // ovaj drugi uslov je da vidi da nije najduza rec mozda vec izmenjena
-                        {
-                            indexWordToModify = indexLongest; // 80% da izmenimo najduzu rec
-                        }
-                        else
-                        {
-                            do
-                            {
-                                int tmp = rnd.Next(0, currentCandidateNum);
-                                indexWordToModify = currentCandidates[tmp];
-                            } while (modifiedWordsIndexes.IndexOf(indexWordToModify) != -1);
-                        }
-                    }
-                    currentCandidateNum--; // izabrali smo neku rec za zamenu, znaci smanjujemo broj kandidata
-                    currentCandidates.RemoveAt(currentCandidates.IndexOf(indexWordToModify)); // i odabranu rec za menjanje sad sklanjamo iz liste
-                    modifiedWordsIndexes.Add(indexWordToModify); // i stavljamo je u listu modifikovanih (indeks njen)
-                    //lazar: linija gore: stack overflow
-
-
-                    int charIndex = rnd.Next(0, newAnswer[indexWordToModify].Length - 1); //index karaktera oko kog cemo neku izmenu da napravimo
-                    modificationType = rnd.Next(1, 4);
-                    switch (modificationType)
-                    {
-                        case 1: // duplira neko slovo (izbegavajuci prvi i poslednji karakter)
-                            {
-                                newAnswer[indexWordToModify] = newAnswer[indexWordToModify].Substring(0, charIndex) + newAnswer[indexWordToModify][charIndex] + newAnswer[indexWordToModify].Substring(charIndex);
-                                newAnswerString = String.Join(" ", newAnswer);
-                                break;
-                            }
-                        case 2: // ukloni neko slovo (izbegavajuci prvi i poslednji karakter)
-                            {
-                                newAnswer[indexWordToModify] = newAnswer[indexWordToModify].Substring(0, charIndex) + newAnswer[indexWordToModify].Substring(charIndex + 1);
-                                newAnswerString = String.Join(" ", newAnswer);
-                                break;
-                            }
-                        case 3: // zameni dva slova, charindex i charindex+1
-                            {
-                                charIndex -= 1;
-                                if (charIndex == 0) // ipak da ne menjamo nulti karakter sa prvim...
-                                    charIndex = 1;
-                                newAnswer[indexWordToModify] = newAnswer[indexWordToModify].Substring(0, charIndex) + newAnswer[indexWordToModify][charIndex + 1] + newAnswer[indexWordToModify][charIndex] + newAnswer[indexWordToModify].Substring(charIndex + 2);
-                                // lazar: linija gore: argument out of range
-                                newAnswerString = String.Join(" ", newAnswer);
-                                break;
-                            }
-                    }
-                }
-                finalArray.Add(newAnswerString);
-            }
-
-            // krajnja provera da nema dva tacna odgovora
-            int correctCount = 0;
-            for (int i = 0; i < finalArray.Count; i++)
-            {
-                if (correct == finalArray[i])
-                    correctCount++;
-            }
-            if (correctCount != 1)
-                return generateWrongAnswers(correct); // pozovi opet funkciju, ovo bi trebalo mnogo retko, skoro nikad
-                //lazar: puklo ovde, stack overflow
-            else
-            {
-                finalArray = finalArray.OrderBy(item => rnd.Next()).ToList(); // shuffle
-                return finalArray; // vraca niz od 4 odgovora sa izmesanim redosledima
-            }
-        }
-
-        public static string HangmanHints(string answer, double showpercent)
-        {
-            string answerHint = answer;
-            char hiddenChar = '-';
-            char spaceChar = ' ';
-            char[] unobservedChars = { ' ', ',', '.', '!', '?' };
-            List<int> hideCandidates = new List<int>();
-            int hideCharCount;
-
-            Random rnd = new Random();
-
-            int charNum = answer.Length;
-
-            // smanjujemo charNum za svaki razmak, zarez i to tako jer nisu bitni ovde
-            // i ujedno u pomocni niz upisujemo indekse svih slova (ne karaktera)
-            for (int i = 0; i < answer.Length; i++)
-                if (unobservedChars.Contains(answer[i]))
-                    charNum--;
+                // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
+                List<string> temp = Methods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
+                if (temp == null)
+                    sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
                 else
-                    hideCandidates.Add(i);
-
-            // izracunamo broj slova koje cemo da prekrijemo, tipa ako u reci imamo
-            // 10 slova (ne karaktera), a 37% hocemo da prikazemo, prekricemo 6 od 10 slova
-            // a ako imamo samo 1 slovo kandidat za skrivanje, sakricemo ga sigurno
-            if (charNum == 1)
-                hideCharCount = 0;
-            else
-                hideCharCount = charNum - Convert.ToInt32(Math.Round(charNum * showpercent));
-
-            if (hideCharCount == charNum) // ako se palo da ih sakrijemo sve, ipak cemo 1 da ostavimo slobodnim
-                hideCharCount -= 1;
-
-            for (int i = 0; i < hideCharCount; i++)
-            {
-                int hideCharIndex = rnd.Next(0, hideCandidates.Count);
-
-                System.Text.StringBuilder sb = new System.Text.StringBuilder(answerHint);
-                sb[hideCandidates[hideCharIndex]] = hiddenChar;
-                answerHint = sb.ToString();
-                hideCandidates.RemoveAt(hideCharIndex);
+                    sessionCards[i].CardChallange.MultipleChoice = temp;
+                // drugi parametar (easiness) je koliki deo reci hocemo da mu prikazemo, stavio sam 20% zasad
+                // sessionCards[i].CardChallange.Hangman = Methods.HangmanHints(sessionCards[i].BasicInfo.Answer, 0.2);
+                // treci parametar (hardness) je koliko slova visak hocemo da mu vratimo preko onih koja su obavezna
+                sessionCards[i].CardChallange.Scrabble = Methods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.5);
             }
 
-            answerHint = answerHint.Replace(' ', spaceChar);
-
-            return answerHint;
+            sm.Cards = sessionCards;
+            return sm;
         }
 
         public static SessionModel LoadReviewSession(int userID, int courseID, int? levelID, int? numberOfCards)
@@ -384,7 +121,7 @@ namespace UpamtiMe.Models
                                 MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
                                 Hangman = c.answer,
                                 Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
-                                Challenges = (u.goodness > 0.6 ? "" : "mutiple;")  +  ConfigurationParameters.ChallengesReview 
+                                Challenges = (u.goodness > 0.6 ? "" : "multiple;")  +  ConfigurationParameters.ChallengesReview 
                             }
                         }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
             
@@ -438,4 +175,295 @@ namespace UpamtiMe.Models
             return sm;
         }
     }
+
+    public class Methods
+    {
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+
+        public static int RandomInt()
+        {
+            lock (syncLock)
+            { // synchronize
+                return random.Next();
+            }
+        }
+
+        public static int RandomIntRange(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize
+                return random.Next(min, max);
+            }
+        }
+
+        public static double RandomDouble()
+        {
+            lock (syncLock)
+            { // synchronize
+                return random.NextDouble();
+            }
+        }
+
+        public static List<string> getMultipleChoiceAnswers(List<CardSessionDTO> lekcijaCards, string correctCard)
+        {
+            double otherCardAnswersChance = 0.5; // u ovoliko slucajeva prvenstveno hocemo multiplechoice odgovore iz baze
+            List<string> answers = new List<string>();
+
+            // uzimamo random odgovore iz lekcije ako je otherCardAnswersChance ili ako je rec mnogo kratka pa ne mogu da se tumbaju slova
+            if (RandomDouble() <= otherCardAnswersChance)
+            {
+                // ako uopste ima dovoljno u lekciji, onda uzimamo 
+                if (lekcijaCards.Count >= 4)
+                {
+                    answers = getAnswersFromDatabase(lekcijaCards, correctCard);
+                }
+                else
+                {   // pokusamo da istumbamo ako nema da se uzme iz lekcije
+                    if (correctCard.Split(' ').OrderByDescending(k => k.Length).First().Length > 4)
+                        answers = getAnswersByPermutations(correctCard);
+                    else
+                        return null; // ako se vrati null, treba da sklonimo "multiple;" iz configurationparameters
+                }
+            }
+            else  // ako je 1 - otherCardAnswersChance i ako ima dovoljno dugacka rec za tumbanje
+            {
+                if (correctCard.Split(' ').OrderByDescending(k => k.Length).First().Length > 4)
+                    answers = getAnswersByPermutations(correctCard);
+                else
+                {
+                    // ako uopste ima dovoljno u lekciji, onda uzimamo 
+                    if (lekcijaCards.Count >= 4)
+                    {
+                        answers = getAnswersFromDatabase(lekcijaCards, correctCard);
+                    }
+                    else
+                    {
+                        return null; // ako se vrati null, treba da sklonimo "multiple;" iz configurationparameters
+                    }
+                }
+            }
+
+            return answers.OrderBy(tmp => RandomInt()).ToList();
+        }
+
+        public static List<string> getAnswersFromDatabase(List<CardSessionDTO> lekcijaCards, string correctCard)
+        {
+            List<string> cardAnswersCopy = new List<string>();
+            foreach (CardSessionDTO c in lekcijaCards)
+                cardAnswersCopy.Add(c.BasicInfo.Answer);
+            cardAnswersCopy.Remove(correctCard);
+            List<string> temp = cardAnswersCopy.OrderBy(item => RandomInt()).Take(3).ToList();
+            List<string> answers = new List<string>();
+            answers.Add(correctCard);
+            foreach (string t in temp)
+            {
+                answers.Add(t);
+            }
+
+            return answers;
+        }
+
+        public static List<string> getScrabbleCharacters(List<CardSessionDTO> allCards, CardSessionDTO correctCard, double hardness)
+        {
+            char[] characters = correctCard.BasicInfo.Answer.ToCharArray();
+            List<string> scrabbleChars = new List<string>();
+            foreach (char c in characters)
+            {
+                scrabbleChars.Add(c.ToString());
+            }
+
+            int additionalChars = Convert.ToInt32(Math.Ceiling(correctCard.BasicInfo.Answer.Length * hardness));
+
+            for (int i = 0; i < additionalChars; i++)
+            {
+                int wordIndex = RandomIntRange(0, allCards.Count);
+                int charIndex = RandomIntRange(0, allCards[wordIndex].BasicInfo.Answer.Length);
+                scrabbleChars.Add(allCards[wordIndex].BasicInfo.Answer[charIndex].ToString());
+            }
+
+            return scrabbleChars.OrderBy(tmp => RandomInt()).ToList();
+        }
+
+        public static List<string> getAnswersByPermutations(string correct)
+        {
+            string[] words = correct.Split(' ');
+            string longest = words.OrderByDescending(s => s.Length).First();
+            int indexLongest = Array.FindIndex(words, temp => temp == longest); // nalazi indeks najduze reci
+            int numOfCandidates = 0; // koliko reci je kandida thttp://prntscr.com/9pr8hiza neko cackanje
+            List<int> candidateIndexes = new List<int>(); // indeksi kandidata za zamenu (indeksi u nizu words)
+            int minimumLength = 5; // samo reci od ovoliko SLOVA ili vise su kandidati za zamenu
+            List<string> finalArray = new List<string>(); // krajnji niz koji ce da sadrzi correct + 3 wrong odgovora
+            finalArray.Add(correct);
+
+            // prvo da se prebroji koliko ima reci duzih od minimumLength, tj reci koje su kandidati za modifikaciju
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i].Length < minimumLength)
+                    continue;
+                if (words[i].Length == minimumLength && (words[i][minimumLength - 1] == '.' || words[i][minimumLength - 1] == ',' || words[i][minimumLength - 1] == '!' || words[i][minimumLength - 1] == '?'))
+                    continue;
+                numOfCandidates++; // ako je rec duzine minimumLength SLOVA (ne bilo kojih karaktera) ili duza, kandidat je za zamenu
+                candidateIndexes.Add(i); // index reci koja je kandidat za zamenu u nizu svih reci odgovora
+            }
+
+            // ako se nisu uzeli odgovori iz drugih kartica nego je doslo do mesanja
+            // a nema nijednog kandidata za mesanje slova, onda se vracaju tacan i 3 prazna
+            // (ovo bi trebalo da se desi MNOGO retko ili nikad)
+            if (numOfCandidates == 0)
+                return new List<string>() { correct, "", "", "" }.OrderBy(item => RandomInt()).ToList();
+
+            for (var i = 0; i < 3; i++) // treba da napravimo 3 pogresna odgovora
+            {
+                // najcesce ce da bude samo jedna rec kao kandidat za izmenu, eventualno dve
+                // ako je kandidat samo 1 rec, 100% se menja ona i samo ona
+                // ako imamo dva kandidata, onda se 80% menja jedna samo, a 20% da se promene obe reci
+                // ako imamo tri kandidata, onda se 72% menja jedna samo, a 28% da se promene dve reci
+                // ako imamo cetiri kandidata, onda se 65% menja jedna samo, a 35% da se promene dve reci
+                int modificationsNum = Convert.ToInt32(Math.Floor(RandomDouble() * (1.0 + (double)numOfCandidates * 0.13) + 1.0));
+
+                // ako je 1 kandidat moze da ovo gore zabrlja pa ovime ispravljam
+                if (numOfCandidates == 1)
+                    modificationsNum = 1;
+
+                string[] newAnswer = correct.Split(' '); // niz reci koji cemo da koristimo za pravljenje novog odgovora
+                List<int> modifiedWordsIndexes = new List<int>(); // indeksi reci koje su izmenjene
+                int indexWordToModify; // indeks reci koju modifikujemo trenutno
+                int modificationType; // nacin na koji ce da se modifikuje rec
+                                      // 1 - dupliciraj neko slovo
+                                      // 2 - ukloni slovo
+                                      // 3 - zameni dva slova
+
+                int currentCandidateNum = numOfCandidates; // pomocna
+                List<int> currentCandidates = new List<int>(); // indeksi TRENUTNE reci koje su kandidati za zamenu
+                                                               // kopiramo indekse kandidata u jos jedan niz, da imamo sa njim da radimo
+                for (var z = 0; z < numOfCandidates; z++)
+                    currentCandidates.Add(candidateIndexes[z]);
+
+                string newAnswerString = null; // string gde ce da pamtimo rec nakon sto je modifikujemo
+                                               // odavde pocinjemo da generisemo odgovor
+                for (var k = 0; k < modificationsNum; k++)
+                {
+                    if (modificationsNum == 1) // ako treba samo jednu rec da izmenimo, onda cemo najduzu
+                    {
+                        indexWordToModify = indexLongest;
+                    }
+                    else // ako treba vise njih, onda sa vecom verovatnocom najduzu i sa manjim verovatnocama neku drugu
+                    {
+                        int randValue = RandomIntRange(1, 11); // vraca broj od 1 do 10
+                        if (randValue <= 8 && Array.Exists(modifiedWordsIndexes.ToArray(), temp => temp == indexLongest)) // ovaj drugi uslov je da vidi da nije najduza rec mozda vec izmenjena
+                        {
+                            indexWordToModify = indexLongest; // 80% da izmenimo najduzu rec
+                        }
+                        else
+                        {
+                            do
+                            {
+                                int tmp = RandomIntRange(0, currentCandidateNum);
+                                indexWordToModify = currentCandidates[tmp];
+                            } while (modifiedWordsIndexes.IndexOf(indexWordToModify) != -1);
+                        }
+                    }
+                    currentCandidateNum--; // izabrali smo neku rec za zamenu, znaci smanjujemo broj kandidata
+                    currentCandidates.RemoveAt(currentCandidates.IndexOf(indexWordToModify)); // i odabranu rec za menjanje sad sklanjamo iz liste
+                    modifiedWordsIndexes.Add(indexWordToModify); // i stavljamo je u listu modifikovanih (indeks njen)
+                                                                 //lazar: linija gore: stack overflow
+
+                    //index karaktera oko kog cemo neku izmenu da napravimo, izbegavajuci prvi i poslednji (npr od "Atina" dolazi u obzir samo "tin")
+                    int charIndex = RandomIntRange(1, newAnswer[indexWordToModify].Length - 1);
+                    modificationType = RandomIntRange(1, 4);
+                    switch (modificationType)
+                    {
+                        case 1: // duplira karakter na mestu charIndex
+                            {
+                                newAnswer[indexWordToModify] = newAnswer[indexWordToModify].Substring(0, charIndex) + newAnswer[indexWordToModify][charIndex] + newAnswer[indexWordToModify].Substring(charIndex);
+                                newAnswerString = String.Join(" ", newAnswer);
+                                break;
+                            }
+                        case 2: // uklanja karakter na mestu charIndex
+                            {
+                                newAnswer[indexWordToModify] = newAnswer[indexWordToModify].Substring(0, charIndex) + newAnswer[indexWordToModify].Substring(charIndex + 1);
+                                newAnswerString = String.Join(" ", newAnswer);
+                                break;
+                            }
+                        case 3: // zameni dva slova, charindex i charindex+1
+                            {
+                                charIndex -= 1;
+                                if (charIndex == 0)
+                                    charIndex = 1;
+                                newAnswer[indexWordToModify] = newAnswer[indexWordToModify].Substring(0, charIndex) + newAnswer[indexWordToModify][charIndex + 1] + newAnswer[indexWordToModify][charIndex] + newAnswer[indexWordToModify].Substring(charIndex + 2);
+
+                                // lazar: linija gore: argument out of range
+                                newAnswerString = String.Join(" ", newAnswer);
+                                break;
+                            }
+                    }
+                }
+                finalArray.Add(newAnswerString);
+            }
+
+            // krajnja provera da nema dva tacna odgovora
+            int correctCount = 0;
+            for (int i = 0; i < finalArray.Count; i++)
+            {
+                if (correct == finalArray[i])
+                    correctCount++;
+            }
+            if (correctCount != 1)
+                return getAnswersByPermutations(correct); // pozovi opet funkciju, ovo bi trebalo mnogo retko, skoro nikad
+                                                          //lazar: puklo ovde, stack overflow
+            else
+            {
+                finalArray = finalArray.OrderBy(item => RandomInt()).ToList(); // shuffle
+                return finalArray; // vraca niz od 4 odgovora sa izmesanim redosledima
+            }
+        }
+
+        public static string HangmanHints(string answer, double showpercent)
+        {
+            string answerHint = answer;
+            char hiddenChar = '-';
+            char spaceChar = ' ';
+            char[] unobservedChars = { ' ', ',', '.', '!', '?' };
+            List<int> hideCandidates = new List<int>();
+            int hideCharCount;
+
+            int charNum = answer.Length;
+
+            // smanjujemo charNum za svaki razmak, zarez i to tako jer nisu bitni ovde
+            // i ujedno u pomocni niz upisujemo indekse svih slova (ne karaktera)
+            for (int i = 0; i < answer.Length; i++)
+                if (unobservedChars.Contains(answer[i]))
+                    charNum--;
+                else
+                    hideCandidates.Add(i);
+
+            // izracunamo broj slova koje cemo da prekrijemo, tipa ako u reci imamo
+            // 10 slova (ne karaktera), a 37% hocemo da prikazemo, prekricemo 6 od 10 slova
+            // a ako imamo samo 1 slovo kandidat za skrivanje, sakricemo ga sigurno
+            if (charNum == 1)
+                hideCharCount = 0;
+            else
+                hideCharCount = charNum - Convert.ToInt32(Math.Round(charNum * showpercent));
+
+            if (hideCharCount == charNum) // ako se palo da ih sakrijemo sve, ipak cemo 1 da ostavimo slobodnim
+                hideCharCount -= 1;
+
+            for (int i = 0; i < hideCharCount; i++)
+            {
+                int hideCharIndex = RandomIntRange(0, hideCandidates.Count);
+
+                System.Text.StringBuilder sb = new System.Text.StringBuilder(answerHint);
+                sb[hideCandidates[hideCharIndex]] = hiddenChar;
+                answerHint = sb.ToString();
+                hideCandidates.RemoveAt(hideCharIndex);
+            }
+
+            answerHint = answerHint.Replace(' ', spaceChar);
+
+            return answerHint;
+        }
+    }
+
+    
 }

@@ -245,6 +245,7 @@ namespace UpamtiMe.Models
                     currentCandidateNum--; // izabrali smo neku rec za zamenu, znaci smanjujemo broj kandidata
                     currentCandidates.RemoveAt(currentCandidates.IndexOf(indexWordToModify)); // i odabranu rec za menjanje sad sklanjamo iz liste
                     modifiedWordsIndexes.Add(indexWordToModify); // i stavljamo je u listu modifikovanih (indeks njen)
+                    //lazar: linija gore: stack overflow
 
 
                     int charIndex = rnd.Next(0, newAnswer[indexWordToModify].Length - 1); //index karaktera oko kog cemo neku izmenu da napravimo
@@ -269,6 +270,7 @@ namespace UpamtiMe.Models
                                 if (charIndex == 0) // ipak da ne menjamo nulti karakter sa prvim...
                                     charIndex = 1;
                                 newAnswer[indexWordToModify] = newAnswer[indexWordToModify].Substring(0, charIndex) + newAnswer[indexWordToModify][charIndex + 1] + newAnswer[indexWordToModify][charIndex] + newAnswer[indexWordToModify].Substring(charIndex + 2);
+                                // lazar: linija gore: argument out of range
                                 newAnswerString = String.Join(" ", newAnswer);
                                 break;
                             }
@@ -286,6 +288,7 @@ namespace UpamtiMe.Models
             }
             if (correctCount != 1)
                 return generateWrongAnswers(correct); // pozovi opet funkciju, ovo bi trebalo mnogo retko, skoro nikad
+                //lazar: puklo ovde, stack overflow
             else
             {
                 finalArray = finalArray.OrderBy(item => rnd.Next()).ToList(); // shuffle

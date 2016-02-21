@@ -640,6 +640,10 @@ MultipleChoiceStrategy.prototype.display = function () {
   Strategy.prototype.display.call(this);
 };
 
+MultipleChoiceStrategy.prototype.help = function () {
+  shuffleArray(this.choices);
+}
+
 //TODO da se shuffluju odgovori za multiplechoice kad se omane
 
 /*

@@ -13,7 +13,7 @@
         @Helper.Image(Model.Image, "class", "avatar")
         <div class="basic-info">
             <h1 id="user-name-surname"><span>@Model.Name</span>&nbsp;<span>@Model.Surname</span></h1>
-            <h2 id="user-username"><span>@@@Model.Username</span>&nbsp;@if(@Model.Location != null && Model.Location != ""){<span>(@Model.Location)</span>}</h2>
+            <h2 id="user-username"><span>@@@Model.Username</span>&nbsp;@if (@Model.Location != null && Model.Location != "") {<span>(@Model.Location)</span>}</h2>
             <div id="user-bio"><span>@Model.Bio</span></div>
             @if (user != null)
             {
@@ -81,5 +81,96 @@
             </div>
         </div>
     </div>
+
+    @if (Model.Courses.Count != 0)
+    {
+    <h2>Kursevi korisnika @@@Model.Username</h2>
+    <div id="user-courses">
+        <ul>
+            @foreach (Data.DTOs.CourseDTO course in @Model.Courses)
+            {
+                @Helper.SearchResult(
+                    Url, course.CourseID, course.Name, course.CategoryID, course.CategoryName, course.SubcategoryID, course.SubcategoryName,
+                    course.Description, course.ParticipantCount, course.NumberOfCards, course.Rating, course.CreatorID, course.CreatorUsername, course.Image,
+                    course.Erolled
+                )
+            }
+        </ul>
+    </div>
+    }
+
+    <h2>@Model.Name ima @Model.Followers.Count @(Model.Followers.Count == 1 ? "pratioca" : "pratilaca")</h2>
+    @if (Model.Followers.Count != 0)
+    {
+        <div id="user-followers">
+            <ul>
+                @foreach (Data.DTOs.FollowerDTO f in Model.Followers)
+                {
+                    <li>
+                        @{
+                            var image = f.Avatar;
+                            var base64 = Convert.ToBase64String(image.ToArray());
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            <div class="follow-avatar" style="background-image: url('@imgSrc')">
+                                <a href="@Url.Action("Profile", "User", new { id = f.UserID })"></a>
+                            </div>
+                        }
+                        <div class="follow-info">
+                            <span class="follow-name">@f.FirstName @f.LastName</span>
+                            <span class="follow-username"><a href="@Url.Action("Profile", "User", new { id=f.UserID })">@@@f.Username</a></span>
+                            <div class="follow-stats">
+                                <dl class="tooltippable" data-tooltip-text="Recke" data-tooltip-direction="bottom">
+                                    <dt><i class="fa fa-fire"></i></dt>
+                                    <dd>123</dd>
+                                </dl>
+                                <dl class="tooltippable" data-tooltip-text="Broj poena" data-tooltip-direction="bottom">
+                                    <dt><i class="fa fa-line-chart"></i></dt>
+                                    <dd>123k</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+
+    <h2>@Model.Name prati @Model.Following.Count korisnika</h2>
+    @if (Model.Following.Count != 0)
+    {
+        <div id="user-followings">
+            <ul>
+                @foreach (Data.DTOs.FollowerDTO f in Model.Following)
+                {
+                    <li>
+                        @{
+                            var image = f.Avatar;
+                            var base64 = Convert.ToBase64String(image.ToArray());
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            <div class="follow-avatar" style="background-image: url('@imgSrc')">
+                                <a href="@Url.Action("Profile", "User", new { id = f.UserID })"></a>
+                            </div>
+                        }
+                        <div class="follow-info">
+                            <span class="follow-name">@f.FirstName @f.LastName</span>
+                            <span class="follow-username"><a href="@Url.Action("Profile", "User", new { id = f.UserID })">@@@f.Username</a></span>
+                            <div class="follow-stats">
+                                <dl class="tooltippable" data-tooltip-text="Recke" data-tooltip-direction="bottom">
+                                    <dt><i class="fa fa-fire"></i></dt>
+                                    <dd>123</dd>
+                                </dl>
+                                <dl class="tooltippable" data-tooltip-text="Broj poena" data-tooltip-direction="bottom">
+                                    <dt><i class="fa fa-line-chart"></i></dt>
+                                    <dd>123k</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    
+
 
 </main>

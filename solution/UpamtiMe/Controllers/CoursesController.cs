@@ -196,7 +196,7 @@ namespace UpamtiMe.Controllers
             CheckIfEnrolled(courseID);
 
             SessionModel model = Models.SessionModel.LoadLearningSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
-            if (model.Cards.Count < 1)
+            if (model.Cards == null || model.Cards.Count < 1)
             {
                 return RedirectToAction("Profile", "Courses", new { id = courseID });
             }
@@ -237,13 +237,13 @@ namespace UpamtiMe.Controllers
             CheckIfEnrolled(courseID);
 
             SessionModel model = Models.SessionModel.LoadReviewSession(UserSession.GetUserID(), courseID, levelID, numberOfCards);
-            if (model.Cards.Count < 1)
+            if (model.Cards == null || model.Cards.Count < 1)
             {
                 return RedirectToAction("Profile", "Courses", new { id = courseID });
             }
             UserSession.SetTime();
             model.Link = Url.Action("Review", "Courses");
-            return View("Review", model);
+            return View("SessionTest", model);
         }
 
         [HttpPost]

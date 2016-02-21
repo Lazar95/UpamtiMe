@@ -27,14 +27,14 @@ namespace UpamtiMe.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            //else if (!logOut)
-            //{
-            //    Login(new HomeIndexModel
-            //    {
-            //        Login = new LoginTransporterDTO { Username = "masa", Password = "plavusha", RememberMe = true }
-            //    });
-            //    return RedirectToAction("Index", "Users");
-            //}
+            else if (!logOut)
+            {
+                Login(new HomeIndexModel
+                {
+                    Login = new LoginTransporterDTO { Username = "masa", Password = "plavusha", RememberMe = true }
+                });
+                return RedirectToAction("Index", "Users");
+            }
             return View();
         }
        

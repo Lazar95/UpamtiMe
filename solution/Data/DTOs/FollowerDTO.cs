@@ -14,5 +14,7 @@ namespace Data.DTOs
         public string  LastName { get; set; }
         public byte[] Avatar { get; set; }
         public bool? Follow { get; set; }
+        public float Score { get; set; }
+        public int Streak { get; set; }
     }
 }

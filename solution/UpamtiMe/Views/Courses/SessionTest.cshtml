@@ -17,6 +17,7 @@
         <table style="width:1400px ; ">
             <thead style="text-align: left; border-bottom: 1px solid; margin-bottom: 82px;">
             <th>@Html.DisplayNameFor(a => Model.Cards[0].BasicInfo.Answer)</th>
+            <th>@Html.DisplayNameFor(a => Model.Cards[0].UserCardInfo.SincePlan)</th>
             <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice[0])</th>
             <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice[1])</th>
             <th>@Html.DisplayNameFor(a => Model.Cards[0].CardChallange.MultipleChoice[2])</th>
@@ -40,6 +41,7 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(a => card.BasicInfo.Answer)</td>
+                    <td>@Html.DisplayFor(a => card.UserCardInfo.SincePlan)</td>
                     <td id="table-of-god-multiple-choice-1">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[0])</td>
                     <td id="table-of-god-multiple-choice-2">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[1])</td>
                     <td id="table-of-god-multiple-choice-3">@Html.DisplayFor(a => card.CardChallange.MultipleChoice[2])</td>

@@ -26,12 +26,16 @@ namespace UpamtiMe.Models
 
             if (levelID == null)
             {
-                levelID = (from c in dc.Cards
-                           from l in dc.Levels
-                           where
-                              l.courseID == courseID && c.levelID == l.levelID &&
-                               !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
-                           select new { id = l.levelID, no = l.number }).OrderBy(a => a.no).First().id;
+                var query = (from c in dc.Cards
+                    from l in dc.Levels
+                    where
+                        l.courseID == courseID && c.levelID == l.levelID &&
+                        !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
+                    select new {id = l.levelID, no = l.number});
+                if (query.Any())
+                    levelID = query.OrderBy(a => a.no).First().id;
+                else 
+                    return new SessionModel();
             }
 
             SessionModel sm = new SessionModel();
@@ -89,10 +93,12 @@ namespace UpamtiMe.Models
             SessionModel sm = new SessionModel();
             sm.CourseID = courseID;
 
+            var rnd = new Random();
+
             sm.Cards = (from c in dc.Cards
                         from l in dc.Levels
                         from u in dc.UsersCards
-                        where u.userID == userID && u.cardID == c.cardID && ((levelID != null && c.levelID == levelID) || (levelID == null && c.levelID == l.levelID)) && u.ignore == false && u.nextSee < DateTime.Now && (levelID != null || l.courseID == courseID)
+                        where u.userID == userID && u.cardID == c.cardID && ((levelID != null && c.levelID == levelID && l.levelID == levelID) || (levelID == null && c.levelID == l.levelID)) && u.ignore == false && u.nextSee < DateTime.Now && (levelID != null || l.courseID == courseID)
                         select new CardSessionDTO
                         {
                             UserCardInfo = new CardUserDTO()
@@ -122,7 +128,7 @@ namespace UpamtiMe.Models
                                 Scrabble = new List<string>(),
                                 Challenges = (u.goodness > 0.6 ? "" : "multiple;") + ConfigurationParameters.ChallengesReview
                             }
-                        }).OrderBy(a => a.UserCardInfo.NextSee).ToList();
+                        }).OrderBy(a => a.UserCardInfo.NextSee).ThenBy(a=>rnd.Next()).ToList();
 
             List<CardSessionDTO> sessionCards = sm.Cards.Take(numberOfCards.Value).ToList();
 
@@ -138,9 +144,10 @@ namespace UpamtiMe.Models
                 // pravimo slova za scrabble, ako ih budemo nekad mozda koristili u review
                 sessionCards[i].CardChallange.Scrabble = CardChallengeMethods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
             }
-
+            
             sm.Cards = sessionCards;
-
+            //znam da je ruzno ovako ali onaj random gore nema efekta
+            sm.Cards = sm.Cards.OrderByDescending(a=>a.UserCardInfo.SincePlan).ThenBy(a => rnd.Next()).ToList();
             return sm;
         }
 

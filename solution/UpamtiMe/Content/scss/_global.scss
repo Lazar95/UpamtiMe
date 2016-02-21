@@ -1108,7 +1108,9 @@ select {
  * Search resulrs
  */
 
-div#search-results-outer, div#user-courses {
+div#search-results-outer, // na rezultatima pretrage
+div#user-courses // na user-index i user-profile
+{
 min-width: calc(100% + #{8px}); // dva puta margina kartica
 left: -4px; // margina kartica
 

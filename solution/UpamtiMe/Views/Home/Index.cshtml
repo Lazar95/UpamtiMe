@@ -4,83 +4,127 @@
 }
 
 <main id="home-index">
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 
-    <div id="login-form">
-        <div class="title">
-            <h4>Već imaš nalog?</h4>
-            <h2>Prijava</h2>
+    <div id="welcome">
+        <div id="welcome-banner">
+            <span>Upamti.Online</span>
         </div>
-
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="inputs">
-            <div class="input-group">
-                @Html.LabelFor(model => model.Login.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Login.Username, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Login.Username, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="input-group">
-                @Html.LabelFor(model => model.Login.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Login.Password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Login.Password, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="input-group">
-                @Html.LabelFor(model => model.Login.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.Login.RememberMe)
-                        @Html.ValidationMessageFor(model => model.Login.RememberMe, "", new { @class = "text-danger" })
-                    </div>
-            </div>
+        <ul id="welcome-features">
+            <li>
+                <div class="feature-pic"><i class="fa fa-graduation-cap"></i></div>
+                <div class="feature-title">Nauči</div>
+                <div class="feature-desc">
+                    <span>
+                        Izaberi neki od kurseva koji su pravili drugi ljudi poput tebe ili napravi svoj. 
+                        Nisi ograničen izborom teme: pojmovi koje učiš mogu biti sve: od reči stranog jezika, do glavnih gradova.
+                    </span>
+                </div>
+            </li>
+            <li>
+                <div class="feature-pic"><i class="fa fa-bell"></i></div>
+                <div class="feature-title">Obnavljaj</div>
+                <div class="feature-desc">
+                    <span>
+                        Naši algoritmi određuju kada je pravi trenutak za obnavljanje. 
+                        Pojmove koje dobro znaš ćeš viđati retko. 
+                        Tako ne gubiš vreme na ono naučeno i možeš da se usredsrediš samo na obnavljanje zaboravljenih pojmova! 
+                    </span>
+                </div>
+            </li>
+            <li>
+                <div class="feature-pic"><i class="fa fa-gamepad"></i></div>
+                <div class="feature-title">Zabavi se</div>
+                <div class="feature-desc">
+                    <span>
+                        Ne zaboravi da je učenje delotvorno onoliko koliko je zabavno.
+                        Učenje i obnavljanje se sastoji od kratkih sesija, tako da ne moraš da odvajaš puno svog vremena.
+                        Pozovi prijatelje da ti se pidruže i takmičite se u broju poena!
+                    </span>
+                </div>
+            </li>
+        </ul>
+        <div id="welcome-register-promt">
+            @Helper.Button("rect", "registracija", "check-square-o", "Registruj se!", "")
         </div>
-
-        <input type="submit" class="button" value="Login" formaction='@Url.Action("Login", "Home")' />
-
     </div>
 
-    <div id="register-form">
-        <div class="title">
-            <h4>Kreni sa učenjem!</h4>
-            <h2>Registracija</h2>
-        </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="inputs">
-            <div class="input-group">
-                @Html.LabelFor(model => model.Register.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Register.Username, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Register.Username, "", new { @class = "text-danger" })
+        <div id="login-form">
+            <div class="title">
+                <h4>Već imaš nalog?</h4>
+                <h2>Prijava</h2>
             </div>
 
-            <div class="input-group">
-                @Html.LabelFor(model => model.Register.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Register.Password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Register.Password, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="inputs">
+                <div class="input-group">
+                    @Html.LabelFor(model => model.Login.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.Login.Username, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Login.Username, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="input-group">
+                    @Html.LabelFor(model => model.Login.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.Login.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Login.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="input-group">
+                    @Html.LabelFor(model => model.Login.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Login.RememberMe)
+                            @Html.ValidationMessageFor(model => model.Login.RememberMe, "", new { @class = "text-danger" })
+                        </div>
                 </div>
             </div>
 
-            <div class="input-group">
-                @Html.LabelFor(model => model.Register.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Register.Name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Register.Name, "", new { @class = "text-danger" })
-            </div>
+            <input type="submit" class="button" value="Login" formaction='@Url.Action("Login", "Home")' />
 
-            <div class="input-group">
-                @Html.LabelFor(model => model.Register.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Register.Email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Register.Email, "", new { @class = "text-danger" })
-            </div>
         </div>
 
-        <input type="submit" class="button" value="Register" formaction='@Url.Action("Register", "Home")' />
+        <div id="register-form">
+            <div class="title">
+                <h4>Kreni sa učenjem!</h4>
+                <h2>Registracija</h2>
+            </div>
 
-    </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="inputs">
+                <div class="input-group">
+                    @Html.LabelFor(model => model.Register.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.Register.Username, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Register.Username, "", new { @class = "text-danger" })
+                </div>
 
-}
+                <div class="input-group">
+                    @Html.LabelFor(model => model.Register.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Register.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Register.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    @Html.LabelFor(model => model.Register.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.Register.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Register.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="input-group">
+                    @Html.LabelFor(model => model.Register.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.Register.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Register.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <input type="submit" class="button" value="Register" formaction='@Url.Action("Register", "Home")' />
+
+        </div>
+
+    }
 </main>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

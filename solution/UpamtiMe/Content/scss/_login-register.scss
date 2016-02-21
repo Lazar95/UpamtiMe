@@ -5,10 +5,181 @@
 main#home-index {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
+  #welcome {
+    height: calc(100vh - #{($main-padding + $header-h + $main-padding)});
+    min-height: 700px;
+    margin-bottom: 2 * $main-padding;
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+      width: 100%;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    #welcome-banner {
+      display: none;
+
+      span {
+        display: block;
+        font-size: 56px;
+        @include xs-and-below {
+          font-size: 36px;
+        }
+        color: palette($pink, 600);
+        font-weight: bold;
+      }
+    }
+
+    ul#welcome-features {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      position: relative;
+      margin: 64px 0;
+      @include sm-and-below { margin: 32px 0; }
+      @include xs-and-below { margin: 16px 0; }
+
+      @include xxs-only {
+        background-color: palette($blue-grey, 50);
+        flex-direction: column;
+        justify-content: space-around;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: calc(100% - #{2 * 24px + 40px});
+        @include sm-and-below { height: calc(100% - #{2 * 12px + 40px}); }
+        bottom: 0;
+        left: 0;
+        background-color: palette($blue-grey, 50);
+        @include z-depth(1);
+        z-index: 0;
+        @include xxs-only { display: none; }
+      }
+
+      li {
+        box-sizing: border-box;
+        z-index: 1;
+        width: 100%;
+        margin: 12px;
+        display: flex;
+        flex-flow: column;
+        font-size: 16px;
+        @include sm-and-below { font-size: 14px; }
+
+        @include xxs-only {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        .feature-pic {
+          box-sizing: border-box;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          i {
+            background-color: palette($pink, 500);
+            color: palette($blue-grey, 50);
+            @include z-depth(1);
+            text-align: center;
+            border-radius: 50%;
+
+            padding: 24px;
+            font-size: 4em;
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+
+            @include sm-and-below {
+              padding: 12px;
+              font-size: 3em;
+              height: 60px;
+              width: 60px;
+              line-height: 60px;
+            }
+
+            @include xs-and-below {
+              font-size: 2.66em;
+            }
+          }
+
+          @include xxs-only {
+            width: 20%;
+            height: auto;
+
+            i {
+              font-size: 2em;
+              height: auto;
+              width: auto;
+              line-height: 2em;
+              background-color: transparent;
+              color: palette($pink);
+              @include z-depth(0);
+            }
+          }
+        }
+
+        .feature-title {
+          box-sizing: border-box;
+          margin: 24px 0;
+          text-align: center;
+          font-size: 2em;
+          font-weight: bold;
+          color: palette($blue-grey, 800);
+
+          @include xxs-only {
+            width: 80%;
+            text-align: left;
+          }
+        }
+
+        .feature-desc {
+          box-sizing: border-box;
+          flex-grow: 1;
+          height: 100%;
+          font-size: 1.25em;
+          @include sm-and-below { font-size: 1em; }
+          line-height: 2.5ex;
+          font-style: italic;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          color: palette($blue-grey, 600);
+
+          span {
+            display: block;
+          }
+        }
+      }
+    }
+
+    #welcome-register-promt {
+      display: flex;
+      justify-content: center;
+
+      #registracija {
+        background-color: palette($pink, 500);
+        color: rgba(white, .9);
+        padding: 16px;
+        width: 40%;
+        @include xs-and-below { width: 100%; }
+      }
+    }
+  }
+
   form {
+    width: 100%;
     flex-grow: 1;
     display: flex;
     flex-flow: row;
@@ -123,5 +294,4 @@ main#home-index {
 
 #register-form{
   @extend .form;
-  order: -1; // Prvo (levo, gore, sta vec) da se vidi forma za registraciju
 }

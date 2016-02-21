@@ -27,38 +27,38 @@ namespace UpamtiMe.Models
             if (levelID == null)
             {
                 levelID = (from c in dc.Cards
-                    from l in dc.Levels
-                    where
-                       l.courseID == courseID && c.levelID == l.levelID &&
-                        !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
-                           select new {id = l.levelID, no = l.number}).OrderBy(a => a.no).First().id;
+                           from l in dc.Levels
+                           where
+                              l.courseID == courseID && c.levelID == l.levelID &&
+                               !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
+                           select new { id = l.levelID, no = l.number }).OrderBy(a => a.no).First().id;
             }
 
             SessionModel sm = new SessionModel();
             sm.CourseID = courseID;
             sm.Cards = (from c in dc.Cards
-                where
-                    c.levelID == levelID.Value &&
-                    !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
-                select new CardSessionDTO
-                {
-                    BasicInfo = new CardBasicDTO
-                    {
-                        CardID = c.cardID,
-                        Question = c.question,
-                        Answer = c.answer,
-                        Description = c.description,
-                        Image = c.image == null ? null : c.image.ToArray(),
-                        Number = c.number,
-                    },
-                    CardChallange = new CardChallangeDTO
-                    {
-                        MultipleChoice = new List<string>(),
-                        Hangman = Methods.HangmanHints(c.answer, 0.5),
-                        Scrabble = new List<string>(),
-                        Challenges = ConfigurationParameters.ChallengesLearn,
-                    }
-                }).OrderBy(a => a.BasicInfo.Number).ToList();
+                        where
+                            c.levelID == levelID.Value &&
+                            !dc.UsersCards.Any(a => a.cardID == c.cardID && a.userID == userID)
+                        select new CardSessionDTO
+                        {
+                            BasicInfo = new CardBasicDTO
+                            {
+                                CardID = c.cardID,
+                                Question = c.question,
+                                Answer = c.answer,
+                                Description = c.description,
+                                Image = c.image == null ? null : c.image.ToArray(),
+                                Number = c.number,
+                            },
+                            CardChallange = new CardChallangeDTO
+                            {
+                                MultipleChoice = new List<string>(),
+                                Hangman = Methods.HangmanHints(c.answer, 0.5),
+                                Scrabble = new List<string>(),
+                                Challenges = ConfigurationParameters.ChallengesLearn,
+                            }
+                        }).OrderBy(a => a.BasicInfo.Number).ToList();
 
             List<CardSessionDTO> sessionCards = sm.Cards.Take(numberOfCards.Value).ToList();
 
@@ -94,7 +94,7 @@ namespace UpamtiMe.Models
             sm.Cards = (from c in dc.Cards
                         from l in dc.Levels
                         from u in dc.UsersCards
-                        where u.userID == userID && u.cardID == c.cardID && ((levelID != null && c.levelID == levelID ) || (levelID == null && c.levelID == l.levelID)) && u.ignore == false && u.nextSee < DateTime.Now && (levelID != null || l.courseID == courseID)
+                        where u.userID == userID && u.cardID == c.cardID && ((levelID != null && c.levelID == levelID) || (levelID == null && c.levelID == l.levelID)) && u.ignore == false && u.nextSee < DateTime.Now && (levelID != null || l.courseID == courseID)
                         select new CardSessionDTO
                         {
                             UserCardInfo = new CardUserDTO()
@@ -121,7 +121,7 @@ namespace UpamtiMe.Models
                                 MultipleChoice = new List<string>(),
                                 Hangman = Methods.HangmanHints(c.answer, 0.5),
                                 Scrabble = new List<string>(),
-                                Challenges = (u.goodness > 0.6 ? "" : "multiple;")  +  ConfigurationParameters.ChallengesReview 
+                                Challenges = (u.goodness > 0.6 ? "" : "multiple;") + ConfigurationParameters.ChallengesReview
                             }
                         }).OrderBy(a => a.UserCardInfo.NextSee).ToList();
 
@@ -135,7 +135,7 @@ namespace UpamtiMe.Models
                     sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
                 else
                     sessionCards[i].CardChallange.MultipleChoice = temp;
-                
+
                 // pravimo slova za scrabble, ako ih budemo nekad mozda koristili u review
                 sessionCards[i].CardChallange.Scrabble = Methods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
             }
@@ -145,7 +145,7 @@ namespace UpamtiMe.Models
             return sm;
         }
 
-        
+
         public static SessionModel LoadLinkySession(int userID, int courseID, int? levelID, int? numberOfCards)
         {
             DataClasses1DataContext dc = new DataClasses1DataContext();
@@ -159,7 +159,7 @@ namespace UpamtiMe.Models
             {
                 sm.Cards = (from c in dc.Cards
                             from u in dc.UsersCards
-                            where u.userID == userID &&  u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee > DateTime.Now 
+                            where u.userID == userID && u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee > DateTime.Now
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardBasicDTO
@@ -175,7 +175,7 @@ namespace UpamtiMe.Models
                 sm.Cards = (from c in dc.Cards
                             from l in dc.Levels
                             from u in dc.UsersCards
-                            where u.userID == userID && u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee > DateTime.Now 
+                            where u.userID == userID && u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee > DateTime.Now
                             select new CardSessionDTO
                             {
                                 BasicInfo = new CardBasicDTO
@@ -479,101 +479,6 @@ namespace UpamtiMe.Models
             answerHint = answerHint.Replace(' ', spaceChar);
 
             return answerHint;
-        }
-
-        public static SessionModel LoadReviewSession(int userID, int courseID, int? levelID, int? numberOfCards)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-
-            if (numberOfCards == null)
-                numberOfCards = ConfigurationParameters.ReviewSessionCardNumber;
-
-
-            SessionModel sm = new SessionModel();
-            sm.CourseID = courseID;
-
-            sm.Cards = (from c in dc.Cards
-                        from l in dc.Levels
-                        from u in dc.UsersCards
-                        where u.userID == userID && u.cardID == c.cardID && ((levelID != null && c.levelID == levelID) || (levelID == null && c.levelID == l.levelID)) && u.ignore == false && u.nextSee < DateTime.Now && (levelID != null || l.courseID == courseID)
-                        select new CardSessionDTO
-                        {
-                            UserCardInfo = new CardUserDTO()
-                            {
-                                Combo = u.cardCombo,
-                                CorrectAnswers = u.correctAnswers,
-                                WrongAnswers = u.wrongAnswers,
-                                LastSeen = u.lastSeen,
-                                SinceSeen = Convert.ToInt32(DateTime.Now.Subtract(u.lastSeen).TotalMinutes),
-                                NextSee = u.nextSee,
-                                SincePlan = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
-                                UserCardID = u.usersCardID,
-                            },
-                            BasicInfo = new CardBasicDTO
-                            {
-                                Question = c.question,
-                                Answer = c.answer,
-                                Description = c.description,
-                                Image = c.image == null ? null : c.image.ToArray(),
-                                Number = c.number,
-                            },
-                            CardChallange = new CardChallangeDTO()
-                            {
-                                MultipleChoice = new List<string>(new string[] { c.answer, c.answer, c.answer, c.answer }),
-                                Hangman = c.answer,
-                                Scrabble = Regex.Split(c.answer, string.Empty).ToList(),
-                                Challenges = (u.goodness > 0.6 ? "" : "multiple;") + ConfigurationParameters.ChallengesReview
-                            }
-                        }).OrderBy(a => a.UserCardInfo.NextSee).Take(numberOfCards.Value).ToList();
-
-            return sm;
-        }
-
-
-        public static SessionModel LoadLinkySession(int userID, int courseID, int? levelID, int? numberOfCards)
-        {
-            DataClasses1DataContext dc = new DataClasses1DataContext();
-
-            if (numberOfCards == null)
-                numberOfCards = ConfigurationParameters.LinkySessionCardNumber;
-
-            SessionModel sm = new SessionModel();
-            sm.CourseID = courseID;
-            if (levelID != null)
-            {
-                sm.Cards = (from c in dc.Cards
-                            from u in dc.UsersCards
-                            where u.userID == userID && u.cardID == c.cardID && c.levelID == levelID && u.ignore == false && u.nextSee > DateTime.Now
-                            select new CardSessionDTO
-                            {
-                                BasicInfo = new CardBasicDTO
-                                {
-                                    Question = c.question,
-                                    Answer = c.answer,
-                                    Description = c.description
-                                }
-                            }).Take(numberOfCards.Value).ToList();
-            }
-            else
-            {
-                sm.Cards = (from c in dc.Cards
-                            from l in dc.Levels
-                            from u in dc.UsersCards
-                            where u.userID == userID && u.cardID == c.cardID && c.levelID == l.levelID && l.courseID == courseID && u.ignore == false && u.nextSee > DateTime.Now
-                            select new CardSessionDTO
-                            {
-                                BasicInfo = new CardBasicDTO
-                                {
-                                    Question = c.question,
-                                    Answer = c.answer,
-                                    Description = c.description
-                                }
-                            }).Take(numberOfCards.Value).ToList();
-            }
-
-            sm.Cards = sm.Cards.GroupBy(a => a.BasicInfo.Answer).Select(a => a.First()).ToList();
-
-            return sm;
         }
     }
 }

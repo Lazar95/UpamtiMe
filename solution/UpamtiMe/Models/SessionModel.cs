@@ -54,7 +54,7 @@ namespace UpamtiMe.Models
                             CardChallange = new CardChallangeDTO
                             {
                                 MultipleChoice = new List<string>(),
-                                Hangman = Methods.HangmanHints(c.answer, 0.5),
+                                Hangman = CardChallengeMethods.HangmanHints(c.answer, 0.5),
                                 Scrabble = new List<string>(),
                                 Challenges = ConfigurationParameters.ChallengesLearn,
                             }
@@ -65,15 +65,13 @@ namespace UpamtiMe.Models
             for (int i = 0; i < sessionCards.Count; i++)
             {
                 // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
-                List<string> temp = Methods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
+                List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
                 if (temp == null)
                     sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
                 else
                     sessionCards[i].CardChallange.MultipleChoice = temp;
-                // drugi parametar (easiness) je koliki deo reci hocemo da mu prikazemo, stavio sam 20% zasad
-                // sessionCards[i].CardChallange.Hangman = Methods.HangmanHints(sessionCards[i].BasicInfo.Answer, 0.2);
-                // treci parametar (hardness) je koliko slova visak hocemo da mu vratimo preko onih koja su obavezna
-                sessionCards[i].CardChallange.Scrabble = Methods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
+                // za svaku karticu sesije pravi scrabble slova
+                sessionCards[i].CardChallange.Scrabble = CardChallengeMethods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
             }
 
             sm.Cards = sessionCards;
@@ -107,6 +105,7 @@ namespace UpamtiMe.Models
                                 NextSee = u.nextSee,
                                 SincePlan = Convert.ToInt32(DateTime.Now.Subtract(u.nextSee).TotalMinutes),
                                 UserCardID = u.usersCardID,
+                                Goodness = u.goodness,
                             },
                             BasicInfo = new CardBasicDTO
                             {
@@ -119,7 +118,7 @@ namespace UpamtiMe.Models
                             CardChallange = new CardChallangeDTO()
                             {
                                 MultipleChoice = new List<string>(),
-                                Hangman = Methods.HangmanHints(c.answer, 0.5),
+                                Hangman = CardChallengeMethods.HangmanHints(c.answer, 0.5),
                                 Scrabble = new List<string>(),
                                 Challenges = (u.goodness > 0.6 ? "" : "multiple;") + ConfigurationParameters.ChallengesReview
                             }
@@ -130,14 +129,14 @@ namespace UpamtiMe.Models
             for (int i = 0; i < sessionCards.Count; i++)
             {
                 // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
-                List<string> temp = Methods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
+                List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
                 if (temp == null) // ako ne vrati multiplechoice odgovore, onda sklonimo tu igru
                     sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
                 else
                     sessionCards[i].CardChallange.MultipleChoice = temp;
 
                 // pravimo slova za scrabble, ako ih budemo nekad mozda koristili u review
-                sessionCards[i].CardChallange.Scrabble = Methods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
+                sessionCards[i].CardChallange.Scrabble = CardChallengeMethods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
             }
 
             sm.Cards = sessionCards;
@@ -193,7 +192,7 @@ namespace UpamtiMe.Models
         }
     }
 
-    public class Methods
+    public class CardChallengeMethods
     {
         private static readonly Random random = new Random();
         private static readonly object syncLock = new object();

@@ -62,7 +62,6 @@ $(window).bind('load', function() {
   _stack.push(4);
   _stack.push(5);
 
-  ultraTime = setInterval()
   _interval = setInterval( function(){ updateTimer(_timeRemaining); }, _timerUpdateInterval);
 
 });

@@ -204,7 +204,15 @@ else
                     </div>
                     <div class="description-snippet-placeholder"></div>
                 </div>
-                <div class="description-full">@desc</div>
+                <div class="description-full">
+                    @if (desc == "" || desc == null)
+                    {
+                        <i>(Ovaj kurs nema opis.)</i>
+                    } else
+                    {
+                        @desc
+                    }
+                </div>
                 @if (!enrolled)
                 {
                     @Helper.Button("rect button-enroll", "", "unlock", "Učlani se", url.Action("Enroll", "Course", new { id = id }))

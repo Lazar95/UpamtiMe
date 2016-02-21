@@ -46,6 +46,9 @@ main#review-session, main#learn-session, main#spajalica {
 				@include force-width(100%);
 				order: 2;
 			}
+			@media screen and ( max-height: 500px ){
+    		display: none;
+			}
 
       & > * { // sve info kartice (levo, sivo)
         flex-grow: 1;

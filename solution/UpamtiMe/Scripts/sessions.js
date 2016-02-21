@@ -161,6 +161,16 @@ var compareAndMarkDifference = function(correct, typed) {
     return marked; // vratimo oznacenu rec
 }
 
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+
 var inheritsFrom = function (child, parent) {
     child.prototype = Object.create(parent.prototype);
 };
@@ -630,6 +640,12 @@ MultipleChoiceStrategy.prototype.display = function () {
   Strategy.prototype.display.call(this);
 };
 
+MultipleChoiceStrategy.prototype.help = function () {
+  shuffleArray(this.choices);
+}
+
+//TODO da se shuffluju odgovori za multiplechoice kad se omane
+
 /*
 MultipleChoiceStrategy.prototype.wrongAnswer = function(givenAnswer) {
   //this.help();
@@ -704,6 +720,21 @@ HangmanStrategy.prototype.help = function () {
   //TODO JAJAC: dodaj jos neko slovo u this.hints
   // this.card.answer <-- tacan odgovor
   // this.hints <-- string dipa d--_K--z-; njega samo treba da promnis
+  debugger;
+  var hiddenChar = '_';
+  var i;
+  // nasumice trazimo indeks nekog skrivenog slova u reci da bi ga prikazali
+  // i to samo ako vec sva slova nisu prikazana
+  if (this.hints.indexOf(hiddenChar) != -1)
+  {
+    do {
+      i = Math.floor(Math.random() * this.hints.length);
+    } while (this.hints[i] != hiddenChar);
+
+    // kada nadjemo indeks nekog skrivenog slova,
+    // samo prikazemo sada i to slovo kao dodatni hint
+    this.hints = this.hints.substr(0, i) + this.card.answer[i] + this.hints.substr(i + 1);
+  }
 };
 
 
@@ -745,6 +776,31 @@ ScrabbleStrategy.prototype.help = function() {
   //TODO JAJAC: izbaci neko slovo koje nije deo tacnog odgovora iz this.letters
   // this.card.answer <-- tacan odgovor
   // this.letters <-- niz dostupnih slova za kucanje
+  // racunamo koliko u procentima ima ponudjenih slova viska
+  var extraPercent = this.letters.length / this.card.answer.length - 1;
+
+  var tempLetters = this.letters.slice(0); // kopiramo u tempLetters trenutno
+
+  // u removeNum, u zavisnosti od prethodna dva parametra,
+  // cuvamo izracunat broj reci koje cemo da sklonimo kao pomoc
+  var removeNum;
+  var removeCandidates = []; // ovde ce da smestimo indekse kandidata za remove
+
+  // prvo iz pomocnog niza sklonimo sva slova koja cine odgovor
+  // njih ne smemo da izbacimo iz this.letters
+  for (var i = 0; i < this.card.answer.length; i++) {
+    tempLetters.splice(tempLetters.indexOf(this.card.answer[i]), 1);
+  }
+
+  // kao pomoc cemo da sklonimo polovinu slova koja su visak
+  removeNum = Math.ceil(tempLetters.length / 2);
+
+  // i sad ovde sklonimo iz this.letters jos neko slovo
+  for (var i = 0; i < removeNum; i++) {
+    var rnd = Math.floor(Math.random() * tempLetters.length);
+    this.letters.splice(this.letters.indexOf(tempLetters[rnd]), 1);
+  }
+  shuffleArray(this.letters);
 }
 
 ScrabbleStrategy.prototype.addLetterAt = function(i) {

@@ -354,6 +354,15 @@ var Session = (function() {
       getScore: function() {
         return score;
       },
+      getCorrectAnswers: function() {
+        return correctAnswers;
+      },
+      getWrongAnswers: function() {
+        return wrongAnswers;
+      },
+      getMaxCombo: function() {
+        return maxCombo;
+      },
       getGivenAnswers: function() {
         return correctAnswers + wrongAnswers;
       },
@@ -606,7 +615,7 @@ Strategy.prototype.display = function () {
   var string = '';
   string += '<div class="current-card-info">';
     string += '<dl><dt>Poslednji put vidjena<dt><dd>pre ' + this.card.sinceSeen + '</dd></dl>'; //TODO JAJAC
-    string += '<dl><dt>Ocena<dt><dd>' + this.card.goodness + '</dd></dl>'; //TODO oboji
+    string += '<dl><dt>Uspešnost<dt><dd>' + this.card.goodness.toFixed(2) + '</dd></dl>'; //TODO oboji ako te ne mrzi a mrzece te znam te
     string += '<dl><dt>Kombo<dt><dd>' + this.card.combo + '</dd></dl>';
   string += '</div>';
   $('.card.current-card .challange:last-child').append(string);
@@ -1016,7 +1025,38 @@ $('.card.current-card').on('keypress', '.challange:last-child input', function(e
 /******************************************************************************/
 
 var gameOver = function() {
-  alert('GAME OVER');
+  var $el = $('.card.current-card > div');
+  $el.html('');
+
+  $('aside.info').css('width', '0').css('min-width', '0').css('overflow', 'hidden').css('opacity', '0').css('margin-left', '0');
+
+  var session = Session.getInstance();
+  var string = '';
+  string += '<div id="cover" class="challange">';
+    string += '<div id="cover-loading">';
+      string += '<i class="fa fa-circle-o-notch fa-spin"></i>';
+      string += '<span>Beleženje rezultata...</span>';
+    string += '</div>';
+    string += '<div id="cover-score">';
+      /*string += '<dl id="cover-score-breakdown">';
+        string += '<dd>Broj tačnih odgovora</dd>';
+        string += '<dt>' + session.getCorrectAnswers() + '</dt>';
+        string += '<dd>Broj netačnih odgovora</dd>';
+        string += '<dt>' + session.getWrongAnswers() + '</dt>';
+        string += '<dd>Maksimalni kombo</dd>';
+        string += '<dt>' + session.getMaxCombo() + '</dt>';
+      string += '</dl>';*/
+      string += '<dl id="cover-score-total">';
+        string += '<dd>Osvojeni poeni</dd><dt>' + session.getScore().toFixed(2) + '</dt>';
+      string += '</dl>';
+    string += '</div>';
+    string += '<div id="cover-buttons">';
+      string += '<button id="keep-on" disabled onclick=\"location.href=\'' + $('#table-of-god').attr('data-keep-on') + '\';\"><i class="fa fa-angle-double-right"></i><span>Nastavi</span></button>';
+      string += '<button id="back-to-course" disabled onclick=\"location.href=\'' + $('#table-of-god').attr('data-back-to-course') + '\';\"><i class="fa fa-files-o"></i><span>Nazad na kurs</span></button>';
+    string += '</div>';
+  string += '</div>';
+
+  $el.html(string);
 
   for (var i = 0; i < _session.cards.length; i++) {
     _session.cards[i].calculateNewPlan();
@@ -1047,9 +1087,14 @@ var gameOver = function() {
     data: dataToSend,
     success: function (res) {
       if (res.success) {
-        $('body').append('Waai uspesno!');
+        $el.find('#cover-loading').find('i').removeClass().addClass('fa').addClass('fa-check');
+        $el.find('#cover-loading').find('span').html('Uspešno sačuvano!');
+        $el.find('#cover-buttons').find('button').prop('disabled', false);
+        $el.find('#keep-on').focus();
       } else {
-        $('body').append('Nije uspelo!');
+        $el.find('#cover-loading').find('i').removeClass().addClass('fa').addClass('fa-times');
+        $el.find('#cover-loading').find('span').html('Došlo je do greške!');
+        $el.find('#cover-buttons').find('button').prop('disabled', false);
       }
     }
   });

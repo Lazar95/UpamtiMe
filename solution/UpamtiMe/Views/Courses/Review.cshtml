@@ -1,6 +1,6 @@
 ﻿@model UpamtiMe.Models.SessionModel
 
-<table data-course-id="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-session="review" data-link="@Model.Link">
+<table data-course-id="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-session="review" data-link="@Model.Link" data-keep-on="@Url.Action("Review", "Courses", new { courseID = Model.CourseID })" data-back-to-course="@Url.Action("Profile", "Courses", new { id = Model.CourseID })">
     @foreach (Data.DTOs.CardSessionDTO card in @Model.Cards)
     {
         <tr>
@@ -67,7 +67,7 @@
 
     @*<aside class="progress-bar"><ul></ul></aside>*@
 
-    @Helper.SessionCover(@Model.CourseID, Url, 1)
+    @*@Helper.SessionCover(@Model.CourseID, Url, 1)*@
 
 </main>
 

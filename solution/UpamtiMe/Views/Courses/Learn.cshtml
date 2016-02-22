@@ -5,7 +5,7 @@
 }
 
 
-<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-link="@Model.Link">
+<table data-course-id ="@Model.CourseID" style="width:1400px ; display: none " id="table-of-god" data-link="@Model.Link" data-keep-on="@Url.Action("Learn", "Courses", new { courseID = Model.CourseID })" data-back-to-course="@Url.Action("Profile", "Courses", new { id = Model.CourseID })">
     @foreach (Data.DTOs.CardSessionDTO card in @Model.Cards)
     {
         <tr>
@@ -74,7 +74,7 @@
 
         @*<aside class="progress-bar"></aside>*@
 
-        @Helper.SessionCover(@Model.CourseID, Url, 0)
+        @*@Helper.SessionCover(@Model.CourseID, Url, 0)*@
 
     </main>
 

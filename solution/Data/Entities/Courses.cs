@@ -31,6 +31,15 @@ namespace Data
             return (from a in dc.Subcategories select a).ToList();
         }
 
+        public static List<Card> GetAllCards(int courseID, DataClasses1DataContext dc = null)
+        {
+            dc = new DataClasses1DataContext();
+            return (from a in dc.Cards
+                    from b in dc.Levels
+                    where a.levelID == b.levelID && b.courseID == courseID
+                    select a).ToList();
+        }
+
 
         public static Course addCourse(string name, int categoryID, int? subcategoryID, int numberOfCards, int creatorID)
         {

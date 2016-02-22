@@ -243,7 +243,7 @@ namespace UpamtiMe.Controllers
             }
             UserSession.SetTime();
             model.Link = Url.Action("Review", "Courses");
-            return View("SessionTest", model);
+            return View("Review", model);
         }
 
         [HttpPost]

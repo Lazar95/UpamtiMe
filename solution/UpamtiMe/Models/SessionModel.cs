@@ -71,7 +71,7 @@ namespace UpamtiMe.Models
                 // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
                 List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
                 if (temp == null)
-                    sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
+                    sessionCards[i].CardChallange.Challenges = sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
                 else
                     sessionCards[i].CardChallange.MultipleChoice = temp;
                 // za svaku karticu sesije pravi scrabble slova
@@ -126,7 +126,7 @@ namespace UpamtiMe.Models
                                 MultipleChoice = new List<string>(),
                                 Hangman = CardChallengeMethods.HangmanHints(c.answer, 0.5),
                                 Scrabble = new List<string>(),
-                                Challenges = (u.goodness > 0.6 ? "" : "multiple;") + ConfigurationParameters.ChallengesReview
+                                Challenges = (u.goodness > 0.6 ? "" : "multiple;") + ConfigurationParameters.ChallengesReview,
                             }
                         }).OrderBy(a => a.UserCardInfo.NextSee).ThenBy(a=>rnd.Next()).ToList();
 
@@ -137,7 +137,7 @@ namespace UpamtiMe.Models
                 // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
                 List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
                 if (temp == null) // ako ne vrati multiplechoice odgovore, onda sklonimo tu igru
-                    sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
+                    sessionCards[i].CardChallange.Challenges = sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
                 else
                     sessionCards[i].CardChallange.MultipleChoice = temp;
 
@@ -330,12 +330,6 @@ namespace UpamtiMe.Models
                 candidateIndexes.Add(i); // index reci koja je kandidat za zamenu u nizu svih reci odgovora
             }
 
-            // ako se nisu uzeli odgovori iz drugih kartica nego je doslo do mesanja
-            // a nema nijednog kandidata za mesanje slova, onda se vracaju tacan i 3 prazna
-            // (ovo bi trebalo da se desi MNOGO retko ili nikad)
-            if (numOfCandidates == 0)
-                return new List<string>() { correct, "", "", "" }.OrderBy(item => RandomInt()).ToList();
-
             for (var i = 0; i < 3; i++) // treba da napravimo 3 pogresna odgovora
             {
                 // najcesce ce da bude samo jedna rec kao kandidat za izmenu, eventualno dve
@@ -374,7 +368,7 @@ namespace UpamtiMe.Models
                     else // ako treba vise njih, onda sa vecom verovatnocom najduzu i sa manjim verovatnocama neku drugu
                     {
                         int randValue = RandomIntRange(1, 11); // vraca broj od 1 do 10
-                        if (randValue <= 8 && Array.Exists(modifiedWordsIndexes.ToArray(), temp => temp == indexLongest)) // ovaj drugi uslov je da vidi da nije najduza rec mozda vec izmenjena
+                        if (randValue <= 8 && !Array.Exists(modifiedWordsIndexes.ToArray(), temp => temp == indexLongest)) // ovaj drugi uslov je da vidi da nije najduza rec mozda vec izmenjena
                         {
                             indexWordToModify = indexLongest; // 80% da izmenimo najduzu rec
                         }

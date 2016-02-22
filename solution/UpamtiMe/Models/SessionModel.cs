@@ -129,6 +129,7 @@ namespace UpamtiMe.Models
                                 Challenges = (u.goodness > 0.6 ? "" : "multiple;") + ConfigurationParameters.ChallengesReview,
                             }
                         }).OrderBy(a => a.UserCardInfo.NextSee).ThenBy(a=>rnd.Next()).ToList();
+          
 
             List<CardSessionDTO> sessionCards = sm.Cards.Take(numberOfCards.Value).ToList();
 

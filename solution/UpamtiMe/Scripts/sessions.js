@@ -689,7 +689,7 @@ $(window).keyup(function(e) {
   multipleChoicePickAnswer($el);
 });
 // Klik na ogovor
-$('.card.current-card').on('click', '#multiple-choice > div > ul > li', function() {
+$('.card.current-card').on('click', '#multiple-choice:last-child > div > ul > li', function() {
   multipleChoicePickAnswer($(this));
 });
 
@@ -810,7 +810,7 @@ ScrabbleStrategy.prototype.addLetterAt = function(i) {
   updateScrabble();
   return true;
 }
-$('.card.current-card').on('click', '.scrabble-clickable', function() {
+$('.card.current-card').on('click', '#scrabble:last-child .scrabble-clickable', function() {
   var i = $(this).index();
   Session.getInstance().schedule.getCurrentCard().getCurrentStrategy().addLetterAt(i);
 });
@@ -824,7 +824,7 @@ ScrabbleStrategy.prototype.addLetter = function(char) {
   }
   return false; // sori bro
 }
-$('.card.current-card').on('keypress click', '#scrabble input', function(e) {
+$('.card.current-card').on('keypress click', '#scrabble:last-child input', function(e) {
   $(this).focus();
   e.preventDefault();
   var that = Session.getInstance().schedule.getCurrentCard().getCurrentStrategy();
@@ -833,7 +833,7 @@ $('.card.current-card').on('keypress click', '#scrabble input', function(e) {
   this.setSelectionRange(this.value.length, this.value.length); // ne damo mu da mrdne kursorom
   return true;
 });
-$('.card.current-card').on('keyup', '#scrabble input', function(e) {
+$('.card.current-card').on('keyup', '#scrabble:last-child input', function(e) {
   var that = Session.getInstance().schedule.getCurrentCard().getCurrentStrategy();
   if (e.keyCode == 8/*backspace*/) {
     that.removeLast();
@@ -864,8 +864,8 @@ ScrabbleStrategy.prototype.getTypedString = function() {
 
 var updateScrabble = function() {
   var currentStrategy = Session.getInstance().schedule.getCurrentCard().getCurrentStrategy();
-  var $ul = $('#scrabble ul');
-  var $input = $('#scrabble input');
+  var $ul = $('#scrabble:last-child ul');
+  var $input = $('#scrabble:last-child input');
   $input.val(currentStrategy.getTypedString());
   for (var i = 0; i < currentStrategy.letters.length; i++) {
     var $li = $ul.children('li:nth-child(' + (i + 1) + ')');
@@ -916,14 +916,14 @@ PreviewStrategy.prototype.display = function () {
   Strategy.prototype.display.call(this);
 };
 
-$('.card.current-card').on('click', 'button#go-to-next', function() {
+$('.card.current-card').on('click', '.challange:last-child button#go-to-next', function() {
   Session.getInstance().schedule.getCurrentCard().nextStrategy();
   Session.getInstance().schedule.advance();
   updateSidebar();
   updateProgressbar();
 });
 
-$('.card.current-card').on('click', 'button#skip-to-last', function() {
+$('.card.current-card').on('click', '.challange:last-child button#skip-to-last', function() {
   var currCard = Session.getInstance().schedule.getCurrentCard();
   var id = currCard.cardID;
   // obrisi sve strategije osim poslednje i prve (preview, realdeal) iz kartice
@@ -1011,9 +1011,9 @@ var updateProgressbar = function() {
   console.log('Progressbar update');
 }
 
-$('.card.current-card').on('keypress', 'input', function(e) {
+$('.card.current-card').on('keypress', '.challange:last-child input', function(e) {
   if (e.keyCode == 13) {
-    var input = $('.card.current-card input').val();
+    var input = $('.card.current-card .challange:last-child input').val();
     if (input != '') Session.getInstance().schedule.getCurrentCard().getCurrentStrategy().submit(input);
   }
 });

@@ -602,6 +602,14 @@ Strategy.prototype.evaluateScoreZero = function() {
 }
 
 Strategy.prototype.display = function () {
+  // info o kartici
+  var string = '';
+  string += '<div class="current-card-info">';
+    string += '<dl><dt>Poslednji put vidjena<dt><dd>pre ' + this.card.sinceSeen + '</dd></dl>'; //TODO JAJAC
+    string += '<dl><dt>Ocena<dt><dd>' + this.card.goodness + '</dd></dl>'; //TODO oboji
+    string += '<dl><dt>Kombo<dt><dd>' + this.card.combo + '</dd></dl>';
+  string += '</div>';
+  $('.card.current-card .challange:last-child').append(string);
   // animacija
   $('.card.current-card .challange:last-child').css('opacity', '0').css('bottom', '-20px');
   setTimeout(function() {
@@ -643,25 +651,6 @@ MultipleChoiceStrategy.prototype.display = function () {
 MultipleChoiceStrategy.prototype.help = function () {
   shuffleArray(this.choices);
 }
-
-//TODO da se shuffluju odgovori za multiplechoice kad se omane
-
-/*
-MultipleChoiceStrategy.prototype.wrongAnswer = function(givenAnswer) {
-  //this.help();
-  this.indicator = 2; // nije znao
-  var currCard = Session.getInstance().schedule.getCurrentCard();
-  currCard.combo = 0;
-  currCard.wrongAnswers++;
-  Session.getInstance().resetCombo();
-  currCard.goodness = 0.7 * currCard.goodness;
-  this.evaluateScore();
-  currCard.postviewStrategy.givenAnswer = givenAnswer;
-  Session.getInstance().schedule.reschedule(false); // false
-  //Session.getInstance().schedule.getCurrentCard().nextStrategy();
-  //Session.getInstance().schedule.advance();
-}
-*/
 
 // Odabir odgovora
 var multipleChoicePickAnswer = function($el) {

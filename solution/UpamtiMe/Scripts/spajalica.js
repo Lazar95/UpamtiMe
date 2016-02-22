@@ -168,17 +168,17 @@ var gameOver = function() {
   var correctnessBonus = Math.ceil(correctnessBonusPercentage * _score / 100);
   var comboBonus = Math.ceil(comboBonusPercentage * _score / 100);
 
-  $('#cover .total-score span').html(_score);
+  $('#cover-linky .total-score span').html(_score);
   $('#cover-remaining-lives span').html('+' + livesBonusPercentage + '%');
   $('#cover-correctness span').html('+' + correctnessBonusPercentage + '%');
   $('#cover-max-combo span').html('+' + comboBonusPercentage + '%');
 
-  $('#cover .total-score').attr('data-init-points', _score);
+  $('#cover-linky .total-score').attr('data-init-points', _score);
   $('#cover-remaining-lives').attr('data-points', livesBonus);
   $('#cover-correctness').attr('data-points', correctnessBonus);
   $('#cover-max-combo').attr('data-points', comboBonus);
 
-  $('#cover').addClass('show');
+  $('#cover-linky').addClass('show');
 
   var dataToSend = {
     "score": _score,
@@ -204,9 +204,9 @@ var gameOver = function() {
  */
 var timeOut = function() {
   gameOver();
-  $('#cover .additional').hide();
-  $('#cover .title').html('Vreme isteklo!');
-  $('#cover .subtitle').html('Predugo si se razmišljao. Probaj opet.');
+  $('#cover-linky .additional').hide();
+  $('#cover-linky .title').html('Vreme isteklo!');
+  $('#cover-linky .subtitle').html('Predugo si se razmišljao. Probaj opet.');
 }
 
 /**
@@ -214,9 +214,9 @@ var timeOut = function() {
  */
 var noMoreLives = function() {
   gameOver();
-  $('#cover .additional').hide();
-  $('#cover .title').html('Nemaš više života!');
-  $('#cover .subtitle').html('Napravio si 3 greške. Probaj opet.');
+  $('#cover-linky .additional').hide();
+  $('#cover-linky .title').html('Nemaš više života!');
+  $('#cover-linky .subtitle').html('Napravio si 3 greške. Probaj opet.');
 }
 
 /**
@@ -224,10 +224,10 @@ var noMoreLives = function() {
  */
 var goodJob = function() {
   gameOver();
-  $('#cover .title').html('Uspešno odigrano!');
-  $('#cover .subtitle').html('Svaka čast!');
+  $('#cover-linky .title').html('Uspešno odigrano!');
+  $('#cover-linky .subtitle').html('Svaka čast!');
 
-  var $score = $('#cover .total-score');
+  var $score = $('#cover-linky .total-score');
   var $scoreSpan = $score.children('span');
   var score = parseInt($scoreSpan.text().trim());
 
@@ -236,21 +236,21 @@ var goodJob = function() {
   var comboBonus = parseInt($('#cover-max-combo').attr('data-points').trim());
 
   setTimeout( function() { // Cekaj 500 ms pre nego sto krenes sa animacijama, da bi stigo da se pojavi #cover
-    $("#cover .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
+    $("#cover-linky .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
       $score.addClass('boom');
       setTimeout( function() { // Cekaj 200ms (da se izvrsi animacija za boom; vidi css)
         $scoreSpan.text(score + livesBonus);
         $score.removeClass('boom');
       }, 200);
       setTimeout(function() { // Kad se prvi dodatni score pomeri, nemoj odmah da kreces dalje. Cekaj 300 ms.
-        $("#cover .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
+        $("#cover-linky .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
           $score.addClass('boom');
           setTimeout( function() {
             $scoreSpan.text(score + livesBonus + correctBonus);
             $score.removeClass('boom');
           }, 200);
           setTimeout(function() {
-            $("#cover .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
+            $("#cover-linky .additional > ul").animate({top: '-=48px'}, 1000, 'linear', function() {
               $score.addClass('boom');
               setTimeout( function() {
                 $scoreSpan.text(score + livesBonus + correctBonus + comboBonus);

@@ -931,4 +931,136 @@ main#spajalica {
 		}
 	}
 
+	#cover-linky {
+		display: none;
+	}
+
+	#cover-linky.show {
+		background-color: palette($blue-grey, 700);
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		opacity: 1;
+		animation: cover 1s ease;
+		overflow: hidden;
+		z-index: 9999;
+
+		@keyframes cover {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+
+		aside {
+			width: 80%;
+			height: 80%;
+			background-color: palette($blue-grey, 100);
+			@include z-depth(2);
+			animation: cover-aside 1s ease;
+			display: flex;
+			flex-flow: column;
+			justify-content: space-around;
+			align-items: center;
+			position: relative;
+
+			@keyframes cover-aside {
+				from { transform: scale(1.4) }
+				to { transform: scale(1) }
+			}
+
+			&>* {
+				width: 100%;
+			}
+
+			.message {
+				text-align: center;
+
+				.title {
+					font-size: 64px;
+					font-weight: bold;
+					color: palette($pink);
+				}
+
+				.subtitle {
+					font-size: 24px;
+					color: palette($blue-grey, 600);
+				}
+			}
+
+			.info {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.total-score {
+					font-size: 108px;
+					font-weight: bold;
+					color: palette($pink);
+					padding: 16px;
+					width: 230px; // da mogu da stanu 4 cifre unutra
+					margin: 16px;
+					text-align: center;
+					transition: transform .2s ease;
+
+					&.boom {
+						transform: scale(1.3);
+					}
+				}
+
+				.additional {
+					$h: 48px;
+
+					height: $h;
+					width: 280px;
+					overflow: hidden;
+					position: relative;
+
+					ul {
+						position: absolute;
+						top: $h;
+						height: 100%;
+						width: 100%;
+						line-height: $h;
+
+						li {
+							height: 100%;
+							width: 100%;
+							font-size: 0.4 * $h;
+							position: relative;
+
+							span {
+								font-size: 0.9 * $h;
+								color: palette($pink);
+								display: block;
+								font-weight: bold;
+								position: absolute;
+								right: 0;
+								top: 0;
+							}
+						}
+					}
+				}
+			}
+
+			.actions {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.button-rect {
+					width: 25%;
+					height: 64px;
+					background-color: palette($pink);
+					margin: 12px;
+    			color: rgba(white, .9);
+				}
+			}
+
+		}
+	}
+
 }

@@ -1,0 +1,39 @@
+\part{Arhitektura softvera}
+
+\chapter{Kratak opis}
+Dokument obrađuje pregled arhitekture aplikacije \UpamtiOnline.
+
+\chapter{Reference}
+Pogledati:
+\begin{enumerate}
+  \item Specifikacija slučajeva korišćenja (\ref{part:use-case}) aplikacije \UpmatiOnline.
+\end{enumerate}
+
+\chapter{Reprezentacija arhitekture}
+Arhitektura sistema u dokumentu je prikazana kao serija pogleda na sistem:
+pogled na slučajeve upotrebe, pogled na procese, pogled na primenjeni sistem i pogled na implementaciju.
+Ovi pogledi su grafički predstavljeni kao modeli pomoću jezika UML.
+
+\chapter{Ciljevi arhitekture}
+
+Arhitektura je dizajnirana uzimajući u obzir sledeće:
+\begin{enumerate}
+  \item Korisnički interfejs je pažljivo dizajniran da bi bio jednostavan i intuitivan za korišćenje.
+  \item Sve akcije koje mogu dovesti u pitanje konzistentnost i validnost podataka moraju biti programski onemogućene; na primer: na istom kursu se ne mogu naći dve kartice sa identičnim pitanjem; ne sme postojati prazna lekcija ili kurs, itd.
+  \item Program mora da održava vremensku konzistentnost podataka koji se unose i obrađuju, i to pomoću mehanizama koji nisu vezani za korisnika programa.
+  \item Program mora da na efikasan način radi sa velikim brojem kurseva odnosno kartica koje koristnici uče.
+\end{enumerate}
+
+\chapter{Pogled na slučajeve upoterbe}
+%ako menjaš ovo promeni i u 2-.tex
+Slučajevi korišćenja mogu biti podeljeni u grupe kao što je to učinjeno u \ref{ch:use-case-uvod}.
+
+\section{Slučajevi upotrebe značajni za arhitekturu sistema}
+
+\chapter{Pogled na logičku predstavu sistema}
+
+\section{Pregled arhitekture -- paketi, podsistemi i slojevi}
+
+\chapter{Pogled na procese}
+
+\section{Procesi}

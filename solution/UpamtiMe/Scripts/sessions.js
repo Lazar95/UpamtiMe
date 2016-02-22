@@ -1038,14 +1038,6 @@ var gameOver = function() {
       string += '<span>Beleženje rezultata...</span>';
     string += '</div>';
     string += '<div id="cover-score">';
-      /*string += '<dl id="cover-score-breakdown">';
-        string += '<dd>Broj tačnih odgovora</dd>';
-        string += '<dt>' + session.getCorrectAnswers() + '</dt>';
-        string += '<dd>Broj netačnih odgovora</dd>';
-        string += '<dt>' + session.getWrongAnswers() + '</dt>';
-        string += '<dd>Maksimalni kombo</dd>';
-        string += '<dt>' + session.getMaxCombo() + '</dt>';
-      string += '</dl>';*/
       string += '<dl id="cover-score-total">';
         string += '<dd>Osvojeni poeni</dd><dt>' + session.getScore().toFixed(2) + '</dt>';
       string += '</dl>';
@@ -1075,7 +1067,7 @@ var gameOver = function() {
 
   var dataToSend = {
     "qaInfo": Session.getInstance().cards,
-    "score": Session.getInstance().getScore(),
+    "score": Session.getInstance().getScore().toFixed(2),
     "courseID": $('#table-of-god').attr('data-course-id'),
   }
 

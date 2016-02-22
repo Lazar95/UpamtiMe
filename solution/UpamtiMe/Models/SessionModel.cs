@@ -66,14 +66,18 @@ namespace UpamtiMe.Models
 
             List<CardSessionDTO> sessionCards = sm.Cards.Take(numberOfCards.Value).ToList();
 
+            List<string> otherAnswers = (from a in sm.Cards
+                                        select a.BasicInfo.Answer).ToList();
+
             for (int i = 0; i < sessionCards.Count; i++)
             {
                 // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
-                List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
-                if (temp == null)
+                List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(otherAnswers, sessionCards[i].BasicInfo.Answer);
+                // ako multiplechoice funkcije vrate 4 tacna/ista odgovora, onda sklanjamo multiplechoice igru za tu karticu
+                if (temp.FindAll(t => t == sessionCards[i].BasicInfo.Answer).Count == 4)
                     sessionCards[i].CardChallange.Challenges = sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
-                else
-                    sessionCards[i].CardChallange.MultipleChoice = temp;
+
+                sessionCards[i].CardChallange.MultipleChoice = temp;
                 // za svaku karticu sesije pravi scrabble slova
                 sessionCards[i].CardChallange.Scrabble = CardChallengeMethods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
             }
@@ -132,14 +136,25 @@ namespace UpamtiMe.Models
 
             List<CardSessionDTO> sessionCards = sm.Cards.Take(numberOfCards.Value).ToList();
 
+            // ako ima mnogo malo kartica za obnavljanje, izvlacimo jos neke iz celog kursa da bi imali za multiplechoice odgovore
+            List<Data.Card> otherCards;
+            List<string> otherAnswers = new List<string>();
+
+            if (sm.Cards.Count < 6)
+            {
+                otherCards = Data.Courses.GetAllCards(courseID, dc);
+                otherAnswers = (from a in otherCards
+                                select a.answer).ToList();
+            }
+
             for (int i = 0; i < sessionCards.Count; i++)
             {
                 // za svaku karticu sesije pravi multiplechoice odgovore, bilo iz baze ili tumbanjem slova
-                List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(sm.Cards, sessionCards[i].BasicInfo.Answer);
-                if (temp == null) // ako ne vrati multiplechoice odgovore, onda sklonimo tu igru
+                List<string> temp = CardChallengeMethods.getMultipleChoiceAnswers(otherAnswers, sessionCards[i].BasicInfo.Answer);
+                if (temp.FindAll(t => t == sessionCards[i].BasicInfo.Answer).Count == 4)
                     sessionCards[i].CardChallange.Challenges = sessionCards[i].CardChallange.Challenges.Replace("multiple;", "");
-                else
-                    sessionCards[i].CardChallange.MultipleChoice = temp;
+
+                sessionCards[i].CardChallange.MultipleChoice = temp;
 
                 // pravimo slova za scrabble, ako ih budemo nekad mozda koristili u review
                 sessionCards[i].CardChallange.Scrabble = CardChallengeMethods.getScrabbleCharacters(sm.Cards, sessionCards[i], 0.7);
@@ -228,7 +243,7 @@ namespace UpamtiMe.Models
             }
         }
 
-        public static List<string> getMultipleChoiceAnswers(List<CardSessionDTO> lekcijaCards, string correctCard)
+        public static List<string> getMultipleChoiceAnswers(List<string> lekcijaCards, string correctCard)
         {
             double otherCardAnswersChance = 0.5; // u ovoliko slucajeva prvenstveno hocemo multiplechoice odgovore iz baze
             List<string> answers = new List<string>();
@@ -245,8 +260,8 @@ namespace UpamtiMe.Models
                 {   // pokusamo da istumbamo ako nema da se uzme iz lekcije
                     if (correctCard.Split(' ').OrderByDescending(k => k.Length).First().Length > 4)
                         answers = getAnswersByPermutations(correctCard);
-                    else
-                        return null; // ako se vrati null, treba da sklonimo "multiple;" iz configurationparameters
+                    else // vracamo sve tacne odgovore ako ne moze da se napravi multiplechoice
+                        return new List<string>() { correctCard, correctCard, correctCard, correctCard }; 
                 }
             }
             else  // ako je 1 - otherCardAnswersChance i ako ima dovoljno dugacka rec za tumbanje
@@ -257,24 +272,19 @@ namespace UpamtiMe.Models
                 {
                     // ako uopste ima dovoljno u lekciji, onda uzimamo 
                     if (lekcijaCards.Count >= 4)
-                    {
                         answers = getAnswersFromDatabase(lekcijaCards, correctCard);
-                    }
-                    else
-                    {
-                        return null; // ako se vrati null, treba da sklonimo "multiple;" iz configurationparameters
-                    }
+                    else // vracamo sve tacne odgovore ako ne moze da se napravi multiplechoice
+                        return new List<string>() { correctCard, correctCard, correctCard, correctCard };
                 }
             }
-
             return answers.OrderBy(tmp => RandomInt()).ToList();
         }
 
-        public static List<string> getAnswersFromDatabase(List<CardSessionDTO> lekcijaCards, string correctCard)
+        public static List<string> getAnswersFromDatabase(List<string> lekcijaCards, string correctCard)
         {
             List<string> cardAnswersCopy = new List<string>();
-            foreach (CardSessionDTO c in lekcijaCards)
-                cardAnswersCopy.Add(c.BasicInfo.Answer);
+            foreach (string s in lekcijaCards)
+                cardAnswersCopy.Add(s);
             cardAnswersCopy.Remove(correctCard);
             List<string> temp = cardAnswersCopy.OrderBy(item => RandomInt()).Take(3).ToList();
             List<string> answers = new List<string>();

@@ -775,6 +775,7 @@ ScrabbleStrategy.prototype.help = function() {
   // this.card.answer <-- tacan odgovor
   // this.letters <-- niz dostupnih slova za kucanje
   // racunamo koliko u procentima ima ponudjenih slova viska
+  debugger;
   var extraPercent = this.letters.length / this.card.answer.length - 1;
 
   var tempLetters = this.letters.slice(0); // kopiramo u tempLetters trenutno
@@ -797,6 +798,7 @@ ScrabbleStrategy.prototype.help = function() {
   for (var i = 0; i < removeNum; i++) {
     var rnd = Math.floor(Math.random() * tempLetters.length);
     this.letters.splice(this.letters.indexOf(tempLetters[rnd]), 1);
+    tempLetters.splice(rnd, 1);
   }
   shuffleArray(this.letters);
 }

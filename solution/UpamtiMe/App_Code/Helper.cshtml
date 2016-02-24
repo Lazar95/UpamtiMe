@@ -109,7 +109,7 @@ else
             <i class="fa fa-refresh"></i>
         </div>
         <div class="username"><a href="@url.Action("Profile", "Users", new {id = userID})">@username</a></div>
-        <div class="score">@score</div>
+        <div class="score">@(((float)score).beautify())</div>
     </li>
 }
 

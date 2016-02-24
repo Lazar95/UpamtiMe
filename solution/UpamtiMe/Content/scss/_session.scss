@@ -12,7 +12,6 @@ main#review-session, main#learn-session, main#spajalica {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-		background-color: tomato;
 
 		@include xs-and-below {
 			flex-direction: column;
@@ -800,6 +799,8 @@ main#spajalica {
 				align-items: center;
 				text-align: center;
 				word-break: break-word;
+				cursor: pointer;
+				user-select: none;
 
 				.chip {
 					@include z-depth(1);

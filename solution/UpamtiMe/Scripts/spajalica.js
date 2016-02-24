@@ -104,7 +104,7 @@ var _bonusCombo = 0;
 var _score = 0;
 
 // Za tajmer
-const _maxTimeRemaining = 8000;
+const _maxTimeRemaining = 800000;
 var _timeRemaining = _maxTimeRemaining;
 const _dangerThreshold = 2000;
 var _timerUpdateInterval = 10;
@@ -313,6 +313,26 @@ $('body').keypress(function(e) {
     case (magic + 7): selectChip(1); break;
     case (magic + 8): selectChip(2); break;
     case (magic + 9): selectChip(3); break;
+  }
+});
+
+$('body').on('click', '.workspace .cards ul > li', function() {
+
+  // Saseci ga u startu ako igra nije dozvoljena.
+  if (!ALLOW_GAME) return;
+
+  var index = $(this).index();
+
+  switch (index) {
+    case (1-1): selectChip(1); break;
+    case (2-1): selectChip(2); break;
+    case (3-1): selectChip(3); break;
+    case (4-1): selectChip(4); break;
+    case (5-1): selectChip(5); break;
+    case (6-1): selectChip(6); break;
+    case (7-1): selectChip(7); break;
+    case (8-1): selectChip(8); break;
+    case (9-1): selectChip(9); break;
   }
 });
 

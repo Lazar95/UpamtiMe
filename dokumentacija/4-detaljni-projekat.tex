@@ -28,7 +28,7 @@ Arhitektura je dizajnirana uzimajući u obzir sledeće:
 Slučajevi korišćenja mogu biti podeljeni u grupe kao što je to učinjeno u \ref{ch:use-case-uvod}.
 
 \section{Slučajevi upotrebe značajni za arhitekturu sistema}
-% kad ih ajjac napise referenciraj
+Slučajevi upotrebe značajni za arhitekturu sistema su \ref{subsec:ucenje}, \ref{subsec:obnavljanje} i \ref{subsec:spajalica}.
 
 \chapter{Pogled na logičku predstavu sistema}
 
@@ -81,6 +81,15 @@ Slika \ref{fig:sema-baza} predstavlja bazu podataka na koju se oslanja aplikacij
 \end{figure}
 
 \section{Sesije}
+Klasni dijagram koji opisuje arhitekturu sesija prikazan je na slici \ref{fig:sesije}.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.7]{yava}
+  \caption{Klasni dijagram koji opisuje arhitekturu sesija}
+  \label{fig:sesije}
+\end{figure}
+
 Sesija se, nezavisno od toga da li je u pitanju sesija učenja ili sesija obnavljanja, sastoji od više različitih izazova (igara).
 Da bi sesija mogla da se sastoji od proizvoljnih izazova, i kako bi eventualno buduće dodavanje novih izazova u sistem bilo moguće obaviti na jednostavan način, prilikom implementacije upotrebljeni su projektni obrasci, među kojima su Unikat, Strategija i Posmatrač.
 

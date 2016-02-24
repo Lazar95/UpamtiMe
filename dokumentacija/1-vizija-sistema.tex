@@ -95,6 +95,11 @@ Takođe, korisnicima treba omogućiti jednostavno dodavanje novog gradiva koje �
 \chapter{Opis proizvoda}
 
 \section{Perspektiva proizvoda}
+Ideja funkcionisanja aplikacije se bazira na sistemu intervalnih ponavljanja (\textit{spaced repetition system}).
+To je tehnika učenja koja uključuje rastuće vremenske intervale između uzastopnih obnavljanja prethodno naučenog materijala kako bi se ostvario željeni psihološki efekat.
+
+Mada je princip koristan u raznim kontekstima, obično se primenjuje kada korisnik treba da savlada veliki broj pojmova i da ih na neodređeno vreme zadrži u pamćenju.
+Prema tome, tehnika nalazi najveću primenu u obogaćivanju vokabulara korisnika tokom učenja stranog jezika, jer je skup reči neograničeno veliki.
 
 \section{Mogućnosti}
 
@@ -121,13 +126,15 @@ Takođe, korisnicima treba omogućiti jednostavno dodavanje novog gradiva koje �
 \end{center}
 
 \section{Pretpostavke i zavisnosti}
-% ovde jedino da kazemo da radi lepo samo u chrome i firefox xDDD
+Obzirom na to da se radi o veb-aplikaciji, ona može biti pokrenuta sa skoro svakog operativnog sistema, koristeći neku od modernijih verzija veb-pregledača.
+Veb-aplikacije je prilagođena većini veličina ekrana, tako da se aplikacije može neometano koristiti kako na desktop računarima, tako i na pametnim telefonima, tabletima, i drugim manjim uređajima.
+Stoga, sistem nema većih zavisnosti.
+
 \section{Cena}
-Registrovanje naloga, kao i korišćenje svih usluga koje aplikacija pruža je skroz besplatno.
+Registrovanje naloga, kao i korišćenje svih usluga koje aplikacija pruža je u potpunosti besplatno.
+
 \section{Licenciranje i instalacija}
-Aplikaciju nije potrebno instalirati, za korišćenje dovoljan je samo računar sa instaliranim modernim veb-pregledačem i internet-konekcijom.
-
-
+Aplikaciju nije potrebno instalirati, za korišćenje je dovoljan samo računar sa instaliranim modernim veb-pregledačem i internet-konekcijom.
 
 \chapter{Funkcionalni zahtevi}
 
@@ -138,9 +145,11 @@ Da bi koristio usluge sistema, svaki korisnik mora da bude registrovan, odnosno 
 Kako bi informacije vezane za nekog registrovanog korisnika mogle da se ažuriraju, potrebno je da on bude prijavljen u trenutku korišćenja sistema.
 
 \section{Učenje gradiva}
+\label{sec:ucenje-gradiva}
 Učenja novih pojmova treba organizovati u kratke sesije koje će, na više različitih načina, upoznati korisnika sa gradivom i omogućiti mu da ga lako zapamti.
 
 \section{Obnavljanje gradiva}
+\label{sec:obnavljanje-gradiva}
 Obnavljanje gradiva takođe treba organizovati u sesije koje će biti dostupne korisniku neko vreme nakog učenja tog gradiva. U ovim sesijama se treba ustanoviti koje je pojmove korisnik znao odnosno zaboravio i u zavisnosti od toga treba organizovati buduće sesije obnavljanja.
 
 \section{Kreiranje i ažuriranje kursa}
@@ -150,40 +159,26 @@ Ako korisnik ne može naći kurs koji bi hteo da pohađa ili nije zadovoljan gra
 Svakom korisniku treba obezbediti mogućnost praćenja aktivnosti drugih korisnika sistema.
 
 \chapter{Ograničenja}
-
-
-
+Obzirom na to da se radi o veb-aplikaciji, ona može biti pokrenuta sa skoro svakog operativnog sistema, koristeći neku od modernijih verzija veb-pregledača.
+Veb-aplikacije je prilagođena većini veličina ekrana, tako da se aplikacije može neometano koristiti kako na desktop računarima, tako i na pametnim telefonima, tabletima, i drugim manjim uređajima.
+Stoga, sistem nema većih ograničenja.
 
 \chapter{Zahtevi u pogledu kvaliteta}
-
-
-
+Aplikacija je u stanju da radi dvadeset i četiri časa tokom dana, sedam dana u nedelji, obzirom na to će se izvršavati na moćnom veb-serveru.
 
 \chapter{Prioritet funkcionalnosti}
-
-
-
+Funkcionalnost najvišeg prioriteta je prikaz i ispravno funkcionisanje sesija (\ref{sec:ucenje-gradiva} i \ref{sec:obnavljanje-gradiva}), zajedno sa čuvanjem dobijenih podataka u bazi.
 
 \chapter{Nefunkcionalni zahtevi}
 
 \section{Standardi}
+Server treba da podrži rad sa SQL bazom, a klijentov veb-pregledač treba da podrži HTML5, CSS3, JavaScript ECMAScript 6.
 
 \section{Sistemski zahtevi}
 Ne zahtevaju se računari visokih performansi. Aplikaciju korisnik može da koristi sa bilo kog računara koji ima instaliran moderan veb-pregledač i uspostavljenu internet-konekciju.
 
 \section{Performanse}
-% mozda da se napise nesto samo kao da performanse ne zavise ni od cega posebno mozda eto samo da ne bude prespora internet konekcija xDD
+Nema posebnih zahteva koji se tiču performansi aplikacije.
 
 \section{Okruženje}
-
-
-% odavde verovatno treba maknemo stvari koje necemo da napisemo na kraju
-\chapter{Dokumentacija}
-
-\section{Korisničko upustvo}
-
-\section{Online help} %TODO ovo ću da prevedem boli me kurac
-
-\section{Upustvo za instalaciju i konfigurisanje}
-
-\section{Pakovanje proizvoda}
+Nema posebnih zahteva u pogledu okruženja.

@@ -2,6 +2,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[serbian]{babel}
 \usepackage{colortbl}
+\usepackage{graphicx}
+
+\graphicspath{ {img/} }
 
 \title{UpamtiOnline - Dokumentacija v.0.$\alpha$}
 \author{Lazar Ljubenović \\ Marija Đorđević \\ Miloš Jajac}
@@ -9,7 +12,10 @@
 
 \usepackage{parskip} % da novi apragraf nema "dva prsta uvučeno" nego da ima razmak između paragrafa
 \usepackage{microtype} % bolji paragrafi i hifernacija
-\hyphenation{UpamtiOnline}  % nećemo da se reč UpamtiOnline deli na slogove (ionako će nepravilno da se podeli)
+\usepackage{tikz}
+\usepackage{tikz-uml}
+
+\hyphenation{UpamtiOnline}  % nećemo da se reč UpamtiOnline deli na slogove (ionako će nepravilno da se podeli)ž
 
 \newcommand{\UpamtiOnline}{\textsf{UpamtiOnline}}
 \newcommand{\dugme}[1]{\textit{#1}}
@@ -24,6 +30,7 @@
 \newcommand{\PlusButton}{\textit{dodaj}}
 \newcommand{\SettingsButton}{\textit{settings}}
 
+\newcommand{\Filename}[1]{\texttt{#1}}
 
 \begin{document}
 
@@ -31,5 +38,7 @@
 
 \input{1-vizija-sistema}
 \input{2-use-case-specifikacija}
+\input{4-detaljni-projekat}
+\input{8-korisnicko-upustvo}
 
 \end{document}

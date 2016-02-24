@@ -306,13 +306,74 @@ Korisnik mora biti prijavljen i mora biti učesnik na tom kursu kako bi imao pon
 \label{subsec:ucenje}
 
 \subsubsection{Kratak opis}
+Korisnik prolazi kroz sesiju učenja pojmova iz nekog kursa.
 
 \subsubsection{Osnovni tok događaja}
-
+\begin{itemize}
+  \item
+  Klikom na dugme \dugme{uči} korisnik započinje sesiju učenja podrazumevanog broja novih pojmova.
+  Na dugme \dugme{uči} može se kliknuti na više različitih mesta:
+  \begin{itemize}
+    \item
+    Ako je reč o dugmetu za određeni kurs na indeks stranici korisnika, započeće sesiju učenja podrazumevanog broja novih pojmova iz prve nenaučene lekcije tog kursa.
+    \item
+    Ako se korisnik nalazi na stranici kursa i klikne na dugme \dugme{uči} ispod slike tog kursa, započeće sesiju učenja podrazumevanog broja novih pojmova iz prve nenaučene lekcije tog kursa.
+    \item
+    Korisnik, takođe na stranici kursa, može kliknuti na lekciju koju želi da uči i onda klikom na dugme \dugme{uči} u okviru te lekcije započinje sesiju učenja podrazumevanog broja novih pojmova iz te konkretne lekcije.
+  \end{itemize}
+  Opciono, u drugom i trećem slučaju, korisnik može klikom na padajući meni na istom dugmetu da promeni broj pojmova koje želi da uči u jednoj sesiji.
+  Pojmovi se prikazuju na više različitih načina, u zavisnosti od toga po koji put se taj pojam prikazuje u toku sesije.
+  Načini prikaza su sledeći:
+  \begin{itemize}
+    \item
+    Ako se određeni pojam prikazuje prvi put, korisniku se prikazuju dato pitanje i odgovor.
+    Može kliknuti na dugme \dugme{nauči} ili na dugme \dugme{već znam}.
+    Ako korisnik ne zna odgovor na dati pojam i želi da ga nauči, treba kliknuti na \dugme{nauči} ili pritisnuti taster \emph{enter}.
+    U ovom slučaju, odabrani pojam će se pojaviti na više različitih načina u toku sesije kako bi ga korisnik naučio.
+    Klikom na dugme \dugme{već znam}, dati pojam će se korisniku pojaviti samo još jednom u toku sesije.
+    \item
+    Kada se pojam prikaže drugi put, korisniku će biti prikazano pitanje i ponuđena četiri odgovora, od kojih je samo jedan tačan.
+    Klikom na odgovarajući pojam ili pritiskom na taster \emph{1}, \emph{2}, \emph{3} ili \emph{4} na tastaturi, korisnik bira neki od odgovora.
+    U slučaju da je odgovor bio tačan, određeni pojam se više neće prikazati na isti način u okviru te sesije.
+    Ako je odgovor bio netačan, prikazuju se izabrani odgovor i onaj koji je tačan kako bi korisnik mogao da vidi zbog čega je pogrešio i zapamti tačan odgovor.
+    Nakon toga, korisnik nastavlja sa sesijom klikom na \emph{dalje} ili pritiskom na taster \emph{enter}.
+    Određeni način prikaza datog pojma na koji je unet pogrešan odgovor će se opet prikazati u toku sesije.
+    \item
+    Treći put se, za odgovarajući pojam, prikazuje pitanje i samo deo odgovora.
+    Koristeći prikazani deo odgovora kao podsetnik, korisnik treba za dati pojam da unese odgovor sa tastature.
+    Klikom na dugme \dugme{proveri odgovor} ili pritiskom na taster \emph{enter}, korisnik potvrđuje svoj odgovor.
+    Ako je odgovor bio tačan, određeni pojam se više neće prikazati na isti način u okviru te sesije.
+    U slučaju da nije tačan, prikazuju se uneti odgovor i onaj koji je tačan kako bi korisnik mogao da vidi zbog čega je pogrešio i zapamti tačan odgovor.
+    Nakon toga, korisnik nastavlja sa sesijom klikom na dugme \emph{dalje} ili pritiskom na taster \emph{enter}.
+    Ovaj način prikaza datog pojma na koji je unet pogrešan odgovor će se opet prikazati u toku sesije, ali ovaj put će deo odgovora koji je prikazan biti veći.
+    \item
+    Sledeći put kada se pojavi isti pojam, prikazuje se pitanje i skup ponuđenih karaktera.
+    Skup ponuđenih karaktera sadrži sve karaktere koji čine tačan odgovor i određeni broj karaktera koji je višak.
+    Korisnik treba da, klikom na određene karaktere ili korišćenjem tastature, unese tačan odgovor, karakter po karakter.
+    Isto kao ranije, pritiskom na taster \emph{enter} ili klikom na dugme \dugme{proveri odgovor}, korisnik potvrđuje uneti odgovor.
+    Ako je odgovor bio tačan, određeni pojam se više neće prikazati na isti način u okviru te sesije.
+    U slučaju da nije tačan, prikazuju se uneti odgovor i onaj koji je tačan kako bi korisnik mogao da vidi zbog čega je pogrešio i zapamti tačan odgovor.
+    Nakon toga, korisnik nastavlja sa sesijom klikom na dugme \emph{dalje} ili pritiskom na taster \emph{enter}.
+    Određeni način prikaza datog pojma na koji je unet pogrešan odgovor će se opet prikazati u toku sesije, ali ovaj put će biti manje ponuđenih karaktera, i dalje zadržavajući one koji su neophodni za odgovor.
+    \item
+    Kada se pojam prikaže peti i poslednji put u okviru jedne sesije, korisniku se prikazuje samo pitanje.
+    Korisnik unosi odgovor korišćenjem tastature i pritiskom na taster \emph{enter} ili klikom na dugme \dugme{proveri odgovor}, korisnik potvrđuje uneti odgovor.
+    Ako je odgovor bio tačan, određeni pojam se više neće prikazati u okviru te sesije ni na jedan način.
+    U slučaju da nije tačan, prikazuju se uneti odgovor i onaj koji je tačan kako bi korisnik mogao da vidi zbog čega je pogrešio i zapamti tačan odgovor.
+    Nakon toga, korisnik nastavlja sa sesijom klikom na dugme \emph{dalje} ili pritiskom na taster \emph{enter}.
+    Određeni način prikaza datog pojma na koji je unet pogrešan odgovor će se opet prikazati u toku sesije.
+  \end{itemize}
+  \item
+  U zavisnosti od tačnosti odgovora koje je korisnik uneo, određeni pojmovi će biti dostupni za obnavljanje nakon određenog vremena.
+  Ako je odgovor bio tačan, dati pojam će biti odložen za kasnije vreme u odnosu na onaj na koji je dat netačan odgovor.
+  Kada korisnik odgovori na sve pojmove odgovarajući broj puta, sesija se završava i prikazuje se prozor kraja sesije.
+  Klikom na dugme \dugme{nastavi}, započinje se nova sesija učenja, a klikom na dugme \dugme{nazad na kurs}, korisniku se prikazuje stranica kursa.
+\end{itemize}
 \subsubsection{Alternativni tokovi}
 
 \subsubsection{Preduslovi}
-
+Da bi mogao da pokrene sesiju učenja, korisnik treba da bude učesnik na tom kursu, odnosno da bude prijavljen na kurs.
+Takođe, ako za konkretni kurs ili lekciju nema pojmova za učenje, neće se započeti sesija.
 \subsubsection{Posledice}
 
 
@@ -322,13 +383,59 @@ Korisnik mora biti prijavljen i mora biti učesnik na tom kursu kako bi imao pon
 \label{subsec:obnavljanje}
 
 \subsubsection{Kratak opis}
+Korisnik prolazi kroz sesiju učenja pojmova iz nekog kursa.
 
 \subsubsection{Osnovni tok događaja}
+\begin{itemize}
+  \item
+  Klikom na dugme \dugme{obnovi} korisnik započinje sesiju obnavljanja podrazumevanog broja naučenih pojmova.
+  Na dugme \dugme{obnovi} može se kliknuti na više različitih mesta:
+  \begin{itemize}
+    \item
+    Ako je reč o dugmetu za određeni kurs na indeks stranici korisnika, započeće sesiju obnavljanja podrazumevanog broja pojmova koje je korisnik najdavnije naučio ili obnovio u okviru tog kursa.
+    \item
+    Ako se korisnik nalazi na stranici kursa i klikne na dugme \dugme{obnovi} ispod slike tog kursa, započeće sesiju obnavljanja podrazumevanog broja pojmova koje je korisnik najdavnije naučio ili obnovio u okviru tog kursa.
+    \item
+    Korisnik, takođe na stranici kursa, može kliknuti na lekciju koju želi da obnovi i onda klikom na dugme \dugme{obnovi} u okviru te lekcije započinje sesiju obnavljanja podrazumevanog broja  pojmova koje je korisnik najdavnije naučio ili obnovio iz te konkretne lekcije.
+  \end{itemize}
+  Opciono, u drugom i trećem slučaju, korisnik može klikom na padajući meni na istom dugmetu da promeni broj pojmova koje želi da obnavlja u jednoj sesiji.
+  Pojmovi se prikazuju na dva različitih načina, u zavisnosti od istorije tačnosti odgovora na te pojmove.
+  Načini prikaza su sledeći:
+  \begin{itemize}
+    \item
+    Prikazace se samo pitanje ako je korisnik često odgovarao tačno na dati pojam, odnosno ako je uspešnost odgovora za taj pojam veća od neke predefinisane vrednosti.
+    Korisnik unosi odgovor korišćenjem tastature i pritiskom na taster \emph{enter} ili klikom na dugme \dugme{proveri odgovor}, korisnik potvrđuje uneti odgovor.
+    Ako je odgovor bio tačan, određeni pojam se više neće prikazati u okviru te sesije ni na jedan način.
+    U slučaju da nije tačan, prikazuju se uneti odgovor i onaj koji je tačan kako bi korisnik mogao da vidi zbog čega je pogrešio i zapamti tačan odgovor.
+    Nakon toga, korisnik nastavlja sa sesijom klikom na dugme \emph{dalje} ili pritiskom na taster \emph{enter}.
+    Određeni način prikaza datog pojma na koji je unet pogrešan odgovor će se opet prikazati u toku sesije.
+    \item
+    Ako je korisnik često pogrešno odgovarao na određeni pojam, odnosno ako je uspešnost odgovora za taj pojam manja od neke predefinisane vrednosti, taj pojam će se u okviru sesije obnavljanja pojaviti najmanje dva puta.
+    Kada se pojam prikaže prvi put, korisniku će biti prikazano pitanje i ponuđena četiri odgovora, od kojih je samo jedan tačan.
+    Klikom na odgovarajući pojam ili pritiskom na taster \emph{1}, \emph{2}, \emph{3} ili \emph{4} na tastaturi, korisnik bira neki od odgovora.
+    U slučaju da je odgovor bio tačan, određeni pojam se više neće prikazati na isti način u okviru te sesije.
+    Ako je odgovor bio netačan, prikazuju se izabrani odgovor i onaj koji je tačan kako bi korisnik mogao da vidi zbog čega je pogrešio i zapamti tačan odgovor.
+    Nakon toga, korisnik nastavlja sa sesijom klikom na \emph{dalje} ili pritiskom na taster \emph{enter}.
+    Određeni način prikaza datog pojma na koji je unet pogrešan odgovor će se opet prikazati u toku sesije.
+    Nakon što korisnik odgovori tačno na ovaj način prikaza, nekad u sesiji će se taj pojam prikazati još jednom, ali ovaj put biće prikazano samo pitanje.
+    Korisnik unosi odgovor korišćenjem tastature i pritiskom na taster \emph{enter} ili klikom na dugme \dugme{proveri odgovor}, korisnik potvrđuje uneti odgovor.
+    Ako je odgovor bio tačan, određeni pojam se više neće prikazati u okviru te sesije ni na jedan način.
+    U slučaju da nije tačan, prikazuju se uneti odgovor i onaj koji je tačan kako bi korisnik mogao da vidi zbog čega je pogrešio i zapamti tačan odgovor.
+    Nakon toga, korisnik nastavlja sa sesijom klikom na dugme \emph{dalje} ili pritiskom na taster \emph{enter}.
+    Određeni način prikaza datog pojma na koji je unet pogrešan odgovor će se opet prikazati u toku sesije.
+  \end{itemize}
+  \item
+  U zavisnosti od tačnosti odgovora koje je korisnik uneo, određeni pojmovi će opet biti dostupni za obnavljanje nakon određenog vremena.
+  Ako je odgovor bio tačan, dati pojam će biti odložen za kasnije vreme u odnosu na onaj na koji je dat netačan odgovor.
+  Kada korisnik odgovori na sve pojmove odgovarajući broj puta, sesija se završava i prikazuje se prozor kraja sesije.
+  Klikom na dugme \dugme{nastavi}, započinje se nova sesija obnavljanja, a klikom na dugme \dugme{nazad na kurs}, korisniku se prikazuje stranica kursa.
+\end{itemize}
 
 \subsubsection{Alternativni tokovi}
 
 \subsubsection{Preduslovi}
-
+Da bi mogao da pokrene sesiju obnavljanja, korisnik treba da bude učesnik na tom kursu.
+Takođe, ako za konkretni kurs ili lekciju nema pojmova za obnavljanje, neće se započeti sesija.
 \subsubsection{Posledice}
 
 
@@ -338,13 +445,25 @@ Korisnik mora biti prijavljen i mora biti učesnik na tom kursu kako bi imao pon
 \label{subsec:spajalica}
 
 \subsubsection{Kratak opis}
-
+Korisnik igra igru \emph{spajalica}, u kojoj mu se prikazuju kombinacije pitanja i odgovore koje on treba da poveže.
 \subsubsection{Osnovni tok događaja}
-
+\begin{itemize}
+  \item
+  Kada igra počne, prikazuje se prozor podeljen na devet polja.
+  U poljima se nalazi pitanje ili odgovor nekog pojma.
+  \item
+  Korisnik klikom na dva polja ili pritiskom tastera na numeričkoj tastaturi bira neka dva od devet od ponuđenih polja.
+  Cilj je izabrati pitanje i odgovor koji odgovara tom pitanju.
+  \item
+  Ako korisnik tačno spoji pitanje sa odgovarajućim odgovorom, na ta dva polja se pojavljuju nova pitanja ili odgovori.
+  Ako nema više pitanja i odgovora za trenutnu igru, ta dva polja ostaju prazna.
+  \item
+  Igra se završava kada su sva polja prazna.
+\end{itemize}
 \subsubsection{Alternativni tokovi}
 
 \subsubsection{Preduslovi}
-
+Korisnik mora imati dovoljno naučenih kartica iz tog kursa ili lekcije.
 \subsubsection{Posledice}
 
 

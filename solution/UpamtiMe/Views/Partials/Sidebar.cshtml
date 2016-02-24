@@ -27,7 +27,7 @@
                     <dd><i class="fa fa-line-chart"></i></dd><dt>@Model.Score.beautify()</dt>
                 </dl></li>
                 <li><dl class="tooltippable" data-tooltip-text="Pogledano kartica" data-tooltip-direction="bottom">
-                    <dd><i class="fa fa-dashboard"></i></dd><dt>@Model.TotalCardsSeen</dt>
+                    <dd><i class="fa fa-files-o"></i></dd><dt>@Model.TotalCardsSeen</dt>
                 </dl></li>
                 <li><dl class="tooltippable" data-tooltip-text="Naučeno kartica" data-tooltip-direction="bottom">
                     <dd><i class="fa fa-file"></i></dd><dt>@Model.LearningStatistics.Learned</dt>
@@ -112,7 +112,7 @@
     }
     else
     {
-        <span>REGISTRUJ SE MAJMUNE</span>
+        <button id="register-prompt" onclick="location.href='@Url.Action("Index", "Home")'">Registracija</button>
     }
 </aside>
 

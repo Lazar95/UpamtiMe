@@ -12,9 +12,19 @@ aside#sidebar {
 
 	display: flex;
 	flex-direction: column;
+	justify-content: space-around;
+
+	button#register-prompt {
+		width: 90%;
+		margin-left: 5%;
+		@include z-depth(1);
+		background-color: palette($pink, 500);
+		color: rgba(white, .85);
+		cursor: pointer;
+	}
 
   @include xs-and-below {
-    left: -234px;
+    left: -234px; // width sidebara i jos 10px zbog senke
   }
 
 	& > * {

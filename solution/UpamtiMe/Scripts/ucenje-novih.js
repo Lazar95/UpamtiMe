@@ -43,7 +43,7 @@ var parseTableOfGod = function() {
 
   for ( var i = 1; i <= numberOfEntries; i++ ) {
     var curr = table.children('tbody').children('tr:nth-child(' + i + ')');
-    console.log(curr);
+    //console.log(curr);
     _qa.push( {
       "status": -1,
       //TODO svasta nesto gledaj dole
@@ -59,7 +59,7 @@ var parseTableOfGod = function() {
     } );
   }
 
-  console.log(_qa);
+  //console.log(_qa);
 }
 
 var _qa = [];
@@ -67,7 +67,7 @@ var LENGTH = _qa.length;
 var ALREADY_PUNISHED = false;
 
 $(window).bind('load', function() {
-	
+
   sessionTimer(); // startujemo tajmer sesije 1s nakon loadovanja strane
   parseTableOfGod();
   LENGTH = _qa.length;
@@ -75,7 +75,7 @@ $(window).bind('load', function() {
   createProgressBar();
 
 
-  //console.log('Broj pitanja: ', LENGTH);
+  ////console.log('Broj pitanja: ', LENGTH);
   loadQuestion();
 
 });
@@ -108,10 +108,10 @@ var _levels = [[], [], []];
 var setLevels = function() {
   for (var section = 0; section < Math.ceil(2 * LENGTH / _sectionLength); section++) {
     var sectionStart = section * _sectionLength;
-    console.log("Section #" + section + " starts at index " + sectionStart + ".");
+    //console.log("Section #" + section + " starts at index " + sectionStart + ".");
     for (var part = 0; part < 2; part++) {
       var partStart = sectionStart + part * _partLength;
-      console.log("In section #" + section + ", part #" + part + " starts at index " + partStart + ".");
+      //console.log("In section #" + section + ", part #" + part + " starts at index " + partStart + ".");
       for (var offset = 0; offset < _partLength; offset++)
         _levels[0].push(_partLength * section + offset);
     }
@@ -144,7 +144,7 @@ var updateSessionTimer = function() {
             minutes = 0;
         }
     }
-    
+
     $('#time').html((minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + "'" + (seconds > 9 ? seconds : "0" + seconds) + '"');
     sessionTimer();
 }
@@ -282,7 +282,7 @@ var loadQuestion = function() {
   var ans = _qa[_currentQuestion()].answer;
   ans = ans.replace(/\s/g, '');
   ans = ans.toUpperCase();
-  //console.log(ans);
+  ////console.log(ans);
   var chars = ans.split('');
   // Ostavi samo jednu kopiju svakog karaktera, ostavi prvu
   // http://stackoverflow.com/a/9229821/2131286
@@ -301,7 +301,7 @@ var loadQuestion = function() {
   // Uzmi samo prvih 13 slova
   uniqueChars = uniqueChars.slice(0, 13);
   shuffleArray(uniqueChars);
-  //console.log(uniqueChars);
+  ////console.log(uniqueChars);
   // Brojimo koliko nam kog slova treba i upisujemo u niz counts
   var count = [];
   for (var i = 0; i < 13; count[i++] = 0);
@@ -322,7 +322,7 @@ var loadQuestion = function() {
       }
     }
   }
-  //console.log(count);
+  ////console.log(count);
 
   // REAL DEAL - CISTO KUCANJE
 
@@ -501,11 +501,11 @@ $('#no button').click(iDontWantToLearn);
 var multipleChoiceSelect = function(n) {
   var selected = $('.multiple-choice li:nth-child(' + n + ')');
   //selected.addClass('selected');
-  //console.log('Izabran odgovor ' + n);
+  ////console.log('Izabran odgovor ' + n);
   if (isCorrect(_currentQuestion(), selected.html())) {
     // Izabran tacan odgovor:
     evaluateStatsCorrect();
-    //console.log('Tacan odgovor!');
+    ////console.log('Tacan odgovor!');
     if (!ALREADY_PUNISHED) {
       _qa[_currentQuestion()].status = MULTIPLE_CHOICE_DONE;
     }
@@ -515,7 +515,7 @@ var multipleChoiceSelect = function(n) {
   } else {
     // Izabran netacan odgovor.
     evaluateStatsWrong();
-    //console.log('Netacan odgovor!');
+    ////console.log('Netacan odgovor!');
     scheduleAgain();
     selected.addClass('wrong');
     updateProgressBarWrong();
@@ -548,11 +548,11 @@ $('.multiple-choice').on('keyup', '#virtual-typing', function(e) {
   $('.multiple-choice').children('li').removeClass('selected');
   for (var i = 1; i <= 4; i++) {
     var ans = $(this).parent().children('li:nth-child(' + i + ')').html();
-    //console.log("Predimo " + typed + " sa " + ans + "...");
+    ////console.log("Predimo " + typed + " sa " + ans + "...");
     if (typed.length > 0 && ans.substring(0, typed.length) == typed) {
       matches[i - 1] = 1;
       $('.multiple-choice li:nth-child(' + i + ')').removeClass().addClass("selected");
-      //console.log('Match: ' + i);
+      ////console.log('Match: ' + i);
     }
 
   }
@@ -577,7 +577,7 @@ $('.multiple-choice').on('keypress', '#virtual-typing', function(e) {
   if (e.keyCode == 13 && $('.multiple-choice').find('li.selected').length == 1) {
     var index = $('.multiple-choice').find('li.selected').index() + 1;
     //alert(index);
-    //console.log("Answer chosen through virtual typing: " + index);
+    ////console.log("Answer chosen through virtual typing: " + index);
     multipleChoiceSelect(index);
   }
 });
@@ -623,10 +623,10 @@ $('.hangman').on('keyup', 'input', function(e) {
     $('.hangman ul li').each(function() {
       typedString += $(this).children("input").val();
     });
-    //console.log("Otkucana cela rec: " + typedString);
+    ////console.log("Otkucana cela rec: " + typedString);
     if (isCorrect(_currentQuestion(), typedString)) {
       evaluateStatsCorrect();
-      //console.log('Tacan odgovor!');
+      ////console.log('Tacan odgovor!');
       if (!ALREADY_PUNISHED) {
         _qa[_currentQuestion()].status = HANGMAN_DONE;
       }
@@ -635,7 +635,7 @@ $('.hangman').on('keyup', 'input', function(e) {
     } else {
       evaluateStatsWrong();
       updateProgressBarWrong();
-      //console.log('Netacan odgovor!');
+      ////console.log('Netacan odgovor!');
     }
   }
 
@@ -645,7 +645,7 @@ $('.hangman').on('keydown', 'input', function(e) {
   var letterIndex = $(this).parent().index() + 1; // 1 2 3 ...
   switch (e.keyCode) {
     case 8: // Backspace
-      //console.log('Backspace');
+      ////console.log('Backspace');
       if($(this).val() == '')
         $('.hangman li:nth-child(' + (letterIndex - 1) + ') input').focus();
       break;
@@ -657,7 +657,7 @@ $('.hangman').on('keydown', 'input', function(e) {
 
 $('.hangman').on('keypress', 'input', function(e) {
   var letterIndex = $(this).parent().index() + 1; // 1 2 3 ...
-  //console.log('Ukucano slovo');
+  ////console.log('Ukucano slovo');
   $('.hangman li:nth-child(' + (letterIndex + 1) + ') input').focus();
 });
 
@@ -712,7 +712,7 @@ var scrabbleRemoveLast = function() {
   var element = scrabbleFindElementContaining(lastChar);
 
   var dataCount = element.find('.count > div').attr('data-count');
-  //console.log(dataCount);
+  ////console.log(dataCount);
 
   dataCount++;
   element.children('.count').children('div')
@@ -754,7 +754,7 @@ var scrabbleClick = function(element) {
   // Upisujemo dodato slovo
   var clicked = $('#scrabble-typed').attr('data-plain-text') + letter;
   $('#scrabble-typed').attr('data-plain-text', clicked);
-  //console.log(clicked + "|");
+  ////console.log(clicked + "|");
 
   var dataCount = element.children('.count').children('div').attr('data-count');
   var dataInitCount = element.children('.count').children('div').attr('data-init-count');
@@ -790,11 +790,11 @@ var scrabbleSpace = function() {
 
 var scrabbleEnter = function() {
   var given = $('#scrabble-typed').attr('data-plain-text');
-  //console.log('Scrabble Enter: ' + given);
+  ////console.log('Scrabble Enter: ' + given);
   if (isCorrect(_currentQuestion(), given)) {
     // Izabran tacan odgovor:
     evaluateStatsCorrect();
-    //console.log('Tacan odgovor!');
+    ////console.log('Tacan odgovor!');
     if (!ALREADY_PUNISHED) {
       _qa[_currentQuestion()].status = SCRABBLE_DONE;
     }
@@ -804,7 +804,7 @@ var scrabbleEnter = function() {
     // Izabran netacan odgovor.
     evaluateStatsWrong();
     updateProgressBarWrong();
-    //console.log('Netacan odgovor!');
+    ////console.log('Netacan odgovor!');
     scheduleAgain();
   }
 }
@@ -865,7 +865,7 @@ var realDealCheckAnswer = function() {
   if (isCorrect(_currentQuestion(), $('#type-answer').val())) {
     evaluateStatsCorrect();
     // Izabran tacan odgovor:
-    //console.log('Tacan odgovor!');
+    ////console.log('Tacan odgovor!');
     if (_qa[_currentQuestion()].status == SCRABBLE_DONE) {
       // Ako prvi put vidi pitanje na ovom levelu
       _qa[_currentQuestion()].status = CORRECT_FIRST;
@@ -887,7 +887,7 @@ var realDealCheckAnswer = function() {
   } else {
     // Izabran netacan odgovor.
     evaluateStatsWrong();
-    //console.log('Netacan odgovor!');
+    ////console.log('Netacan odgovor!');
     updateProgressBarWrong();
     scheduleAgain();
     displayQuestionAndAnswer();
@@ -903,14 +903,14 @@ $('#type-answer').keyup(function(e) {
 
 // Stampanje za debug
 var dump = function() {
-  console.log('Trenutna lekcija: ' + _currentLevel);
+  //console.log('Trenutna lekcija: ' + _currentLevel);
   for (var l = 0; l < _levels.length; l++) {
-    console.log('Level ' + l);
+    //console.log('Level ' + l);
     for (var q= 0 ; q < _levels[l].length; q++) {
       if (q == _questionPointer) {
-        console.log('[' + _levels[l][q] + ']');
+        //console.log('[' + _levels[l][q] + ']');
       } else {
-        console.log(_levels[l][q]);
+        //console.log(_levels[l][q]);
       }
     }
   }
@@ -982,7 +982,7 @@ var sessionCompleted = function() {
     "score": _currentPoints,
 	  "courseID" : $('#table-of-god').attr('data-course-id'),
   };
-  console.log(dataToSend);
+  //console.log(dataToSend);
 
   $.ajax({
     url: "/Courses/Learn", // /kontroler/akcija (klasa/funkcija u klasi)
@@ -990,9 +990,9 @@ var sessionCompleted = function() {
     data: dataToSend,
     success: function (res) {
       if (res.success) {
-        $('body').append('Waai uspesno!');
+        //$('body').append('Waai uspesno!');
       } else {
-        $('body').append('Nije uspelo!');
+        //$('body').append('Nije uspelo!');
       }
     }
   });

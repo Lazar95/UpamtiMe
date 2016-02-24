@@ -834,7 +834,7 @@ var save = function() {
     }
   }
 
-  console.log(_dataToSend);
+  //console.log(_dataToSend);
 
   $.ajax({
       url: "/Courses/Edit", // /kontroler/akcija (klasa/funkcija u klasi)
@@ -895,7 +895,7 @@ $('#save').click(save);
 
 
 var dump = function() {
-  console.log(_dataToSend);
+  //console.log(_dataToSend);
 }
 
 /**
@@ -965,7 +965,7 @@ $('.course-banner').on('keyup', '#course-name-edit', function(e) {
       _courseInfo.name = newName;
       _courseInfo.status = CHANGED;
     }
-    console.log(_courseInfo);
+    //console.log(_courseInfo);
   }
 });
 

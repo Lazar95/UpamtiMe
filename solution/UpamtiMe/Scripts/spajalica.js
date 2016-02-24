@@ -22,7 +22,7 @@ function shuffleArray(array) {
 // Returns a random number between min (inclusive) and max (exclusive)
 function getRandomArbitrary(min, max) {
   var r = Math.floor(Math.random() * (max - min) + min);
-  console.log('Random: ' + r);
+  //console.log('Random: ' + r);
   return r;
 }
 
@@ -74,7 +74,7 @@ var parseTableOfGod = function() {
 
   for ( var i = 1; i <= numberOfEntries; i++ ) {
     var curr = table.children('tbody').children('tr:nth-child(' + i + ')');
-    console.log(curr);
+    //console.log(curr);
     _qa.push( {
       "status": -1,
       "question" : curr.children('[data-type="question"]').text().trim(),
@@ -82,7 +82,7 @@ var parseTableOfGod = function() {
     } );
   }
 
-  console.log(_qa);
+  //console.log(_qa);
 }
 
 
@@ -191,9 +191,9 @@ var gameOver = function() {
     data: dataToSend,
     success: function (res) {
       if (res.success) {
-        $('body').append('Waai uspesno!');
+        //$('body').append('Waai uspesno!');
       } else {
-        $('body').append('Nije uspelo!');
+        //$('body').append('Nije uspelo!');
       }
     }
   });
@@ -302,7 +302,7 @@ $('body').keypress(function(e) {
 
   var magic = 48;
   if (e.keyCode > magic && e.keyCode < magic + 10)
-    console.log('Numpad ' + (e.keyCode - magic) + ' pressed!');
+    //console.log('Numpad ' + (e.keyCode - magic) + ' pressed!');
   switch (e.keyCode) {
     case (magic + 1): selectChip(7); break;
     case (magic + 2): selectChip(8); break;
@@ -369,7 +369,7 @@ var selectChip = function(pos) {
       var prevChip = $('.cards ul li:nth-child(' + _selected + ') .chip');
       if (prevChip.attr('data-id') == chip.attr('data-id')) {
         // Tacan odgovor
-        console.log("Tacan odgovor!");
+        //console.log("Tacan odgovor!");
         doSomething(_selected, pos);
         _correctCount++;
         _currentCombo++;
@@ -388,7 +388,7 @@ var selectChip = function(pos) {
         }, 200);
       } else {
         // Netacan odgovor
-        console.log("Netacan odgovor!");
+        //console.log("Netacan odgovor!");
         _incorrectCount++;
         _currentCombo = 0;
         _baseScore = -1;
@@ -445,19 +445,19 @@ var putNothing = function(pos) {
 }
 
 var doMeh = function(pos1, pos2) {
-  console.log('Doing METH...');
+  //console.log('Doing METH...');
   putNew(_stack.shift(), 'a', pos1);
   pushNextChip(pos2);
 }
 
 var doOhYes = function(pos1, pos2) {
-  console.log('Doing OHYES...');
+  //console.log('Doing OHYES...');
   putNew(_stack.shift(), 'a', pos1);
   putNew(_stack.shift(), 'a', pos2);
 }
 
 var doOhNo = function(pos1, pos2) {
-  console.log('Doing OHNO...');
+  //console.log('Doing OHNO...');
   pushNextChip(pos1);
   pushNextChip(pos2);
 }
@@ -479,8 +479,8 @@ var doSomething = function(pos1, pos2) {
 }
 
 var dump = function() {
-  console.log(_grid);
-  console.log(_stack);
-  console.log("Selected: " + _selected);
-  console.log("Next chip: " + _nextChip);
+  //console.log(_grid);
+  //console.log(_stack);
+  //console.log("Selected: " + _selected);
+  //console.log("Next chip: " + _nextChip);
 }

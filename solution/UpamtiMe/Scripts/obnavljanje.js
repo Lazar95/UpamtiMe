@@ -88,7 +88,7 @@ var updateSessionTimer = function() {
             minutes = 0;
         }
     }
-    
+
     $('#time').html((minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + "'" + (seconds > 9 ? seconds : "0" + seconds) + '"');
     sessionTimer();
 }
@@ -174,7 +174,7 @@ var displayFinalMessage = function() {
     "score": _currentPoints,
 	   "courseID" : $('#table-of-god').attr('data-course-id'),
   };
-  console.log(dataToSend);
+  //console.log(dataToSend);
 
   $.ajax({
     url: "/Courses/Review", // /kontroler/akcija (klasa/funkcija u klasi)
@@ -182,9 +182,9 @@ var displayFinalMessage = function() {
     data: dataToSend,
     success: function (res) {
       if (res.success) {
-        $('body').append('Waai uspesno!');
+        //$('body').append('Waai uspesno!');
       } else {
-        $('body').append('Nije uspelo!');
+        //$('body').append('Nije uspelo!');
       }
     }
   });
@@ -408,22 +408,22 @@ var evaluateAnswer = function(answer) {
     if (_qa[_currentQuestion].status == UNOPENED) {
       _qa[_currentQuestion].status = ONE_MISTAKE;
       _qa[_currentQuestion].nextSeeMinutes *= 0.33;
-      console.log("Pitanje #" + _currentQuestion + ": Nacinjena prva greska.");
+      //console.log("Pitanje #" + _currentQuestion + ": Nacinjena prva greska.");
     }
     else if (_qa[_currentQuestion].status == ONE_MISTAKE) {
       _qa[_currentQuestion].status = TWO_MISTAKE;
       _qa[_currentQuestion].nextSeeMinutes *= 0.33;
-      console.log("Pitanje #" + _currentQuestion + ": Nacinjena druga greska. Moraces dvaput da odgovoris tacno da bi ga zavrsio.");
+      //console.log("Pitanje #" + _currentQuestion + ": Nacinjena druga greska. Moraces dvaput da odgovoris tacno da bi ga zavrsio.");
     }
     else if (_qa[_currentQuestion].status == TWO_MISTAKE) {
       _qa[_currentQuestion].status = THREE_MISTAKE;
       _qa[_currentQuestion].nextSeeMinutes *= 0.33;
-      console.log("Pitanje #" + _currentQuestion + ": Nacinjena treca greska. Moraces triput da odgovoris tacno da bi ga zavrsio. Ako opet pogresis, kartica se odlaze.");
+      //console.log("Pitanje #" + _currentQuestion + ": Nacinjena treca greska. Moraces triput da odgovoris tacno da bi ga zavrsio. Ako opet pogresis, kartica se odlaze.");
     }
     else if (_qa[_currentQuestion].status == THREE_MISTAKE) {
       _qa[_currentQuestion].status = SKIPPED;
       _qa[_currentQuestion].nextSeeMinutes *= 240; // 4h
-      console.log("Pitanje #" + _currentQuestion + ": Nacinjena cetvrta greska. Kartica odlozena za 6h.");
+      //console.log("Pitanje #" + _currentQuestion + ": Nacinjena cetvrta greska. Kartica odlozena za 6h.");
     }
 
     eval.baseScore = -1;
@@ -443,19 +443,19 @@ var evaluateAnswer = function(answer) {
     if (_qa[_currentQuestion].status == UNOPENED) {
       _qa[_currentQuestion].status = CORRECT;
       _qa[_currentQuestion].nextSeeMinutes *= 1.5;
-      console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno isprve.");
+      //console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno isprve.");
     }
     else if (_qa[_currentQuestion].status == ONE_MISTAKE) {
       _qa[_currentQuestion].status = CORRECT;
-      console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno nakon jedne greske.");
+      //console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno nakon jedne greske.");
     }
     else if (_qa[_currentQuestion].status == TWO_MISTAKE) {
       _qa[_currentQuestion].status = ONE_MISTAKE;
-      console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno nakon dve greske, moras jos jednom.");
+      //console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno nakon dve greske, moras jos jednom.");
     }
     else if (_qa[_currentQuestion].status == THREE_MISTAKE) {
       _qa[_currentQuestion].status = TWO_MISTAKE;
-      console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno nakon tri greske, moras jos dvaput.");
+      //console.log("Pitanje #" + _currentQuestion + ": Odgovoreno tacno nakon tri greske, moras jos dvaput.");
     }
 
     eval.baseScore = calculateBaseScore(_qa[_currentQuestion].lastSeenMinutes);

@@ -405,7 +405,7 @@ var Session = (function() {
         this.promptChallange();
       },
       promptChallange: function() {
-        console.log('Prompt Challange...');
+        //console.log('Prompt Challange...');
         this.schedule.getCurrentCard().getCurrentStrategy().display();
       },
       addCard: function(newCard) {
@@ -1006,7 +1006,7 @@ var updateSidebar = function() {
 }
 
 var updateProgressbar = function() {
-  console.log('Progressbar update');
+  //console.log('Progressbar update');
 }
 
 $('.card.current-card').on('keypress', '.challange:last-child input', function(e) {
